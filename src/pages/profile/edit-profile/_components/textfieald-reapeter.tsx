@@ -41,8 +41,8 @@ const TextfieldRepeater: React.FC<RepeaterInputsProps> = ({
             type="text"
             value={value}
             onChange={(e) => handleInputChange(index, e.target.value)}
-            className="w-full rounded border border-gray-300 p-2"
-            placeholder={`Input ${index + 1}`}
+            className="w-full rounded border border-gray-300 p-2 ring-2 ring-transparent transition-colors focus:border-primary focus:outline-none focus:ring-primary/30"
+            placeholder={``}
           />
         </div>
       ))}
