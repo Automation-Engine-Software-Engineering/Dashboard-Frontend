@@ -60,7 +60,7 @@ const EditProfileResearch = () => {
                   علاقه‌مندی پژوهشی
                 </div>
               }
-              className="w-full"
+              className="h-[180px] w-full"
             />
             <TextfieldRepeater
               defaultValues={profileData?.researchAreas.map(
@@ -100,7 +100,7 @@ const EditProfileResearch = () => {
                   Research Interests
                 </div>
               }
-              className="w-full"
+              className="h-[180px] w-full"
             />
             <TextfieldRepeater
               defaultValues={profileData?.researchAreas.map(
@@ -140,7 +140,7 @@ const EditProfileResearch = () => {
                   حوزه‌های تخصصی
                 </div>
               }
-              className="w-full"
+              className="h-[180px] w-full"
             />
             <TextfieldRepeater
               defaultValues={profileData?.professionalActivities.map(
@@ -180,7 +180,7 @@ const EditProfileResearch = () => {
                   Areas of Expertise
                 </div>
               }
-              className="w-full"
+              className="h-[180px] w-full"
             />
             <TextfieldRepeater
               defaultValues={profileData?.professionalActivities.map(
@@ -220,7 +220,7 @@ const EditProfileResearch = () => {
                   عضویت در انجمن‌ها و گروه‌های تحقیقاتی
                 </div>
               }
-              className="w-full"
+              className="h-[180px] w-full"
             />
             <TextfieldRepeater
               defaultValues={profileData?.memberships.map(
@@ -254,7 +254,7 @@ const EditProfileResearch = () => {
                   Membership of Committiees and Professional Bodies
                 </div>
               }
-              className="w-full"
+              className="h-[180px] w-full"
             />
             <TextfieldRepeater
               defaultValues={profileData?.memberships.map(

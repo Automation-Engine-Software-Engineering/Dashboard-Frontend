@@ -42,113 +42,243 @@ const EditProfileAboutMe = () => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <div className="w-full bg-[#E4EBF3] px-12 py-5">
-        <div className="space-y-4">
-          <div className="flex items-center gap-x-10">
-            <div className="flex w-32 items-center gap-x-1">
-              <Phone color="#0099A5" size={10} />
-              <p className="text-xs">تلفن ثابت:</p>
-            </div>
-            <div className="flex items-center gap-x-2">
-              <input
-                defaultValue={profileData?.phone || "+98"}
-                onChange={(e) => {
-                  setEditData((prev: any) => ({
-                    ...prev,
-                    phone: e.target.value
-                  }));
-                }}
-                className="w-24 rounded-md border border-slate-300 p-1 text-xs disabled:border-transparent disabled:bg-transparent"
-                dir="ltr"
-                disabled={editingField !== "phone"}
-              />
-              <button type="button" onClick={() => setEditingField("phone")}>
-                <Edit size={16} />
-              </button>
-            </div>
-          </div>
-          <div className="flex items-center gap-x-10">
-            <div className="flex w-32 items-center gap-x-1">
-              <Smartphone color="#0099A5" size={10} />
-              <p className="text-xs">تلفن همراه:</p>
-            </div>
-            <div className="flex items-center gap-x-2">
-              <input
-                defaultValue={profileData?.mobileNumber || "+98"}
-                onChange={(e) => {
-                  setEditData((prev: any) => ({
-                    ...prev,
-                    mobileNumber: e.target.value
-                  }));
-                }}
-                className="w-24 rounded-md border border-slate-300 p-1 text-xs disabled:border-transparent disabled:bg-transparent"
-                dir="ltr"
-                disabled={editingField !== "mobileNumber"}
-              />
-              <button
-                type="button"
-                onClick={() => setEditingField("mobileNumber")}
-              >
-                <Edit size={16} />
-              </button>
-            </div>
-          </div>
-        </div>
-        <div className="mt-10 space-y-4">
-          <div className="flex items-center gap-x-10">
-            <div className="flex w-32 items-center gap-x-1">
-              <AtSign color="#0099A5" size={10} />
-              <p className="text-xs">ایمیل دانشگاهی:</p>
-            </div>
-            <div className="flex items-center gap-x-2">
-              <input
-                defaultValue={profileData?.universityEmail || "example@mail.ir"}
-                onChange={(e) => {
-                  setEditData((prev: any) => ({
-                    ...prev,
-                    universityEmail: e.target.value
-                  }));
-                }}
-                className="w-28 rounded-md border border-slate-300 p-1 text-xs disabled:border-transparent disabled:bg-transparent"
-                dir="ltr"
-                disabled={editingField !== "universityEmail"}
-              />
-              <button
-                type="button"
-                onClick={() => setEditingField("universityEmail")}
-              >
-                <Edit size={16} />
-              </button>
+      <div id="parent" className="w-full bg-[#E4EBF3] px-12 py-5">
+        <div id="section1">
+          <div id="child1" className="">
+            <div className="space-y-4">
+              <div className="flex items-center gap-x-10">
+                <div className="flex w-32 items-center gap-x-1">
+                  <Phone color="#0099A5" size={10} />
+                  <p className="text-xs">تلفن ثابت:</p>
+                </div>
+                <div className="flex items-center gap-x-2">
+                  <input
+                    defaultValue={profileData?.phone || "+98"}
+                    onChange={(e) => {
+                      setEditData((prev: any) => ({
+                        ...prev,
+                        phone: e.target.value
+                      }));
+                    }}
+                    className="w-24 rounded-md border border-slate-300 p-1 text-xs disabled:border-transparent disabled:bg-transparent"
+                    dir="ltr"
+                    disabled={editingField !== "phone"}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setEditingField("phone")}
+                  >
+                    <Edit size={16} />
+                  </button>
+                </div>
+              </div>
+              <div className="flex items-center gap-x-10">
+                <div className="flex w-32 items-center gap-x-1">
+                  <Smartphone color="#0099A5" size={10} />
+                  <p className="text-xs">تلفن همراه:</p>
+                </div>
+                <div className="flex items-center gap-x-2">
+                  <input
+                    defaultValue={profileData?.mobileNumber || "+98"}
+                    onChange={(e) => {
+                      setEditData((prev: any) => ({
+                        ...prev,
+                        mobileNumber: e.target.value
+                      }));
+                    }}
+                    className="w-24 rounded-md border border-slate-300 p-1 text-xs disabled:border-transparent disabled:bg-transparent"
+                    dir="ltr"
+                    disabled={editingField !== "mobileNumber"}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setEditingField("mobileNumber")}
+                  >
+                    <Edit size={16} />
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
-          <div className="flex items-center gap-x-10">
-            <div className="flex w-32 items-center gap-x-1">
-              <AtSign color="#0099A5" size={10} />
-              <p className="text-xs">ایمیل جایگزین:</p>
+          <div id="child2" className="mt-10 space-y-4">
+            <div className="flex items-center gap-x-10">
+              <div className="flex w-32 items-center gap-x-1">
+                <AtSign color="#0099A5" size={10} />
+                <p className="text-xs">ایمیل دانشگاهی:</p>
+              </div>
+              <div className="flex items-center gap-x-2">
+                <input
+                  defaultValue={
+                    profileData?.universityEmail || "example@mail.ir"
+                  }
+                  onChange={(e) => {
+                    setEditData((prev: any) => ({
+                      ...prev,
+                      universityEmail: e.target.value
+                    }));
+                  }}
+                  className="w-28 rounded-md border border-slate-300 p-1 text-xs disabled:border-transparent disabled:bg-transparent"
+                  dir="ltr"
+                  disabled={editingField !== "universityEmail"}
+                />
+                <button
+                  type="button"
+                  onClick={() => setEditingField("universityEmail")}
+                >
+                  <Edit size={16} />
+                </button>
+              </div>
             </div>
-            <div className="flex items-center gap-x-2">
-              <input
-                defaultValue={profileData?.personalEmail || "example@mail.ir"}
-                onChange={(e) => {
-                  setEditData((prev: any) => ({
-                    ...prev,
-                    personalEmail: e.target.value
-                  }));
-                }}
-                className="w-28 rounded-md border border-slate-300 p-1 text-xs disabled:border-transparent disabled:bg-transparent"
-                dir="ltr"
-                disabled={editingField !== "personalEmail"}
-              />
-              <button
-                type="button"
-                onClick={() => setEditingField("personalEmail")}
-              >
-                <Edit size={16} />
-              </button>
+            <div className="flex items-center gap-x-10">
+              <div className="flex w-32 items-center gap-x-1">
+                <AtSign color="#0099A5" size={10} />
+                <p className="text-xs">ایمیل جایگزین:</p>
+              </div>
+              <div className="flex items-center gap-x-2">
+                <input
+                  defaultValue={profileData?.personalEmail || "example@mail.ir"}
+                  onChange={(e) => {
+                    setEditData((prev: any) => ({
+                      ...prev,
+                      personalEmail: e.target.value
+                    }));
+                  }}
+                  className="w-28 rounded-md border border-slate-300 p-1 text-xs disabled:border-transparent disabled:bg-transparent"
+                  dir="ltr"
+                  disabled={editingField !== "personalEmail"}
+                />
+                <button
+                  type="button"
+                  onClick={() => setEditingField("personalEmail")}
+                >
+                  <Edit size={16} />
+                </button>
+              </div>
+            </div>
+          </div>
+          <div id="section2" className="mt-10 w-1/2">
+            <div id="gScholar" className="mb-3 flex items-center gap-x-10">
+              <div className="flex w-32 items-center gap-x-1">
+                <img src="https://picsum.photos/18/18" alt="Google Scholar" />
+                <p className="text-xs">Google Scholar</p>
+              </div>
+              <div className="flex">
+                <input
+                  defaultValue={"test"}
+                  onChange={(e) => {
+                    setEditData((prev: any) => ({
+                      ...prev,
+                      phone: e.target.value
+                    }));
+                  }}
+                  className="w-24 rounded-md border border-slate-300 p-1 text-xs disabled:border-transparent disabled:bg-transparent"
+                  dir="ltr"
+                  hidden={editingField !== "g-scholar"}
+                />
+                <button
+                  type="button"
+                  onClick={() => setEditingField("g-scholar")}
+                >
+                  <Edit size={16} />
+                </button>
+              </div>
+            </div>
+            <div id="ORCID" className="mb-3 flex items-center gap-x-10">
+              <div className="flex w-32 items-center gap-x-1">
+                <img src="https://picsum.photos/18/18" alt="ORCID" />
+                <p className="text-xs">ORCID</p>
+              </div>
+              <div className="flex">
+                <input
+                  defaultValue={"test"}
+                  onChange={(e) => {
+                    setEditData((prev: any) => ({
+                      ...prev,
+                      phone: e.target.value
+                    }));
+                  }}
+                  className="w-24 rounded-md border border-slate-300 p-1 text-xs disabled:border-transparent disabled:bg-transparent"
+                  dir="ltr"
+                  hidden={editingField !== "ORCID"}
+                />
+                <button type="button" onClick={() => setEditingField("ORCID")}>
+                  <Edit size={16} />
+                </button>
+              </div>
+            </div>
+            <div id="Scopus" className="mb-3 flex items-center gap-x-10">
+              <div className="flex w-32 items-center gap-x-1">
+                <img src="https://picsum.photos/18/18" alt="Scopus" />
+                <p className="text-xs">Scopus</p>
+              </div>
+              <div className="flex">
+                <input
+                  defaultValue={"test"}
+                  onChange={(e) => {
+                    setEditData((prev: any) => ({
+                      ...prev,
+                      phone: e.target.value
+                    }));
+                  }}
+                  className="w-24 rounded-md border border-slate-300 p-1 text-xs disabled:border-transparent disabled:bg-transparent"
+                  dir="ltr"
+                  hidden={editingField !== "Scopus"}
+                />
+                <button type="button" onClick={() => setEditingField("Scopus")}>
+                  <Edit size={16} />
+                </button>
+              </div>
+            </div>
+            <div id="ISI" className="mb-3 flex items-center gap-x-10">
+              <div className="flex w-32 items-center gap-x-1">
+                <img src="https://picsum.photos/18/18" alt="ISI" />
+                <p className="text-xs">ISI</p>
+              </div>
+              <div className="flex">
+                <input
+                  defaultValue={"test"}
+                  onChange={(e) => {
+                    setEditData((prev: any) => ({
+                      ...prev,
+                      phone: e.target.value
+                    }));
+                  }}
+                  className="w-24 rounded-md border border-slate-300 p-1 text-xs disabled:border-transparent disabled:bg-transparent"
+                  dir="ltr"
+                  hidden={editingField !== "ISI"}
+                />
+                <button type="button" onClick={() => setEditingField("ISI")}>
+                  <Edit size={16} />
+                </button>
+              </div>
+            </div>
+            <div id="ISC" className="mb-3 flex items-center gap-x-10">
+              <div className="flex w-32 items-center gap-x-1">
+                <img src="https://picsum.photos/18/18" alt="ISC" />
+                <p className="text-xs">ISC</p>
+              </div>
+              <div className="flex">
+                <input
+                  defaultValue={"test"}
+                  onChange={(e) => {
+                    setEditData((prev: any) => ({
+                      ...prev,
+                      phone: e.target.value
+                    }));
+                  }}
+                  className="w-24 rounded-md border border-slate-300 p-1 text-xs disabled:border-transparent disabled:bg-transparent"
+                  dir="ltr"
+                  hidden={editingField !== "ISC"}
+                />
+                <button type="button" onClick={() => setEditingField("ISC")}>
+                  <Edit size={16} />
+                </button>
+              </div>
             </div>
           </div>
         </div>
       </div>
+
       <div className="px-10 py-6">
         <div className="grid grid-cols-1 gap-10 sm:grid-cols-2">
           <div>

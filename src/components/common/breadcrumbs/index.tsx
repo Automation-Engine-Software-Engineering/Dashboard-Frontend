@@ -24,7 +24,7 @@ const Breadcrumb = () => {
           <Link to="/" className="font-medium text-gray-700 hover:text-primary">
             <Home />
           </Link>
-          <span className="mx-5 text-gray-500">
+          <span className="mx-3 text-gray-500">
             <svg
               width="23"
               height="41"
