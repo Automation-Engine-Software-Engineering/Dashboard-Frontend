@@ -34,7 +34,7 @@ const ProfileNavbar = () => {
               className={({ isActive }) =>
                 cn(
                   "flex h-full items-center border-t border-t-transparent px-4",
-                  isActive && "border-t-primary bg-white"
+                  isActive && "border-t-2 border-t-primary bg-white"
                 )
               }
               end
