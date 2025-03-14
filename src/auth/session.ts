@@ -8,23 +8,15 @@ import { getToken } from ".";
 const API_ENDPOINT = "Professor/GetProfessorInfo";
 
 export const getSession = async (): Promise<SessionType | null> => {
-  let session: SessionType | null = null;
-
-  await apiResponseMiddleware<SessionType>(
+  return await apiResponseMiddleware<SessionType>(
     axiosInstance.get(API_ENDPOINT, {
       params: {
         userId: getToken()
       }
     }),
-    (data) => {
-      if (data) {
-        session = data || null;
-      }
-    },
+    () => {},
     {
       showToast: false
     }
   );
-
-  return session;
 };

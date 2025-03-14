@@ -32,6 +32,7 @@ export const apiResponseMiddleware = async <Data>(
       }
     }
     await onSuccess(data);
+    return data ? data : null;
   } catch (error) {
     toast.error("خطای ناشناخته‌ای رخ داده است", {
       id: "api-middleware"
