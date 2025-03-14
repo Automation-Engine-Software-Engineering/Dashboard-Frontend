@@ -58,7 +58,7 @@ const TableRow = React.forwardRef<
   <tr
     ref={ref}
     className={cn(
-      "border-b transition-colors hover:bg-slate-200/50 data-[state=selected]:bg-slate-200",
+      "border-b transition-colors odd:bg-white even:bg-[#F8FAFD] hover:bg-slate-200/50 data-[state=selected]:bg-slate-200",
       className
     )}
     {...props}
@@ -73,7 +73,7 @@ const TableHead = React.forwardRef<
   <th
     ref={ref}
     className={cn(
-      "h-12 px-4 text-start align-middle font-medium text-slate-700 [&:has([role=checkbox])]:pe-0",
+      "h-12 bg-[#E4EBF3] px-4 text-start align-middle font-medium text-slate-700 [&:has([role=checkbox])]:pe-0",
       className
     )}
     {...props}
@@ -87,7 +87,10 @@ const TableCell = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <td
     ref={ref}
-    className={cn("p-4 align-middle [&:has([role=checkbox])]:pe-0", className)}
+    className={cn(
+      "border border-[#E4EBF3] p-4 align-middle [&:has([role=checkbox])]:pe-0",
+      className
+    )}
     {...props}
   />
 ));
@@ -113,5 +116,5 @@ export {
   TableHead,
   TableRow,
   TableCell,
-  TableCaption,
+  TableCaption
 };
