@@ -23,8 +23,6 @@ const Textarea: React.FC<Props> = ({ label, className, ...props }) => {
       <textarea
         className={cn(
           "!resize-none rounded-lg border border-slate-300 p-5 ring-2 ring-transparent transition-colors focus:border-primary focus:outline-none focus:ring-primary/30",
-
-          //   "!resize-none rounded-lg border border-slate-300 p-5 transition-colors focus-within:border-slate-400 focus-within:outline-none focus:border-primary focus:ring-red-900",
           className
         )}
         {...props}
