@@ -1,6 +1,7 @@
 import { Route, Routes } from "react-router-dom";
 
 import DashboardPage from "@/pages/dashboard";
+import EditorPage from "@/pages/editor";
 import FormPage from "@/pages/form";
 import LoginPage from "@/pages/login";
 import NotFoundPage from "@/pages/not-found";
@@ -13,8 +14,8 @@ import EditProfileAboutMe from "@/pages/profile/edit-profile/about-me";
 import EditProfileEducation from "@/pages/profile/edit-profile/education";
 import EditProfileResearch from "@/pages/profile/edit-profile/research";
 import EditProfileSocialLinks from "@/pages/profile/edit-profile/social-links";
-import TablePage from "@/pages/table";
 
+// import TablePage from "@/pages/table";
 import Layout from "@/components/layout/layout";
 
 import AuthMiddleware from "./auth-middleware";
@@ -30,8 +31,8 @@ const Router = () => {
         <Route element={<Layout />}>
           <Route path="/" element={<DashboardPage />} />
           <Route path="/workflow/form/:formId" element={<FormPage />} />
-          <Route path="/workflow/table/:tableId" element={<TablePage />} />
-          <Route path="/table" element={<TablePage />} />
+          {/* <Route path="/workflow/table/:tableId" element={<TablePage />} /> */}
+          {/* <Route path="/table" element={<TablePage />} /> */}
           <Route path="/page/a1" element={<A1 />} />
           <Route path="/page/a2" element={<A2 />} />
           <Route path="/page/a3" element={<A3 />} />
@@ -43,6 +44,12 @@ const Router = () => {
             <Route path="research" element={<EditProfileResearch />} />
             <Route path="education" element={<EditProfileEducation />} />
             <Route path="social-links" element={<EditProfileSocialLinks />} />
+          </Route>
+
+          {/* Form Creator  */}
+
+          <Route path="/form">
+            <Route path="edit" element={<EditorPage />} />
           </Route>
 
           {/* Not Found Page */}
