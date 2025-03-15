@@ -1,6 +1,6 @@
 import { MoonLoader } from "react-spinners";
 
-import { useFormEntities } from "@/hooks/useFormEntities";
+import { useFormEntities } from "@/hooks/use-form-entities";
 
 import {
   Accordion,
@@ -52,7 +52,7 @@ const FormEditorSidebar: React.FC<Props> = ({ editorRef }) => {
   };
 
   return (
-    <div className="sticky left-0 top-0 flex h-screen max-w-[280px] flex-1 flex-col bg-white transition-all duration-500">
+    <div className="sticky left-0 top-0 flex h-screen max-w-[280px] flex-1 flex-col border border-slate-300 bg-white transition-all duration-500">
       {isLoading ? (
         <Loading />
       ) : (
