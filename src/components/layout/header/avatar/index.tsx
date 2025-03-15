@@ -5,7 +5,9 @@ import { useSession } from "@/hooks/useSession";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Popover, PopoverTrigger } from "@/components/ui/popover";
 
-const API_URL = import.meta.env.VITE_API_URL as string;
+import AvatarContent from "./avatar-content";
+
+export const API_URL = import.meta.env.VITE_API_URL as string;
 
 const AvatarMenu: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
   className,
@@ -28,6 +30,7 @@ const AvatarMenu: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
             <AvatarImage src={`${API_URL}/${session?.imageUrl}`} />
           </Avatar>
         </PopoverTrigger>
+        <AvatarContent />
       </Popover>
     </div>
   );
