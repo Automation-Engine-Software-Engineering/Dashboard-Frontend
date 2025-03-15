@@ -1,7 +1,7 @@
 import { Navigate, Outlet } from "react-router-dom";
 import { MoonLoader } from "react-spinners";
 
-import { useSession } from "@/hooks/useSession";
+import { useSession } from "@/hooks/use-session";
 
 const AuthMiddleware = () => {
   const { data, isLoading } = useSession();

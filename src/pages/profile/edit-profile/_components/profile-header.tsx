@@ -6,7 +6,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { cn } from "@/lib/utils";
 
-import { useSession } from "@/hooks/useSession";
+import { useSession } from "@/hooks/use-session";
 
 import AnimatedBackground from "@/components/ui/animated-background";
 

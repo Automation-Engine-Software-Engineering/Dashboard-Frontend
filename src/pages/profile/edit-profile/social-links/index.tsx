@@ -3,7 +3,7 @@ import { useState } from "react";
 import { editSocialLinksProfile, EditSocialLinksType } from "@/api/profile";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-import { useSession } from "@/hooks/useSession";
+import { useSession } from "@/hooks/use-session";
 
 import SaveButton from "../_components/save-button";
 import Textfield from "../_components/textfield";
