@@ -8,5 +8,5 @@ export const cn = (...inputs: ClassValue[]) => {
 export const getInitialName = (name: string): string => {
   const nameParts = name.split(" ").filter(Boolean);
   const initials = nameParts.slice(0, 2).map((part) => part[0].toUpperCase());
-  return initials.join("");
+  return initials.join(".");
 };
