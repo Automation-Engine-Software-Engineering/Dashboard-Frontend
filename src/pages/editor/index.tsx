@@ -19,7 +19,7 @@ const EditorPage = () => {
             ref={editorRef}
             value={editorData}
             onEditorChange={setEditorData}
-            className="h-[1400px] w-[900px] [&_div]:align-middle [&_input]:rounded-md [&_input]:border [&_input]:border-slate-300"
+            className="h-[1400px] w-[900px] shadow-[20px_10px_15px_0px_rgba(0,0,0,0.1)] [&_div]:align-middle [&_input]:rounded-md [&_input]:border [&_input]:border-slate-300"
           />
         </div>
         <FormEditorSidebar
