@@ -5,6 +5,7 @@ import AlignJustify from "./toolbar-buttons/align-justify";
 import AlignLeft from "./toolbar-buttons/align-left";
 import AlignRight from "./toolbar-buttons/align-right";
 import Bold from "./toolbar-buttons/bold";
+import EditorWithFontSize from "./toolbar-buttons/font-size";
 import Italic from "./toolbar-buttons/italic";
 import StrikeThrough from "./toolbar-buttons/strikethrough";
 import TextColorPicker from "./toolbar-buttons/text-color";
@@ -28,6 +29,7 @@ const Toolbar: React.FC<
       <AlignCenter editorRef={editorRef} />
       <AlignRight editorRef={editorRef} />
       <AlignJustify editorRef={editorRef} />
+      <EditorWithFontSize />
     </div>
   );
 };
