@@ -9,7 +9,17 @@ import {
   AccordionTrigger
 } from "@/components/ui/accordion";
 
-import { textfield } from "./entities-elements";
+import {
+  checkbox,
+  date,
+  email,
+  file,
+  number,
+  password,
+  radio,
+  range,
+  textfield
+} from "./entities-elements";
 
 interface Props {
   setEditorData: React.Dispatch<React.SetStateAction<string>>;
@@ -59,7 +69,71 @@ const FormEditorSidebar: React.FC<Props> = ({ editorRef }) => {
                   }}
                   className="block w-full rounded-md py-2 ps-2 text-start transition-colors hover:bg-primary/30"
                 >
-                  اینپوت تستی
+                  تکست
+                </button>
+                <button
+                  onClick={() => {
+                    insertFormElement(number);
+                  }}
+                  className="block w-full rounded-md py-2 ps-2 text-start transition-colors hover:bg-primary/30"
+                >
+                  عدد
+                </button>
+                <button
+                  onClick={() => {
+                    insertFormElement(checkbox);
+                  }}
+                  className="block w-full rounded-md py-2 ps-2 text-start transition-colors hover:bg-primary/30"
+                >
+                  چک باکس
+                </button>
+                <button
+                  onClick={() => {
+                    insertFormElement(date);
+                  }}
+                  className="block w-full rounded-md py-2 ps-2 text-start transition-colors hover:bg-primary/30"
+                >
+                  تاریخ
+                </button>
+                <button
+                  onClick={() => {
+                    insertFormElement(email);
+                  }}
+                  className="block w-full rounded-md py-2 ps-2 text-start transition-colors hover:bg-primary/30"
+                >
+                  ایمیل
+                </button>
+                <button
+                  onClick={() => {
+                    insertFormElement(file);
+                  }}
+                  className="block w-full rounded-md py-2 ps-2 text-start transition-colors hover:bg-primary/30"
+                >
+                  فایل
+                </button>
+                <button
+                  onClick={() => {
+                    insertFormElement(password);
+                  }}
+                  className="block w-full rounded-md py-2 ps-2 text-start transition-colors hover:bg-primary/30"
+                >
+                  پسوورد
+                </button>
+                <button
+                  onClick={() => {
+                    insertFormElement(radio);
+                  }}
+                  className="block w-full rounded-md py-2 ps-2 text-start transition-colors hover:bg-primary/30"
+                >
+                  radio
+                </button>
+                <button
+                  onClick={() => {
+                    insertFormElement(range);
+                  }}
+                  className="block w-full rounded-md py-2 ps-2 text-start transition-colors hover:bg-primary/30"
+                >
+                  رنج
                 </button>
               </AccordionContent>
             </AccordionItem>
