@@ -1,20 +1,29 @@
-import { AxiosError } from "axios";
+import { apiResponseMiddleware } from "@/middleware/api-response";
+import axios from "axios";
 
-import { axiosInstance } from "./axios-instance";
+import { FormType } from "@/types/form/form";
 
-const API_ENDPOINT = "/api/Form";
+const API_URL = import.meta.env.VITE_FORM_API_URL as string;
+const API_ENDPOINT = "api/Form";
+
+export const getAllForms = async (): Promise<FormType[] | null> => {
+  return await apiResponseMiddleware<FormType[]>(
+    axios.get(`${API_URL}/${API_ENDPOINT}/all`),
+    () => {},
+    {
+      showToast: false
+    }
+  );
+};
 
 export const getForm = async (
-  formId: string
-): Promise<any | AxiosError<any>> => {
-  try {
-    const response = await axiosInstance.get(`${API_ENDPOINT}/${formId}`);
-    if (response.data.status) {
-      return response.data.data;
+  id: string | number
+): Promise<FormType | null> => {
+  return await apiResponseMiddleware<FormType>(
+    axios.get(`${API_URL}/${API_ENDPOINT}/${id}`),
+    () => {},
+    {
+      showToast: false
     }
-
-    throw new Error(response.data.message);
-  } catch (err) {
-    throw new Error(`getForm error: ${err}`);
-  }
+  );
 };
