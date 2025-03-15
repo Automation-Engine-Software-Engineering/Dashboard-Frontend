@@ -1,0 +1,50 @@
+import { AlignJustifyIcon } from "lucide-react";
+import { useEffect, useState } from "react";
+
+import { checkState } from "@/helpers/editor/check-state";
+
+import { cn } from "@/lib/utils";
+
+import ToolbarButton from "./toolbar-button";
+
+const AlignJustify: React.FC<
+  React.PropsWithChildren<
+    React.ComponentProps<"button"> & {
+      editorRef: React.RefObject<HTMLDivElement>;
+    }
+  >
+> = ({ className, editorRef, ...props }) => {
+  const [isActive, setIsActive] = useState<boolean>(false);
+
+  const handleCommand = (command: string) => {
+    document.execCommand(command, true);
+    editorRef?.current?.focus();
+    setIsActive(!!checkState("justifyJustify"));
+  };
+
+  useEffect(() => {
+    const handleSelectionChange = () => {
+      setIsActive(!!checkState("justifyJustify"));
+    };
+
+    document.addEventListener("selectionchange", handleSelectionChange);
+
+    return () => {
+      document.removeEventListener("selectionchange", handleSelectionChange);
+    };
+  }, []);
+
+  return (
+    <ToolbarButton
+      className={cn(className, isActive ? "bg-primary/10" : "bg-transparent")}
+      onClick={() => {
+        handleCommand("justifyJustify");
+      }}
+      {...props}
+    >
+      <AlignJustifyIcon />
+    </ToolbarButton>
+  );
+};
+
+export default AlignJustify;
