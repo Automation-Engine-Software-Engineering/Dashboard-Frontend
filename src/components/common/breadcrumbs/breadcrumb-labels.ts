@@ -8,5 +8,6 @@ export const routeLabels: Record<string, string> = {
   "/edit-profile/social-links": "وبسایت‌ و شبکه‌های اجتماعی",
 
   // form creator
-  "/form": "فرم"
+  "/form": "فرم ها",
+  "/form/entities": "جداول"
 };
