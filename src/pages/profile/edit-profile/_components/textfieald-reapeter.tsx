@@ -35,7 +35,7 @@ const TextfieldRepeater: React.FC<RepeaterInputsProps> = ({
       {inputs.map((value, index) => (
         <div key={index} className="flex items-center gap-x-2">
           <button type="button" onClick={() => handleRemoveInput(index)}>
-            <MinusCircle className="text-red-500" />
+            <MinusCircle size="15" className="text-red-500" />
           </button>
           <input
             type="text"
@@ -47,7 +47,7 @@ const TextfieldRepeater: React.FC<RepeaterInputsProps> = ({
         </div>
       ))}
       <button type="button" onClick={handleAddInput}>
-        <PlusCircle className="text-slate-400" />
+        <PlusCircle size="30" className="text-slate-400" />
       </button>
     </div>
   );

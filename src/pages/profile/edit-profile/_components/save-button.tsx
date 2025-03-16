@@ -9,7 +9,7 @@ const SaveButton = () => {
           type="submit"
           className="mt-3 h-8 rounded-md bg-primary px-6 text-sm text-white transition-colors hover:bg-primary/90"
         >
-          دخیره تغییرات
+          ذخیره تغییرات
         </button>
       </div>
     </div>

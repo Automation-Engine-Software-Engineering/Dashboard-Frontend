@@ -83,7 +83,7 @@ const EducationTextfieldRepeater: React.FC<RepeaterProps> = ({
           className="mb-2 grid grid-cols-1 items-center gap-2 sm:grid-cols-2 lg:flex"
         >
           <button type="button" onClick={() => handleRemoveRow(index)}>
-            <MinusCircle className="text-red-500" />
+            <MinusCircle size="15" className="text-red-500" />
           </button>
           <input
             type="text"
@@ -138,7 +138,7 @@ const EducationTextfieldRepeater: React.FC<RepeaterProps> = ({
         </div>
       ))}
       <button type="button" onClick={handleAddRow}>
-        <PlusCircle className="text-slate-400" />
+        <PlusCircle size="30" className="text-slate-400" />
       </button>
     </div>
   );
