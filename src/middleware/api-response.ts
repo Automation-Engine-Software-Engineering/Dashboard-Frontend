@@ -30,6 +30,7 @@ export const apiResponseMiddleware = async <Data>(
           id: "api-middleware"
         });
       }
+      return null;
     }
     await onSuccess(data);
     return data ? data : null;
