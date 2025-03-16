@@ -1,5 +1,7 @@
 import { cn } from "@/lib/utils";
 
+import { Input } from "@/components/ui/input/index";
+
 import { gradientStyle } from "./textarea";
 
 interface Props extends React.ComponentProps<"input"> {
@@ -17,13 +19,14 @@ const Textfield: React.FC<Props> = ({ label, className, ...props }) => {
           {label}
         </label>
       )}
-      <input
+      {/* <input
         className={cn(
           "focus: h-10 w-full !resize-none rounded-lg border border-slate-300 p-5 ring-2 ring-transparent transition-colors focus-within:border-slate-400 focus-within:outline-none focus:border-primary focus:ring-primary/30",
           className
         )}
         {...props}
-      />
+      /> */}
+      <Input />
     </div>
   );
 };
