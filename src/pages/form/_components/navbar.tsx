@@ -15,7 +15,7 @@ const FormNavbar = () => {
   ];
 
   return (
-    <div className="mb-2 flex h-10 w-full items-center bg-[#E4EBF3] pe-4">
+    <div className="flex h-10 w-full items-center bg-[#E4EBF3] pe-4">
       <ul className="flex h-full">
         {profileEditNavItems.map((item, index) => (
           <li key={index}>
