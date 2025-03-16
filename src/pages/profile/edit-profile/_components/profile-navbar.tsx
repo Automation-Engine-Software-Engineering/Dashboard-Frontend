@@ -27,8 +27,7 @@ import {
   DialogContent,
   DialogTrigger,
   DialogHeader,
-  DialogTitle,
-  DialogClose
+  DialogTitle
 } from "@/components/ui/dialog";
 import { ShareItems } from "@/components/ui/shareItems/index";
 
@@ -61,7 +60,7 @@ const ProfileNavbar = () => {
               to={item.href}
               className={({ isActive }) =>
                 cn(
-                  "flex h-full items-center border-t border-t-transparent px-4",
+                  "flex h-full items-center border-l border-t border-l-slate-300 border-t-transparent px-4",
                   isActive && "border-t-2 border-t-primary bg-white"
                 )
               }
@@ -99,105 +98,110 @@ const ProfileNavbar = () => {
               <ShareItems
                 name="facebook"
                 link={`https://www.facebook.com/sharer.php?u=${window.location.href}`}
-                icon={Facebook}
+                icon={<Facebook />}
                 bgcolor=""
               />
               <ShareItems
                 name="linkedin"
                 link={`https://www.linkedin.com/shareArticle?mini=true&url=${window.location.href}`}
-                icon={FaLinkedin}
+                icon={<FaLinkedin />}
                 bgcolor=""
               />
               <ShareItems
                 name="mendeley"
                 link={`https://www.mendeley.com/import/?url=${window.location.href}`}
-                icon={FaMendeley}
+                icon={<FaMendeley />}
                 bgcolor=""
               />
               <ShareItems
                 name="refworks"
                 link={`https://www.refworks.com/express/ExpressImport.asp?url=${window.location.href}`}
-                icon={IoDocumentTextOutline}
+                icon={<IoDocumentTextOutline />}
                 bgcolor=""
               />
               <ShareItems
                 name="instagram"
                 link={`https://www.instagram.com/?url=${window.location.href}`}
-                icon={Instagram}
+                icon={<Instagram />}
                 bgcolor=""
               />
               <ShareItems
                 name="twitter"
                 link={`https://twitter.com/share?url=${window.location.href}`}
-                icon={Twitter}
+                icon={<Twitter />}
                 bgcolor=""
               />
-              <ShareItems name="email" link="test.com" icon={Mail} bgcolor="" />
+              <ShareItems
+                name="email"
+                link="test.com"
+                icon={<Mail />}
+                bgcolor=""
+              />
               <ShareItems
                 name="print"
                 link="test.com"
-                icon={Printer}
+                icon={<Printer />}
                 bgcolor=""
               />
               <ShareItems
                 name="stumbleupon"
                 link="test.com"
-                icon={FaStumbleupon}
+                icon={<FaStumbleupon />}
                 bgcolor=""
               />
               <ShareItems
                 name="academia"
                 link="https://www.academia.edu"
-                icon={SiAcademia}
+                icon={<SiAcademia />}
                 bgcolor=""
               />
               <ShareItems
                 name="scholar"
                 link="https://www.semanticscholar.org"
-                icon={SiSemanticscholar}
+                icon={<SiSemanticscholar />}
                 bgcolor=""
               />
               <ShareItems
                 name="reddit"
                 link={`https://www.reddit.com/submit?url=${window.location.href}`}
-                icon={AiOutlineReddit}
+                icon={<AiOutlineReddit />}
                 bgcolor=""
               />
 
               <ShareItems
                 name="researchgate"
                 link="https://www.researchgate.net"
-                icon={SiResearchgate}
+                icon={<SiResearchgate />}
                 bgcolor={"red"}
               />
               <ShareItems
                 name="blogger"
                 link={`https://www.blogger.com/blog-this.g?u=${window.location.href}`}
-                icon={FaBloggerB}
+                icon={<FaBloggerB />}
                 bgcolor={"red"}
               />
               <ShareItems
                 name="pinterest"
                 link={`https://pinterest.com/pin/create/bookmarklet/?media=&url=${window.location.href}`}
-                icon={FaPinterestP}
+                icon={<FaPinterestP />}
                 bgcolor={""}
               />
               <ShareItems
                 name="digg"
                 link={`https://www.digg.com/submit?${window.location.href}`}
-                icon={FaDigg}
+                icon={<FaDigg />}
                 bgcolor={""}
               />
               <ShareItems
                 name="delicious"
                 link="test.com"
-                icon={SiDelicious}
+                icon={<SiDelicious />}
                 bgcolor={""}
               />
               <ShareItems
                 name="skype"
                 link={`https://web.skype.com/share?url=${window.location.href}`}
-                icon={FaSkype}
+                icon={<FaSkype />}
                 bgcolor={""}
               />
             </div>

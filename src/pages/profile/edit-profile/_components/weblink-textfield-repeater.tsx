@@ -1,6 +1,8 @@
 import { MinusCircle, PlusCircle } from "lucide-react";
 import React, { useState } from "react";
 
+import { Input } from "@/components/ui/input";
+
 interface RepeaterProps {
   defaultValues?: {
     title: string;
@@ -57,29 +59,26 @@ const WebLinkTextfieldRepeater: React.FC<RepeaterProps> = ({
           <button type="button" onClick={() => handleRemoveRow(index)}>
             <MinusCircle size="15" className="text-red-500" />
           </button>
-          <input
+          <Input
             type="text"
             value={row.titleFa}
             onChange={(e) =>
               handleInputChange(index, "titleFa", e.target.value)
             }
-            className="w-full rounded border border-gray-300 p-2"
             placeholder="عنوان"
           />
 
-          <input
+          <Input
             type="text"
             value={row.link}
             onChange={(e) => handleInputChange(index, "link", e.target.value)}
-            className="w-full rounded border border-gray-300 p-2"
             placeholder="لینک"
           />
 
-          <input
+          <Input
             type="text"
             value={row.title}
             onChange={(e) => handleInputChange(index, "title", e.target.value)}
-            className="w-full rounded border border-gray-300 p-2"
             placeholder="Title"
           />
         </div>

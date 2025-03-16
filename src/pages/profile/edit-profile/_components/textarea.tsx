@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils";
 
-import { Textarea as TextareaComponent } from "@/components/ui/textarea/index";
+import { Textarea as TextareaUi } from "@/components/ui/textarea/index";
 
 interface Props extends React.ComponentProps<"textarea"> {
   label?: React.JSX.Element;
@@ -22,14 +22,7 @@ const Textarea: React.FC<Props> = ({ label, className, ...props }) => {
           {label}
         </label>
       )}
-      {/* <textarea
-        className={cn(
-          "!resize-none rounded-lg border border-slate-300 p-5 ring-2 ring-transparent transition-colors focus:border-primary focus:outline-none focus:ring-primary/30",
-          className
-        )}
-        {...props}
-      /> */}
-      <TextareaComponent />
+      <TextareaUi className={cn("resize-none pt-5", className)} {...props} />
     </div>
   );
 };

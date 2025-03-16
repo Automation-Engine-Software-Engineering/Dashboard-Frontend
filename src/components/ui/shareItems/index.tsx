@@ -1,3 +1,4 @@
+// import { IconNode } from "lucide-react";
 import { FC } from "react";
 
 import { cn } from "@/lib/utils";
@@ -5,14 +6,14 @@ import { cn } from "@/lib/utils";
 interface ShareItemsProps
   extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
   name: string;
-  icon: FC<{ size: string; className?: string }>;
+  icon: any;
   link: string;
   bgcolor?: string;
 }
 
 export const ShareItems: FC<ShareItemsProps> = ({
   name,
-  icon: Icon,
+  icon,
   link,
   bgcolor,
   ...props
@@ -26,7 +27,7 @@ export const ShareItems: FC<ShareItemsProps> = ({
       )}
       {...props}
     >
-      <Icon size={"18px"} className="ml-2" />
+      {icon}
       {name}
     </a>
   );

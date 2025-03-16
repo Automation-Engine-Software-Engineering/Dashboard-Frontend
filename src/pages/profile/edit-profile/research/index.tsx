@@ -7,7 +7,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useSession } from "@/hooks/server-state/use-session";
 
 import SaveButton from "../_components/save-button";
-import Textarea from "../_components/textarea";
+import TextareaUi from "../_components/textarea";
 import TextfieldRepeater from "../_components/textfieald-reapeter";
 
 const EditProfileResearch = () => {
@@ -46,7 +46,7 @@ const EditProfileResearch = () => {
       <div className="px-10 py-5 pb-10">
         <div className="grid grid-cols-1 gap-x-10 gap-y-20 sm:grid-cols-2">
           <div className="space-y-3">
-            <Textarea
+            <TextareaUi
               defaultValue={profileData?.researchFA}
               onChange={(e) => {
                 setEditData((prev) => ({
@@ -86,7 +86,7 @@ const EditProfileResearch = () => {
             />
           </div>
           <div className="space-y-3" dir="ltr">
-            <Textarea
+            <TextareaUi
               defaultValue={profileData?.research}
               onChange={(e) => {
                 setEditData((prev) => ({
@@ -126,7 +126,7 @@ const EditProfileResearch = () => {
             />
           </div>
           <div className="space-y-3">
-            <Textarea
+            <TextareaUi
               defaultValue={profileData?.professionalActivityFa}
               onChange={(e) => {
                 setEditData((prev) => ({
@@ -166,7 +166,7 @@ const EditProfileResearch = () => {
             />
           </div>
           <div className="space-y-3" dir="ltr">
-            <Textarea
+            <TextareaUi
               defaultValue={profileData?.professionalActivityEn}
               onChange={(e) => {
                 setEditData((prev) => ({
@@ -206,7 +206,7 @@ const EditProfileResearch = () => {
             />
           </div>
           <div className="space-y-3">
-            <Textarea
+            <TextareaUi
               defaultValue={profileData?.membershipFa}
               onChange={(e) => {
                 setEditData((prev) => ({
@@ -246,7 +246,7 @@ const EditProfileResearch = () => {
             />
           </div>
           <div className="space-y-3" dir="ltr">
-            <Textarea
+            <TextareaUi
               defaultValue={profileData?.membershipEn}
               label={
                 <div className="flex items-center gap-x-1">

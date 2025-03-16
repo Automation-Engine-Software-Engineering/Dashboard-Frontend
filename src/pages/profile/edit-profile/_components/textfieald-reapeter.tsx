@@ -1,6 +1,8 @@
 import { MinusCircle, PlusCircle } from "lucide-react";
 import React, { useState, useEffect } from "react";
 
+import { Input } from "@/components/ui/input";
+
 interface RepeaterInputsProps {
   defaultValues?: string[];
   onValuesChange?: (values: string[]) => void;
@@ -37,11 +39,10 @@ const TextfieldRepeater: React.FC<RepeaterInputsProps> = ({
           <button type="button" onClick={() => handleRemoveInput(index)}>
             <MinusCircle size="15" className="text-red-500" />
           </button>
-          <input
+          <Input
             type="text"
             value={value}
             onChange={(e) => handleInputChange(index, e.target.value)}
-            className="w-full rounded border border-gray-300 p-2 ring-2 ring-transparent transition-colors focus:border-primary focus:outline-none focus:ring-primary/30"
             placeholder={``}
           />
         </div>

@@ -7,7 +7,7 @@ import { useSession } from "@/hooks/server-state/use-session";
 
 import EducationTextfieldRepeater from "../_components/education-textfield-repeater";
 import SaveButton from "../_components/save-button";
-import Textarea from "../_components/textarea";
+import TextareaUi from "../_components/textarea";
 import TextfieldRepeater from "../_components/textfieald-reapeter";
 
 const EditProfileEducation = () => {
@@ -100,7 +100,7 @@ const EditProfileEducation = () => {
             />
           </div>
           <div className="space-y-3">
-            <Textarea
+            <TextareaUi
               defaultValue={profileData?.teachingInterestFa}
               onChange={(e) => {
                 setEditData((prev) => ({
@@ -135,7 +135,7 @@ const EditProfileEducation = () => {
             />
           </div>
           <div className="space-y-3" dir="ltr">
-            <Textarea
+            <TextareaUi
               defaultValue={profileData?.teachingInterestEn}
               onChange={(e) => {
                 setEditData((prev) => ({
