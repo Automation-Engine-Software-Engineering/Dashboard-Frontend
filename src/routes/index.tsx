@@ -1,8 +1,12 @@
 import { Route, Routes } from "react-router-dom";
 
+// import FormPage from "@/pages/_";
 import DashboardPage from "@/pages/dashboard";
-import EditorPage from "@/pages/editor";
 import FormPage from "@/pages/form";
+import FormEditorPage from "@/pages/form/editor";
+import EntitiesPage from "@/pages/form/entities";
+import FormsPage from "@/pages/form/forms";
+import PropertiesPage from "@/pages/form/properties";
 import LoginPage from "@/pages/login";
 import NotFoundPage from "@/pages/not-found";
 import A1 from "@/pages/page/A1";
@@ -30,7 +34,7 @@ const Router = () => {
       <Route element={<AuthMiddleware />}>
         <Route element={<Layout />}>
           <Route path="/" element={<DashboardPage />} />
-          <Route path="/workflow/form/:formId" element={<FormPage />} />
+          {/* <Route path="/workflow/form/:formId" element={<FormPage />} /> */}
           {/* <Route path="/workflow/table/:tableId" element={<TablePage />} /> */}
           {/* <Route path="/table" element={<TablePage />} /> */}
           <Route path="/page/a1" element={<A1 />} />
@@ -47,9 +51,11 @@ const Router = () => {
           </Route>
 
           {/* Form Creator  */}
-
-          <Route path="/form">
-            <Route path="edit" element={<EditorPage />} />
+          <Route path="/form" element={<FormPage />}>
+            <Route path="" element={<FormsPage />} />
+            <Route path="entities" element={<EntitiesPage />} />
+            <Route path="entities/:entityId" element={<PropertiesPage />} />
+            <Route path=":formId" element={<FormEditorPage />} />
           </Route>
 
           {/* Not Found Page */}
