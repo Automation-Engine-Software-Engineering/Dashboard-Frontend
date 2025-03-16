@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import { MoonLoader } from "react-spinners";
 
-import { useEntityProperties } from "@/hooks/use-entity-property";
+import { useEntityProperties } from "@/hooks/server-state/use-entity-property";
 
 import {
   Table,

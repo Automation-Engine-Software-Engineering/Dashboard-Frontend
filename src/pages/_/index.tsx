@@ -6,7 +6,7 @@ import toast from "react-hot-toast";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { MoonLoader } from "react-spinners";
 
-import { useSession } from "@/hooks/use-session";
+import { useSession } from "@/hooks/server-state/use-session";
 
 import Box from "@/components/ui/box";
 import { Button } from "@/components/ui/button";

@@ -1,6 +1,6 @@
 import { cn, getInitialName } from "@/lib/utils";
 
-import { useSession } from "@/hooks/useSession";
+import { useSession } from "@/hooks/server-state/use-session";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Popover, PopoverTrigger } from "@/components/ui/popover";

@@ -3,7 +3,7 @@ import { useState } from "react";
 import { editSocialLinksProfile, EditEducationType } from "@/api/profile";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-import { useSession } from "@/hooks/use-session";
+import { useSession } from "@/hooks/server-state/use-session";
 
 import EducationTextfieldRepeater from "../_components/education-textfield-repeater";
 import SaveButton from "../_components/save-button";

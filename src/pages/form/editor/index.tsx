@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import { MoonLoader } from "react-spinners";
 
-import { useForm } from "@/hooks/use-form";
+import { useForm } from "@/hooks/server-state/use-form";
 
 import Editor from "@/components/widget/editor";
 

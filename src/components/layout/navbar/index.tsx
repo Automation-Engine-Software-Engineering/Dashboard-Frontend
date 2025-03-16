@@ -8,7 +8,7 @@ import { MoonLoader } from "react-spinners";
 
 import { cn } from "@/lib/utils";
 
-import { useSession } from "@/hooks/useSession";
+import { useSession } from "@/hooks/server-state/use-session";
 
 import {
   Accordion,

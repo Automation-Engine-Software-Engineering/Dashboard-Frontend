@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { MoonLoader } from "react-spinners";
 
-import { useFormEntities } from "@/hooks/use-form-entities";
+import { useFormEntities } from "@/hooks/server-state/use-form-entities";
 
 import {
   Table,

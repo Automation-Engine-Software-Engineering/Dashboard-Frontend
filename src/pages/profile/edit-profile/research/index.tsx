@@ -4,7 +4,7 @@ import { useState } from "react";
 import { editResearchProfile, EditResearchType } from "@/api/profile";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-import { useSession } from "@/hooks/use-session";
+import { useSession } from "@/hooks/server-state/use-session";
 
 import SaveButton from "../_components/save-button";
 import Textarea from "../_components/textarea";

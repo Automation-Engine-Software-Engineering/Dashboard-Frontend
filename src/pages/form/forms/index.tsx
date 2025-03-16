@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { MoonLoader } from "react-spinners";
 
-import { useForms } from "@/hooks/use-forms";
+import { useForms } from "@/hooks/server-state/use-forms";
 
 import {
   Table,

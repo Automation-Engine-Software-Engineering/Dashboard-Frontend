@@ -1,6 +1,6 @@
 import { cn, getInitialName } from "@/lib/utils";
 
-import { useSession } from "@/hooks/useSession";
+import { useSession } from "@/hooks/server-state/use-session";
 
 import { API_URL } from "@/components/layout/header/avatar/index";
 
@@ -60,7 +60,7 @@ const ContentProfile: React.FC = () => {
   return (
     <div className="mb-5 flex flex-col">
       <div className="mb-4 flex">
-        <Avatar className="ml-2 h-[60px] w-[60px] border border-[#E4EBF3]">
+        <Avatar className="ml-2 size-12 border border-[#E4EBF3]">
           <AvatarFallback className="text-sm">{fallbackName}</AvatarFallback>
           <AvatarImage src={`${API_URL}/${session?.imageUrl}`} />
         </Avatar>
