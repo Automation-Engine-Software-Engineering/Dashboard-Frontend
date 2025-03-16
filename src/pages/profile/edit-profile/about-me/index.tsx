@@ -43,8 +43,8 @@ const EditProfileAboutMe = () => {
   return (
     <form onSubmit={handleSubmit}>
       <div id="parent" className="w-full bg-[#E4EBF3] px-12 py-5">
-        <div id="section1">
-          <div id="child1" className="">
+        <div id="phone-and-email" className="flex flex-wrap">
+          <div id="phone-section" className="w-1/2">
             <div className="space-y-4">
               <div className="flex items-center gap-x-10">
                 <div className="flex w-32 items-center gap-x-1">
@@ -100,7 +100,7 @@ const EditProfileAboutMe = () => {
               </div>
             </div>
           </div>
-          <div id="child2" className="mt-10 space-y-4">
+          <div id="email-section" className="w-1/2 space-y-4">
             <div className="flex items-center gap-x-10">
               <div className="flex w-32 items-center gap-x-1">
                 <AtSign color="#0099A5" size={10} />
@@ -156,7 +156,10 @@ const EditProfileAboutMe = () => {
               </div>
             </div>
           </div>
-          <div id="section2" className="mt-10 w-1/2">
+          <div
+            id="section2"
+            className="mt-10 flex w-full justify-around gap-10"
+          >
             <div id="gScholar" className="mb-3 flex items-center gap-x-10">
               <div className="flex w-32 items-center gap-x-1">
                 <img src="https://picsum.photos/18/18" alt="Google Scholar" />
