@@ -1,115 +1,115 @@
-import { useEffect, useState } from "react";
+// import { useEffect, useState } from "react";
 
-import { getForm } from "@/api/form";
-import { getNextWorkflowValue } from "@/api/workflow";
-import toast from "react-hot-toast";
-import { useNavigate, useParams, useSearchParams } from "react-router-dom";
-import { MoonLoader } from "react-spinners";
+// import { getForm } from "@/api/form";
+// import { getNextWorkflowValue } from "@/api/workflow";
+// import toast from "react-hot-toast";
+// import { useNavigate, useParams, useSearchParams } from "react-router-dom";
+// import { MoonLoader } from "react-spinners";
 
-import { useSession } from "@/hooks/server-state/use-session";
+// import { useSession } from "@/hooks/server-state/use-session";
 
-import Box from "@/components/ui/box";
-import { Button } from "@/components/ui/button";
+// import Box from "@/components/ui/box";
+// import { Button } from "@/components/ui/button";
 
-const FormPage = () => {
-  const [isLoading, setIsLoading] = useState(true);
-  const [formHTML, setFormHTML] = useState("");
+// const FormPage = () => {
+//   const [isLoading, setIsLoading] = useState(true);
+//   const [formHTML, setFormHTML] = useState("");
 
-  const { data: session } = useSession();
+//   const { data: session } = useSession();
 
-  const { formId } = useParams();
-  const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
+//   const { formId } = useParams();
+//   const navigate = useNavigate();
+//   const [searchParams] = useSearchParams();
 
-  const handleNextFrom = async () => {
-    const workflowId = searchParams.get("workflowId") as string;
+//   const handleNextFrom = async () => {
+//     const workflowId = searchParams.get("workflowId") as string;
 
-    const loadingToast = toast.loading("درحال دریافت اطلاعات");
+//     const loadingToast = toast.loading("درحال دریافت اطلاعات");
 
-    try {
-      const workflowValue = await getNextWorkflowValue(
-        session!.id.toString(),
-        +workflowId
-      );
+//     try {
+//       const workflowValue = await getNextWorkflowValue(
+//         session!.id.toString(),
+//         +workflowId
+//       );
 
-      toast.success("اطلاعات با موفقیت دریافت شد", {
-        id: loadingToast
-      });
+//       toast.success("اطلاعات با موفقیت دریافت شد", {
+//         id: loadingToast
+//       });
 
-      switch (workflowValue.type) {
-        case 2: {
-          navigate(
-            `/dashboard/workflow/form/${workflowValue.dataId}?workflowId=${workflowId}`
-          );
-          break;
-        }
+//       switch (workflowValue.type) {
+//         case 2: {
+//           navigate(
+//             `/dashboard/workflow/form/${workflowValue.dataId}?workflowId=${workflowId}`
+//           );
+//           break;
+//         }
 
-        case 1: {
-          navigate(
-            `/dashboard/workflow/table/${workflowValue.dataId}?workflowId=${workflowId}`
-          );
-          break;
-        }
+//         case 1: {
+//           navigate(
+//             `/dashboard/workflow/table/${workflowValue.dataId}?workflowId=${workflowId}`
+//           );
+//           break;
+//         }
 
-        default: {
-          break;
-        }
-      }
-    } catch {
-      toast.error("خطا در دریافت اطلاعات", {
-        id: loadingToast
-      });
-    }
-  };
+//         default: {
+//           break;
+//         }
+//       }
+//     } catch {
+//       toast.error("خطا در دریافت اطلاعات", {
+//         id: loadingToast
+//       });
+//     }
+//   };
 
-  useEffect(() => {
-    (async () => {
-      try {
-        const formData = await getForm(formId as string);
-        setFormHTML(formData.htmlFormBody);
-      } catch {
-        toast.error("خطایی رخ داده است");
-        navigate("/dashboard");
-      } finally {
-        setIsLoading(false);
-      }
-    })();
-  }, []);
+//   useEffect(() => {
+//     (async () => {
+//       try {
+//         const formData = await getForm(formId as string);
+//         setFormHTML(formData.htmlFormBody);
+//       } catch {
+//         toast.error("خطایی رخ داده است");
+//         navigate("/dashboard");
+//       } finally {
+//         setIsLoading(false);
+//       }
+//     })();
+//   }, []);
 
-  return (
-    <>
-      <Box
-        className="mx-auto shadow-xl"
-        style={{
-          width: "210mm",
-          height: "297mm",
-          transform: "scale(calc(min(100vw / 210mm, 100vh / 297mm)))",
-          transformOrigin: "top left"
-        }}
-      >
-        {isLoading ? (
-          <Loading />
-        ) : (
-          <div
-            className="prose-form"
-            dangerouslySetInnerHTML={{ __html: formHTML }}
-          />
-        )}
-      </Box>
-      <div className="mt-10 flex justify-center">
-        <Button onClick={handleNextFrom} className="mx-auto w-32">
-          ثبت
-        </Button>
-      </div>
-    </>
-  );
-};
-export default FormPage;
+//   return (
+//     <>
+//       <Box
+//         className="mx-auto shadow-xl"
+//         style={{
+//           width: "210mm",
+//           height: "297mm",
+//           transform: "scale(calc(min(100vw / 210mm, 100vh / 297mm)))",
+//           transformOrigin: "top left"
+//         }}
+//       >
+//         {isLoading ? (
+//           <Loading />
+//         ) : (
+//           <div
+//             className="prose-form"
+//             dangerouslySetInnerHTML={{ __html: formHTML }}
+//           />
+//         )}
+//       </Box>
+//       <div className="mt-10 flex justify-center">
+//         <Button onClick={handleNextFrom} className="mx-auto w-32">
+//           ثبت
+//         </Button>
+//       </div>
+//     </>
+//   );
+// };
+// export default FormPage;
 
-const Loading = () => {
-  return (
-    <div className="flex size-full items-center justify-center">
-      <MoonLoader color="#0099A5" size={50} />
-    </div>
-  );
-};
+// const Loading = () => {
+//   return (
+//     <div className="flex size-full items-center justify-center">
+//       <MoonLoader color="#0099A5" size={50} />
+//     </div>
+//   );
+// };

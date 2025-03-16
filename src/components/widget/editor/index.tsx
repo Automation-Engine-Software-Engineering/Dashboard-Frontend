@@ -46,7 +46,7 @@ const Editor = React.forwardRef<
             ref={innerRef}
             contentEditable
             onInput={handleEditorChange}
-            className="h-[calc(100%-49px)] w-full overflow-auto p-2 focus-within:outline-none"
+            className="h-[calc(100%-49px)] w-full p-2 focus-within:outline-none"
           />
         </ContextMenuTrigger>
         <ToolbarContextMenu editorRef={innerRef} />

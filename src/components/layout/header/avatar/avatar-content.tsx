@@ -25,7 +25,13 @@ const Contents: React.FC<React.ComponentProps<"div">> = ({
   ...props
 }) => {
   return (
-    <div className="flex h-[230px] w-full flex-col justify-start rounded-sm">
+    <div
+      className={cn(
+        "flex h-[230px] w-full flex-col justify-start rounded-sm",
+        className
+      )}
+      {...props}
+    >
       <ContentProfile />
       <ContentBtn text="ویرایش پروفایل" />
       <hr />
@@ -43,7 +49,11 @@ const ContentBtn: React.FC<ContentBtnProps> = ({
 }) => {
   return (
     <button
-      className={`flex h-12 items-center rounded-sm pr-2 hover:bg-[#E4EBF3] ${className} `}
+      // className={`flex h-12 items-center rounded-sm pr-2 hover:bg-[#E4EBF3] ${className} `}
+      className={cn(
+        "flex h-12 items-center rounded-sm pr-2 hover:bg-[#E4EBF3]",
+        className
+      )}
       {...props}
     >
       {text}
