@@ -1,7 +1,10 @@
+import { XSquareIcon } from "lucide-react";
+
 import { useNavigate } from "react-router-dom";
 import { MoonLoader } from "react-spinners";
 
 import { useForms } from "@/hooks/server-state/use-forms";
+import { useFormModalStore } from "@/hooks/store/use-form-modal-store";
 
 import {
   Table,
@@ -14,6 +17,7 @@ import {
 
 const FormsPage = () => {
   const { data, isLoading } = useForms();
+  const { onOpen, setForm } = useFormModalStore();
   const navigate = useNavigate();
 
   if (isLoading) return <Loading />;
@@ -21,6 +25,18 @@ const FormsPage = () => {
 
   return (
     <>
+      <div className="flex items-center px-5 py-2">
+        <button
+          className="flex items-center gap-x-1 text-sm hover:text-primary"
+          onClick={() => {
+            onOpen();
+            setForm(null);
+          }}
+        >
+          <XSquareIcon size={14} className="text-primary" />
+          ساخت فرم جدید
+        </button>
+      </div>
       <Table>
         <TableHeader>
           <TableRow>
