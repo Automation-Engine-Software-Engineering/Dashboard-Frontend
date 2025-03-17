@@ -1,5 +1,6 @@
 import { CalendarClock, Edit } from "lucide-react";
 
+import convertToJalali from "@/helpers/convertFile";
 import { NavLink } from "react-router-dom";
 
 import { cn } from "@/lib/utils";
@@ -28,18 +29,6 @@ const ProfileNavbar = () => {
       href: "social-links"
     }
   ];
-
-  const convertToJalali = (dateString: string): string => {
-    const date = new Date(dateString);
-
-    const formatter = new Intl.DateTimeFormat("fa-IR-u-ca-persian", {
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit"
-    });
-
-    return formatter.format(date).replace(/-/g, "/");
-  };
 
   return (
     <div className="mb-2 flex h-10 w-full items-center bg-[#E4EBF3] pe-4">
