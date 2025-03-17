@@ -1,4 +1,4 @@
-import { XSquareIcon } from "lucide-react";
+import { PencilIcon, Trash2Icon, XSquareIcon } from "lucide-react";
 
 import { useNavigate } from "react-router-dom";
 import { MoonLoader } from "react-spinners";
@@ -21,7 +21,6 @@ const FormsPage = () => {
   const navigate = useNavigate();
 
   if (isLoading) return <Loading />;
-  if (!data) return <EmptyState />;
 
   return (
     <>
@@ -47,28 +46,50 @@ const FormsPage = () => {
             <TableHead>عرض</TableHead>
             <TableHead>رنگ پس زمینه</TableHead>
             <TableHead>عکس پس زمینه</TableHead>
+            <TableHead>ویرایش</TableHead>
+            <TableHead>حذف</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
-          {data?.map((form) => (
-            <TableRow
-              key={form.id}
-              onClick={() => {
-                navigate(form.id.toString());
-              }}
-              className="cursor-pointer"
-            >
-              <TableCell>{form?.id}</TableCell>
-              <TableCell>{form?.name}</TableCell>
-              <TableCell>{form?.description}</TableCell>
-              <TableCell>{form?.sizeWidth}</TableCell>
-              <TableCell>{form?.sizeHeight}</TableCell>
-              <TableCell>{form?.backgroundColor}</TableCell>
-              <TableCell>{form?.backgroundImgPath}</TableCell>
-            </TableRow>
-          ))}
+          {data?.length ? (
+            data?.map((form) => (
+              <TableRow
+                key={form.id}
+                onClick={() => {
+                  navigate(form.id.toString());
+                }}
+                className="cursor-pointer"
+              >
+                <TableCell>{form?.id}</TableCell>
+                <TableCell>{form?.name}</TableCell>
+                <TableCell>{form?.description}</TableCell>
+                <TableCell>{form?.sizeWidth}</TableCell>
+                <TableCell>{form?.sizeHeight}</TableCell>
+                <TableCell>{form?.backgroundColor}</TableCell>
+                <TableCell>{form?.backgroundImgPath}</TableCell>
+                <TableCell>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setForm(form);
+                      onOpen();
+                    }}
+                  >
+                    <PencilIcon />
+                  </button>
+                </TableCell>
+                <TableCell>
+                  <Trash2Icon />
+                </TableCell>
+              </TableRow>
+            ))
+          ) : (
+            <></>
+          )}
         </TableBody>
       </Table>
+
+      {!data?.length && <EmptyState />}
     </>
   );
 };
@@ -80,8 +101,8 @@ const Loading = () => (
 );
 
 const EmptyState = () => (
-  <div className="flex h-screen w-full items-center justify-center">
-    <p className="text-slate-500">فرم پیدا نشد</p>
+  <div className="flex h-32 w-full items-center justify-center bg-white shadow-md">
+    <p className="text-slate-500">فرمی پیدا نشد</p>
   </div>
 );
 
