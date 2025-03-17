@@ -1,16 +1,13 @@
-import { CalendarClock, Edit } from "lucide-react";
+import { Edit } from "lucide-react";
 
-import convertToJalali from "@/helpers/convertFile";
 import { NavLink } from "react-router-dom";
 
 import { cn } from "@/lib/utils";
 
-import { useSession } from "@/hooks/server-state/use-session";
-
+import LastUpdate from "./LastUpdate";
 import { ShareModal } from "./share-modal";
 
 const ProfileNavbar = () => {
-  const { data } = useSession();
   const profileEditNavItems = [
     {
       label: "درباره من",
@@ -51,19 +48,8 @@ const ProfileNavbar = () => {
         ))}
       </ul>
       <div className="ms-auto flex items-center gap-x-5 text-xs">
-        <div className="flex items-center gap-x-1">
-          <CalendarClock size={12} />
-          <p className="">
-            {data?.lastEdit ? (
-              <>آخرین بروزرسانی: {convertToJalali(data?.lastEdit)}</>
-            ) : (
-              <>ویرایش انجام نشده است</>
-            )}
-          </p>
-        </div>
-
+        <LastUpdate />
         <ShareModal />
-
         <div className="flex items-center gap-x-1">
           <Edit size={12} />
           <p className="">ویرایش</p>
