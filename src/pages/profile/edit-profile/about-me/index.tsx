@@ -3,7 +3,6 @@ import { useState } from "react";
 
 import { editAboutMeProfile, EditAboutMeType } from "@/api/profile";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { FaGoogle } from "react-icons/fa6";
 
 import { useSession } from "@/hooks/server-state/use-session";
 
@@ -165,7 +164,11 @@ const EditProfileAboutMe = () => {
             dir="ltr"
           >
             <div className="flex items-center gap-x-2">
-              <FaGoogle className="shrink-0" size={14} />
+              <img
+                src="/images/icons/scholar.png"
+                alt="google scholar"
+                width="14px"
+              />
               Google
               <button type="button" onClick={() => setEditingField("scholar")}>
                 <Edit size={16} />
@@ -176,7 +179,7 @@ const EditProfileAboutMe = () => {
               />
             </div>
             <div className="flex items-center gap-x-2">
-              <FaGoogle className="shrink-0" size={14} />
+              <img src="/images/icons/orcid.png" alt="orcid" width="14px" />
               Orcid
               <button type="button" onClick={() => setEditingField("orcid")}>
                 <Edit size={16} />
@@ -187,7 +190,7 @@ const EditProfileAboutMe = () => {
               />
             </div>
             <div className="flex items-center gap-x-2">
-              <FaGoogle className="shrink-0" size={14} />
+              <img src="/images/icons/Scopus.png" alt="scopus" width="14px" />
               Scopus
               <button type="button" onClick={() => setEditingField("scopus")}>
                 <Edit size={16} />
@@ -198,7 +201,7 @@ const EditProfileAboutMe = () => {
               />
             </div>
             <div className="flex items-center gap-x-2">
-              <FaGoogle className="shrink-0" size={14} />
+              <img src="/images/icons/isi.png" alt="isi" width="14px" />
               ISI
               <button type="button" onClick={() => setEditingField("isi")}>
                 <Edit size={16} />
@@ -209,7 +212,7 @@ const EditProfileAboutMe = () => {
               />
             </div>
             <div className="flex items-center gap-x-2">
-              <FaGoogle className="shrink-0" size={14} />
+              <img src="/images/icons/isc.png" alt="isc" width="14px" />
               ISC
               <button type="button" onClick={() => setEditingField("isc")}>
                 <Edit size={16} />
