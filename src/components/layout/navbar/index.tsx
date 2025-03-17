@@ -114,7 +114,7 @@ const Navbar: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
                 ویرایش پروفایل
               </Link>
               <Link
-                to="#"
+                to="/change-password"
                 className="flex items-center gap-x-1 text-xs font-semibold hover:text-primary"
               >
                 <span>

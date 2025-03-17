@@ -1,5 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 
+import ChangePasswordPage from "@/pages/change-password";
 // import FormPage from "@/pages/_";
 import DashboardPage from "@/pages/dashboard";
 import FormPage from "@/pages/form";
@@ -57,6 +58,9 @@ const Router = () => {
             <Route path="entities/:entityId" element={<PropertiesPage />} />
             <Route path=":formId" element={<FormEditorPage />} />
           </Route>
+
+          {/* Change password */}
+          <Route path="/change-password" element={<ChangePasswordPage />} />
 
           {/* Not Found Page */}
           <Route path="*" element={<NotFoundPage />} />

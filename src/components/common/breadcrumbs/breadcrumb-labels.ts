@@ -9,5 +9,8 @@ export const routeLabels: Record<string, string> = {
 
   // form creator
   "/form": "فرم ها",
-  "/form/entities": "جداول"
+  "/form/entities": "جداول",
+
+  // change password
+  "/change-password": "تغییر رمز عبور"
 };
