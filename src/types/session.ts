@@ -35,6 +35,7 @@ export type SessionType = {
   employeeNumber: number;
   financialCode: number;
   identificationNumber: number;
+  lastEdit: string;
   password: string;
   roleId: number;
   role: {
