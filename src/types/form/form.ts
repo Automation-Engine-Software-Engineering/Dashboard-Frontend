@@ -4,7 +4,9 @@ export type FormType = {
   description: string;
   sizeWidth: number;
   sizeHeight: number;
+  isAutoHeight: boolean;
   backgroundColor: string;
   backgroundImgPath: string;
   htmlFormBody: string;
+  isRepeatedImage: boolean;
 };
