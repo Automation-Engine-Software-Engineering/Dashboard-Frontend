@@ -1,4 +1,4 @@
-import { FormEvent } from "react";
+import { FormEvent, useEffect, useState } from "react";
 
 import { createForm, editForm } from "@/api/form";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -10,6 +10,7 @@ import { useFormModalStore } from "@/hooks/store/use-form-modal-store";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Modal from "@/components/ui/modal";
+import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
 
 const FormModal = () => {
@@ -23,19 +24,34 @@ const FormModal = () => {
       queryClient.invalidateQueries({ queryKey: ["forms"] });
     }
   });
+
+  const [isAutoHeight, setIsAutoHeight] = useState<boolean>(
+    form?.isAutoHeight ?? false
+  );
+
+  const [isRepeatedImage, setIsRepeatedImage] = useState<boolean>(
+    form?.isRepeatedImage ?? false
+  );
+
   const titleText = form ? `ویرایش فرم ${form.name}` : "ساخت فرم جدید";
   const submitBtnText = form ? "ویرایش فرم" : "ساخت فرم جدید";
+
+  useEffect(() => {
+    setIsAutoHeight(form?.isAutoHeight ?? false);
+    setIsRepeatedImage(form?.isRepeatedImage ?? false);
+  }, [isOpen]);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
-    const newData: Record<string, any> = {};
+    const newData: Record<string, any> = {
+      isAutoHeight,
+      isRepeatedImage
+    };
 
     formData.forEach((value, key) => {
       newData[key] = value;
     });
-
-    console.log(newData);
 
     mutate(newData as FormType);
   };
@@ -117,6 +133,18 @@ const FormModal = () => {
               className="resize-none"
             />
           </div>
+        </div>
+
+        <div className="mt-5 flex items-center gap-x-2">
+          <p className="text-sm text-slate-600">تکرار پس زمینه</p>{" "}
+          <Switch checked={isAutoHeight} onCheckedChange={setIsAutoHeight} />
+        </div>
+        <div className="mt-5 flex items-center gap-x-2">
+          <p className="text-sm text-slate-600">ارتفاع خودکار</p>{" "}
+          <Switch
+            checked={isRepeatedImage}
+            onCheckedChange={setIsRepeatedImage}
+          />
         </div>
 
         <Button type="submit" className="w-full" disabled={isPending}>
