@@ -2,6 +2,8 @@ import { useState } from "react";
 
 import { signIn } from "@/auth/sign-in";
 
+import { Input } from "@/components/ui/input";
+
 const Login = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -24,17 +26,17 @@ const Login = () => {
 
   return (
     <form onSubmit={(e) => handleSubmit(e)} className="w-full space-y-8">
-      <input
+      <Input
         type="text"
         name="username"
         placeholder="شناسه کاربری"
-        className="h-14 w-full rounded-xl px-8 text-lg font-bold shadow-[0_0_20px_0_#002248]"
+        className="h-14 shadow-md focus-within:shadow-none"
       />
-      <input
+      <Input
         type="password"
         name="password"
         placeholder="رمز عبور"
-        className="h-14 w-full rounded-xl px-8 text-lg font-bold shadow-[0_0_20px_0_#002248]"
+        className="h-14 shadow-md focus-within:shadow-none"
       />
       <button
         type="submit"
