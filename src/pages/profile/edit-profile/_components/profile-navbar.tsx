@@ -22,6 +22,8 @@ import { NavLink } from "react-router-dom";
 
 import { cn } from "@/lib/utils";
 
+import { useSession } from "@/hooks/server-state/use-session";
+
 import {
   Dialog,
   DialogContent,
@@ -32,6 +34,7 @@ import {
 import { ShareItems } from "@/components/ui/shareItems/index";
 
 const ProfileNavbar = () => {
+  const { data } = useSession();
   const profileEditNavItems = [
     {
       label: "درباره من",
@@ -50,6 +53,18 @@ const ProfileNavbar = () => {
       href: "social-links"
     }
   ];
+
+  const convertToJalali = (dateString: string): string => {
+    const date = new Date(dateString);
+
+    const formatter = new Intl.DateTimeFormat("fa-IR-u-ca-persian", {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit"
+    });
+
+    return formatter.format(date).replace(/-/g, "/");
+  };
 
   return (
     <div className="mb-2 flex h-10 w-full items-center bg-[#E4EBF3] pe-4">
@@ -74,7 +89,13 @@ const ProfileNavbar = () => {
       <div className="ms-auto flex items-center gap-x-5 text-xs">
         <div className="flex items-center gap-x-1">
           <CalendarClock size={12} />
-          <p className="">آخرین بروزرسانی: 1403/09/07</p>
+          <p className="">
+            {data?.lastEdit ? (
+              <>آخرین بروزرسانی: {convertToJalali(data?.lastEdit)}</>
+            ) : (
+              <>ویرایش انجام نشده است</>
+            )}
+          </p>
         </div>
 
         <Dialog>
