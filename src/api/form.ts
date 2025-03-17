@@ -56,3 +56,17 @@ export const editForm = async (form: Partial<FormType>) => {
     }
   );
 };
+
+export const deleteForm = async (formId: number) => {
+  return await apiResponseMiddleware<FormType>(
+    axios.post(`${API_URL}/${API_ENDPOINT}/remove`, formId),
+    () => {
+      toast.success("فرم با موفقیت حذف شد", {
+        id: "api-middleware"
+      });
+    },
+    {
+      showToast: true
+    }
+  );
+};
