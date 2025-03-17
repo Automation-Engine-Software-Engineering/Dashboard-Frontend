@@ -1,5 +1,3 @@
-import { Home } from "lucide-react";
-
 import { Link, useLocation } from "react-router-dom";
 
 import { routeLabels } from "./breadcrumb-labels";
@@ -22,7 +20,12 @@ const Breadcrumb = () => {
       <ul className="flex h-full items-center space-x-2">
         <li className="flex items-center justify-center">
           <Link to="/" className="font-medium text-gray-700 hover:text-primary">
-            <Home />
+            {/* <Home /> */}
+            <img
+              src="/images/icons/dashboard.png"
+              alt="dashboard"
+              width="18px"
+            />
           </Link>
           <span className="mx-3 text-gray-500">
             <svg
