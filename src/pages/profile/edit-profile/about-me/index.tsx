@@ -3,7 +3,6 @@ import { useState } from "react";
 
 import { editAboutMeProfile, EditAboutMeType } from "@/api/profile";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { FaGoogle } from "react-icons/fa6";
 
 import { useSession } from "@/hooks/server-state/use-session";
 
