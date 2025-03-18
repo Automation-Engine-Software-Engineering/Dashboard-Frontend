@@ -1,10 +1,15 @@
 import { PencilIcon, Trash2Icon, XSquareIcon } from "lucide-react";
+import { useState } from "react";
 
+import { deleteForm } from "@/api/form";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import { MoonLoader } from "react-spinners";
 
 import { useForms } from "@/hooks/server-state/use-forms";
 import { useFormModalStore } from "@/hooks/store/use-form-modal-store";
+
+import AlertModal from "@/components/common/modals/alert-modal";
 
 import {
   Table,
@@ -16,14 +21,35 @@ import {
 } from "@/components/ui/table";
 
 const FormsPage = () => {
+  const queryClient = useQueryClient();
   const { data, isLoading } = useForms();
+  const { mutate, isPending } = useMutation({
+    mutationFn: (formId: number) => deleteForm(formId),
+    onSuccess: () =>
+      queryClient.invalidateQueries({ queryKey: ["forms", selectedForDelete] })
+  });
   const { onOpen, setForm } = useFormModalStore();
   const navigate = useNavigate();
+
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
+  const [selectedForDelete, setSelectedForDelete] = useState<number | null>(
+    null
+  );
 
   if (isLoading) return <Loading />;
 
   return (
     <>
+      <AlertModal
+        isOpen={isDeleteModalOpen}
+        onClose={() => setIsDeleteModalOpen(false)}
+        isLoading={isPending}
+        onConfirm={() => {
+          mutate(selectedForDelete!);
+        }}
+        title="آیا از حذف فرم اطمینان دارید؟"
+        description="این عملیات قابل برگشت نخواهد بود و فرم بصورت دائمی حذف خواهد شد"
+      />
       <div className="flex items-center px-5 py-2">
         <button
           className="flex items-center gap-x-1 text-sm hover:text-primary"
@@ -79,7 +105,14 @@ const FormsPage = () => {
                   </button>
                 </TableCell>
                 <TableCell>
-                  <Trash2Icon />
+                  <button
+                    onClick={() => {
+                      setSelectedForDelete(form.id);
+                      setIsDeleteModalOpen(true);
+                    }}
+                  >
+                    <Trash2Icon />
+                  </button>
                 </TableCell>
               </TableRow>
             ))
