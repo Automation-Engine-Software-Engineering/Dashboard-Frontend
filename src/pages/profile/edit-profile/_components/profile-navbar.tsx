@@ -57,7 +57,7 @@ const ProfileNavbar = () => {
         <LastUpdate />
         <ShareModal />
         <div className="flex items-center gap-x-1">
-          <Edit size={12} />
+          <Edit size={12} className="text-[#30aab5]" />
           <p className="">ویرایش</p>
         </div>
       </div>

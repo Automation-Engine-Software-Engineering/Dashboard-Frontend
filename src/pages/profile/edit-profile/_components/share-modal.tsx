@@ -33,7 +33,7 @@ export const ShareModal = () => {
     <Dialog>
       <DialogTrigger>
         <div className="flex cursor-pointer items-center gap-x-1">
-          <Share2 size={12} />
+          <Share2 size={12} className="text-[#30aab5]" />
           <p className="">اشتراک گذاری</p>
         </div>
       </DialogTrigger>
