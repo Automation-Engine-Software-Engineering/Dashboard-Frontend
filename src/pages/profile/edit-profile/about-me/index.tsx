@@ -179,7 +179,7 @@ const EditProfileAboutMe = () => {
               />
             </div>
             <div className="flex items-center gap-x-2">
-              <img src="/images/icons/orcid.png" alt="orcid" width="14px" />
+              <img src="/images/icons/orcid.svg" alt="orcid" width="14px" />
               Orcid
               <button type="button" onClick={() => setEditingField("orcid")}>
                 <Edit size={16} />
@@ -190,7 +190,7 @@ const EditProfileAboutMe = () => {
               />
             </div>
             <div className="flex items-center gap-x-2">
-              <img src="/images/icons/Scopus.png" alt="scopus" width="14px" />
+              <img src="/images/icons/Scopus.svg" alt="scopus" width="14px" />
               Scopus
               <button type="button" onClick={() => setEditingField("scopus")}>
                 <Edit size={16} />
