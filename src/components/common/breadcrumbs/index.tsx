@@ -22,7 +22,7 @@ const Breadcrumb = () => {
           <Link to="/" className="font-medium text-gray-700 hover:text-primary">
             {/* <Home /> */}
             <img
-              src="/images/icons/dashboard.png"
+              src="/images/icons/dashboard.svg"
               alt="dashboard"
               width="18px"
             />

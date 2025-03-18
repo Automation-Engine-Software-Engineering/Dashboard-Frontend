@@ -1,30 +1,18 @@
-import { Edit } from "lucide-react";
 import { useState } from "react";
 
 import { NavLink } from "react-router-dom";
 
 import { cn } from "@/lib/utils";
 
-import LastUpdate from "./LastUpdate";
-import { ShareModal } from "./share-modal";
-
-const ProfileNavbar = () => {
+const BookNav = () => {
   const profileEditNavItems = [
     {
-      label: "درباره من",
+      label: "کتابخانه ملی ایران",
       href: ""
     },
     {
-      label: "اطلاعات پژوهشی",
-      href: "research"
-    },
-    {
-      label: "اطلاعات تحصیلی و آموزشی",
-      href: "education"
-    },
-    {
-      label: "وبسایت‌ و شبکه‌های اجتماعی",
-      href: "social-links"
+      label: "کتابخانه کنگره آمریکا",
+      href: "lc"
     }
   ];
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
@@ -53,15 +41,7 @@ const ProfileNavbar = () => {
           </li>
         ))}
       </ul>
-      <div className="ms-auto flex items-center gap-x-5 text-xs">
-        <LastUpdate />
-        <ShareModal />
-        <div className="flex items-center gap-x-1">
-          <Edit size={12} className="text-[#30aab5]" />
-          <p className="">ویرایش</p>
-        </div>
-      </div>
     </div>
   );
 };
-export default ProfileNavbar;
+export default BookNav;
