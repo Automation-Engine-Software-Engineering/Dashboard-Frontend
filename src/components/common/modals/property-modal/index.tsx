@@ -1,0 +1,137 @@
+import { FormEvent, useEffect, useState } from "react";
+
+import { createProperty, editProperty } from "@/api/property";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+
+import { PropertyType } from "@/types/form/property";
+
+import { usePropertyModalStore } from "@/hooks/store/use-property-modal-store";
+
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import Modal from "@/components/ui/modal";
+import { Switch } from "@/components/ui/switch";
+import { Textarea } from "@/components/ui/textarea";
+
+const PropertyModal = () => {
+  const queryClient = useQueryClient();
+
+  const { isOpen, onClose, property } = usePropertyModalStore();
+
+  const { mutate, isPending } = useMutation({
+    mutationFn: (data: PropertyType) =>
+      property ? editProperty(data) : createProperty(data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["properties"] });
+    }
+  });
+
+  const [allowNull, setAllowNull] = useState<boolean>(
+    property?.allowNull ?? false
+  );
+
+  const titleText = property
+    ? `ویرایش عنصر ${property.previewName}`
+    : "ساخت عنصر جدید";
+  const submitBtnText = property ? "ویرایش عنصر" : "ساخت عنصر جدید";
+
+  useEffect(() => {
+    setAllowNull(property?.allowNull ?? false);
+  }, [isOpen]);
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const newData: Record<string, any> = {
+      allowNull
+    };
+
+    formData.forEach((value, key) => {
+      newData[key] = value;
+    });
+
+    mutate(newData as PropertyType);
+  };
+
+  return (
+    <Modal isOpen={isOpen} onClose={onClose} description="" title={titleText}>
+      <form onSubmit={handleSubmit} className="space-y-5">
+        <div className="grid grid-cols-2 gap-x-10">
+          <div className="flex flex-col gap-y-1">
+            <label htmlFor="" className="text-sm">
+              نام نمایشی
+            </label>
+            <Input
+              type="text"
+              name="previewName"
+              defaultValue={property?.previewName ?? ""}
+              placeholder="نام نمایشی"
+              required
+            />
+          </div>
+          <div className="flex flex-col gap-y-1">
+            <label htmlFor="" className="text-sm">
+              نام عنصر
+            </label>
+            <Input
+              type="text"
+              name="propertyName"
+              defaultValue={property?.propertyName ?? ""}
+              placeholder="نام عنصر"
+              required
+            />
+          </div>
+        </div>
+        <div className="flex flex-col gap-y-1">
+          <label htmlFor="" className="text-sm">
+            توضیحات
+          </label>
+          <Textarea
+            name="description"
+            defaultValue={property?.description ?? ""}
+            placeholder="توضیحات..."
+            className="resize-none"
+          />
+        </div>
+        <div className="grid grid-cols-2 gap-x-10">
+          <div className="flex flex-col gap-y-1">
+            <label htmlFor="" className="text-sm">
+              نوع عنصر
+            </label>
+            <select
+              name="type"
+              defaultValue={property?.type ?? ""}
+              className="h-10 rounded-md border border-slate-300 px-3 py-2 text-sm focus-within:border-primary focus-within:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
+              required
+            >
+              <option value="1">تکست</option>
+            </select>
+          </div>
+
+          <div className="flex flex-col gap-y-1">
+            <label htmlFor="" className="text-sm">
+              مقدار پیش فرض
+            </label>
+            <Input
+              type="text"
+              name="defaultValue"
+              defaultValue={property?.defaultValue ?? ""}
+              placeholder="مقدار پیش فرض"
+              required
+            />
+          </div>
+        </div>
+        <div className="mt-5 flex items-center gap-x-2">
+          <p className="text-sm text-slate-600">بدون مقدار</p>{" "}
+          <Switch checked={allowNull} onCheckedChange={setAllowNull} />
+        </div>
+
+        <Button type="submit" className="w-full" disabled={isPending}>
+          {submitBtnText}
+        </Button>
+      </form>
+    </Modal>
+  );
+};
+
+export default PropertyModal;
