@@ -12,5 +12,8 @@ export const routeLabels: Record<string, string> = {
   "/form/entities": "جداول",
 
   // change password
-  "/change-password": "تغییر رمز عبور"
+  "/change-password": "تغییر رمز عبور",
+
+  //newbook
+  "/newbook": "ثبت کتاب جدید"
 };

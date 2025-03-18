@@ -23,6 +23,8 @@ import EditProfileSocialLinks from "@/pages/profile/edit-profile/social-links";
 // import TablePage from "@/pages/table";
 import Layout from "@/components/layout/layout";
 
+import NewBook from "../pages/Book";
+import LC from "../pages/Book/LC";
 import AuthMiddleware from "./auth-middleware";
 
 const Router = () => {
@@ -57,6 +59,12 @@ const Router = () => {
             <Route path="entities" element={<EntitiesPage />} />
             <Route path="entities/:entityId" element={<PropertiesPage />} />
             <Route path=":formId" element={<FormEditorPage />} />
+          </Route>
+
+          {/* Book  */}
+          <Route path="/newbook" element={<NewBook />}>
+            <Route path="" element={<NewBook />} />
+            <Route path="lc" element={<LC />} />
           </Route>
 
           {/* Change password */}
