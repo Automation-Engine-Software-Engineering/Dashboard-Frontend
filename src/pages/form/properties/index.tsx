@@ -1,8 +1,14 @@
+import { PencilIcon, Trash2Icon, XSquareIcon } from "lucide-react";
+
+// import { useState } from "react";
+// import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 import { MoonLoader } from "react-spinners";
 
 import { useEntityProperties } from "@/hooks/server-state/use-entity-property";
+import { usePropertyModalStore } from "@/hooks/store/use-property-modal-store";
 
+// import AlertModal from "@/components/common/modals/alert-modal";
 import {
   Table,
   TableBody,
@@ -13,14 +19,50 @@ import {
 } from "@/components/ui/table";
 
 const PropertiesPage = () => {
+  // const queryClient = useQueryClient();
+
   const { entityId } = useParams<{ entityId: string }>();
   const { data, isLoading } = useEntityProperties(entityId ?? "");
 
+  // const { mutate, isPending } = useMutation({
+  //   mutationFn: (formId: number) => de(formId),
+  //   onSuccess: () =>
+  //     queryClient.invalidateQueries({ queryKey: ["forms", selectedForDelete] })
+  // });
+  const { onOpen, setProperty } = usePropertyModalStore();
+
+  // const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
+  // const [selectedForDelete, setSelectedForDelete] = useState<number | null>(
+  // null
+  // );
+
   if (isLoading) return <Loading />;
-  if (!data) return <EmptyState />;
 
   return (
     <>
+      {/* <AlertModal
+        isOpen={isDeleteModalOpen}
+        onClose={() => setIsDeleteModalOpen(false)}
+        isLoading={isPending}
+        onConfirm={() => {
+          mutate(selectedForDelete!);
+        }}
+        title="آیا از حذف عنصر اطمینان دارید؟"
+        description="این عملیات قابل برگشت نخواهد بود و عنصر بصورت دائمی حذف خواهد شد"
+      /> */}
+
+      <div className="flex items-center px-5 py-2">
+        <button
+          className="flex items-center gap-x-1 text-sm hover:text-primary"
+          onClick={() => {
+            onOpen();
+            setProperty(null);
+          }}
+        >
+          <XSquareIcon size={14} className="text-primary" />
+          ساخت عنصر جدید
+        </button>
+      </div>
       <Table>
         <TableHeader>
           <TableRow>
@@ -32,28 +74,50 @@ const PropertiesPage = () => {
             <TableHead>مقدار پیش فرض</TableHead>
             <TableHead>عرض</TableHead>
             <TableHead>ارتفاع</TableHead>
+            <TableHead>ویرایش</TableHead>
+            <TableHead>حذف</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
-          {data?.map((property) => (
-            <TableRow
-              key={property.id}
-              onClick={() => {
-                // TODO: handle on property click
-              }}
-            >
-              <TableCell>{property?.id}</TableCell>
-              <TableCell>{property?.previewName}</TableCell>
-              <TableCell>{property?.propertyName}</TableCell>
-              <TableCell>{property?.type}</TableCell>
-              <TableCell>{property?.allowNull}</TableCell>
-              <TableCell>{property?.defaultValue}</TableCell>
-              <TableCell>{property?.sizeWidth}</TableCell>
-              <TableCell>{property?.sizeHeight}</TableCell>
-            </TableRow>
-          ))}
+          {!!data?.length &&
+            data?.map((property) => (
+              <TableRow key={property.id}>
+                <TableCell>{property?.id}</TableCell>
+                <TableCell>{property?.previewName}</TableCell>
+                <TableCell>{property?.propertyName}</TableCell>
+                <TableCell>{property?.type}</TableCell>
+                <TableCell>{property?.allowNull}</TableCell>
+                <TableCell>{property?.defaultValue}</TableCell>
+                <TableCell>{property?.sizeWidth}</TableCell>
+                <TableCell>{property?.sizeHeight}</TableCell>
+                <TableCell>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setProperty(property);
+                      onOpen();
+                    }}
+                  >
+                    <PencilIcon />
+                  </button>
+                </TableCell>
+                <TableCell>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      // setSelectedForDelete(property.id);
+                      // setIsDeleteModalOpen(true);
+                    }}
+                  >
+                    <Trash2Icon />
+                  </button>
+                </TableCell>
+              </TableRow>
+            ))}
         </TableBody>
       </Table>
+
+      {!data?.length && <EmptyState />}
     </>
   );
 };
@@ -65,8 +129,8 @@ const Loading = () => (
 );
 
 const EmptyState = () => (
-  <div className="flex h-screen w-full items-center justify-center">
-    <p className="text-slate-500">عنصری پیدا نشد</p>
+  <div className="flex h-32 w-full items-center justify-center bg-white shadow-md">
+    <p className="text-slate-500">فرمی پیدا نشد</p>
   </div>
 );
 
