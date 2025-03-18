@@ -77,7 +77,7 @@ const FormsPage = () => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {data?.length ? (
+          {!!data?.length &&
             data?.map((form) => (
               <TableRow
                 key={form.id}
@@ -106,7 +106,8 @@ const FormsPage = () => {
                 </TableCell>
                 <TableCell>
                   <button
-                    onClick={() => {
+                    onClick={(e) => {
+                      e.stopPropagation();
                       setSelectedForDelete(form.id);
                       setIsDeleteModalOpen(true);
                     }}
@@ -115,10 +116,7 @@ const FormsPage = () => {
                   </button>
                 </TableCell>
               </TableRow>
-            ))
-          ) : (
-            <></>
-          )}
+            ))}
         </TableBody>
       </Table>
 
