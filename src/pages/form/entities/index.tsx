@@ -1,7 +1,15 @@
+import { PencilIcon, Trash2Icon, XSquareIcon } from "lucide-react";
+import { useState } from "react";
+
+import { deleteEntity } from "@/api/entity";
+import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import { MoonLoader } from "react-spinners";
 
 import { useFormEntities } from "@/hooks/server-state/use-form-entities";
+import { useEntityModalStore } from "@/hooks/store/use-entity-modal-store";
+
+import AlertModal from "@/components/common/modals/alert-modal";
 
 import {
   Table,
@@ -14,13 +22,44 @@ import {
 
 const EntitiesPage = () => {
   const { data, isLoading } = useFormEntities();
+  const { mutate, isPending } = useMutation({
+    mutationFn: (entityId: number) => deleteEntity(entityId)
+  });
+
+  const { onOpen, setEntity } = useEntityModalStore();
   const navigate = useNavigate();
 
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
+  const [selectedForDelete, setSelectedForDelete] = useState<number | null>(
+    null
+  );
+
   if (isLoading) return <Loading />;
-  if (!data) return <EmptyState />;
 
   return (
     <>
+      <AlertModal
+        isOpen={isDeleteModalOpen}
+        onClose={() => setIsDeleteModalOpen(false)}
+        isLoading={isPending}
+        onConfirm={() => {
+          mutate(selectedForDelete!);
+        }}
+        title="آیا از حذف جدول اطمینان دارید؟"
+        description="این عملیات قابل برگشت نخواهد بود و جدول بصورت دائمی حذف خواهد شد"
+      />
+      <div className="flex items-center px-5 py-2">
+        <button
+          className="flex items-center gap-x-1 text-sm hover:text-primary"
+          onClick={() => {
+            onOpen();
+            setEntity(null);
+          }}
+        >
+          <XSquareIcon size={14} className="text-primary" />
+          ساخت جدول جدید
+        </button>
+      </div>
       <Table>
         <TableHeader>
           <TableRow>
@@ -28,25 +67,51 @@ const EntitiesPage = () => {
             <TableHead>نام نمایشی</TableHead>
             <TableHead>نام جدول</TableHead>
             <TableHead>توضیحات</TableHead>
+            <TableHead>ویرایش</TableHead>
+            <TableHead>حذف</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
-          {data?.map((entity) => (
-            <TableRow
-              key={entity.id}
-              onClick={() => {
-                navigate(entity.id.toString());
-              }}
-              className="cursor-pointer"
-            >
-              <TableCell>{entity?.id}</TableCell>
-              <TableCell>{entity?.previewName}</TableCell>
-              <TableCell>{entity?.tableName}</TableCell>
-              <TableCell>{entity?.description}</TableCell>
-            </TableRow>
-          ))}
+          {!!data?.length &&
+            data?.map((entity) => (
+              <TableRow
+                key={entity.id}
+                onClick={() => {
+                  navigate(entity.id.toString());
+                }}
+                className="cursor-pointer"
+              >
+                <TableCell>{entity?.id}</TableCell>
+                <TableCell>{entity?.previewName}</TableCell>
+                <TableCell>{entity?.tableName}</TableCell>
+                <TableCell>{entity?.description}</TableCell>
+                <TableCell>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setEntity(entity);
+                      onOpen();
+                    }}
+                  >
+                    <PencilIcon />
+                  </button>
+                </TableCell>
+                <TableCell>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setSelectedForDelete(entity?.id);
+                      setIsDeleteModalOpen(true);
+                    }}
+                  >
+                    <Trash2Icon />
+                  </button>
+                </TableCell>
+              </TableRow>
+            ))}
         </TableBody>
       </Table>
+      {!data?.length && <EmptyState />}
     </>
   );
 };
@@ -58,9 +123,8 @@ const Loading = () => (
 );
 
 const EmptyState = () => (
-  <div className="flex h-screen w-full items-center justify-center">
-    <p className="text-slate-500">جدول پیدا نشد</p>
+  <div className="flex h-32 w-full items-center justify-center bg-white shadow-md">
+    <p className="text-slate-500">جدولی پیدا نشد</p>
   </div>
 );
-
 export default EntitiesPage;
