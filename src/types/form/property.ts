@@ -2,6 +2,7 @@ export type PropertyType = {
   id: number;
   previewName: string;
   propertyName: string;
+  description: string;
   type: number;
   allowNull: boolean;
   defaultValue: string;
