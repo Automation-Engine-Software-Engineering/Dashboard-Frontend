@@ -2,7 +2,7 @@ import { PencilIcon, Trash2Icon, XSquareIcon } from "lucide-react";
 import { useState } from "react";
 
 import { deleteEntity } from "@/api/entity";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import { MoonLoader } from "react-spinners";
 
@@ -21,9 +21,14 @@ import {
 } from "@/components/ui/table";
 
 const EntitiesPage = () => {
+  const queryClient = useQueryClient();
+
   const { data, isLoading } = useFormEntities();
   const { mutate, isPending } = useMutation({
-    mutationFn: (entityId: number) => deleteEntity(entityId)
+    mutationFn: (entityId: number) => deleteEntity(entityId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["entities"] });
+    }
   });
 
   const { onOpen, setEntity } = useEntityModalStore();
@@ -44,6 +49,7 @@ const EntitiesPage = () => {
         isLoading={isPending}
         onConfirm={() => {
           mutate(selectedForDelete!);
+          setIsDeleteModalOpen(false);
         }}
         title="آیا از حذف جدول اطمینان دارید؟"
         description="این عملیات قابل برگشت نخواهد بود و جدول بصورت دائمی حذف خواهد شد"
@@ -72,8 +78,8 @@ const EntitiesPage = () => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {!!data?.length &&
-            data?.map((entity) => (
+          {!!data?.data?.length &&
+            data?.data?.map((entity) => (
               <TableRow
                 key={entity.id}
                 onClick={() => {
@@ -85,7 +91,7 @@ const EntitiesPage = () => {
                 <TableCell>{entity?.previewName}</TableCell>
                 <TableCell>{entity?.tableName}</TableCell>
                 <TableCell>{entity?.description}</TableCell>
-                <TableCell>
+                <TableCell className="text-center">
                   <button
                     onClick={(e) => {
                       e.stopPropagation();
@@ -93,10 +99,10 @@ const EntitiesPage = () => {
                       onOpen();
                     }}
                   >
-                    <PencilIcon />
+                    <PencilIcon className="text-slate-700" />
                   </button>
                 </TableCell>
-                <TableCell>
+                <TableCell className="text-center">
                   <button
                     onClick={(e) => {
                       e.stopPropagation();
@@ -104,14 +110,14 @@ const EntitiesPage = () => {
                       setIsDeleteModalOpen(true);
                     }}
                   >
-                    <Trash2Icon />
+                    <Trash2Icon className="text-red-500" />
                   </button>
                 </TableCell>
               </TableRow>
             ))}
         </TableBody>
       </Table>
-      {!data?.length && <EmptyState />}
+      {!data?.data?.length && <EmptyState />}
     </>
   );
 };

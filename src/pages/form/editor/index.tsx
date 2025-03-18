@@ -16,6 +16,7 @@ const FormEditorPage = () => {
   const editorRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    editorRef.current?.focus();
     if (data?.htmlFormBody) {
       setEditorData(data.htmlFormBody);
     }
@@ -35,7 +36,10 @@ const FormEditorPage = () => {
             ref={editorRef}
             value={editorData}
             onEditorChange={setEditorData}
-            className="min-h-[400px] w-[900px] shadow-[20px_10px_15px_0px_rgba(0,0,0,0.1)] [&_div]:align-middle [&_input]:rounded-md [&_input]:border [&_input]:border-slate-300"
+            style={{
+              width: data.sizeWidth
+            }}
+            className="h-fit shrink-0 shadow-[20px_10px_15px_0px_rgba(0,0,0,0.1)] [&_>_[data-editor]]:min-h-[500px] [&_div]:align-middle [&_input]:rounded-md [&_input]:border [&_input]:border-slate-300"
           />
         </div>
 

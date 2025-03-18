@@ -85,7 +85,7 @@ const Navbar: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
                   )
               )}
             </Accordion>
-            <div className="mt-auto space-y-1 border-t border-t-slate-300 px-5 py-7 pt-4">
+            <div className="mb-32 mt-auto space-y-1 border-t border-t-slate-300 px-5 py-7 pt-4">
               <Link
                 to="#"
                 className="flex items-center gap-x-1 text-xs font-semibold hover:text-primary"

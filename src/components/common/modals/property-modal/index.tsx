@@ -104,7 +104,16 @@ const PropertyModal = () => {
               className="h-10 rounded-md border border-slate-300 px-3 py-2 text-sm focus-within:border-primary focus-within:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
               required
             >
-              <option value="1">تکست</option>
+              <option value="1">عدد</option>
+              <option value="3">متن کوتاه</option>
+              <option value="4">متن بلند</option>
+              <option value="6">زمان</option>
+              <option value="5">چک باکس</option>
+              <option value="8">رنگ</option>
+              <option value="9">ایمیل</option>
+              <option value="7">فایل</option>
+              <option value="10">پسوورد</option>
+              <option value="2">رنج</option>
             </select>
           </div>
 

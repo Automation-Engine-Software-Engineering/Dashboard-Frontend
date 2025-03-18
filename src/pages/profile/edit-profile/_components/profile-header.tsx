@@ -41,11 +41,11 @@ const ProfileHeader = () => {
     setEditingField(null);
   };
   return (
-    <div className="relative mb-3 h-32 ps-24">
+    <div className="relative mb-3 h-40 ps-24">
       <div className="size-full bg-gradient-to-b from-[#162b41] to-[#033d61]">
         <AnimatedBackground />
         <div className="relative z-10 flex size-full items-center">
-          <div className="-ms-20 size-36 overflow-hidden rounded-full bg-white p-2">
+          <div className="-ms-20 size-40 overflow-hidden rounded-full bg-white p-2">
             <img
               src={`${API_URL}/${profileData?.imageUrl}`}
               alt="profile image"
@@ -54,7 +54,7 @@ const ProfileHeader = () => {
           </div>
           <div className="mx-5 flex flex-1 justify-between text-white">
             <div className="space-y-1">
-              <p className="mb-3 font-semibold">{`${profileData?.firstNameFa} ${profileData?.lastNameFa}`}</p>
+              <p className="mb-5 font-semibold">{`${profileData?.firstNameFa} ${profileData?.lastNameFa}`}</p>
               <p className="text-sm">
                 {profileData?.degree ? `${profileData.degree},` : ""}{" "}
                 {profileData?.positionFA}
@@ -112,7 +112,7 @@ const ProfileHeader = () => {
                     </button>
                   ) : (
                     <button onClick={() => setEditingField("name")}>
-                      <Edit size={16} />
+                      <Edit size={16} className="text-primary" />
                     </button>
                   )}
                 </div>

@@ -2,14 +2,21 @@ import { apiResponseMiddleware } from "@/middleware/api-response";
 import axios from "axios";
 import toast from "react-hot-toast";
 
+import { ApiData } from "@/types/api-response";
 import { FormType } from "@/types/form/form";
 
 const API_URL = import.meta.env.VITE_FORM_API_URL as string;
 const API_ENDPOINT = "api/Form";
 
-export const getAllForms = async (): Promise<FormType[] | null> => {
+export const getAllForms = async (): Promise<ApiData<FormType[]> | null> => {
   return await apiResponseMiddleware<FormType[]>(
-    axios.get(`${API_URL}/${API_ENDPOINT}/all`),
+    axios.get(`${API_URL}/${API_ENDPOINT}/all`, {
+      params: {
+        // formId: 1,
+        pageNumber: 1,
+        pageSize: 5
+      }
+    }),
     () => {},
     {
       showToast: false
@@ -59,9 +66,35 @@ export const editForm = async (form: Partial<FormType>) => {
 
 export const deleteForm = async (formId: number) => {
   return await apiResponseMiddleware<FormType>(
-    axios.post(`${API_URL}/${API_ENDPOINT}/remove`, formId),
+    axios.post(`${API_URL}/${API_ENDPOINT}/remove`, JSON.stringify(formId), {
+      headers: {
+        "Content-Type": "application/json"
+      }
+    }),
     () => {
       toast.success("فرم با موفقیت حذف شد", {
+        id: "api-middleware"
+      });
+    },
+    {
+      showToast: true
+    }
+  );
+};
+
+export const insertHtmlContent = async (formId: number, content: string) => {
+  return await apiResponseMiddleware<FormType>(
+    axios.post(
+      `${API_URL}/${API_ENDPOINT}/${formId}/insertHtmlContent`,
+      JSON.stringify(content),
+      {
+        headers: {
+          "Content-Type": "application/json"
+        }
+      }
+    ),
+    () => {
+      toast.success("فرم با موفقیت ذخیره شد", {
         id: "api-middleware"
       });
     },

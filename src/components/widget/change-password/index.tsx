@@ -25,7 +25,7 @@ const ChangePassword = () => {
             <label className="text-sm text-slate-800" htmlFor="">
               رمز عبور فعلی
             </label>
-            <Input type="password" name="oldPassword" required />
+            <Input type="password" name="oldPassword" />
           </div>
           <div className="space-y-2">
             <label className="text-sm text-slate-800" htmlFor="">

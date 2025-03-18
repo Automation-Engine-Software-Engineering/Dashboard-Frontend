@@ -1,9 +1,9 @@
-import { AxiosResponse } from "axios";
+import { AxiosError, AxiosResponse } from "axios";
 import toast from "react-hot-toast";
 
-import { ApiResult } from "@/types/api-response";
+import { ApiData, ApiResult } from "@/types/api-response";
 
-type MiddlewareCallback<Data> = (data: Data) => void | Promise<void>;
+type MiddlewareCallback<Data> = (data: ApiData<Data>) => void | Promise<void>;
 
 export const apiResponseMiddleware = async <Data>(
   apiCall: Promise<AxiosResponse<ApiResult<Data>>>,
@@ -25,20 +25,29 @@ export const apiResponseMiddleware = async <Data>(
     const { status, message, data } = response.data;
 
     if (!status) {
-      if (options?.showToast) {
-        toast.error(message || options?.errorMessage || "خطایی رخ داده است", {
-          id: "api-middleware"
-        });
-      }
-      return null;
+      toast.error(message || options?.errorMessage || "خطایی رخ داده است", {
+        id: "api-middleware"
+      });
+
+      throw Error(message || options?.errorMessage || "خطایی رخ داده است");
     }
-    await onSuccess(data);
-    return data ? data : null;
-  } catch (error) {
-    toast.error("خطای ناشناخته‌ای رخ داده است", {
-      id: "api-middleware"
+    await onSuccess({
+      ...data,
+      data: data.data
     });
+    return data
+      ? {
+          ...data,
+          data: data.data
+        }
+      : null;
+  } catch (error) {
+    if (error instanceof AxiosError) {
+      toast.error("خطای ناشناخته‌ای رخ داده است", {
+        id: "api-middleware"
+      });
+    }
     console.error("API Error:", error);
-    return false;
+    throw Error("error");
   }
 };

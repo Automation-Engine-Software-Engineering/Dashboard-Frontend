@@ -22,11 +22,10 @@ import {
 
 const FormsPage = () => {
   const queryClient = useQueryClient();
-  const { data, isLoading } = useForms();
+  const { data: res, isLoading } = useForms();
   const { mutate, isPending } = useMutation({
     mutationFn: (formId: number) => deleteForm(formId),
-    onSuccess: () =>
-      queryClient.invalidateQueries({ queryKey: ["forms", selectedForDelete] })
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["forms"] })
   });
   const { onOpen, setForm } = useFormModalStore();
   const navigate = useNavigate();
@@ -44,8 +43,9 @@ const FormsPage = () => {
         isOpen={isDeleteModalOpen}
         onClose={() => setIsDeleteModalOpen(false)}
         isLoading={isPending}
-        onConfirm={() => {
+        onConfirm={async () => {
           mutate(selectedForDelete!);
+          setIsDeleteModalOpen(false);
         }}
         title="آیا از حذف فرم اطمینان دارید؟"
         description="این عملیات قابل برگشت نخواهد بود و فرم بصورت دائمی حذف خواهد شد"
@@ -77,11 +77,12 @@ const FormsPage = () => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {!!data?.length &&
-            data?.map((form) => (
+          {!!res?.data?.length &&
+            res?.data?.map((form) => (
               <TableRow
                 key={form.id}
-                onClick={() => {
+                onClick={(e) => {
+                  e.stopPropagation();
                   navigate(form.id.toString());
                 }}
                 className="cursor-pointer"
@@ -93,7 +94,7 @@ const FormsPage = () => {
                 <TableCell>{form?.sizeHeight}</TableCell>
                 <TableCell>{form?.backgroundColor}</TableCell>
                 <TableCell>{form?.backgroundImgPath}</TableCell>
-                <TableCell>
+                <TableCell className="text-center">
                   <button
                     onClick={(e) => {
                       e.stopPropagation();
@@ -101,10 +102,10 @@ const FormsPage = () => {
                       onOpen();
                     }}
                   >
-                    <PencilIcon />
+                    <PencilIcon className="text-slate-700" />
                   </button>
                 </TableCell>
-                <TableCell>
+                <TableCell className="text-center">
                   <button
                     onClick={(e) => {
                       e.stopPropagation();
@@ -112,7 +113,7 @@ const FormsPage = () => {
                       setIsDeleteModalOpen(true);
                     }}
                   >
-                    <Trash2Icon />
+                    <Trash2Icon className="text-red-500" />
                   </button>
                 </TableCell>
               </TableRow>
@@ -120,7 +121,7 @@ const FormsPage = () => {
         </TableBody>
       </Table>
 
-      {!data?.length && <EmptyState />}
+      {!res?.data?.length && <EmptyState />}
     </>
   );
 };

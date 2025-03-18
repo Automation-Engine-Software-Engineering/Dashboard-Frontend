@@ -22,6 +22,7 @@ const EntityModal = () => {
       entity ? editEntity(data) : createEntity(data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["entities"] });
+      onClose();
     }
   });
 
@@ -33,7 +34,9 @@ const EntityModal = () => {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
-    const newData: Record<string, any> = {};
+    const newData: Record<string, any> = {
+      id: entity?.id
+    };
 
     formData.forEach((value, key) => {
       newData[key] = value;

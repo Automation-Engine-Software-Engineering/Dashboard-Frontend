@@ -9,7 +9,7 @@ export const getToken = () => {
 
 export const setToken = (token: string) => {
   cookie.set(USER_TOKEN_NAME, JSON.stringify(token), {
-    expires: 1 / 24
+    // expires: 1 / 24
   });
 };
 

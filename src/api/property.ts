@@ -2,6 +2,7 @@ import { apiResponseMiddleware } from "@/middleware/api-response";
 import axios from "axios";
 import toast from "react-hot-toast";
 
+import { ApiData } from "@/types/api-response";
 import { PropertyType } from "@/types/form/property";
 
 const API_URL = import.meta.env.VITE_FORM_API_URL as string;
@@ -9,9 +10,9 @@ const API_ENDPOINT = "api/Property";
 
 export const getEntityProperties = async (
   entityId: string | number
-): Promise<PropertyType[] | null> => {
+): Promise<ApiData<PropertyType[]> | null> => {
   return await apiResponseMiddleware<PropertyType[]>(
-    axios.get(`${API_URL}/${API_ENDPOINT}/${entityId}`),
+    axios.get(`${API_URL}/api/Entity/${entityId}/property`),
     () => {},
     {
       showToast: false

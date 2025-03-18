@@ -8,7 +8,7 @@ interface Props extends React.ComponentProps<"textarea"> {
 
 export const gradientStyle = {
   background:
-    "linear-gradient(0deg, rgba(255,255,255,1) 50%, rgba(248,248,251,1) 50%)"
+    "linear-gradient(0deg, rgba(255,255,255,1) 25%, rgba(248,248,251,1) 25%)"
 };
 
 const Textarea: React.FC<Props> = ({ label, className, ...props }) => {

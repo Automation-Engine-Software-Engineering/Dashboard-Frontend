@@ -79,8 +79,8 @@ const PropertiesPage = () => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {!!data?.length &&
-            data?.map((property) => (
+          {!!data?.data?.length &&
+            data?.data?.map((property) => (
               <TableRow key={property.id}>
                 <TableCell>{property?.id}</TableCell>
                 <TableCell>{property?.previewName}</TableCell>
@@ -117,7 +117,7 @@ const PropertiesPage = () => {
         </TableBody>
       </Table>
 
-      {!data?.length && <EmptyState />}
+      {!data?.data?.length && <EmptyState />}
     </>
   );
 };
@@ -130,7 +130,7 @@ const Loading = () => (
 
 const EmptyState = () => (
   <div className="flex h-32 w-full items-center justify-center bg-white shadow-md">
-    <p className="text-slate-500">فرمی پیدا نشد</p>
+    <p className="text-slate-500">عنصری پیدا نشد</p>
   </div>
 );
 

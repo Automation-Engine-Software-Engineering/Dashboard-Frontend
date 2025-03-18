@@ -1,5 +1,7 @@
 import { cn } from "@/lib/utils";
 
+import DeleteForm from "./delete-form";
+import SaveForm from "./save-form";
 import AlignCenter from "./toolbar-buttons/align-center";
 import AlignJustify from "./toolbar-buttons/align-justify";
 import AlignLeft from "./toolbar-buttons/align-left";
@@ -30,6 +32,10 @@ const Toolbar: React.FC<
       <AlignRight editorRef={editorRef} />
       <AlignJustify editorRef={editorRef} />
       <EditorWithFontSize />
+      <div className="ms-auto flex gap-x-2">
+        <DeleteForm />
+        <SaveForm editorRef={editorRef} />
+      </div>
     </div>
   );
 };

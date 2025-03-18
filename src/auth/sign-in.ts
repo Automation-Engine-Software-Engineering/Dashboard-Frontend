@@ -27,7 +27,7 @@ export const signIn = async ({ credentials, redirect = "/" }: SignInProps) => {
         password: credentials.password
       }
     }),
-    (data) => {
+    (data: any) => {
       if (data.status) {
         setToken(data.userId.toString());
         toast.success("خوش آمدید", {

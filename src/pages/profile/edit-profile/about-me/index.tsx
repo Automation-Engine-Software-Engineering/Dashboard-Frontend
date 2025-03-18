@@ -45,30 +45,88 @@ const EditProfileAboutMe = () => {
   return (
     <form onSubmit={handleSubmit}>
       <div id="parent" className="w-full bg-[#E4EBF3] px-12 py-5">
-        <div id="phone-and-email" className="flex flex-wrap">
-          <div id="phone-section" className="w-1/2">
-            <div className="space-y-4">
+        <div id="phone-and-email" className="">
+          <div className="flex w-full flex-wrap border-b border-b-slate-300 pb-5">
+            <div id="phone-section" className="w-1/2">
+              <div className="space-y-4">
+                <div className="flex items-center gap-x-10">
+                  <div className="flex w-32 items-center gap-x-1">
+                    <Phone color="#0099A5" size={10} />
+                    <p className="text-xs">تلفن ثابت:</p>
+                  </div>
+                  <div className="flex items-center gap-x-2">
+                    <Input
+                      defaultValue={profileData?.phone || "+98"}
+                      onChange={(e) => {
+                        setEditData((prev: any) => ({
+                          ...prev,
+                          phone: e.target.value
+                        }));
+                      }}
+                      className="h-full w-28 rounded-md border border-slate-300 p-1 !text-xs disabled:border-transparent disabled:bg-transparent disabled:text-black disabled:opacity-100"
+                      dir="ltr"
+                      disabled={editingField !== "phone"}
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setEditingField("phone")}
+                    >
+                      <Edit size={16} />
+                    </button>
+                  </div>
+                </div>
+                <div className="flex items-center gap-x-10">
+                  <div className="flex w-32 items-center gap-x-1">
+                    <Smartphone color="#0099A5" size={10} />
+                    <p className="text-xs">تلفن همراه:</p>
+                  </div>
+                  <div className="flex items-center gap-x-2">
+                    <Input
+                      defaultValue={profileData?.mobileNumber || "+98"}
+                      onChange={(e) => {
+                        setEditData((prev: any) => ({
+                          ...prev,
+                          mobileNumber: e.target.value
+                        }));
+                      }}
+                      className="h-full w-28 rounded-md border border-slate-300 p-1 !text-xs disabled:border-transparent disabled:bg-transparent disabled:text-black disabled:opacity-100"
+                      dir="ltr"
+                      disabled={editingField !== "mobileNumber"}
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setEditingField("mobileNumber")}
+                    >
+                      <Edit size={16} />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div id="email-section" className="w-1/2 space-y-4">
               <div className="flex items-center gap-x-10">
                 <div className="flex w-32 items-center gap-x-1">
-                  <Phone color="#0099A5" size={10} />
-                  <p className="text-xs">تلفن ثابت:</p>
+                  <AtSign color="#0099A5" size={10} />
+                  <p className="text-xs">ایمیل دانشگاهی:</p>
                 </div>
                 <div className="flex items-center gap-x-2">
                   <Input
-                    defaultValue={profileData?.phone || "+98"}
+                    defaultValue={
+                      profileData?.universityEmail || "example@mail.ir"
+                    }
                     onChange={(e) => {
                       setEditData((prev: any) => ({
                         ...prev,
-                        phone: e.target.value
+                        universityEmail: e.target.value
                       }));
                     }}
-                    className="h-full w-28 rounded-md border border-slate-300 p-1 !text-xs disabled:border-transparent disabled:bg-transparent disabled:text-black disabled:opacity-100"
+                    className="h-full w-28 rounded-md border border-slate-300 p-1 !text-xs disabled:border-transparent disabled:bg-transparent disabled:opacity-100"
                     dir="ltr"
-                    disabled={editingField !== "phone"}
+                    disabled={editingField !== "universityEmail"}
                   />
                   <button
                     type="button"
-                    onClick={() => setEditingField("phone")}
+                    onClick={() => setEditingField("universityEmail")}
                   >
                     <Edit size={16} />
                   </button>
@@ -76,25 +134,27 @@ const EditProfileAboutMe = () => {
               </div>
               <div className="flex items-center gap-x-10">
                 <div className="flex w-32 items-center gap-x-1">
-                  <Smartphone color="#0099A5" size={10} />
-                  <p className="text-xs">تلفن همراه:</p>
+                  <AtSign color="#0099A5" size={10} />
+                  <p className="text-xs">ایمیل جایگزین:</p>
                 </div>
                 <div className="flex items-center gap-x-2">
                   <Input
-                    defaultValue={profileData?.mobileNumber || "+98"}
+                    defaultValue={
+                      profileData?.personalEmail || "example@mail.ir"
+                    }
                     onChange={(e) => {
                       setEditData((prev: any) => ({
                         ...prev,
-                        mobileNumber: e.target.value
+                        personalEmail: e.target.value
                       }));
                     }}
-                    className="h-full w-28 rounded-md border border-slate-300 p-1 !text-xs disabled:border-transparent disabled:bg-transparent disabled:text-black disabled:opacity-100"
+                    className="h-full w-28 rounded-md border border-slate-300 p-1 !text-xs disabled:border-transparent disabled:bg-transparent disabled:opacity-100"
                     dir="ltr"
-                    disabled={editingField !== "mobileNumber"}
+                    disabled={editingField !== "personalEmail"}
                   />
                   <button
                     type="button"
-                    onClick={() => setEditingField("mobileNumber")}
+                    onClick={() => setEditingField("personalEmail")}
                   >
                     <Edit size={16} />
                   </button>
@@ -102,63 +162,6 @@ const EditProfileAboutMe = () => {
               </div>
             </div>
           </div>
-          <div id="email-section" className="w-1/2 space-y-4">
-            <div className="flex items-center gap-x-10">
-              <div className="flex w-32 items-center gap-x-1">
-                <AtSign color="#0099A5" size={10} />
-                <p className="text-xs">ایمیل دانشگاهی:</p>
-              </div>
-              <div className="flex items-center gap-x-2">
-                <Input
-                  defaultValue={
-                    profileData?.universityEmail || "example@mail.ir"
-                  }
-                  onChange={(e) => {
-                    setEditData((prev: any) => ({
-                      ...prev,
-                      universityEmail: e.target.value
-                    }));
-                  }}
-                  className="h-full w-28 rounded-md border border-slate-300 p-1 !text-xs disabled:border-transparent disabled:bg-transparent disabled:opacity-100"
-                  dir="ltr"
-                  disabled={editingField !== "universityEmail"}
-                />
-                <button
-                  type="button"
-                  onClick={() => setEditingField("universityEmail")}
-                >
-                  <Edit size={16} />
-                </button>
-              </div>
-            </div>
-            <div className="flex items-center gap-x-10">
-              <div className="flex w-32 items-center gap-x-1">
-                <AtSign color="#0099A5" size={10} />
-                <p className="text-xs">ایمیل جایگزین:</p>
-              </div>
-              <div className="flex items-center gap-x-2">
-                <Input
-                  defaultValue={profileData?.personalEmail || "example@mail.ir"}
-                  onChange={(e) => {
-                    setEditData((prev: any) => ({
-                      ...prev,
-                      personalEmail: e.target.value
-                    }));
-                  }}
-                  className="h-full w-28 rounded-md border border-slate-300 p-1 !text-xs disabled:border-transparent disabled:bg-transparent disabled:opacity-100"
-                  dir="ltr"
-                  disabled={editingField !== "personalEmail"}
-                />
-                <button
-                  type="button"
-                  onClick={() => setEditingField("personalEmail")}
-                >
-                  <Edit size={16} />
-                </button>
-              </div>
-            </div>
-          </div>
-
           <div
             className="mt-5 grid w-full grid-cols-1 gap-x-5 gap-y-5 sm:grid-cols-2 lg:grid-cols-5"
             dir="ltr"
@@ -174,7 +177,7 @@ const EditProfileAboutMe = () => {
                 <Edit size={16} />
               </button>
               <Input
-                className="h-full w-28 rounded-md border border-slate-300 p-1 !text-xs disabled:border-transparent disabled:bg-transparent disabled:opacity-100"
+                className="w- h-full rounded-md border border-slate-300 p-1 !text-xs disabled:border-transparent disabled:bg-transparent disabled:opacity-100"
                 disabled={editingField !== "scholar"}
               />
             </div>
@@ -185,7 +188,7 @@ const EditProfileAboutMe = () => {
                 <Edit size={16} />
               </button>
               <Input
-                className="h-full w-28 rounded-md border border-slate-300 p-1 !text-xs disabled:border-transparent disabled:bg-transparent disabled:opacity-100"
+                className="w- h-full rounded-md border border-slate-300 p-1 !text-xs disabled:border-transparent disabled:bg-transparent disabled:opacity-100"
                 disabled={editingField !== "orcid"}
               />
             </div>
@@ -196,7 +199,7 @@ const EditProfileAboutMe = () => {
                 <Edit size={16} />
               </button>
               <Input
-                className="h-full w-28 rounded-md border border-slate-300 p-1 !text-xs disabled:border-transparent disabled:bg-transparent disabled:opacity-100"
+                className="w- h-full rounded-md border border-slate-300 p-1 !text-xs disabled:border-transparent disabled:bg-transparent disabled:opacity-100"
                 disabled={editingField !== "scopus"}
               />
             </div>
@@ -207,7 +210,7 @@ const EditProfileAboutMe = () => {
                 <Edit size={16} />
               </button>
               <Input
-                className="h-full w-28 rounded-md border border-slate-300 p-1 !text-xs disabled:border-transparent disabled:bg-transparent disabled:opacity-100"
+                className="w- h-full rounded-md border border-slate-300 p-1 !text-xs disabled:border-transparent disabled:bg-transparent disabled:opacity-100"
                 disabled={editingField !== "isi"}
               />
             </div>
@@ -218,7 +221,7 @@ const EditProfileAboutMe = () => {
                 <Edit size={16} />
               </button>
               <Input
-                className="h-full w-28 rounded-md border border-slate-300 p-1 !text-xs disabled:border-transparent disabled:bg-transparent disabled:opacity-100"
+                className="w- h-full rounded-md border border-slate-300 p-1 !text-xs disabled:border-transparent disabled:bg-transparent disabled:opacity-100"
                 disabled={editingField !== "isc"}
               />
             </div>

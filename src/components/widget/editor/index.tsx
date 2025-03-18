@@ -34,7 +34,7 @@ const Editor = React.forwardRef<
   }, [value]);
 
   return (
-    <div className={cn("relative h-full bg-white", className)} {...props}>
+    <div className={cn("relative bg-white", className)} {...props}>
       <Toolbar
         editorRef={innerRef}
         className="sticky top-0 w-full border-b bg-white p-2"
@@ -46,7 +46,8 @@ const Editor = React.forwardRef<
             ref={innerRef}
             contentEditable
             onInput={handleEditorChange}
-            className="h-[calc(100%-49px)] w-full p-2 focus-within:outline-none"
+            data-editor="editor"
+            className="w-full p-2 focus-within:outline-none"
           />
         </ContextMenuTrigger>
         <ToolbarContextMenu editorRef={innerRef} />

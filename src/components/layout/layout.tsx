@@ -14,7 +14,7 @@ const Layout = () => {
       </div>
       <div className="relative flex h-full">
         <Navbar className="shrink-0" />
-        <main className="flex-1">
+        <main className="h-[calc(100vh-118px)] flex-1 overflow-y-auto">
           <Outlet />
         </main>
       </div>

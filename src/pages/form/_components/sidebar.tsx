@@ -35,6 +35,11 @@ const FormEditorSidebar: React.FC<Props> = ({ editorRef }) => {
 
       if (selection && selection.rangeCount > 0) {
         const range = selection.getRangeAt(0);
+        const commonAncestor = range.commonAncestorContainer;
+
+        if (!editorRef.current.contains(commonAncestor)) {
+          return;
+        }
 
         const fragment = document
           .createRange()
@@ -57,7 +62,7 @@ const FormEditorSidebar: React.FC<Props> = ({ editorRef }) => {
         <Loading />
       ) : (
         <Accordion type="single" className="px-[20px]" collapsible>
-          {entities?.map((entity) => (
+          {entities?.data.map((entity) => (
             <AccordionItem value={`entity-${entity.id}`}>
               <AccordionTrigger className="py-2 text-sm">
                 {entity.previewName}

@@ -22,6 +22,7 @@ const FormModal = () => {
     mutationFn: (data: FormType) => (form ? editForm(data) : createForm(data)),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["forms"] });
+      onClose();
     }
   });
 
@@ -45,6 +46,7 @@ const FormModal = () => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const newData: Record<string, any> = {
+      id: form?.id,
       isAutoHeight,
       isRepeatedImage
     };
@@ -126,7 +128,7 @@ const FormModal = () => {
               عکس پس زمینه
             </label>
             <Input
-              type="file"
+              type="string"
               name="backgroundImgPath"
               defaultValue={form?.backgroundImgPath ?? ""}
               placeholder="پس زمینه فرم"
@@ -137,14 +139,14 @@ const FormModal = () => {
 
         <div className="mt-5 flex items-center gap-x-2">
           <p className="text-sm text-slate-600">تکرار پس زمینه</p>{" "}
-          <Switch checked={isAutoHeight} onCheckedChange={setIsAutoHeight} />
-        </div>
-        <div className="mt-5 flex items-center gap-x-2">
-          <p className="text-sm text-slate-600">ارتفاع خودکار</p>{" "}
           <Switch
             checked={isRepeatedImage}
             onCheckedChange={setIsRepeatedImage}
           />
+        </div>
+        <div className="mt-5 flex items-center gap-x-2">
+          <p className="text-sm text-slate-600">ارتفاع خودکار</p>{" "}
+          <Switch checked={isAutoHeight} onCheckedChange={setIsAutoHeight} />
         </div>
 
         <Button type="submit" className="w-full" disabled={isPending}>
