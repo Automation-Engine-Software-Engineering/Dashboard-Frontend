@@ -12,6 +12,11 @@ export interface EditAboutMeType {
   biographyFa?: string;
   lastName?: string;
   firstName?: string;
+  orcid?: string;
+  googleScholar?: string;
+  scopus?: string;
+  isi?: string;
+  isc?: string;
 }
 
 export interface EditResearchType {

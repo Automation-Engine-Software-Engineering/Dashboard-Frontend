@@ -24,7 +24,12 @@ const EditProfileAboutMe = () => {
     biographyEn: profileData?.biographyEn,
     biographyFa: profileData?.biographyFa,
     lastName: profileData?.lastNameEn,
-    firstName: profileData?.firstNameEn
+    firstName: profileData?.firstNameEn,
+    orcid: profileData?.socialMedia?.orcid,
+    googleScholar: profileData?.socialMedia?.scholar,
+    scopus: profileData?.socialMedia.scopus,
+    isi: profileData?.socialMedia.isi,
+    isc: profileData?.socialMedia.isc
   });
 
   const queryClient = useQueryClient();
@@ -177,6 +182,13 @@ const EditProfileAboutMe = () => {
                 <Edit size={16} />
               </button>
               <Input
+                defaultValue={profileData?.socialMedia.scholar}
+                onChange={(e) => {
+                  setEditData((prev: any) => ({
+                    ...prev,
+                    googleScholar: e.target.value
+                  }));
+                }}
                 className="w- h-full rounded-md border border-slate-300 p-1 !text-xs disabled:border-transparent disabled:bg-transparent disabled:opacity-100"
                 disabled={editingField !== "scholar"}
               />
@@ -188,6 +200,13 @@ const EditProfileAboutMe = () => {
                 <Edit size={16} />
               </button>
               <Input
+                defaultValue={profileData?.socialMedia.orcid}
+                onChange={(e) => {
+                  setEditData((prev: any) => ({
+                    ...prev,
+                    orcid: e.target.value
+                  }));
+                }}
                 className="w- h-full rounded-md border border-slate-300 p-1 !text-xs disabled:border-transparent disabled:bg-transparent disabled:opacity-100"
                 disabled={editingField !== "orcid"}
               />
@@ -199,6 +218,13 @@ const EditProfileAboutMe = () => {
                 <Edit size={16} />
               </button>
               <Input
+                defaultValue={profileData?.socialMedia.scopus}
+                onChange={(e) => {
+                  setEditData((prev: any) => ({
+                    ...prev,
+                    scopus: e.target.value
+                  }));
+                }}
                 className="w- h-full rounded-md border border-slate-300 p-1 !text-xs disabled:border-transparent disabled:bg-transparent disabled:opacity-100"
                 disabled={editingField !== "scopus"}
               />
@@ -210,6 +236,13 @@ const EditProfileAboutMe = () => {
                 <Edit size={16} />
               </button>
               <Input
+                defaultValue={profileData?.socialMedia.isi}
+                onChange={(e) => {
+                  setEditData((prev: any) => ({
+                    ...prev,
+                    isi: e.target.value
+                  }));
+                }}
                 className="w- h-full rounded-md border border-slate-300 p-1 !text-xs disabled:border-transparent disabled:bg-transparent disabled:opacity-100"
                 disabled={editingField !== "isi"}
               />
@@ -221,6 +254,13 @@ const EditProfileAboutMe = () => {
                 <Edit size={16} />
               </button>
               <Input
+                defaultValue={profileData?.socialMedia.isc}
+                onChange={(e) => {
+                  setEditData((prev: any) => ({
+                    ...prev,
+                    isc: e.target.value
+                  }));
+                }}
                 className="w- h-full rounded-md border border-slate-300 p-1 !text-xs disabled:border-transparent disabled:bg-transparent disabled:opacity-100"
                 disabled={editingField !== "isc"}
               />
