@@ -10,6 +10,7 @@ export const routeLabels: Record<string, string> = {
   // form creator
   "/form": "فرم ها",
   "/form/entities": "جداول",
+  "/form/preview": "پیش نمایش فرم",
 
   // change password
   "/change-password": "تغییر رمز عبور",
