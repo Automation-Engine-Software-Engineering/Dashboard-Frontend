@@ -1,6 +1,9 @@
+import { Plus } from "lucide-react";
+
 import { MoonLoader } from "react-spinners";
 
 import { useFormEntities } from "@/hooks/server-state/use-form-entities";
+import { usePropertyModalStore } from "@/hooks/store/use-property-modal-store";
 
 import {
   Accordion,
@@ -8,6 +11,7 @@ import {
   AccordionItem,
   AccordionTrigger
 } from "@/components/ui/accordion";
+import { Button } from "@/components/ui/button";
 
 import {
   checkbox,
@@ -28,7 +32,7 @@ interface Props {
 
 const FormEditorSidebar: React.FC<Props> = ({ editorRef }) => {
   const { data: entities, isLoading } = useFormEntities();
-
+  const { onOpen, setEntityId, setProperty } = usePropertyModalStore();
   const insertFormElement = (element: string) => {
     if (editorRef.current) {
       const selection = window.getSelection();
@@ -68,78 +72,107 @@ const FormEditorSidebar: React.FC<Props> = ({ editorRef }) => {
                 {entity.previewName}
               </AccordionTrigger>
               <AccordionContent>
-                <button
+                <Button
+                  variant="ghost"
+                  size="sm"
                   onClick={() => {
                     insertFormElement(textfield);
                   }}
-                  className="block w-full rounded-md py-2 ps-2 text-start transition-colors hover:bg-primary/30"
+                  className="w-full justify-start !text-xs"
                 >
                   تکست
-                </button>
-                <button
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="sm"
                   onClick={() => {
                     insertFormElement(number);
                   }}
-                  className="block w-full rounded-md py-2 ps-2 text-start transition-colors hover:bg-primary/30"
+                  className="w-full justify-start !text-xs"
                 >
                   عدد
-                </button>
-                <button
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="sm"
                   onClick={() => {
                     insertFormElement(checkbox);
                   }}
-                  className="block w-full rounded-md py-2 ps-2 text-start transition-colors hover:bg-primary/30"
+                  className="w-full justify-start !text-xs"
                 >
                   چک باکس
-                </button>
-                <button
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="sm"
                   onClick={() => {
                     insertFormElement(date);
                   }}
-                  className="block w-full rounded-md py-2 ps-2 text-start transition-colors hover:bg-primary/30"
+                  className="w-full justify-start !text-xs"
                 >
                   تاریخ
-                </button>
-                <button
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="sm"
                   onClick={() => {
                     insertFormElement(email);
                   }}
-                  className="block w-full rounded-md py-2 ps-2 text-start transition-colors hover:bg-primary/30"
+                  className="w-full justify-start !text-xs"
                 >
                   ایمیل
-                </button>
-                <button
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="sm"
                   onClick={() => {
                     insertFormElement(file);
                   }}
-                  className="block w-full rounded-md py-2 ps-2 text-start transition-colors hover:bg-primary/30"
+                  className="w-full justify-start !text-xs"
                 >
                   فایل
-                </button>
-                <button
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="sm"
                   onClick={() => {
                     insertFormElement(password);
                   }}
-                  className="block w-full rounded-md py-2 ps-2 text-start transition-colors hover:bg-primary/30"
+                  className="w-full justify-start !text-xs"
                 >
                   پسوورد
-                </button>
-                <button
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="sm"
                   onClick={() => {
                     insertFormElement(radio);
                   }}
-                  className="block w-full rounded-md py-2 ps-2 text-start transition-colors hover:bg-primary/30"
+                  className="w-full justify-start !text-xs"
                 >
                   radio
-                </button>
-                <button
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="sm"
                   onClick={() => {
                     insertFormElement(range);
                   }}
-                  className="block w-full rounded-md py-2 ps-2 text-start transition-colors hover:bg-primary/30"
+                  className="w-full justify-start !text-xs"
                 >
                   رنج
-                </button>
+                </Button>
+                <Button
+                  variant="ghost"
+                  className="my-2 w-full"
+                  onClick={() => {
+                    setEntityId(entity.id);
+                    setProperty(null);
+                    onOpen();
+                  }}
+                >
+                  <Plus />
+                </Button>
               </AccordionContent>
             </AccordionItem>
           ))}
