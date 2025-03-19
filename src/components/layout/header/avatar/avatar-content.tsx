@@ -1,3 +1,6 @@
+import { logout } from "@/auth";
+import { Link } from "react-router-dom";
+
 import { cn, getInitialName } from "@/lib/utils";
 
 import { useSession } from "@/hooks/server-state/use-session";
@@ -33,11 +36,12 @@ const Contents: React.FC<React.ComponentProps<"div">> = ({
       {...props}
     >
       <ContentProfile />
-      <ContentBtn text="ویرایش پروفایل" />
       <hr />
-      <ContentBtn text="تغییر رمز عبور" />
+      <Link to="/change-password">
+        <ContentBtn text="تغییر رمز عبور" />
+      </Link>
       <hr />
-      <ContentBtn text="خروج" />
+      <ContentBtn text="خروج" onClick={logout} />
     </div>
   );
 };
