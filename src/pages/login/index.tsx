@@ -1,6 +1,17 @@
+import { useNavigate } from "react-router-dom";
+import { MoonLoader } from "react-spinners";
+
+import { useSession } from "@/hooks/server-state/use-session";
+
 import Login from "@/components/widget/login";
 
 const LoginPage = () => {
+  const navigate = useNavigate();
+
+  const { data: session, isLoading } = useSession();
+
+  if (isLoading) return <Loading />;
+  if (session) navigate("/");
   return (
     <div className="flex size-full min-h-screen">
       <div className="flex h-full min-h-screen w-full max-w-[480px] flex-col px-10 py-8">
@@ -52,4 +63,10 @@ const LoginPage = () => {
     </div>
   );
 };
+
+const Loading = () => (
+  <div className="flex h-screen w-full items-center justify-center">
+    <MoonLoader color="#0099A5" size={50} />
+  </div>
+);
 export default LoginPage;
