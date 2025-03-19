@@ -8,19 +8,18 @@ import { FormType } from "@/types/form/form";
 const API_URL = import.meta.env.VITE_FORM_API_URL as string;
 const API_ENDPOINT = "api/Form";
 
-export const getAllForms = async (): Promise<ApiData<FormType[]> | null> => {
-  const urlParams = new URLSearchParams(window.location.search);
-
-  const pageSize = urlParams.get("size") || 10;
-  const pageNumber = urlParams.get("page") || 1;
-
-  console.log(pageSize);
-  return await apiResponseMiddleware<FormType[]>(
+export const getAllForms = async ({
+  page,
+  size
+}: {
+  page: number;
+  size: number;
+}): Promise<ApiData<FormType[]> | null> =>
+  await apiResponseMiddleware<FormType[]>(
     axios.get(`${API_URL}/${API_ENDPOINT}/all`, {
       params: {
-        // formId: 1,
-        pageNumber,
-        pageSize
+        pageSize: size,
+        pageNumber: page
       }
     }),
     () => {},
@@ -28,7 +27,6 @@ export const getAllForms = async (): Promise<ApiData<FormType[]> | null> => {
       showToast: false
     }
   );
-};
 
 export const getForm = async (
   id: string | number

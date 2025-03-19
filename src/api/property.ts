@@ -9,18 +9,14 @@ const API_URL = import.meta.env.VITE_FORM_API_URL as string;
 const API_ENDPOINT = "api/Property";
 
 export const getEntityProperties = async (
-  entityId: string | number
+  entityId: string | number,
+  { page, size }: { size: number; page: number }
 ): Promise<ApiData<PropertyType[]> | null> => {
-  const urlParams = new URLSearchParams(window.location.search);
-
-  const pageSize = urlParams.get("size") || 10;
-  const pageNumber = urlParams.get("page") || 1;
-
   return await apiResponseMiddleware<PropertyType[]>(
     axios.get(`${API_URL}/api/Entity/${entityId}/property`, {
       params: {
-        pageSize,
-        pageNumber
+        pageSize: size,
+        pageNumber: page
       }
     }),
     () => {},
