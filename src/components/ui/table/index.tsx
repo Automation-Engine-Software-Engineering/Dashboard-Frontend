@@ -1,7 +1,6 @@
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import * as React from "react";
 
-import queryString from "query-string";
 import { useSearchParams } from "react-router-dom";
 
 import { cn } from "@/lib/utils";
@@ -115,7 +114,7 @@ TableCaption.displayName = "TableCaption";
 const TablePagination = React.forwardRef<
   HTMLDivElement,
   React.ComponentProps<"div"> & { totalItems: number }
->(({ totalItems }) => {
+>(({ totalItems }, ref) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [pageSize, setPageSize] = React.useState<number>(
     Number(searchParams.get("size")) || 10
@@ -124,24 +123,22 @@ const TablePagination = React.forwardRef<
   const totalPages = Math.ceil(totalItems / pageSize);
 
   const updatePage = (page: number) => {
-    setSearchParams(
-      queryString.stringify({
-        page,
-        size: pageSize
-      })
-    );
-    window.location.reload();
+    if (page < 1 || page > totalPages) return;
+    setSearchParams((prev) => {
+      const params = new URLSearchParams(prev);
+      params.set("page", page.toString());
+      return params;
+    });
   };
 
   const updatePageSize = (size: number) => {
     setPageSize(size);
-    setSearchParams(
-      queryString.stringify({
-        page: 1,
-        size
-      })
-    );
-    window.location.reload();
+    setSearchParams((prev) => {
+      const params = new URLSearchParams(prev);
+      params.set("page", "1");
+      params.set("size", size.toString());
+      return params;
+    });
   };
 
   const renderPageNumbers = () => {
@@ -169,7 +166,11 @@ const TablePagination = React.forwardRef<
         <button
           onClick={() => updatePage(currentPage - 1)}
           disabled={currentPage === 1}
-          className="px-3 py-2 text-gray-700 transition-colors hover:bg-primary/20 disabled:text-gray-400"
+          className={`px-3 py-2 transition-colors ${
+            currentPage === 1
+              ? "cursor-not-allowed text-gray-400"
+              : "text-gray-700 hover:bg-primary/20"
+          }`}
         >
           <ChevronLeft size={16} className="text-primary" />
         </button>
@@ -177,7 +178,11 @@ const TablePagination = React.forwardRef<
         <button
           onClick={() => updatePage(currentPage + 1)}
           disabled={currentPage === totalPages}
-          className="px-3 py-2 text-gray-700 transition-colors hover:bg-primary/20 disabled:text-gray-400"
+          className={`px-3 py-2 transition-colors ${
+            currentPage === totalPages
+              ? "cursor-not-allowed text-gray-400"
+              : "text-gray-700 hover:bg-primary/20"
+          }`}
         >
           <ChevronRight size={16} className="text-primary" />
         </button>
@@ -187,6 +192,7 @@ const TablePagination = React.forwardRef<
 
   return (
     <div
+      ref={ref}
       className="flex h-16 items-center border border-slate-300 bg-white px-10"
       dir="ltr"
     >
