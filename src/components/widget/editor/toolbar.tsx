@@ -1,6 +1,7 @@
 import { cn } from "@/lib/utils";
 
 import DeleteForm from "./delete-form";
+import PreviewForm from "./preview-form";
 import SaveForm from "./save-form";
 import AlignCenter from "./toolbar-buttons/align-center";
 import AlignJustify from "./toolbar-buttons/align-justify";
@@ -33,6 +34,7 @@ const Toolbar: React.FC<
       <AlignJustify editorRef={editorRef} />
       <EditorWithFontSize />
       <div className="ms-auto flex gap-x-2">
+        <PreviewForm />
         <DeleteForm />
         <SaveForm editorRef={editorRef} />
       </div>

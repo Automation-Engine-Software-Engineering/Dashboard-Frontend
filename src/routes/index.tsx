@@ -7,6 +7,7 @@ import FormPage from "@/pages/form";
 import FormEditorPage from "@/pages/form/editor";
 import EntitiesPage from "@/pages/form/entities";
 import FormsPage from "@/pages/form/forms";
+import FormPreviewPage from "@/pages/form/preview";
 import PropertiesPage from "@/pages/form/properties";
 import LoginPage from "@/pages/login";
 import NotFoundPage from "@/pages/not-found";
@@ -47,7 +48,7 @@ const Router = () => {
 
           {/* Edit Profile */}
           <Route path="/edit-profile" element={<EditProfilePage />}>
-            <Route path="" element={<EditProfileAboutMe />} />
+            <Route index element={<EditProfileAboutMe />} />
             <Route path="research" element={<EditProfileResearch />} />
             <Route path="education" element={<EditProfileEducation />} />
             <Route path="social-links" element={<EditProfileSocialLinks />} />
@@ -55,15 +56,16 @@ const Router = () => {
 
           {/* Form Creator  */}
           <Route path="/form" element={<FormPage />}>
-            <Route path="" element={<FormsPage />} />
+            <Route index element={<FormsPage />} />
             <Route path="entities" element={<EntitiesPage />} />
             <Route path="entities/:entityId" element={<PropertiesPage />} />
             <Route path=":formId" element={<FormEditorPage />} />
+            <Route path="preview/:formId" element={<FormPreviewPage />} />
           </Route>
 
           {/* Book  */}
           <Route path="/newbook" element={<NewBook />}>
-            <Route path="" element={<NewBook />} />
+            <Route index element={<NewBook />} />
             <Route path="lc" element={<LC />} />
           </Route>
 

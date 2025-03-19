@@ -1,0 +1,20 @@
+import { EyeIcon } from "lucide-react";
+
+import { useNavigate, useParams } from "react-router-dom";
+
+import ToolbarButton from "./toolbar-buttons/toolbar-button";
+
+const PreviewForm = () => {
+  const { formId } = useParams<{ formId: string }>();
+  const navigate = useNavigate();
+  return (
+    <ToolbarButton
+      onClick={() => {
+        navigate(`/form/preview/${formId}`);
+      }}
+    >
+      <EyeIcon />
+    </ToolbarButton>
+  );
+};
+export default PreviewForm;
