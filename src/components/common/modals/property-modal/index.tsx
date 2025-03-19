@@ -15,8 +15,7 @@ import { Textarea } from "@/components/ui/textarea";
 
 const PropertyModal = () => {
   const queryClient = useQueryClient();
-
-  const { isOpen, onClose, property } = usePropertyModalStore();
+  const { isOpen, onClose, property, entityId } = usePropertyModalStore();
 
   const { mutate, isPending } = useMutation({
     mutationFn: (data: PropertyType) =>
@@ -43,7 +42,8 @@ const PropertyModal = () => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const newData: Record<string, any> = {
-      allowNull
+      allowNull,
+      entityId
     };
 
     formData.forEach((value, key) => {
@@ -126,7 +126,6 @@ const PropertyModal = () => {
               name="defaultValue"
               defaultValue={property?.defaultValue ?? ""}
               placeholder="مقدار پیش فرض"
-              required
             />
           </div>
         </div>

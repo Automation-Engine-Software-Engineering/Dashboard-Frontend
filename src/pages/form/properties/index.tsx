@@ -26,15 +26,15 @@ const PropertiesPage = () => {
   const { data, isLoading } = useEntityProperties(entityId ?? "");
 
   // const { mutate, isPending } = useMutation({
-  //   mutationFn: (formId: number) => de(formId),
+  //   mutationFn: (formId: number) => deletePro(formId),
   //   onSuccess: () =>
   //     queryClient.invalidateQueries({ queryKey: ["forms", selectedForDelete] })
   // });
-  const { onOpen, setProperty } = usePropertyModalStore();
+  const { onOpen, setProperty, setEntityId } = usePropertyModalStore();
 
   // const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
   // const [selectedForDelete, setSelectedForDelete] = useState<number | null>(
-  // null
+  //   null
   // );
 
   if (isLoading) return <Loading />;
@@ -58,6 +58,7 @@ const PropertiesPage = () => {
           onClick={() => {
             onOpen();
             setProperty(null);
+            setEntityId(+entityId!);
           }}
         >
           <XSquareIcon size={14} className="text-primary" />
