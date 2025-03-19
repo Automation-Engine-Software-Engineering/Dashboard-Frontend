@@ -17,6 +17,7 @@ import {
   TableCell,
   TableHead,
   TableHeader,
+  TablePagination,
   TableRow
 } from "@/components/ui/table";
 
@@ -118,6 +119,7 @@ const EntitiesPage = () => {
         </TableBody>
       </Table>
       {!data?.data?.length && <EmptyState />}
+      <TablePagination totalItems={data?.totalCount ?? 0} />
     </>
   );
 };

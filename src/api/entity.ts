@@ -11,12 +11,17 @@ const API_ENDPOINT = "api/Entity";
 export const getAllEntities = async (): Promise<ApiData<
   EntityType[]
 > | null> => {
+  const urlParams = new URLSearchParams(window.location.search);
+
+  const pageSize = urlParams.get("size") || 10;
+  const pageNumber = urlParams.get("page") || 1;
+
   return await apiResponseMiddleware<EntityType[]>(
     axios.get(`${API_URL}/${API_ENDPOINT}/all`, {
       params: {
         formId: 1,
-        pageSize: 10,
-        pageNumber: 1
+        pageSize,
+        pageNumber
       }
     }),
     () => {},

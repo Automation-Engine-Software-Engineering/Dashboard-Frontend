@@ -11,8 +11,18 @@ const API_ENDPOINT = "api/Property";
 export const getEntityProperties = async (
   entityId: string | number
 ): Promise<ApiData<PropertyType[]> | null> => {
+  const urlParams = new URLSearchParams(window.location.search);
+
+  const pageSize = urlParams.get("size") || 10;
+  const pageNumber = urlParams.get("page") || 1;
+
   return await apiResponseMiddleware<PropertyType[]>(
-    axios.get(`${API_URL}/api/Entity/${entityId}/property`),
+    axios.get(`${API_URL}/api/Entity/${entityId}/property`, {
+      params: {
+        pageSize,
+        pageNumber
+      }
+    }),
     () => {},
     {
       showToast: false
