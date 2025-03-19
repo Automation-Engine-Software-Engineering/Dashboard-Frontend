@@ -1,11 +1,16 @@
+import { InfoIcon } from "lucide-react";
 import { useState } from "react";
 
 import { changeSessionPassword } from "@/auth/change-password";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-
-import PassTooltip from "./tooltip";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger
+} from "@/components/ui/tooltip";
 
 const ChangePassword = () => {
   const [error, setError] = useState<string | null>(null);
@@ -30,13 +35,7 @@ const ChangePassword = () => {
       return;
     }
 
-    try {
-      await changeSessionPassword(data as any);
-      alert("رمز عبور با موفقیت تغییر کرد!");
-    } catch (err) {
-      console.error(err);
-      setError("مشکلی پیش آمد. لطفاً دوباره تلاش کنید.");
-    }
+    await changeSessionPassword(data as any);
   };
 
   return (
@@ -49,8 +48,21 @@ const ChangePassword = () => {
               htmlFor=""
             >
               رمز عبور فعلی
-              <PassTooltip />
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger>
+                    <InfoIcon size={16} className="text-slate-600" />
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p className="text-sm">
+                      اگر برای اولین بار پسورد خود را تغییر می دهید این قسمت را
+                      خالی بگذارید
+                    </p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
             </label>
+
             <Input type="password" name="oldPassword" />
           </div>
           <div className="space-y-2">
