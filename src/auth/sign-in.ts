@@ -28,8 +28,8 @@ export const signIn = async ({ credentials, redirect = "/" }: SignInProps) => {
       }
     }),
     (data: any) => {
-      if (data.status) {
-        setToken(data.userId.toString());
+      if (data.data.status) {
+        setToken(data.data.userId.toString());
         toast.success("خوش آمدید", {
           id: "api-middleware"
         });
