@@ -1,4 +1,8 @@
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import * as React from "react";
+
+import queryString from "query-string";
+import { useSearchParams } from "react-router-dom";
 
 import { cn } from "@/lib/utils";
 
@@ -108,6 +112,105 @@ const TableCaption = React.forwardRef<
 ));
 TableCaption.displayName = "TableCaption";
 
+const TablePagination = React.forwardRef<
+  HTMLDivElement,
+  React.ComponentProps<"div"> & { totalItems: number }
+>(({ totalItems }) => {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [pageSize, setPageSize] = React.useState<number>(
+    Number(searchParams.get("size")) || 10
+  );
+  const currentPage = Number(searchParams.get("page")) || 1;
+  const totalPages = Math.ceil(totalItems / pageSize);
+
+  const updatePage = (page: number) => {
+    setSearchParams(
+      queryString.stringify({
+        page,
+        size: pageSize
+      })
+    );
+    window.location.reload();
+  };
+
+  const updatePageSize = (size: number) => {
+    setPageSize(size);
+    setSearchParams(
+      queryString.stringify({
+        page: 1,
+        size
+      })
+    );
+    window.location.reload();
+  };
+
+  const renderPageNumbers = () => {
+    const pages = [];
+    const maxVisible = 5;
+    const start = Math.max(1, currentPage - Math.floor(maxVisible / 2));
+    const end = Math.min(totalPages, start + maxVisible - 1);
+
+    for (let i = start; i <= end; i++) {
+      pages.push(
+        <button
+          key={i}
+          onClick={() => updatePage(i)}
+          className={`px-3 py-2 transition-colors hover:bg-primary/20 ${
+            i === currentPage ? "font-bold text-primary" : "text-gray-700"
+          }`}
+        >
+          {i}
+        </button>
+      );
+    }
+
+    return (
+      <>
+        <button
+          onClick={() => updatePage(currentPage - 1)}
+          disabled={currentPage === 1}
+          className="px-3 py-2 text-gray-700 transition-colors hover:bg-primary/20 disabled:text-gray-400"
+        >
+          <ChevronLeft size={16} className="text-primary" />
+        </button>
+        {pages}
+        <button
+          onClick={() => updatePage(currentPage + 1)}
+          disabled={currentPage === totalPages}
+          className="px-3 py-2 text-gray-700 transition-colors hover:bg-primary/20 disabled:text-gray-400"
+        >
+          <ChevronRight size={16} className="text-primary" />
+        </button>
+      </>
+    );
+  };
+
+  return (
+    <div
+      className="flex h-16 items-center border border-slate-300 bg-white px-10"
+      dir="ltr"
+    >
+      <select
+        className="me-5 rounded border border-gray-300 px-3 py-1"
+        value={pageSize}
+        defaultValue={10}
+        onChange={(e) => updatePageSize(Number(e.target.value))}
+      >
+        {[10, 20, 50, 100].map((size) => (
+          <option key={size} value={size}>
+            نمایش {size} نتیجه
+          </option>
+        ))}
+      </select>
+      <div className="flex divide-x divide-slate-300 border border-slate-300">
+        {renderPageNumbers()}
+      </div>
+    </div>
+  );
+});
+
+TablePagination.displayName = "TablePagination";
+
 export {
   Table,
   TableHeader,
@@ -116,5 +219,6 @@ export {
   TableHead,
   TableRow,
   TableCell,
-  TableCaption
+  TableCaption,
+  TablePagination
 };
