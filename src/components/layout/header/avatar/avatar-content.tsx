@@ -80,9 +80,9 @@ const ContentProfile: React.FC = () => {
           <p className="text-xs">دانشگاه اصفهان</p>
         </div>
       </div>
-      <button className="rounded-lg border-2 border-[#0099A5] hover:bg-[hsl(184,100%,34%)] hover:text-white">
+      {/* <button className="rounded-lg border-2 border-[#0099A5] hover:bg-[hsl(184,100%,34%)] hover:text-white">
         مشاهده پروفایل
-      </button>
+      </button> */}
     </div>
   );
 };

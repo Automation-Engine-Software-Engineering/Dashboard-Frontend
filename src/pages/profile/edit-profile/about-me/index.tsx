@@ -27,9 +27,9 @@ const EditProfileAboutMe = () => {
     firstName: profileData?.firstNameEn,
     orcid: profileData?.socialMedia?.orcid,
     googleScholar: profileData?.socialMedia?.scholar,
-    scopus: profileData?.socialMedia.scopus,
-    isi: profileData?.socialMedia.isi,
-    isc: profileData?.socialMedia.isc
+    scopus: profileData?.socialMedia?.scopus,
+    isi: profileData?.socialMedia?.isi,
+    isc: profileData?.socialMedia?.isc
   });
 
   const queryClient = useQueryClient();
@@ -182,7 +182,7 @@ const EditProfileAboutMe = () => {
                 <Edit size={16} />
               </button>
               <Input
-                defaultValue={profileData?.socialMedia.scholar}
+                defaultValue={profileData?.socialMedia?.scholar}
                 onChange={(e) => {
                   setEditData((prev: any) => ({
                     ...prev,
@@ -200,7 +200,7 @@ const EditProfileAboutMe = () => {
                 <Edit size={16} />
               </button>
               <Input
-                defaultValue={profileData?.socialMedia.orcid}
+                defaultValue={profileData?.socialMedia?.orcid}
                 onChange={(e) => {
                   setEditData((prev: any) => ({
                     ...prev,
@@ -218,7 +218,7 @@ const EditProfileAboutMe = () => {
                 <Edit size={16} />
               </button>
               <Input
-                defaultValue={profileData?.socialMedia.scopus}
+                defaultValue={profileData?.socialMedia?.scopus}
                 onChange={(e) => {
                   setEditData((prev: any) => ({
                     ...prev,
@@ -236,7 +236,7 @@ const EditProfileAboutMe = () => {
                 <Edit size={16} />
               </button>
               <Input
-                defaultValue={profileData?.socialMedia.isi}
+                defaultValue={profileData?.socialMedia?.isi}
                 onChange={(e) => {
                   setEditData((prev: any) => ({
                     ...prev,
@@ -254,7 +254,7 @@ const EditProfileAboutMe = () => {
                 <Edit size={16} />
               </button>
               <Input
-                defaultValue={profileData?.socialMedia.isc}
+                defaultValue={profileData?.socialMedia?.isc}
                 onChange={(e) => {
                   setEditData((prev: any) => ({
                     ...prev,

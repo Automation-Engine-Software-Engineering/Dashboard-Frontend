@@ -20,6 +20,5 @@ export const getSession = async (): Promise<SessionType | null> => {
       showToast: false
     }
   );
-
-  return response;
+  return response.data;
 };

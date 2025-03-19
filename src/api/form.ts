@@ -33,13 +33,15 @@ export const getAllForms = async (): Promise<ApiData<FormType[]> | null> => {
 export const getForm = async (
   id: string | number
 ): Promise<FormType | null> => {
-  return await apiResponseMiddleware<FormType>(
+  const response = await apiResponseMiddleware<FormType>(
     axios.get(`${API_URL}/${API_ENDPOINT}/${id}`),
     () => {},
     {
       showToast: false
     }
   );
+
+  return response.data;
 };
 
 export const createForm = async (form: Partial<FormType>) => {

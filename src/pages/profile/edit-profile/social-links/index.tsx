@@ -15,22 +15,22 @@ const EditProfileSocialLinks = () => {
   const [editData, setEditData] = useState<EditSocialLinksType>({
     id: profileData?.id,
     webLinks: profileData?.webLinks,
-    academia: profileData?.socialMedia.academia,
-    eitaa: profileData?.socialMedia.eitaa,
-    facebook: profileData?.socialMedia.faceBook,
-    gmail: profileData?.socialMedia.gmail,
-    googleScholar: profileData?.socialMedia.scholar,
-    instagram: profileData?.socialMedia.instagram,
-    isc: profileData?.socialMedia.isc,
-    isi: profileData?.socialMedia.isi,
-    linkedIn: profileData?.socialMedia.linkedIn,
-    mendeley: profileData?.socialMedia.mendeley,
-    orcid: profileData?.socialMedia.orcid,
-    personalWebsite: profileData?.socialMedia.personalWebsite,
-    researchGate: profileData?.socialMedia.researchGate,
-    scopus: profileData?.socialMedia.scopus,
-    twitter: profileData?.socialMedia.twitter,
-    webOfScience: profileData?.socialMedia.webOfScience
+    academia: profileData?.socialMedia?.academia,
+    eitaa: profileData?.socialMedia?.eitaa,
+    facebook: profileData?.socialMedia?.faceBook,
+    gmail: profileData?.socialMedia?.gmail,
+    googleScholar: profileData?.socialMedia?.scholar,
+    instagram: profileData?.socialMedia?.instagram,
+    isc: profileData?.socialMedia?.isc,
+    isi: profileData?.socialMedia?.isi,
+    linkedIn: profileData?.socialMedia?.linkedIn,
+    mendeley: profileData?.socialMedia?.mendeley,
+    orcid: profileData?.socialMedia?.orcid,
+    personalWebsite: profileData?.socialMedia?.personalWebsite,
+    researchGate: profileData?.socialMedia?.researchGate,
+    scopus: profileData?.socialMedia?.scopus,
+    twitter: profileData?.socialMedia?.twitter,
+    webOfScience: profileData?.socialMedia?.webOfScience
   });
 
   const queryClient = useQueryClient();
@@ -54,7 +54,7 @@ const EditProfileSocialLinks = () => {
           dir="ltr"
         >
           <Textfield
-            defaultValue={profileData?.socialMedia.linkedIn}
+            defaultValue={profileData?.socialMedia?.linkedIn}
             onChange={(e) => {
               setEditData((prev) => ({
                 ...prev,
@@ -78,7 +78,7 @@ const EditProfileSocialLinks = () => {
             }
           />
           <Textfield
-            defaultValue={profileData?.socialMedia.researchGate}
+            defaultValue={profileData?.socialMedia?.researchGate}
             onChange={(e) => {
               setEditData((prev) => ({
                 ...prev,
@@ -99,7 +99,7 @@ const EditProfileSocialLinks = () => {
             }
           />
           <Textfield
-            defaultValue={profileData?.socialMedia.mendeley}
+            defaultValue={profileData?.socialMedia?.mendeley}
             onChange={(e) => {
               setEditData((prev) => ({
                 ...prev,
@@ -122,7 +122,7 @@ const EditProfileSocialLinks = () => {
             }
           />
           <Textfield
-            defaultValue={profileData?.socialMedia.academia}
+            defaultValue={profileData?.socialMedia?.academia}
             onChange={(e) => {
               setEditData((prev) => ({
                 ...prev,
@@ -153,7 +153,7 @@ const EditProfileSocialLinks = () => {
           dir="ltr"
         >
           <Textfield
-            defaultValue={profileData?.socialMedia.eitaa}
+            defaultValue={profileData?.socialMedia?.eitaa}
             onChange={(e) => {
               setEditData((prev) => ({
                 ...prev,
@@ -168,7 +168,7 @@ const EditProfileSocialLinks = () => {
             }
           />
           <Textfield
-            defaultValue={profileData?.socialMedia.faceBook}
+            defaultValue={profileData?.socialMedia?.faceBook}
             onChange={(e) => {
               setEditData((prev) => ({
                 ...prev,
@@ -189,7 +189,7 @@ const EditProfileSocialLinks = () => {
             }
           />
           <Textfield
-            defaultValue={profileData?.socialMedia.instagram}
+            defaultValue={profileData?.socialMedia?.instagram}
             onChange={(e) => {
               setEditData((prev) => ({
                 ...prev,
@@ -214,7 +214,7 @@ const EditProfileSocialLinks = () => {
             }
           />
           <Textfield
-            defaultValue={profileData?.socialMedia.twitter}
+            defaultValue={profileData?.socialMedia?.twitter}
             onChange={(e) => {
               setEditData((prev) => ({
                 ...prev,

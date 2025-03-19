@@ -50,7 +50,7 @@ const ChangePassword = () => {
               رمز عبور فعلی
               <TooltipProvider>
                 <Tooltip>
-                  <TooltipTrigger>
+                  <TooltipTrigger asChild>
                     <InfoIcon size={16} className="text-slate-600" />
                   </TooltipTrigger>
                   <TooltipContent>

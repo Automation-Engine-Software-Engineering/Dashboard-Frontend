@@ -31,6 +31,8 @@ const FormsPage = () => {
   const { onOpen, setForm } = useFormModalStore();
   const navigate = useNavigate();
 
+  console.log(res);
+
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
   const [selectedForDelete, setSelectedForDelete] = useState<number | null>(
     null

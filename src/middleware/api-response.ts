@@ -31,16 +31,8 @@ export const apiResponseMiddleware = async <Data>(
 
       throw Error(message || options?.errorMessage || "خطایی رخ داده است");
     }
-    await onSuccess({
-      ...data,
-      data: data.data
-    });
-    return data
-      ? {
-          ...data,
-          data: data.data
-        }
-      : null;
+    await onSuccess(response.data as any);
+    return data ? response.data : null;
   } catch (error) {
     if (error instanceof AxiosError) {
       toast.error("خطای ناشناخته‌ای رخ داده است", {
