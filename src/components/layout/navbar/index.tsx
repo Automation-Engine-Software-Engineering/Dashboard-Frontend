@@ -35,9 +35,9 @@ const Navbar: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
     const fetchData = async () => {
       try {
         const response = await axiosInstance.get(
-          `/GetRole?Id=${session?.roleId}`
+          `/Professor/GetRole?Id=${session?.roleId}`
         );
-        setItems(response.data);
+        setItems(response.data.data);
       } catch {
         toast.error("Failed to fetch data");
       } finally {
