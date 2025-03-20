@@ -1,10 +1,13 @@
-import { ChevronLeftIcon, ChevronRightIcon, LaughIcon } from "lucide-react";
-import { useState } from "react";
+import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
+import { useEffect, useState } from "react";
 
 import { getAllEntities } from "@/api/entity";
-import { useQuery } from "@tanstack/react-query";
-import toast from "react-hot-toast";
+import { editForm } from "@/api/form";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { HashLoader } from "react-spinners";
+import { useDebouncedCallback } from "use-debounce";
+
+import { EntityType } from "@/types/form/entity";
 
 import { useEntitiesListModalStore } from "@/hooks/store/use-entities-list-modal-store";
 
@@ -14,17 +17,27 @@ import { Input } from "@/components/ui/input";
 import Modal from "@/components/ui/modal";
 
 const EntitiesListModal = () => {
+  const { isOpen, onClose, form } = useEntitiesListModalStore();
   const [page, setPage] = useState<number>(1);
   const [size] = useState<number>(10);
+  const [search, setSearch] = useState<string>("");
   const [selectedEntities, setSelectedEntities] = useState<number[]>([]);
 
+  const queryClient = useQueryClient();
+
   const { data, isLoading } = useQuery({
-    queryFn: () => getAllEntities({ size, page }),
-    queryKey: ["entities", { page, size }]
+    queryFn: () => getAllEntities({ size, page, search }),
+    queryKey: ["entities", { page, size, search }]
+  });
+
+  const { mutate, isPending } = useMutation({
+    mutationFn: () => editForm({ ...form, entities: selectedEntities }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["forms", form?.id] });
+    }
   });
 
   const totalPages = Math.ceil((data?.totalCount ?? 0) / size);
-  const { isOpen, onClose } = useEntitiesListModalStore();
 
   const changeHandler = (entityId: number) => {
     setSelectedEntities((prev) =>
@@ -34,6 +47,24 @@ const EntitiesListModal = () => {
     );
   };
 
+  const handleSearch = useDebouncedCallback((value: string) => {
+    setSearch(value);
+  }, 1000);
+
+  useEffect(() => {
+    setSelectedEntities(() => {
+      if (Array.isArray(form?.entities)) {
+        return form.entities
+          .filter(
+            (entity): entity is EntityType =>
+              typeof entity === "object" && "id" in entity
+          )
+          .map((entity) => entity.id);
+      }
+      return [];
+    });
+  }, [form]);
+
   return (
     <Modal
       isOpen={isOpen}
@@ -41,7 +72,13 @@ const EntitiesListModal = () => {
       title="انتخاب جداول"
       description="لطفا جداولی که برای فرم خود نیاز دارید را انتخاب کنید"
     >
-      <Input placeholder="جستجو" className="w-full md:w-1/2" />
+      <Input
+        placeholder="جستجو"
+        onChange={(e) => {
+          handleSearch(e.target.value);
+        }}
+        className="w-full md:w-1/2"
+      />
       <div className="mt-5 h-64 snap-y divide-y divide-slate-300 overflow-y-auto rounded-md border border-slate-300">
         {isLoading ? (
           <div className="flex size-full items-center justify-center">
@@ -91,11 +128,9 @@ const EntitiesListModal = () => {
       <Button
         className="mt-5 w-full"
         onClick={() => {
-          // TODO: handle submit data
-          toast.success("Api نداریم لطفا تلاش نکنید", {
-            icon: <LaughIcon className="fill-primary text-white" />
-          });
+          mutate();
         }}
+        disabled={isPending}
       >
         ذخیره
       </Button>
