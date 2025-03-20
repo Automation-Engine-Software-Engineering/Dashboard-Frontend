@@ -50,7 +50,7 @@ const Navbar: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
   return (
     <div
       className={cn(
-        "sticky right-0 top-0 z-20 flex h-screen overflow-auto whitespace-nowrap border-e border-slate-300 bg-white",
+        "sticky right-0 top-0 z-20 flex overflow-auto whitespace-nowrap border-e border-slate-300 bg-white",
         className
       )}
       {...props}
@@ -85,7 +85,7 @@ const Navbar: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
                   )
               )}
             </Accordion>
-            <div className="mb-32 mt-auto space-y-1 border-t border-t-slate-300 px-5 py-7 pt-4">
+            <div className="mt-auto space-y-1 border-t border-t-slate-300 px-5 py-7 pt-4">
               <Link
                 to="#"
                 className="flex items-center gap-x-1 text-xs font-semibold hover:text-primary"
