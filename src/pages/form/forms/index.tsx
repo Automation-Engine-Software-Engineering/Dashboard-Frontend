@@ -1,4 +1,9 @@
-import { PencilIcon, Trash2Icon, XSquareIcon } from "lucide-react";
+import {
+  PencilIcon,
+  TablePropertiesIcon,
+  Trash2Icon,
+  XSquareIcon
+} from "lucide-react";
 import { useState } from "react";
 
 import { deleteForm } from "@/api/form";
@@ -7,6 +12,7 @@ import { useNavigate } from "react-router-dom";
 import { MoonLoader } from "react-spinners";
 
 import { useForms } from "@/hooks/server-state/use-forms";
+import { useEntitiesListModalStore } from "@/hooks/store/use-entities-list-modal-store";
 import { useFormModalStore } from "@/hooks/store/use-form-modal-store";
 
 import AlertModal from "@/components/common/modals/alert-modal";
@@ -29,6 +35,7 @@ const FormsPage = () => {
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["forms"] })
   });
   const { onOpen, setForm } = useFormModalStore();
+  const { onOpen: onOpenEntitiesListModal } = useEntitiesListModalStore();
   const navigate = useNavigate();
 
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
@@ -73,6 +80,7 @@ const FormsPage = () => {
             <TableHead>عرض</TableHead>
             <TableHead>رنگ پس زمینه</TableHead>
             <TableHead>عکس پس زمینه</TableHead>
+            <TableHead>جداول</TableHead>
             <TableHead>ویرایش</TableHead>
             <TableHead>حذف</TableHead>
           </TableRow>
@@ -95,6 +103,16 @@ const FormsPage = () => {
                 <TableCell>{form?.sizeHeight}</TableCell>
                 <TableCell>{form?.backgroundColor}</TableCell>
                 <TableCell>{form?.backgroundImgPath}</TableCell>
+                <TableCell className="text-center">
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onOpenEntitiesListModal(form.id);
+                    }}
+                  >
+                    <TablePropertiesIcon className="text-slate-700" />
+                  </button>
+                </TableCell>
                 <TableCell className="text-center">
                   <button
                     onClick={(e) => {
