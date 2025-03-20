@@ -107,7 +107,7 @@ const FormsPage = () => {
                   <button
                     onClick={(e) => {
                       e.stopPropagation();
-                      onOpenEntitiesListModal(form.id);
+                      onOpenEntitiesListModal(form);
                     }}
                   >
                     <TablePropertiesIcon className="text-slate-700" />

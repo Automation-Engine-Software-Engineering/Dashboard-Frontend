@@ -11,5 +11,5 @@ export type FormType = {
   backgroundImgPath: string;
   htmlFormBody: string;
   isRepeatedImage: boolean;
-  entities: EntityType[] | number[] | null;
+  entities: EntityType[] | null;
 };

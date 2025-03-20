@@ -31,7 +31,7 @@ const EntitiesListModal = () => {
   });
 
   const { mutate, isPending } = useMutation({
-    mutationFn: () => editForm({ ...form, entities: selectedEntities }),
+    mutationFn: () => editForm({ ...form, entities: selectedEntities as any }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["forms", form?.id] });
     }
