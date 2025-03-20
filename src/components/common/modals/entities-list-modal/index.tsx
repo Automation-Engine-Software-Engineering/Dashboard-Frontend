@@ -68,22 +68,22 @@ const EntitiesListModal = () => {
         <Button
           variant="outline"
           onClick={() => {
-            if (page !== totalPages) {
+            if (page <= totalPages) {
               setPage((prev) => prev + 1);
             }
           }}
-          disabled={page === totalPages}
+          disabled={page >= totalPages}
         >
           <ChevronRightIcon className="text-primary" />
         </Button>
         <Button
           variant="outline"
           onClick={() => {
-            if (page !== 1) {
+            if (page > 1) {
               setPage((prev) => prev - 1);
             }
           }}
-          disabled={page === 1}
+          disabled={page <= 1}
         >
           <ChevronLeftIcon className="text-primary" />
         </Button>
