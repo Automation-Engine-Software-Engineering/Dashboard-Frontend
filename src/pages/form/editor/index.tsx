@@ -7,7 +7,8 @@ import { useForm } from "@/hooks/server-state/use-form";
 
 import Editor from "@/components/widget/editor";
 
-import FormEditorSidebar from "../_components/sidebar";
+import FormEditorSidebar from "../_components/editor/sidebar";
+import ToolbarTabs from "../_components/editor/toolbar-tabs";
 
 const FormEditorPage = () => {
   const { formId } = useParams<{ formId: string }>();
@@ -27,11 +28,9 @@ const FormEditorPage = () => {
 
   return (
     <div>
-      <div className="flex h-12 items-center bg-secondary px-5">
-        <h2 className="text-white">فرم شماره {data.id}</h2>
-      </div>
-      <div className="relative flex py-10">
-        <div className="flex flex-1 justify-center">
+      <ToolbarTabs editorRef={editorRef} />
+      <div className="relative flex">
+        <div className="flex flex-1 justify-center py-10">
           <Editor
             ref={editorRef}
             value={editorData}

@@ -5,7 +5,6 @@ import { cn } from "@/lib/utils";
 import { ContextMenu, ContextMenuTrigger } from "@/components/ui/context-menu";
 
 import ToolbarContextMenu from "./context-menu";
-import Toolbar from "./toolbar";
 
 interface Props {
   onEditorChange?: (value: string) => void;
@@ -55,11 +54,6 @@ const Editor = React.forwardRef<
         style={{ width }}
         {...props}
       >
-        <Toolbar
-          editorRef={innerRef}
-          className="sticky top-0 w-full border-b bg-white p-2"
-          dir="ltr"
-        />
         <ContextMenu>
           <ContextMenuTrigger>
             <div
