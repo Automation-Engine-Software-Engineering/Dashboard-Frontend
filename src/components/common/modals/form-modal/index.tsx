@@ -118,7 +118,7 @@ const FormModal = () => {
             <Input
               type="color"
               name="backgroundColor"
-              defaultValue={form?.backgroundColor ?? ""}
+              defaultValue={form?.backgroundColor ?? "#ffffff"}
               placeholder="رنگ فرم"
               className="resize-none"
             />
