@@ -18,7 +18,6 @@ export const getAllEntities = async ({
   return await apiResponseMiddleware<EntityType[]>(
     axios.get(`${API_URL}/${API_ENDPOINT}/all`, {
       params: {
-        formId: 1,
         pageSize: size,
         pageNumber: page
       }
