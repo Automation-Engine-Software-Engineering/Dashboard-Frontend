@@ -1,3 +1,5 @@
+import { EntityType } from "./entity";
+
 export type FormType = {
   id: number;
   name: string;
@@ -9,4 +11,5 @@ export type FormType = {
   backgroundImgPath: string;
   htmlFormBody: string;
   isRepeatedImage: boolean;
+  entities: EntityType[] | number[] | null;
 };
