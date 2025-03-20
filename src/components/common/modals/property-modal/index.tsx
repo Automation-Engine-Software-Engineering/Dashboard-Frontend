@@ -13,9 +13,26 @@ import Modal from "@/components/ui/modal";
 import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
 
+const formInputType = {
+  "1": "number",
+  "2": "range",
+  "3": "text",
+  "4": "text",
+  "5": "checkbox",
+  "6": "date",
+  "7": "file",
+  "8": "color",
+  "9": "email",
+  "10": "password"
+};
+
 const PropertyModal = () => {
   const queryClient = useQueryClient();
   const { isOpen, onClose, property, entityId } = usePropertyModalStore();
+
+  const [selectedType, setSelectedType] = useState<keyof typeof formInputType>(
+    (property?.type as keyof typeof formInputType) ?? "1"
+  );
 
   const { mutate, isPending } = useMutation({
     mutationFn: (data: PropertyType) =>
@@ -102,6 +119,9 @@ const PropertyModal = () => {
               name="type"
               defaultValue={property?.type ?? ""}
               className="h-10 rounded-md border border-slate-300 px-3 py-2 text-sm focus-within:border-primary focus-within:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
+              onChange={(e) => {
+                setSelectedType(e.target.value as keyof typeof formInputType);
+              }}
               required
             >
               <option value="1">عدد</option>
@@ -122,7 +142,7 @@ const PropertyModal = () => {
               مقدار پیش فرض
             </label>
             <Input
-              type="text"
+              type={formInputType[selectedType]}
               name="defaultValue"
               defaultValue={property?.defaultValue ?? ""}
               placeholder="مقدار پیش فرض"
