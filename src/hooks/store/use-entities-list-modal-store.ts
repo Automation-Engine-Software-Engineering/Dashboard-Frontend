@@ -1,15 +1,17 @@
 import { create } from "zustand";
 
+import { FormType } from "@/types/form/form";
+
 interface StoreType {
   isOpen: boolean;
-  formId: number | null;
-  onOpen: (formId: number) => void;
+  form: FormType | null;
+  onOpen: (form: FormType) => void;
   onClose: () => void;
 }
 
 export const useEntitiesListModalStore = create<StoreType>((set) => ({
   isOpen: false,
-  formId: null,
-  onOpen: (formId) => set({ isOpen: true, formId }),
+  form: null,
+  onOpen: (form) => set({ isOpen: true, form }),
   onClose: () => set({ isOpen: false })
 }));

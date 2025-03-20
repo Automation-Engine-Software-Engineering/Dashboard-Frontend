@@ -1,5 +1,8 @@
 import { PencilIcon, Trash2Icon, XSquareIcon } from "lucide-react";
+import { useState } from "react";
 
+import { deleteProperty } from "@/api/property";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 // import { useState } from "react";
 // import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
@@ -8,7 +11,8 @@ import { MoonLoader } from "react-spinners";
 import { useEntityProperties } from "@/hooks/server-state/use-entity-property";
 import { usePropertyModalStore } from "@/hooks/store/use-property-modal-store";
 
-// import AlertModal from "@/components/common/modals/alert-modal";
+import AlertModal from "@/components/common/modals/alert-modal";
+
 import {
   Table,
   TableBody,
@@ -20,28 +24,28 @@ import {
 } from "@/components/ui/table";
 
 const PropertiesPage = () => {
-  // const queryClient = useQueryClient();
+  const queryClient = useQueryClient();
 
   const { entityId } = useParams<{ entityId: string }>();
   const { data, isLoading } = useEntityProperties(entityId ?? "");
 
-  // const { mutate, isPending } = useMutation({
-  //   mutationFn: (formId: number) => deletePro(formId),
-  //   onSuccess: () =>
-  //     queryClient.invalidateQueries({ queryKey: ["forms", selectedForDelete] })
-  // });
+  const { mutate, isPending } = useMutation({
+    mutationFn: (formId: number) => deleteProperty(formId),
+    onSuccess: () =>
+      queryClient.invalidateQueries({ queryKey: ["forms", selectedForDelete] })
+  });
   const { onOpen, setProperty, setEntityId } = usePropertyModalStore();
 
-  // const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
-  // const [selectedForDelete, setSelectedForDelete] = useState<number | null>(
-  //   null
-  // );
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
+  const [selectedForDelete, setSelectedForDelete] = useState<number | null>(
+    null
+  );
 
   if (isLoading) return <Loading />;
 
   return (
     <>
-      {/* <AlertModal
+      <AlertModal
         isOpen={isDeleteModalOpen}
         onClose={() => setIsDeleteModalOpen(false)}
         isLoading={isPending}
@@ -50,7 +54,7 @@ const PropertiesPage = () => {
         }}
         title="آیا از حذف عنصر اطمینان دارید؟"
         description="این عملیات قابل برگشت نخواهد بود و عنصر بصورت دائمی حذف خواهد شد"
-      /> */}
+      />
 
       <div className="flex items-center px-5 py-2">
         <button
@@ -107,11 +111,11 @@ const PropertiesPage = () => {
                   <button
                     onClick={(e) => {
                       e.stopPropagation();
-                      // setSelectedForDelete(property.id);
-                      // setIsDeleteModalOpen(true);
+                      setSelectedForDelete(property.id);
+                      setIsDeleteModalOpen(true);
                     }}
                   >
-                    <Trash2Icon />
+                    <Trash2Icon className="text-red-600" />
                   </button>
                 </TableCell>
               </TableRow>
