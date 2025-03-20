@@ -54,16 +54,20 @@ export const editProperty = async (propertyId: Partial<PropertyType>) => {
   );
 };
 
-// export const deleteProperty = async (propertyId: number) => {
-//   return await apiResponseMiddleware<PropertyType>(
-//     axios.post(`${API_URL}/${API_ENDPOINT}/remove`, propertyId),
-//     () => {
-//       toast.success("عنصر با موفقیت حذف شد", {
-//         id: "api-middleware"
-//       });
-//     },
-//     {
-//       showToast: true
-//     }
-//   );
-// };
+export const deleteProperty = async (propertyId: number) => {
+  return await apiResponseMiddleware<PropertyType>(
+    axios.post(`${API_URL}/${API_ENDPOINT}/remove`, null, {
+      params: {
+        propertyId
+      }
+    }),
+    () => {
+      toast.success("عنصر با موفقیت حذف شد", {
+        id: "api-middleware"
+      });
+    },
+    {
+      showToast: true
+    }
+  );
+};
