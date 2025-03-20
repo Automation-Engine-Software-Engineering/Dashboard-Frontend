@@ -3,7 +3,7 @@ export type PropertyType = {
   previewName: string;
   propertyName: string;
   description: string;
-  type: number;
+  type: string;
   allowNull: boolean;
   defaultValue: string;
   sizeWidth: number;
