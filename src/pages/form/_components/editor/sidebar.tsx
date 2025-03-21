@@ -1,9 +1,12 @@
 import { Plus } from "lucide-react";
 
+import { useParams } from "react-router-dom";
 import { MoonLoader } from "react-spinners";
 
-import { useFormEntities } from "@/hooks/server-state/use-form-entities";
+import { useForm } from "@/hooks/server-state/use-form";
 import { usePropertyModalStore } from "@/hooks/store/use-property-modal-store";
+
+import { formInputType } from "@/components/common/modals/property-modal";
 
 import {
   Accordion,
@@ -13,17 +16,7 @@ import {
 } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
 
-import {
-  checkbox,
-  date,
-  email,
-  file,
-  number,
-  password,
-  radio,
-  range,
-  textfield
-} from "./entities-elements";
+import { createInput } from "./entities-elements";
 
 interface Props {
   setEditorData: React.Dispatch<React.SetStateAction<string>>;
@@ -31,7 +24,9 @@ interface Props {
 }
 
 const FormEditorSidebar: React.FC<Props> = ({ editorRef }) => {
-  const { data: entities, isLoading } = useFormEntities();
+  const { formId } = useParams<{ formId: string }>();
+  const { data: form, isLoading } = useForm(+formId!);
+
   const { onOpen, setEntityId, setProperty } = usePropertyModalStore();
   const insertFormElement = (element: string) => {
     if (editorRef.current) {
@@ -61,107 +56,38 @@ const FormEditorSidebar: React.FC<Props> = ({ editorRef }) => {
   };
 
   return (
-    <div className="sticky left-0 top-0 flex h-screen max-w-[280px] flex-1 flex-col border border-slate-300 bg-white transition-all duration-500">
+    <div className="sticky left-0 top-0 flex h-screen max-w-[280px] flex-1 shrink-0 flex-col border border-slate-300 bg-white transition-all duration-500">
       {isLoading ? (
         <Loading />
-      ) : (
+      ) : form?.entities?.length ? (
         <Accordion type="single" className="px-[20px]" collapsible>
-          {entities?.data.map((entity) => (
+          {form?.entities?.map((entity) => (
             <AccordionItem value={`entity-${entity.id}`}>
               <AccordionTrigger className="py-2 text-sm">
                 {entity.previewName}
               </AccordionTrigger>
               <AccordionContent>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => {
-                    insertFormElement(textfield);
-                  }}
-                  className="w-full justify-start !text-xs"
-                >
-                  تکست
-                </Button>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => {
-                    insertFormElement(number);
-                  }}
-                  className="w-full justify-start !text-xs"
-                >
-                  عدد
-                </Button>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => {
-                    insertFormElement(checkbox);
-                  }}
-                  className="w-full justify-start !text-xs"
-                >
-                  چک باکس
-                </Button>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => {
-                    insertFormElement(date);
-                  }}
-                  className="w-full justify-start !text-xs"
-                >
-                  تاریخ
-                </Button>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => {
-                    insertFormElement(email);
-                  }}
-                  className="w-full justify-start !text-xs"
-                >
-                  ایمیل
-                </Button>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => {
-                    insertFormElement(file);
-                  }}
-                  className="w-full justify-start !text-xs"
-                >
-                  فایل
-                </Button>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => {
-                    insertFormElement(password);
-                  }}
-                  className="w-full justify-start !text-xs"
-                >
-                  پسوورد
-                </Button>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => {
-                    insertFormElement(radio);
-                  }}
-                  className="w-full justify-start !text-xs"
-                >
-                  radio
-                </Button>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => {
-                    insertFormElement(range);
-                  }}
-                  className="w-full justify-start !text-xs"
-                >
-                  رنج
-                </Button>
+                {entity?.properties.map((property) => {
+                  const mappedType = formInputType[property.type] || "text";
+                  return (
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => {
+                        insertFormElement(
+                          createInput({
+                            inputId: property.id,
+                            type: mappedType,
+                            defaultValue: property.defaultValue ?? ""
+                          })
+                        );
+                      }}
+                      className="w-full justify-start !text-xs"
+                    >
+                      {property.previewName}
+                    </Button>
+                  );
+                })}
                 <Button
                   variant="ghost"
                   className="my-2 w-full"
@@ -177,6 +103,8 @@ const FormEditorSidebar: React.FC<Props> = ({ editorRef }) => {
             </AccordionItem>
           ))}
         </Accordion>
+      ) : (
+        <EmptyState />
       )}
     </div>
   );
@@ -189,5 +117,11 @@ const Loading = () => {
     </div>
   );
 };
+
+const EmptyState = () => (
+  <div className="flex h-1/2 items-center justify-center">
+    <p className="text-slate-600">جدولی یافت نشد</p>
+  </div>
+);
 
 export default FormEditorSidebar;
