@@ -1,9 +1,9 @@
 import { AxiosError, AxiosResponse } from "axios";
 import toast from "react-hot-toast";
 
-import { ApiData, ApiResult } from "@/types/api-response";
+import { ApiResult } from "@/types/api-response";
 
-type MiddlewareCallback<Data> = (data: ApiData<Data>) => void | Promise<void>;
+type MiddlewareCallback<Data> = (data: ApiResult<Data>) => void | Promise<void>;
 
 export const apiResponseMiddleware = async <Data>(
   apiCall: Promise<AxiosResponse<ApiResult<Data>>>,
@@ -13,7 +13,7 @@ export const apiResponseMiddleware = async <Data>(
     loadingMessage?: string;
     errorMessage?: string;
   }
-): Promise<any> => {
+): Promise<ApiResult<Data> | null> => {
   if (options?.showToast) {
     toast.loading(options?.loadingMessage || "درحال دریافت اطلاعات", {
       id: "api-middleware"

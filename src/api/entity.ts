@@ -2,7 +2,6 @@ import { apiResponseMiddleware } from "@/middleware/api-response";
 import axios from "axios";
 import toast from "react-hot-toast";
 
-import { ApiData } from "@/types/api-response";
 import { EntityType } from "@/types/form/entity";
 
 const API_URL = import.meta.env.VITE_FORM_API_URL as string;
@@ -16,7 +15,7 @@ export const getAllEntities = async ({
   size: number;
   page: number;
   search?: string;
-}): Promise<ApiData<EntityType[]> | null> => {
+}) => {
   return await apiResponseMiddleware<EntityType[]>(
     axios.get(`${API_URL}/${API_ENDPOINT}/all`, {
       params: {
