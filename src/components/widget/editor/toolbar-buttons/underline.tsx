@@ -23,7 +23,7 @@ const Underline: React.FC<
 
   useEffect(() => {
     const handleSelectionChange = () => {
-      setIsActive(!!checkState("underline"));
+      setIsActive(!!checkState("underline", editorRef));
     };
 
     document.addEventListener("selectionchange", handleSelectionChange);

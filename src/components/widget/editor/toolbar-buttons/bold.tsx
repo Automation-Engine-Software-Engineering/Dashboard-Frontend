@@ -19,12 +19,12 @@ const Bold: React.FC<
   const handleCommand = (command: string) => {
     document.execCommand(command, true);
     editorRef?.current?.focus();
-    setIsActive(!!checkState("bold"));
+    setIsActive(!!checkState("bold", editorRef));
   };
 
   useEffect(() => {
     const handleSelectionChange = () => {
-      setIsActive(!!checkState("bold"));
+      setIsActive(!!checkState("bold", editorRef));
     };
 
     document.addEventListener("selectionchange", handleSelectionChange);

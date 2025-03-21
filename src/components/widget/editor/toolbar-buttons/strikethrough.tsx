@@ -19,12 +19,12 @@ const Strikethrough: React.FC<
   const handleCommand = (command: string) => {
     document.execCommand(command, true);
     editorRef?.current?.focus();
-    setIsActive(!!checkState("strikeThrough"));
+    setIsActive(!!checkState("strikeThrough", editorRef));
   };
 
   useEffect(() => {
     const handleSelectionChange = () => {
-      setIsActive(!!checkState("strikeThrough"));
+      setIsActive(!!checkState("strikeThrough", editorRef));
     };
 
     document.addEventListener("selectionchange", handleSelectionChange);

@@ -19,12 +19,12 @@ const Italic: React.FC<
   const handleCommand = (command: string) => {
     document.execCommand(command, true);
     editorRef?.current?.focus();
-    setIsActive(!!checkState("italic"));
+    setIsActive(!!checkState("italic", editorRef));
   };
 
   useEffect(() => {
     const handleSelectionChange = () => {
-      setIsActive(!!checkState("italic"));
+      setIsActive(!!checkState("italic", editorRef));
     };
 
     document.addEventListener("selectionchange", handleSelectionChange);

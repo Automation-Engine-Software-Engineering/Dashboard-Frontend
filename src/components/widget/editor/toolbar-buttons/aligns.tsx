@@ -34,13 +34,13 @@ const Align: React.FC<
 
   useEffect(() => {
     const handleSelectionChange = () => {
-      if (checkState("justifyLeft")) {
+      if (checkState("justifyLeft", editorRef)) {
         setIsActive("left");
-      } else if (checkState("justifyRight")) {
+      } else if (checkState("justifyRight", editorRef)) {
         setIsActive("right");
-      } else if (checkState("justifyCenter")) {
+      } else if (checkState("justifyCenter", editorRef)) {
         setIsActive("center");
-      } else if (checkState("justifyFull")) {
+      } else if (checkState("justifyFull", editorRef)) {
         setIsActive("justify");
       } else {
         setIsActive(null);

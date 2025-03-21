@@ -24,8 +24,8 @@ const ListOrder: React.FC<
 
   useEffect(() => {
     const handleSelectionChange = () => {
-      setIsOrderedList(!!checkState("insertOrderedList"));
-      setIsUnorderedList(!!checkState("insertUnorderedList"));
+      setIsOrderedList(!!checkState("insertOrderedList", editorRef));
+      setIsUnorderedList(!!checkState("insertUnorderedList", editorRef));
     };
 
     document.addEventListener("selectionchange", handleSelectionChange);
