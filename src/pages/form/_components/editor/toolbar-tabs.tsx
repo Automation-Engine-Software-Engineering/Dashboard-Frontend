@@ -4,6 +4,8 @@ import { cn } from "@/lib/utils";
 
 import DeleteForm from "@/components/widget/editor/delete-form";
 import SaveForm from "@/components/widget/editor/save-form";
+import Copy from "@/components/widget/editor/toolbar-buttons/copy";
+import Paste from "@/components/widget/editor/toolbar-buttons/paste";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
@@ -65,6 +67,8 @@ const ToolbarTabs: React.FC<Props> = ({ editorRef, className }) => {
           <HomeTab editorRef={editorRef} />
         </TabsContent>
         <div className="ms-auto flex items-center gap-x-2">
+          <Paste editorRef={editorRef} />
+          <Copy editorRef={editorRef} />
           <DeleteForm />
           <SaveForm editorRef={editorRef} />
         </div>
