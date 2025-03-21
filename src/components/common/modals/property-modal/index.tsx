@@ -13,7 +13,7 @@ import Modal from "@/components/ui/modal";
 import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
 
-const formInputType = {
+export const formInputType: Record<string, any> = {
   "1": "number",
   "2": "range",
   "3": "text",
