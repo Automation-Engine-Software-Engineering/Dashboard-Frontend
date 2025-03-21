@@ -28,7 +28,7 @@ export const getEntityProperties = async (
 
 export const createProperty = async (property: Partial<PropertyType>) => {
   return await apiResponseMiddleware<PropertyType>(
-    axios.post(`${API_URL}/${API_ENDPOINT}/entity/property/add`, property),
+    axios.post(`${API_URL}/${API_ENDPOINT}/add`, property),
     () => {
       toast.success("عنصر با موفقیت ساخته شد", {
         id: "api-middleware"
@@ -42,7 +42,7 @@ export const createProperty = async (property: Partial<PropertyType>) => {
 
 export const editProperty = async (propertyId: Partial<PropertyType>) => {
   return await apiResponseMiddleware<PropertyType>(
-    axios.post(`${API_URL}/${API_ENDPOINT}/property/update`, propertyId),
+    axios.post(`${API_URL}/${API_ENDPOINT}/update`, propertyId),
     () => {
       toast.success("عنصر با موفقیت ویرایش شد", {
         id: "api-middleware"
