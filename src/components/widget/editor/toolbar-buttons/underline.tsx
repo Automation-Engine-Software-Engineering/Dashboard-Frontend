@@ -1,4 +1,7 @@
 import { Underline as UnderlineIcon } from "lucide-react";
+import { useEffect, useState } from "react";
+
+import { checkState } from "@/helpers/editor/check-state";
 
 import { cn } from "@/lib/utils";
 
@@ -11,14 +14,28 @@ const Underline: React.FC<
     }
   >
 > = ({ className, editorRef, ...props }) => {
+  const [isActive, setIsActive] = useState<boolean>(false);
+
   const handleCommand = (command: string) => {
     document.execCommand(command, true);
     editorRef?.current?.focus();
   };
 
+  useEffect(() => {
+    const handleSelectionChange = () => {
+      setIsActive(!!checkState("underline"));
+    };
+
+    document.addEventListener("selectionchange", handleSelectionChange);
+
+    return () => {
+      document.removeEventListener("selectionchange", handleSelectionChange);
+    };
+  }, []);
+
   return (
     <ToolbarButton
-      className={cn(className)}
+      className={cn(className, isActive ? "bg-primary/10" : "bg-transparent")}
       onClick={() => {
         handleCommand("underline");
       }}

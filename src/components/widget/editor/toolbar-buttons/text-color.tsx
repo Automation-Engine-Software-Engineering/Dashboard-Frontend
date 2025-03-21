@@ -54,7 +54,7 @@ const TextColorPicker: React.FC<Props> = ({ editorRef }) => {
 
   return (
     <ToolbarButton>
-      <label className="relative flex justify-center">
+      <label className="relative flex size-full justify-center">
         <span className="text-lg font-bold" style={{ color: selectedColor }}>
           A
         </span>
@@ -66,7 +66,7 @@ const TextColorPicker: React.FC<Props> = ({ editorRef }) => {
           type="color"
           value={selectedColor}
           onChange={handleColorChange}
-          className="absolute inset-0 cursor-pointer opacity-0"
+          className="absolute size-0 cursor-pointer opacity-0"
         />
       </label>
     </ToolbarButton>

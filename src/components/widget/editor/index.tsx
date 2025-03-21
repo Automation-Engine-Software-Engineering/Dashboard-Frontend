@@ -60,7 +60,7 @@ const Editor = React.forwardRef<
               ref={innerRef}
               contentEditable
               onInput={handleEditorChange}
-              style={{ minHeight: height, backgroundColor }}
+              style={{ minHeight: height, backgroundColor, width }}
               className="w-full p-2 focus-within:outline-none"
             />
           </ContextMenuTrigger>

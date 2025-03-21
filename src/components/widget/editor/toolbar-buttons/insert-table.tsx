@@ -30,6 +30,7 @@ const InsertTable: React.FC<
     table.style.borderCollapse = "collapse";
     table.style.width = "100%";
     table.style.height = "100%";
+    table.style.maxWidth = "100%";
 
     for (let i = 0; i < rows; i++) {
       const row = document.createElement("tr");
