@@ -1,88 +1,40 @@
-export const textfield = `<div 
-  contenteditable="false" 
-  style="display: inline-block; resize: both; overflow: hidden;" 
-  oninput="event.preventDefault();">
-  <input
-  disabled 
-    type="text" 
-    style="width: 100%; height: 100%; box-sizing: border-box;" 
-  />
-</div>`;
+type InputType =
+  | "text"
+  | "number"
+  | "checkbox"
+  | "date"
+  | "email"
+  | "file"
+  | "password"
+  | "radio"
+  | "range";
 
-export const number = `<div 
-  contenteditable="false" 
-  style="display: inline-block; resize: both; overflow: hidden;" 
-  oninput="event.preventDefault();">
-  <input
-  disabled 
-    type="number" 
-    style="width: 100%; height: 100%; box-sizing: border-box;" 
-  />
-</div>`;
+interface InputProps {
+  inputId: number;
+  type: InputType;
+  defaultValue?: string;
+}
 
-export const checkbox = `
-  <input
-  disabled 
-    type="checkbox"
+export const createInput = ({
+  inputId,
+  type,
+  defaultValue = ""
+}: InputProps): string => {
+  const commonStyles = "width: 100%; height: 100%; box-sizing: border-box;";
+
+  const wrapper = `<div contenteditable="false" style="display: inline-block; resize: both; overflow: hidden;" oninput="event.preventDefault();">`;
+
+  const input = `<input 
+    id="${inputId}"
+    type="${type}"
+    value="${defaultValue}"
+    disabled
+    style="${commonStyles}" 
   />`;
 
-export const date = `<div 
-  contenteditable="false" 
-  style="display: inline-block; resize: both; overflow: hidden;" 
-  oninput="event.preventDefault();">
-  <input
-  disabled 
-    type="date" 
-    style="width: 100%; height: 100%; box-sizing: border-box;" 
-  />
-</div>`;
-export const email = `<div 
-  contenteditable="false" 
-  style="display: inline-block; resize: both; overflow: hidden;" 
-  oninput="event.preventDefault();">
-  <input
-  disabled 
-    type="email" 
-    style="width: 100%; height: 100%; box-sizing: border-box;" 
-  />
-</div>`;
+  if (type === "file" || type === "checkbox" || type === "radio") {
+    return `<input id="${inputId}" type="${type}" disabled />`;
+  }
 
-export const file = `<div 
-  contenteditable="false" 
-  style="display: inline-block; resize: both; overflow: hidden;" 
-  oninput="event.preventDefault();">
-  <input
-  disabled 
-    type="file" 
-    style="width: 100%; height: 100%; box-sizing: border-box;" 
-  />
-</div>`;
-export const password = `<div 
-  contenteditable="false" 
-  style="display: inline-block; resize: both; overflow: hidden;" 
-  oninput="event.preventDefault();">
-  <input
-  disabled 
-    type="password" 
-    style="width: 100%; height: 100%; box-sizing: border-box;" 
-  />
-</div>`;
-
-export const radio = `
-<input
-disabled 
-    type="radio" 
-  />`;
-
-export const range = `<div 
-  contenteditable="false" 
-  style="display: inline-block; resize: both; overflow: hidden;" 
-  oninput="event.preventDefault();">
-  <input
-  disabled 
-    type="range" 
-    min="0"
-    max="100"
-    style="width: 100%; height: 100%; box-sizing: border-box;" 
-  />
-</div>`;
+  return wrapper + input + "</div>";
+};
