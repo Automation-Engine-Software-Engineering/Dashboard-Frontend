@@ -42,7 +42,7 @@ export const getForm = async (
   return response.data;
 };
 
-export const createForm = async (form: Partial<FormType>) => {
+export const createForm = async (form: FormData) => {
   return await apiResponseMiddleware<FormType>(
     axios.post(`${API_URL}/${API_ENDPOINT}/create`, form),
     () => {
@@ -56,7 +56,7 @@ export const createForm = async (form: Partial<FormType>) => {
   );
 };
 
-export const editForm = async (form: Partial<FormType>) => {
+export const editForm = async (form: FormData) => {
   return await apiResponseMiddleware<FormType>(
     axios.post(`${API_URL}/${API_ENDPOINT}/update`, form),
     () => {

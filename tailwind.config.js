@@ -38,6 +38,39 @@ export default {
             boxShadow: "0 10px 20px -20px #000"
           }
         }
+      },
+
+      editor: {
+        css: {
+          input: {
+            borderRadius: "6px",
+            border: "1px solid",
+            borderColor: theme("colors.slate.300"),
+            padding: "8px 12px",
+            "&:disable": {
+              opacity: "50%"
+            },
+
+            "&:focus": {
+              borderColor: theme("colors.primary"),
+              outline: "none"
+            }
+          },
+
+          table: {
+            border: "1px solid",
+            borderColor: theme("colors.slate.500"),
+            td: {
+              border: "1px solid",
+              borderColor: theme("colors.slate.300")
+            },
+            tr: {
+              "&:nth-child(odd)": {
+                backgroundColor: theme("colors.slate.200")
+              }
+            }
+          }
+        }
       }
     })
   },

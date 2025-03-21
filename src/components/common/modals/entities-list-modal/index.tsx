@@ -31,7 +31,20 @@ const EntitiesListModal = () => {
   });
 
   const { mutate, isPending } = useMutation({
-    mutationFn: () => editForm({ ...form, entities: selectedEntities as any }),
+    mutationFn: () => {
+      const formData = new FormData();
+
+      for (const [key, value] of Object.entries(form!)) {
+        formData.append(key, String(value));
+      }
+
+      selectedEntities?.forEach((entity) => {
+        formData.set(`entities`, String(entity));
+      });
+
+      return editForm(formData);
+    },
+
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["forms", form?.id] });
     }
@@ -63,7 +76,7 @@ const EntitiesListModal = () => {
       }
       return [];
     });
-  }, [form]);
+  }, [isOpen]);
 
   return (
     <Modal

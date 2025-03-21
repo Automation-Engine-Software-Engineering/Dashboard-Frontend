@@ -30,14 +30,12 @@ const InsertTable: React.FC<
     table.style.borderCollapse = "collapse";
     table.style.width = "100%";
     table.style.height = "100%";
-    table.style.border = "1px solid black";
 
     for (let i = 0; i < rows; i++) {
       const row = document.createElement("tr");
 
       for (let j = 0; j < cols; j++) {
         const cell = document.createElement("td");
-        cell.style.border = "1px solid black";
         cell.style.padding = "8px";
         cell.contentEditable = "true";
         cell.textContent = `Row ${i + 1} Col ${j + 1}`;

@@ -3,8 +3,6 @@ import { FormEvent, useEffect, useState } from "react";
 import { createForm, editForm } from "@/api/form";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-import { FormType } from "@/types/form/form";
-
 import { useFormModalStore } from "@/hooks/store/use-form-modal-store";
 
 import { Button } from "@/components/ui/button";
@@ -19,7 +17,7 @@ const FormModal = () => {
   const { isOpen, onClose, form } = useFormModalStore();
 
   const { mutate, isPending } = useMutation({
-    mutationFn: (data: FormType) => (form ? editForm(data) : createForm(data)),
+    mutationFn: (data: any) => (form ? editForm(data) : createForm(data)),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["forms"] });
       onClose();
@@ -45,17 +43,21 @@ const FormModal = () => {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
-    const newData: Record<string, any> = {
-      id: form?.id,
-      isAutoHeight,
-      isRepeatedImage
-    };
 
-    formData.forEach((value, key) => {
-      newData[key] = value;
-    });
+    formData.append("isAutoHeight", String(isAutoHeight));
+    formData.append("isRepeatedImage", String(isRepeatedImage));
 
-    mutate(newData as FormType);
+    if (!form) {
+      formData.append(
+        "HtmlFormBody",
+        "<p>ساخته شده توسط تیم پارسه آذین مبین</p>"
+      );
+    } else {
+      formData.append("id", String(form.id));
+      formData.append("HtmlFormBody", form.htmlFormBody);
+    }
+
+    mutate(formData);
   };
 
   return (
@@ -128,7 +130,8 @@ const FormModal = () => {
               عکس پس زمینه
             </label>
             <Input
-              type="string"
+              type="file"
+              accept="image/*"
               name="backgroundImgPath"
               defaultValue={form?.backgroundImgPath ?? ""}
               placeholder="پس زمینه فرم"
@@ -136,7 +139,6 @@ const FormModal = () => {
             />
           </div>
         </div>
-
         <div className="mt-5 flex items-center gap-x-2">
           <p className="text-sm text-slate-600">تکرار پس زمینه</p>{" "}
           <Switch

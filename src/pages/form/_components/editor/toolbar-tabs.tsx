@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { cn } from "@/lib/utils";
 
 import DeleteForm from "@/components/widget/editor/delete-form";
+import PreviewForm from "@/components/widget/editor/preview-form";
 import SaveForm from "@/components/widget/editor/save-form";
 import Copy from "@/components/widget/editor/toolbar-buttons/copy";
 import Paste from "@/components/widget/editor/toolbar-buttons/paste";
@@ -63,7 +64,7 @@ const ToolbarTabs: React.FC<Props> = ({ editorRef, className }) => {
         </TabsList>
         <h3 className="ms-auto font-semibold">فرم شماره {formId}</h3>
       </div>
-      <div className="flex h-16 items-center bg-white px-8">
+      <div className="flex h-16 items-center border-b border-b-slate-200 bg-white px-8">
         <TabsContent value="home">
           <HomeTab editorRef={editorRef} />
         </TabsContent>
@@ -75,6 +76,7 @@ const ToolbarTabs: React.FC<Props> = ({ editorRef, className }) => {
           <Copy editorRef={editorRef} />
           <DeleteForm />
           <SaveForm editorRef={editorRef} />
+          <PreviewForm />
         </div>
       </div>
     </Tabs>
