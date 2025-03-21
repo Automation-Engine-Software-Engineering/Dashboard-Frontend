@@ -10,6 +10,7 @@ import Paste from "@/components/widget/editor/toolbar-buttons/paste";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 import HomeTab from "./tabs/home";
+import InsertTab from "./tabs/insert";
 
 interface Props extends React.ComponentProps<"div"> {
   editorRef: React.RefObject<HTMLDivElement>;
@@ -65,6 +66,9 @@ const ToolbarTabs: React.FC<Props> = ({ editorRef, className }) => {
       <div className="flex h-16 items-center bg-white px-8">
         <TabsContent value="home">
           <HomeTab editorRef={editorRef} />
+        </TabsContent>
+        <TabsContent value="insert">
+          <InsertTab editorRef={editorRef} />
         </TabsContent>
         <div className="ms-auto flex items-center gap-x-2">
           <Paste editorRef={editorRef} />
