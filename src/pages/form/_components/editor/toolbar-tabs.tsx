@@ -3,7 +3,6 @@ import { useParams } from "react-router-dom";
 import { cn } from "@/lib/utils";
 
 import DeleteForm from "@/components/widget/editor/delete-form";
-import PreviewForm from "@/components/widget/editor/preview-form";
 import SaveForm from "@/components/widget/editor/save-form";
 import Copy from "@/components/widget/editor/toolbar-buttons/copy";
 import Paste from "@/components/widget/editor/toolbar-buttons/paste";
@@ -12,6 +11,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 import HomeTab from "./tabs/home";
 import InsertTab from "./tabs/insert";
+import ViewTab from "./tabs/view";
 
 interface Props extends React.ComponentProps<"div"> {
   editorRef: React.RefObject<HTMLDivElement>;
@@ -71,12 +71,14 @@ const ToolbarTabs: React.FC<Props> = ({ editorRef, className }) => {
         <TabsContent value="insert">
           <InsertTab editorRef={editorRef} />
         </TabsContent>
+        <TabsContent value="view">
+          <ViewTab editorRef={editorRef} />
+        </TabsContent>
         <div className="ms-auto flex items-center gap-x-2">
           <Paste editorRef={editorRef} />
           <Copy editorRef={editorRef} />
           <DeleteForm />
           <SaveForm editorRef={editorRef} />
-          <PreviewForm />
         </div>
       </div>
     </Tabs>

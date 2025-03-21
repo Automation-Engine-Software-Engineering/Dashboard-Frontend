@@ -12,8 +12,10 @@ const PreviewForm = () => {
       onClick={() => {
         navigate(`/form/preview/${formId}`);
       }}
+      className="flex size-fit items-center gap-x-2 font-sans"
     >
       <EyeIcon />
+      Preview
     </ToolbarButton>
   );
 };
