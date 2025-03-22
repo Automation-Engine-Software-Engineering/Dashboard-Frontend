@@ -11,6 +11,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 import HomeTab from "./tabs/home";
 import InsertTab from "./tabs/insert";
+import LayoutTab from "./tabs/layout";
 import ViewTab from "./tabs/view";
 
 interface Props extends React.ComponentProps<"div"> {
@@ -73,6 +74,9 @@ const ToolbarTabs: React.FC<Props> = ({ editorRef, className }) => {
         </TabsContent>
         <TabsContent value="view">
           <ViewTab editorRef={editorRef} />
+        </TabsContent>
+        <TabsContent value="layout">
+          <LayoutTab editorRef={editorRef} />
         </TabsContent>
         <div className="ms-auto flex items-center gap-x-2">
           <Paste editorRef={editorRef} />

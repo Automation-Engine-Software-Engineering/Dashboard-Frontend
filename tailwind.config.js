@@ -100,6 +100,10 @@ export default {
                 backgroundColor: theme("colors.slate.200")
               }
             }
+          },
+
+          "div[data-columns='column']": {
+            border: "1px solid #d1d1d1"
           }
         }
       }
