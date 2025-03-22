@@ -22,7 +22,7 @@ export const createInput = ({
 }: InputProps): string => {
   const commonStyles = "width: 100%; height: 100%; box-sizing: border-box;";
 
-  const wrapper = `<div contenteditable="false" style="display: inline-block; max-width:100%;resize: both; overflow: hidden;" oninput="event.preventDefault();">`;
+  const wrapper = `<div id="input-wrapper" class="wrapper" data-type="${type}" contenteditable="false" style="display: inline-block; max-width:100%;resize: both; height:50px" oninput="event.preventDefault();">`;
 
   const input = `<input 
     id="${inputId}"

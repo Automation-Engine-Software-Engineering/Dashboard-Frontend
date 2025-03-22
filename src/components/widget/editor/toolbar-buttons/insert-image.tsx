@@ -37,18 +37,31 @@ const InsertImage: React.FC<
       const selection = window.getSelection();
       const range = selection?.getRangeAt(0);
       if (range) {
+        const wrapper = document.createElement("div");
+        wrapper.id = "image-wrapper";
+        wrapper.className = "wrapper";
+        wrapper.contentEditable = "false";
+        wrapper.setAttribute("data-type", "image");
+        wrapper.style.display = "inline-block";
+        wrapper.style.maxWidth = "100%";
+        wrapper.style.resize = "both";
+        wrapper.style.overflow = "hidden";
+        wrapper.style.minWidth = "100px";
+        wrapper.style.minHeight = "100px";
+
         const img = document.createElement("img");
         img.src = url;
-        img.style.resize = "both";
-        img.style.overflow = "hidden";
-        img.style.maxWidth = "100%";
-        img.style.maxHeight = "100%";
+        img.draggable = false;
+        img.style.width = "100%";
+        img.style.height = "100%";
         img.contentEditable = "false";
-        range.deleteContents();
-        range.insertNode(img);
 
-        range.setStartAfter(img);
-        range.setEndAfter(img);
+        wrapper.appendChild(img);
+        range.deleteContents();
+        range.insertNode(wrapper);
+
+        range.setStartAfter(wrapper);
+        range.setEndAfter(wrapper);
 
         editorRef.current.focus();
       }
@@ -70,4 +83,5 @@ const InsertImage: React.FC<
     </ToolbarButton>
   );
 };
+
 export default InsertImage;
