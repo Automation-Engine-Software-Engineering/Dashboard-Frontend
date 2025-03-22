@@ -3,6 +3,7 @@ import { cn } from "@/lib/utils";
 import Align from "@/components/widget/editor/toolbar-buttons/aligns";
 import Bold from "@/components/widget/editor/toolbar-buttons/bold";
 import FontSizePicker from "@/components/widget/editor/toolbar-buttons/font-size";
+import InsertHorizonLine from "@/components/widget/editor/toolbar-buttons/insert-horizon-line";
 import Italic from "@/components/widget/editor/toolbar-buttons/italic";
 import ListOrder from "@/components/widget/editor/toolbar-buttons/list-order";
 import Strikethrough from "@/components/widget/editor/toolbar-buttons/strikethrough";
@@ -24,6 +25,7 @@ const HomeTab: React.FC<Props> = ({ editorRef, className, ...props }) => {
       <TextColorPicker editorRef={editorRef} />
       <Align editorRef={editorRef} />
       <ListOrder editorRef={editorRef} />
+      <InsertHorizonLine editorRef={editorRef} />
     </div>
   );
 };

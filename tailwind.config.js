@@ -63,6 +63,11 @@ export default {
             margin: 0
           },
 
+          hr: {
+            margin: "12px 0",
+            borderColor: theme("colors.slate.300")
+          },
+
           ".wrapper": {
             position: "relative",
             border: "2px solid #0099A5",
