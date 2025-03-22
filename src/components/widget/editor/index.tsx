@@ -67,8 +67,16 @@ const Editor = React.forwardRef<
               contentEditable
               onInput={handleEditorChange}
               onContextMenu={handleContextMenu}
-              style={{ minHeight: height, backgroundColor, width }}
-              className="w-full p-2 focus-within:outline-none"
+              style={{
+                minHeight: height,
+                backgroundColor,
+                width,
+                paddingLeft: 8,
+                paddingRight: 8,
+                paddingTop: 8,
+                paddingBottom: 8
+              }}
+              className="w-full focus-within:outline-none"
             />
           </ContextMenuTrigger>
           <ToolbarContextMenu
