@@ -1,9 +1,4 @@
-import React, {
-  forwardRef,
-  useEffect,
-  useImperativeHandle,
-  useRef
-} from "react";
+import { forwardRef, useEffect, useImperativeHandle, useRef } from "react";
 
 interface HighlightInputProps {
   onChange?: (value: string) => void;
