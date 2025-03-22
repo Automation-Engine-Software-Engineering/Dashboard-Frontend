@@ -1,10 +1,16 @@
 import { PlusCircle } from "lucide-react";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
+import { getEntityProperties } from "@/api/property";
 import toast from "react-hot-toast";
 import { HashLoader } from "react-spinners";
 
+import { EntityType } from "@/types/form/entity";
+import { PropertyType } from "@/types/form/property";
+
 import { useFormEntities } from "@/hooks/server-state/use-form-entities";
+
+import HighlightInput from "@/components/common/highligh-input";
 
 import { Button } from "@/components/ui/button";
 import { ContextMenuItem } from "@/components/ui/context-menu";
@@ -138,9 +144,22 @@ const ModalDatabaseTab = ({
   rightClickedElement: HTMLElement;
 }) => {
   const { data: entities, isLoading } = useFormEntities();
-
-  const [selectedTable, setSelectedTable] = useState<null | string>(null);
+  const [selectedEntityId, setSelectedEntityId] = useState<null | string>(null);
   const [filter, setFilter] = useState("");
+  const [condition, setCondition] = useState("");
+
+  const [properties, setProperties] = useState<PropertyType[] | null>(null);
+
+  const highlightInputRef = useRef<HTMLDivElement>(null);
+
+  let selectedEntity: EntityType | null = null;
+
+  if (selectedEntityId) {
+    selectedEntity =
+      entities?.data.filter(
+        (entity) => entity.id == +(selectedEntityId ?? "")
+      )[0] ?? null;
+  }
 
   const handleConvertToSelect = () => {
     if (rightClickedElement) {
@@ -151,16 +170,17 @@ const ModalDatabaseTab = ({
         selectElement.setAttribute(attr.name, attr.value);
       });
 
-      selectElement.setAttribute("data-table", selectedTable ?? "");
+      selectElement.setAttribute("data-tableId", selectedEntityId ?? "");
       selectElement.setAttribute("data-filter", filter);
+      selectElement.setAttribute("data-condition", condition);
 
       const option = document.createElement("option");
       option.value = "table";
-      option.innerText = `دیتابیس - ${selectedTable}`;
+      option.innerText = `دیتابیس - ${selectedEntity?.previewName || ""}`;
 
       selectElement.append(option);
 
-      if (!selectedTable) {
+      if (!selectedEntityId) {
         toast.error("لطفا یک دیتابیس رو انتخاب کنید");
         return;
       }
@@ -170,6 +190,19 @@ const ModalDatabaseTab = ({
       onClose();
     }
   };
+
+  useEffect(() => {
+    (async () => {
+      if (selectedEntityId) {
+        const response = await getEntityProperties(selectedEntityId, {
+          page: 1,
+          size: 100
+        });
+
+        setProperties(response?.data ?? null);
+      }
+    })();
+  }, [selectedEntityId]);
 
   if (isLoading)
     return (
@@ -186,7 +219,7 @@ const ModalDatabaseTab = ({
         </label>
         <select
           onChange={(e) => {
-            setSelectedTable(e.target.value);
+            setSelectedEntityId(e.target.value);
           }}
           className="mt-2 w-full rounded-md border border-slate-300 p-2 text-slate-800"
         >
@@ -194,7 +227,7 @@ const ModalDatabaseTab = ({
             انتخاب جدول
           </option>
           {entities?.data.map((entity) => (
-            <option key={entity.id} value={entity.tableName}>
+            <option key={entity.id} value={entity.id}>
               {entity.previewName}
             </option>
           ))}
@@ -202,7 +235,7 @@ const ModalDatabaseTab = ({
       </div>
       <div>
         <label htmlFor="" className="block text-sm text-slate-800">
-          نمایش مقدار
+          شرط
         </label>
         <Input
           type="text"
@@ -212,6 +245,29 @@ const ModalDatabaseTab = ({
             setFilter(e.target.value);
           }}
         />
+      </div>
+      <div>
+        <label htmlFor="" className="block text-sm text-slate-800">
+          نمایش مقدار
+        </label>
+        <HighlightInput onChange={setCondition} ref={highlightInputRef} />
+        <div className="mt-2 flex flex-wrap items-center gap-2">
+          {properties?.map((property) => (
+            <Button
+              key={property.id}
+              size="sm"
+              variant="secondary"
+              className="h-fit px-3 py-2 text-xs"
+              onClick={() => {
+                if (highlightInputRef.current) {
+                  highlightInputRef.current.innerHTML = `${highlightInputRef.current.innerHTML} {{${property.propertyName}}}`;
+                }
+              }}
+            >
+              {property.previewName}
+            </Button>
+          ))}
+        </div>
       </div>
       <Button className="w-full" onClick={handleConvertToSelect}>
         تبدیل
