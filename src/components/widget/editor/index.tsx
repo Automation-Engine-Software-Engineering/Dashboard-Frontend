@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useImperativeHandle } from "react";
+import React, { useEffect, useRef, useState, useImperativeHandle } from "react";
 
 import { cn } from "@/lib/utils";
 
@@ -32,6 +32,8 @@ const Editor = React.forwardRef<
     ref
   ) => {
     const innerRef = useRef<HTMLDivElement | null>(null);
+    const [rightClickedElement, setRightClickedElement] =
+      useState<HTMLElement | null>(null);
 
     useImperativeHandle(ref, () => innerRef.current as HTMLDivElement);
 
@@ -48,6 +50,10 @@ const Editor = React.forwardRef<
       }
     }, [value]);
 
+    const handleContextMenu = (e: React.MouseEvent<HTMLDivElement>) => {
+      setRightClickedElement(e.target as HTMLElement);
+    };
+
     return (
       <div
         className={cn("relative bg-white", className)}
@@ -60,11 +66,15 @@ const Editor = React.forwardRef<
               ref={innerRef}
               contentEditable
               onInput={handleEditorChange}
+              onContextMenu={handleContextMenu}
               style={{ minHeight: height, backgroundColor, width }}
               className="w-full p-2 focus-within:outline-none"
             />
           </ContextMenuTrigger>
-          <ToolbarContextMenu editorRef={innerRef} />
+          <ToolbarContextMenu
+            editorRef={innerRef}
+            rightClickedElement={rightClickedElement}
+          />
           {children}
         </ContextMenu>
         <div
