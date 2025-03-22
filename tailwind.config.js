@@ -42,12 +42,45 @@ export default {
 
       editor: {
         css: {
-          "input, select": {
+          a: {
+            color: "#0099A5",
+            textDecoration: "underline"
+          },
+
+          "ol, ul": {
+            listStylePosition: "inside"
+          },
+
+          ol: {
+            listStyleType: "decimal"
+          },
+
+          ul: {
+            listStyleType: "disc"
+          },
+
+          "ul li::marker": {
+            margin: 0
+          },
+
+          ".wrapper": {
+            position: "relative",
+            border: "2px solid #0099A5",
             borderRadius: "6px",
-            border: "1px solid",
-            borderColor: theme("colors.slate.300"),
-            padding: "8px 12px",
-            backgroundColor: "#FFFFFF"
+            overflow: "hidden",
+            zIndex: 2
+          },
+
+          ".wrapper::before": {
+            content: `attr(data-type)`,
+            position: "absolute",
+            top: 0,
+            left: 0,
+            zIndex: 100,
+            fontSize: 10,
+            padding: "0 2px",
+            color: "white",
+            backgroundColor: "#0099A5"
           },
 
           table: {
