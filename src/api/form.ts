@@ -107,6 +107,27 @@ export const insertHtmlContent = async (formId: number, content: string) => {
   );
 };
 
+export const updateFormEntities = async (
+  formId: number,
+  entities: number[]
+) => {
+  return await apiResponseMiddleware(
+    axios.post(`${API_URL}/${API_ENDPOINT}/entities`, entities, {
+      params: {
+        formId
+      }
+    }),
+    () => {
+      toast.success("جداول با موفقیت ثبت شد", {
+        id: "api-middleware"
+      });
+    },
+    {
+      showToast: true
+    }
+  );
+};
+
 export const uploadImage = async (data: FormData) => {
   const response = await apiResponseMiddleware<{ imageUrl: string }>(
     axios.post(`${API_URL}/${API_ENDPOINT}/uploadImage`, data),

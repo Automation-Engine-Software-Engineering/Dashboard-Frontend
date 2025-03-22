@@ -2,7 +2,7 @@ import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 
 import { getAllEntities } from "@/api/entity";
-import { editForm } from "@/api/form";
+import { updateFormEntities } from "@/api/form";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { HashLoader } from "react-spinners";
 import { useDebouncedCallback } from "use-debounce";
@@ -32,17 +32,7 @@ const EntitiesListModal = () => {
 
   const { mutate, isPending } = useMutation({
     mutationFn: () => {
-      const formData = new FormData();
-
-      for (const [key, value] of Object.entries(form!)) {
-        formData.append(key, String(value));
-      }
-
-      selectedEntities?.forEach((entity) => {
-        formData.set(`entities`, String(entity));
-      });
-
-      return editForm(formData);
+      return updateFormEntities(form!.id, selectedEntities);
     },
 
     onSuccess: () => {
