@@ -2,7 +2,6 @@ import { apiResponseMiddleware } from "@/middleware/api-response";
 import axios from "axios";
 import toast from "react-hot-toast";
 
-import { ApiData } from "@/types/api-response";
 import { FormType } from "@/types/form/form";
 
 const API_URL = import.meta.env.VITE_FORM_API_URL as string;
@@ -14,7 +13,7 @@ export const getAllForms = async ({
 }: {
   page: number;
   size: number;
-}): Promise<ApiData<FormType[]> | null> =>
+}) =>
   await apiResponseMiddleware<FormType[]>(
     axios.get(`${API_URL}/${API_ENDPOINT}/all`, {
       params: {
@@ -28,9 +27,7 @@ export const getAllForms = async ({
     }
   );
 
-export const getForm = async (
-  id: string | number
-): Promise<FormType | null> => {
+export const getForm = async (id: string | number) => {
   const response = await apiResponseMiddleware<FormType>(
     axios.get(`${API_URL}/${API_ENDPOINT}/${id}`),
     () => {},
@@ -39,7 +36,7 @@ export const getForm = async (
     }
   );
 
-  return response.data;
+  return response?.data;
 };
 
 export const createForm = async (form: FormData) => {
@@ -108,4 +105,20 @@ export const insertHtmlContent = async (formId: number, content: string) => {
       showToast: true
     }
   );
+};
+
+export const uploadImage = async (data: FormData) => {
+  const response = await apiResponseMiddleware<{ imageUrl: string }>(
+    axios.post(`${API_URL}/${API_ENDPOINT}/uploadImage`, data),
+    () => {
+      toast.success("عکس با موفقیت ارسال شد", {
+        id: "api-middleware"
+      });
+    },
+    {
+      showToast: true
+    }
+  );
+
+  return response?.data;
 };
