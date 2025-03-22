@@ -39,7 +39,6 @@ const InsertTable: React.FC<
         const cell = document.createElement("td");
         cell.style.padding = "8px";
         cell.contentEditable = "true";
-        cell.textContent = `Row ${i + 1} Col ${j + 1}`;
         row.appendChild(cell);
       }
 
