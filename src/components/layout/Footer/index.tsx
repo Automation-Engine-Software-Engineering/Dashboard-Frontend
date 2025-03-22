@@ -9,7 +9,7 @@ export const Footer: React.FC<React.ComponentProps<"footer">> = ({
 }) => {
   return (
     <footer className={cn(className)} {...props}>
-      <div className="flex h-[70px] items-center gap-x-3 border border-slate-300 pr-12 text-xs">
+      <div className="flex h-[60px] items-center gap-x-3 border border-slate-300 pr-12 text-xs">
         <Link to="#" className="hover:text-primary">
           ارتباط <span className="text-[#E4EBF3]">/</span>
         </Link>
@@ -26,7 +26,7 @@ export const Footer: React.FC<React.ComponentProps<"footer">> = ({
           درباره ما <span className="text-[#E4EBF3]">/</span>
         </Link>
       </div>
-      <div className="bg-secondary h-[44px]"></div>
+      <div className="h-[30px] bg-secondary"></div>
     </footer>
   );
 };
