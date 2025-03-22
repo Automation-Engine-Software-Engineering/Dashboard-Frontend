@@ -1,12 +1,15 @@
+import { getFormPreview } from "@/api/form";
+import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 import { MoonLoader } from "react-spinners";
-
-import { useForm } from "@/hooks/server-state/use-form";
 
 const FormPreviewPage = () => {
   const { formId } = useParams<{ formId: string }>();
 
-  const { data, isLoading } = useForm(formId!);
+  const { data, isLoading } = useQuery({
+    queryFn: () => getFormPreview(+formId!),
+    queryKey: ["form-preview"]
+  });
 
   if (isLoading) return <Loading />;
 
@@ -16,18 +19,12 @@ const FormPreviewPage = () => {
     <div className="flex justify-center py-10">
       <div>
         <div className="w-full rounded-t-md bg-secondary py-4 text-center text-white">
-          <h2 className="text-xl font-bold">فرم: {data?.name}</h2>
+          {/* <h2 className="text-xl font-bold">فرم: {data?.name}</h2> */}
         </div>
         <div
-          style={{
-            width: data?.sizeWidth,
-            minHeight: data?.sizeHeight,
-            backgroundColor: data?.backgroundColor
-          }}
           className="rounded-b-md px-5 [&_input]:rounded-md [&_input]:border [&_input]:border-slate-300"
           dangerouslySetInnerHTML={{
-            __html:
-              data?.htmlFormBody.replace(/resize: both|disabled/g, "") ?? ""
+            __html: data?.data ?? ""
           }}
         />
       </div>

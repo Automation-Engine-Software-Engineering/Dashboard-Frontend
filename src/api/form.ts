@@ -122,3 +122,15 @@ export const uploadImage = async (data: FormData) => {
 
   return response?.data;
 };
+
+export const getFormPreview = async (formId: number) => {
+  return await apiResponseMiddleware<string>(
+    axios.get(`${API_URL}/${API_ENDPOINT}/preview`, {
+      params: {
+        formId
+      }
+    }),
+    () => {},
+    { showToast: false }
+  );
+};
