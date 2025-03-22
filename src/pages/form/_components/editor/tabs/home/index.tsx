@@ -2,6 +2,7 @@ import { cn } from "@/lib/utils";
 
 import Align from "@/components/widget/editor/toolbar-buttons/aligns";
 import Bold from "@/components/widget/editor/toolbar-buttons/bold";
+import FontPicker from "@/components/widget/editor/toolbar-buttons/font-picker";
 import FontSizePicker from "@/components/widget/editor/toolbar-buttons/font-size";
 import InsertHorizonLine from "@/components/widget/editor/toolbar-buttons/insert-horizon-line";
 import Italic from "@/components/widget/editor/toolbar-buttons/italic";
@@ -17,6 +18,7 @@ interface Props extends React.ComponentProps<"div"> {
 const HomeTab: React.FC<Props> = ({ editorRef, className, ...props }) => {
   return (
     <div className={cn("flex items-center gap-x-3", className)} {...props}>
+      <FontPicker editorRef={editorRef} />
       <FontSizePicker />
       <Bold editorRef={editorRef} />
       <Italic editorRef={editorRef} />
