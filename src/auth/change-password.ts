@@ -1,6 +1,7 @@
 import { axiosInstance } from "@/api/axios-instance";
 import { apiResponseMiddleware } from "@/middleware/api-response";
 
+import { ApiResult } from "@/types/api-response";
 import { SessionType } from "@/types/session";
 
 import { getToken } from "./index";
@@ -13,7 +14,7 @@ export const changeSessionPassword = async ({
 }: {
   newPassword: string;
   oldPassword: string;
-}): Promise<SessionType | null> => {
+}): Promise<ApiResult<SessionType> | null> => {
   const token = getToken();
 
   return await apiResponseMiddleware<SessionType>(

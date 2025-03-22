@@ -1,7 +1,6 @@
 import { axiosInstance } from "@/api/axios-instance";
 import { apiResponseMiddleware } from "@/middleware/api-response";
 
-// import { ApiData } from "@/types/api-response";
 import { SessionType } from "@/types/session";
 
 import { getToken } from ".";
@@ -20,5 +19,5 @@ export const getSession = async (): Promise<SessionType | null> => {
       showToast: false
     }
   );
-  return response.data;
+  return response!.data;
 };
