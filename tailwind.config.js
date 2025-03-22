@@ -42,19 +42,12 @@ export default {
 
       editor: {
         css: {
-          input: {
+          "input, select": {
             borderRadius: "6px",
             border: "1px solid",
             borderColor: theme("colors.slate.300"),
             padding: "8px 12px",
-            "&:disable": {
-              opacity: "50%"
-            },
-
-            "&:focus": {
-              borderColor: theme("colors.primary"),
-              outline: "none"
-            }
+            backgroundColor: "#FFFFFF"
           },
 
           table: {
