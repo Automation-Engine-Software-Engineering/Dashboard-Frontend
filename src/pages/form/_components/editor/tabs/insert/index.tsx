@@ -1,5 +1,6 @@
 import React from "react";
 
+import InsertImage from "@/components/widget/editor/toolbar-buttons/insert-image";
 import InsertLink from "@/components/widget/editor/toolbar-buttons/insert-link";
 import InsertTable from "@/components/widget/editor/toolbar-buttons/insert-table";
 
@@ -11,6 +12,7 @@ const InsertTab: React.FC<Props> = ({ editorRef }) => {
   return (
     <div className="flex items-center gap-x-3">
       <InsertTable editorRef={editorRef} />
+      <InsertImage editorRef={editorRef} />
       <InsertLink editorRef={editorRef} />
     </div>
   );
