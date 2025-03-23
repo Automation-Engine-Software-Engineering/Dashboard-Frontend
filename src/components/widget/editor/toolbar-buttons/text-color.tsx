@@ -11,15 +11,19 @@ const TextColorPicker: React.FC<Props> = ({ editorRef }) => {
 
   const getSelectedTextColor = () => {
     const selection = window.getSelection();
-    if (selection && selection.rangeCount > 0) {
+    if (selection?.rangeCount) {
       const range = selection.getRangeAt(0);
-      const parentElement = range.commonAncestorContainer.parentElement;
 
-      if (parentElement) {
-        const color = window.getComputedStyle(parentElement).color;
-        return color;
+      if (editorRef.current?.contains(range.commonAncestorContainer)) {
+        const parentElement = range.commonAncestorContainer.parentElement;
+
+        if (parentElement) {
+          const color = window.getComputedStyle(parentElement).color;
+          return color;
+        }
       }
     }
+
     return "#000000";
   };
 

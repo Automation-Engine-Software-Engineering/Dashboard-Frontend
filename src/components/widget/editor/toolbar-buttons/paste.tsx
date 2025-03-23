@@ -19,9 +19,13 @@ const Paste: React.FC<
         const selection = window.getSelection();
         if (selection?.rangeCount) {
           const range = selection.getRangeAt(0);
-          range.deleteContents();
-          range.insertNode(document.createTextNode(text));
-          editorRef.current.focus();
+
+          if (editorRef.current?.contains(range.commonAncestorContainer)) {
+            const range = selection.getRangeAt(0);
+            range.deleteContents();
+            range.insertNode(document.createTextNode(text));
+            editorRef.current.focus();
+          }
         }
       }
     } catch (err) {

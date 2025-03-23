@@ -35,8 +35,8 @@ const InsertImage: React.FC<
   const insertImageIntoEditor = (url: string) => {
     if (editorRef.current) {
       const selection = window.getSelection();
-      const range = selection?.getRangeAt(0);
-      if (range) {
+      if (selection?.rangeCount) {
+        const range = selection?.getRangeAt(0);
         const wrapper = document.createElement("div");
         wrapper.id = "image-wrapper";
         wrapper.className = "wrapper";
@@ -55,14 +55,17 @@ const InsertImage: React.FC<
         img.style.width = "100%";
         img.style.height = "100%";
         img.contentEditable = "false";
-
         wrapper.appendChild(img);
-        range.deleteContents();
-        range.insertNode(wrapper);
 
-        range.setStartAfter(wrapper);
-        range.setEndAfter(wrapper);
+        if (editorRef.current.contains(range.commonAncestorContainer)) {
+          range.deleteContents();
+          range.insertNode(wrapper);
 
+          range.setStartAfter(wrapper);
+          range.setEndAfter(wrapper);
+        } else {
+          editorRef.current.appendChild(wrapper);
+        }
         editorRef.current.focus();
       }
     }

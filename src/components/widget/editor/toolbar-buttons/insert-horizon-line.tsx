@@ -12,8 +12,16 @@ const InsertHorizonLine: React.FC<
   >
 > = ({ className, editorRef, ...props }) => {
   const handleCommand = (command: string) => {
-    document.execCommand(command, true);
-    editorRef?.current?.focus();
+    const selection = window.getSelection();
+
+    if (selection?.rangeCount) {
+      const range = selection.getRangeAt(0);
+
+      if (editorRef.current?.contains(range.commonAncestorContainer)) {
+        document.execCommand(command, true);
+        editorRef?.current?.focus();
+      }
+    }
   };
 
   return (

@@ -18,8 +18,16 @@ const ListOrder: React.FC<
   const [isUnorderedList, setIsUnorderedList] = useState<boolean>(false);
 
   const handleCommand = (command: string) => {
-    document.execCommand(command, false);
-    editorRef?.current?.focus();
+    const selection = window.getSelection();
+
+    if (selection?.rangeCount) {
+      const range = selection.getRangeAt(0);
+
+      if (editorRef.current?.contains(range.commonAncestorContainer)) {
+        document.execCommand(command, false);
+        editorRef?.current?.focus();
+      }
+    }
   };
 
   useEffect(() => {

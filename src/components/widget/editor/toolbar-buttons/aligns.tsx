@@ -27,9 +27,18 @@ const Align: React.FC<
     command: string,
     alignment: "left" | "right" | "center" | "justify"
   ) => {
-    document.execCommand(command, false);
-    editorRef?.current?.focus();
-    setIsActive(alignment);
+    if (editorRef.current) {
+      const selection = window.getSelection();
+
+      if (selection?.rangeCount) {
+        const range = selection.getRangeAt(0);
+        if (editorRef.current.contains(range.commonAncestorContainer)) {
+          document.execCommand(command, false);
+          editorRef.current.focus();
+          setIsActive(alignment);
+        }
+      }
+    }
   };
 
   useEffect(() => {
@@ -52,7 +61,7 @@ const Align: React.FC<
     return () => {
       document.removeEventListener("selectionchange", handleSelectionChange);
     };
-  }, []);
+  }, [editorRef]);
 
   return (
     <>

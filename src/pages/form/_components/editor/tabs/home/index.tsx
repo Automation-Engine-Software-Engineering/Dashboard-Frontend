@@ -19,7 +19,7 @@ const HomeTab: React.FC<Props> = ({ editorRef, className, ...props }) => {
   return (
     <div className={cn("flex items-center gap-x-3", className)} {...props}>
       <FontPicker editorRef={editorRef} />
-      <FontSizePicker />
+      <FontSizePicker editorRef={editorRef} />
       <Bold editorRef={editorRef} />
       <Italic editorRef={editorRef} />
       <Underline editorRef={editorRef} />

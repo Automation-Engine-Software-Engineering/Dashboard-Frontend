@@ -12,10 +12,18 @@ const InsertLink: React.FC<
   >
 > = ({ editorRef, className, ...props }) => {
   const insertLink = () => {
-    const url = prompt("Enter the URL to link to:");
-    if (url && editorRef.current) {
-      editorRef.current.focus();
-      document.execCommand("createLink", false, url);
+    const selection = window.getSelection();
+
+    if (selection?.rangeCount) {
+      const range = selection.getRangeAt(0);
+
+      if (editorRef.current?.contains(range.commonAncestorContainer)) {
+        const url = prompt("Enter the URL to link to:");
+        if (url?.trim()) {
+          document.execCommand("createLink", false, url);
+          editorRef.current.focus();
+        }
+      }
     }
   };
 

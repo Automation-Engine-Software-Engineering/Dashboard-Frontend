@@ -27,8 +27,17 @@ const FontPicker: React.FC<Props> = ({ editorRef }) => {
     const font = event.target.value;
     setSelectedFont(font);
 
-    document.execCommand("fontName", false, font);
-    editorRef.current?.focus();
+    if (editorRef.current) {
+      const selection = window.getSelection();
+
+      if (selection?.rangeCount) {
+        const range = selection.getRangeAt(0);
+        if (editorRef.current.contains(range.commonAncestorContainer)) {
+          document.execCommand("fontName", false, font);
+          editorRef.current.focus();
+        }
+      }
+    }
   };
 
   const updateSelectedTextFont = () => {

@@ -9,10 +9,11 @@ import {
   PopoverTrigger
 } from "@/components/ui/popover";
 
-const FontSizePicker: React.FC<React.ComponentProps<"button">> = ({
-  className,
-  ...props
-}) => {
+const FontSizePicker: React.FC<
+  React.ComponentProps<"button"> & {
+    editorRef: React.RefObject<HTMLDivElement>;
+  }
+> = ({ editorRef, className, ...props }) => {
   const [activeFontSize, setActiveFontSize] = useState<number>(3);
 
   const changeFontSize = (size: number) => {
@@ -39,7 +40,10 @@ const FontSizePicker: React.FC<React.ComponentProps<"button">> = ({
       const range = selection.getRangeAt(0);
       const parentElement = range.commonAncestorContainer.parentElement;
 
-      if (parentElement) {
+      if (
+        parentElement &&
+        editorRef.current?.contains(range.commonAncestorContainer)
+      ) {
         const computedFontSize =
           window.getComputedStyle(parentElement).fontSize;
         const fontSizeInPx = parseInt(computedFontSize, 10);

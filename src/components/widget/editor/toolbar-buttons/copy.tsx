@@ -14,9 +14,18 @@ const Copy: React.FC<
   >
 > = ({ className, editorRef, ...props }) => {
   const handleCommand = (command: string) => {
-    document.execCommand(command, true);
-    editorRef?.current?.focus();
-    toast.success("متن کپی شد");
+    if (editorRef.current) {
+      const selection = window.getSelection();
+
+      if (selection?.rangeCount) {
+        const range = selection.getRangeAt(0);
+        if (editorRef.current.contains(range.commonAncestorContainer)) {
+          document.execCommand(command, false);
+          editorRef.current.focus();
+          toast.success("متن کپی شد");
+        }
+      }
+    }
   };
 
   return (

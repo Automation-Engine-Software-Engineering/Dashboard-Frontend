@@ -17,9 +17,17 @@ const Italic: React.FC<
   const [isActive, setIsActive] = useState<boolean>(false);
 
   const handleCommand = (command: string) => {
-    document.execCommand(command, true);
-    editorRef?.current?.focus();
-    setIsActive(!!checkState("italic", editorRef));
+    const selection = window.getSelection();
+
+    if (selection?.rangeCount) {
+      const range = selection.getRangeAt(0);
+
+      if (editorRef.current?.contains(range.commonAncestorContainer)) {
+        document.execCommand(command, true);
+        editorRef?.current?.focus();
+        setIsActive(!!checkState("italic", editorRef));
+      }
+    }
   };
 
   useEffect(() => {

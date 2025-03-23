@@ -34,7 +34,6 @@ const PageMargin: React.FC<
   }, []);
 
   useEffect(() => {
-    console.log(margin);
     if (editorRef.current) {
       editorRef.current.style.paddingTop = `${margin.top}px`;
       editorRef.current.style.paddingRight = `${margin.right}px`;
