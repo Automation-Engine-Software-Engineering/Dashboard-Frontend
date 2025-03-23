@@ -1,41 +1,73 @@
 import {
   ReactFlow,
-  useNodesState,
-  useEdgesState,
-  addEdge,
+  Background,
+  applyNodeChanges,
+  applyEdgeChanges,
+  NodeChange,
+  EdgeChange,
   Connection,
-  Node,
-  Edge
+  addEdge,
+  MarkerType
 } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
+
+import { useFlowStore } from "@/hooks/store/use-workflow-store";
+
+import CustomNode from "./custom-node";
 
 const Workflow = () => {
-  const [nodes, , onNodesChange] = useNodesState<Node>([
-    {
-      id: "1",
-      type: "input",
-      data: { label: "An input node" },
-      position: { x: 0, y: 50 }
-    }
-  ]);
-  const [edges, setEdges, onEdgesChange] = useEdgesState<Edge>([]);
+  const { nodes, edges, setEdges, setNodes } = useFlowStore();
 
   const onConnect = useCallback(
-    (params: Connection) =>
-      setEdges((eds) => addEdge({ ...params, animated: true }, eds)),
+    (params: Connection) => {
+      setEdges((prevEdges) =>
+        addEdge(
+          {
+            ...params,
+            type: "step",
+            animated: true,
+            markerEnd: {
+              type: MarkerType.Arrow,
+              width: 20,
+              height: 20,
+              color: "#0099A5"
+            },
+            style: {
+              strokeWidth: 2,
+              stroke: "#0099A5"
+            }
+          },
+          prevEdges
+        )
+      );
+    },
     [setEdges]
   );
+
+  const handleNodesChange = (changes: NodeChange[]) => {
+    setNodes((prevNodes) => applyNodeChanges(changes, prevNodes));
+  };
+
+  const handleEdgesChange = (changes: EdgeChange[]) => {
+    setEdges((prevEdges) => applyEdgeChanges(changes, prevEdges));
+  };
+
+  useEffect(() => {
+    console.log(nodes, edges);
+  }, [nodes, edges]);
 
   return (
     <ReactFlow
       nodes={nodes}
       edges={edges}
-      onNodesChange={onNodesChange}
-      onEdgesChange={onEdgesChange}
+      onNodesChange={handleNodesChange}
+      onEdgesChange={handleEdgesChange}
       onConnect={onConnect}
-      className="bg-slate-200"
-    />
+      nodeTypes={{ custom: CustomNode }}
+    >
+      <Background />
+    </ReactFlow>
   );
 };
 
