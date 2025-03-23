@@ -39,6 +39,7 @@ const PropertyModal = () => {
       property ? editProperty(data) : createProperty(data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["properties"] });
+      onClose();
     }
   });
 
