@@ -5,7 +5,7 @@ import PreviewForm from "./preview-form";
 import SaveForm from "./save-form";
 import Align from "./toolbar-buttons/aligns";
 import Bold from "./toolbar-buttons/bold";
-import EditorWithFontSize from "./toolbar-buttons/font-size";
+import FontPicker from "./toolbar-buttons/font-size";
 import Italic from "./toolbar-buttons/italic";
 import StrikeThrough from "./toolbar-buttons/strikethrough";
 import TextColorPicker from "./toolbar-buttons/text-color";
@@ -26,7 +26,7 @@ const Toolbar: React.FC<
       <StrikeThrough editorRef={editorRef} />
       <TextColorPicker editorRef={editorRef} />
       <Align editorRef={editorRef} />
-      <EditorWithFontSize />
+      <FontPicker editorRef={editorRef} />
       <div className="ms-auto flex gap-x-2">
         <PreviewForm />
         <DeleteForm />
