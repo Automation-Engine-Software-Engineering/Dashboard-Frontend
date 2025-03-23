@@ -94,13 +94,17 @@ const InsertTable: React.FC<
           </Button>
         </div>
         <hr className="my-2" />
-        <TableModal />
+        <TableModal editorRef={editorRef} />
       </PopoverContent>
     </Popover>
   );
 };
 
-const TableModal = () => {
+const TableModal = ({
+  editorRef
+}: {
+  editorRef: React.RefObject<HTMLDivElement>;
+}) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
@@ -122,13 +126,22 @@ const TableModal = () => {
         </Button>
       </DialogTrigger>
       <DialogContent>
-        <ModalContent onClose={() => setIsModalOpen(false)} />
+        <ModalContent
+          editorRef={editorRef}
+          onClose={() => setIsModalOpen(false)}
+        />
       </DialogContent>
     </Dialog>
   );
 };
 
-const ModalContent = ({ onClose }: { onClose: () => void }) => {
+const ModalContent = ({
+  editorRef,
+  onClose
+}: {
+  editorRef: React.RefObject<HTMLDivElement>;
+  onClose: () => void;
+}) => {
   const { data: entities, isLoading } = useFormEntities();
   const [selectedEntityId, setSelectedEntityId] = useState<null | string>(null);
   const [filter, setFilter] = useState("");
@@ -158,6 +171,9 @@ const ModalContent = ({ onClose }: { onClose: () => void }) => {
       }
 
       toast.success("با موفقیت تبدیل شد");
+
+      editorRef.current?.appendChild(table);
+
       onClose();
     }
   };
