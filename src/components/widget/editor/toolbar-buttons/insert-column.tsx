@@ -24,11 +24,13 @@ const InsertColumns: React.FC<InsertColumnsProps> = ({ editorRef }) => {
     const container = document.createElement("div");
     container.setAttribute("data-columns", "container");
 
+    const columnWidth = 100 / colCount;
+
     Object.assign(container.style, {
       maxWidth: "100%",
       display: "grid",
       gap: "16px",
-      gridTemplateColumns: `repeat(${colCount}, 1fr)`,
+      gridTemplateColumns: `repeat(${colCount}, ${columnWidth}%)`,
       marginBottom: "16px",
       borderCollapse: "collapse"
     });
