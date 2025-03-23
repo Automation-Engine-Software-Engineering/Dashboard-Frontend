@@ -9,6 +9,7 @@ import Italic from "@/components/widget/editor/toolbar-buttons/italic";
 import ListOrder from "@/components/widget/editor/toolbar-buttons/list-order";
 import Strikethrough from "@/components/widget/editor/toolbar-buttons/strikethrough";
 import TextColorPicker from "@/components/widget/editor/toolbar-buttons/text-color";
+import TextHighlight from "@/components/widget/editor/toolbar-buttons/text-highlight";
 import Underline from "@/components/widget/editor/toolbar-buttons/underline";
 
 interface Props extends React.ComponentProps<"div"> {
@@ -25,6 +26,7 @@ const HomeTab: React.FC<Props> = ({ editorRef, className, ...props }) => {
       <Underline editorRef={editorRef} />
       <Strikethrough editorRef={editorRef} />
       <TextColorPicker editorRef={editorRef} />
+      <TextHighlight editorRef={editorRef} />
       <Align editorRef={editorRef} />
       <ListOrder editorRef={editorRef} />
       <InsertHorizonLine editorRef={editorRef} />
