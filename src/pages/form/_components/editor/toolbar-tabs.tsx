@@ -9,6 +9,7 @@ import Paste from "@/components/widget/editor/toolbar-buttons/paste";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
+import DesignTab from "./tabs/design";
 import HomeTab from "./tabs/home";
 import InsertTab from "./tabs/insert";
 import LayoutTab from "./tabs/layout";
@@ -77,6 +78,9 @@ const ToolbarTabs: React.FC<Props> = ({ editorRef, className }) => {
         </TabsContent>
         <TabsContent value="layout">
           <LayoutTab editorRef={editorRef} />
+        </TabsContent>
+        <TabsContent value="design">
+          <DesignTab editorRef={editorRef} />
         </TabsContent>
         <div className="ms-auto flex items-center gap-x-2">
           <Paste editorRef={editorRef} />
