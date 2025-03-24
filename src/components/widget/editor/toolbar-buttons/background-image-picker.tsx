@@ -1,55 +1,51 @@
-import { ImageIcon } from "lucide-react";
-import { ChangeEvent } from "react";
+import { ChevronDown, ImageIcon } from "lucide-react";
 
-import { editForm } from "@/api/form";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import toast from "react-hot-toast";
+import { uploadImage } from "@/api/form";
 
 import { Input } from "@/components/ui/input";
 
 import ToolbarButton from "./toolbar-button";
 
+const IMAGE_ROOT = import.meta.env.VITE_FORM_API_URL;
+
 const BackgroundImagePicker: React.FC<
   React.ComponentProps<"button"> & {
-    formId: number;
+    editorRef: React.RefObject<HTMLDivElement>;
   }
-> = ({ formId }) => {
-  const queryClient = useQueryClient();
-
-  const { mutate, isPending } = useMutation({
-    mutationFn: (formData: FormData) => editForm(formData),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["forms", `form-${formId}`] });
-    }
-  });
-
-  const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) {
-      toast.error("فایلی انتخاب نشده است");
-      return;
-    }
-
-    const formData = new FormData();
-    formData.append("id", formId.toString());
-    formData.append("backgroundImg", file);
-
-    mutate(formData);
-  };
+> = ({ editorRef }) => {
   return (
-    <ToolbarButton className="w-fit">
-      <label className="relative flex w-full items-center gap-x-1">
-        <ImageIcon />
-        Background Image
-        <Input
-          type="file"
-          accept="images/*"
-          onChange={handleImageChange}
-          className="absolute size-0 cursor-pointer opacity-0"
-          disabled={isPending}
-        />
-      </label>
-    </ToolbarButton>
+    <>
+      <ToolbarButton className="w-fit">
+        <label className="relative flex w-full items-center gap-x-1">
+          <ImageIcon />
+          Background image
+          <ChevronDown />
+          <Input
+            type="file"
+            onChange={async (e) => {
+              const file = e.target.files?.[0];
+              if (!file) return;
+
+              const formData = new FormData();
+              formData.append("image", file);
+
+              const response = await uploadImage(formData);
+
+              if (response?.imageUrl) {
+                const imageUrl = response?.imageUrl.replace(/\\/g, "/");
+
+                if (editorRef.current) {
+                  editorRef.current.style.backgroundImage = `url(${IMAGE_ROOT}/${imageUrl})`;
+                }
+              } else {
+                return;
+              }
+            }}
+            className="absolute size-0 cursor-pointer opacity-0"
+          />
+        </label>
+      </ToolbarButton>
+    </>
   );
 };
 export default BackgroundImagePicker;

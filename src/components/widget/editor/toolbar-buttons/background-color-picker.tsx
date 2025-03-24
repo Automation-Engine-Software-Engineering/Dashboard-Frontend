@@ -1,9 +1,5 @@
 import { ChevronDown, PaintBucket } from "lucide-react";
-
-import { editForm } from "@/api/form";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-
-import { useForm } from "@/hooks/server-state/use-form";
+import { useState } from "react";
 
 import { Input } from "@/components/ui/input";
 
@@ -11,27 +7,11 @@ import ToolbarButton from "./toolbar-button";
 
 const BackgroundColorPicker: React.FC<
   React.ComponentProps<"button"> & {
-    formId: number;
+    editorRef: React.RefObject<HTMLDivElement>;
   }
-> = ({ formId }) => {
-  const queryClient = useQueryClient();
+> = ({ editorRef }) => {
+  const [color] = useState<string>("#ffffff");
 
-  const { data: form } = useForm(formId);
-
-  const { mutate, isPending } = useMutation({
-    mutationFn: (formData: FormData) => editForm(formData),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["forms", `form-${formId}`] });
-    }
-  });
-
-  const handleColorChange = (e: React.FocusEvent<HTMLInputElement>) => {
-    const formData = new FormData();
-    formData.append("id", formId.toString());
-    formData.append("backgroundColor", e.target.value);
-
-    mutate(formData);
-  };
   return (
     <>
       <ToolbarButton className="w-fit">
@@ -41,10 +21,13 @@ const BackgroundColorPicker: React.FC<
           <ChevronDown />
           <Input
             type="color"
-            defaultValue={form?.backgroundColor ?? "#FFFFFF"}
-            onBlur={handleColorChange}
+            defaultValue={color}
+            onChange={(e) => {
+              if (editorRef.current) {
+                editorRef.current.style.backgroundColor = e.target.value;
+              }
+            }}
             className="absolute size-0 cursor-pointer opacity-0"
-            disabled={isPending}
           />
         </label>
       </ToolbarButton>

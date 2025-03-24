@@ -1,4 +1,13 @@
+import { Droplet } from "lucide-react";
 import React, { useState, useEffect } from "react";
+
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger
+} from "@/components/ui/popover";
 
 import ToolbarButton from "./toolbar-button";
 
@@ -7,7 +16,7 @@ interface Props {
 }
 
 const TextHighlight: React.FC<Props> = ({ editorRef }) => {
-  const [selectedColor, setSelectedColor] = useState("#000000");
+  const [selectedColor, setSelectedColor] = useState("#FFFFFF");
 
   const getSelectedTextColor = () => {
     const selection = window.getSelection();
@@ -24,7 +33,7 @@ const TextHighlight: React.FC<Props> = ({ editorRef }) => {
       }
     }
 
-    return "#000000";
+    return "#FFFFFF";
   };
 
   const handleColorChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -57,17 +66,31 @@ const TextHighlight: React.FC<Props> = ({ editorRef }) => {
   }, [editorRef]);
 
   return (
-    <ToolbarButton>
-      <label className="relative flex size-full justify-center">
-        <span className="w-full bg-yellow-300 text-lg">ab</span>
-        <input
+    <Popover>
+      <PopoverTrigger asChild>
+        <ToolbarButton>
+          <span className="w-full bg-yellow-300 text-lg">ab</span>
+        </ToolbarButton>
+      </PopoverTrigger>
+
+      <PopoverContent className="w-64">
+        <Input
           type="color"
           value={selectedColor}
           onChange={handleColorChange}
-          className="absolute size-0 cursor-pointer opacity-0"
         />
-      </label>
-    </ToolbarButton>
+        <Button
+          variant="ghost"
+          className="mt-2 w-full justify-start"
+          onClick={() => {
+            document.execCommand("backColor", false, "transparent");
+          }}
+        >
+          <Droplet />
+          بدون هایلایت
+        </Button>
+      </PopoverContent>
+    </Popover>
   );
 };
 

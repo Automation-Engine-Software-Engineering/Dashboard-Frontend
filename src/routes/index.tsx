@@ -20,6 +20,7 @@ import EditProfileAboutMe from "@/pages/profile/edit-profile/about-me";
 import EditProfileEducation from "@/pages/profile/edit-profile/education";
 import EditProfileResearch from "@/pages/profile/edit-profile/research";
 import EditProfileSocialLinks from "@/pages/profile/edit-profile/social-links";
+import WorkflowPage from "@/pages/workflow";
 
 // import TablePage from "@/pages/table";
 import Layout from "@/components/layout/layout";
@@ -61,6 +62,12 @@ const Router = () => {
             <Route path="entities/:entityId" element={<PropertiesPage />} />
             <Route path=":formId" element={<FormEditorPage />} />
             <Route path="preview/:formId" element={<FormPreviewPage />} />
+          </Route>
+
+          {/* Workflow */}
+
+          <Route path="/workflow">
+            <Route index element={<WorkflowPage />} />
           </Route>
 
           {/* Book  */}
