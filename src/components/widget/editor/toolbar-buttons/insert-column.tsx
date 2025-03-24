@@ -24,13 +24,11 @@ const InsertColumns: React.FC<InsertColumnsProps> = ({ editorRef }) => {
     const container = document.createElement("div");
     container.setAttribute("data-columns", "container");
 
-    const columnWidth = 100 / colCount;
-
     Object.assign(container.style, {
-      maxWidth: "100%",
+      width: "100%",
       display: "grid",
       gap: "16px",
-      gridTemplateColumns: `repeat(${colCount}, ${columnWidth}%)`,
+      gridTemplateColumns: `repeat(${colCount}, 1fr)`,
       marginBottom: "16px",
       borderCollapse: "collapse"
     });
@@ -58,6 +56,7 @@ const InsertColumns: React.FC<InsertColumnsProps> = ({ editorRef }) => {
 
     setColumns(2);
   };
+
   return (
     <Popover>
       <PopoverTrigger asChild>

@@ -7,21 +7,41 @@ import {
   EdgeChange,
   Connection,
   addEdge,
+  MiniMap,
+  Edge,
+  Node,
   MarkerType
 } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
-import { useCallback, useEffect } from "react";
-
-import { useFlowStore } from "@/hooks/store/use-workflow-store";
+import { useCallback } from "react";
 
 import CustomNode from "./custom-node";
 
-const Workflow = () => {
-  const { nodes, edges, setEdges, setNodes } = useFlowStore();
+interface Props {
+  nodes: Node[];
+  edges: Edge[];
+  setNodes: (update: (nodes: Node[]) => Node[]) => void;
+  setEdges: (update: (edges: Edge[]) => Edge[]) => void;
+}
 
-  const onConnect = useCallback(
+const Workflow: React.FC<Props> = ({ nodes, edges, setNodes, setEdges }) => {
+  const handleNodesChange = useCallback(
+    (changes: NodeChange[]) => {
+      setNodes((nds) => applyNodeChanges(changes, nds));
+    },
+    [setNodes]
+  );
+
+  const handleEdgesChange = useCallback(
+    (changes: EdgeChange[]) => {
+      setEdges((eds) => applyEdgeChanges(changes, eds));
+    },
+    [setEdges]
+  );
+
+  const handleConnect = useCallback(
     (params: Connection) => {
-      setEdges((prevEdges) =>
+      setEdges((eds) =>
         addEdge(
           {
             ...params,
@@ -38,24 +58,12 @@ const Workflow = () => {
               stroke: "#0099A5"
             }
           },
-          prevEdges
+          eds
         )
       );
     },
     [setEdges]
   );
-
-  const handleNodesChange = (changes: NodeChange[]) => {
-    setNodes((prevNodes) => applyNodeChanges(changes, prevNodes));
-  };
-
-  const handleEdgesChange = (changes: EdgeChange[]) => {
-    setEdges((prevEdges) => applyEdgeChanges(changes, prevEdges));
-  };
-
-  useEffect(() => {
-    console.log(nodes, edges);
-  }, [nodes, edges]);
 
   return (
     <ReactFlow
@@ -63,10 +71,13 @@ const Workflow = () => {
       edges={edges}
       onNodesChange={handleNodesChange}
       onEdgesChange={handleEdgesChange}
-      onConnect={onConnect}
+      onConnect={handleConnect}
+      snapToGrid
+      snapGrid={[10, 10]}
       nodeTypes={{ custom: CustomNode }}
     >
       <Background />
+      <MiniMap nodeColor="#0099A5" position="top-right" maskColor="#0099A520" />
     </ReactFlow>
   );
 };
