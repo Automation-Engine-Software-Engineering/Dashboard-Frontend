@@ -15,6 +15,10 @@ export const routeLabels: Record<string, string> = {
   // change password
   "/change-password": "تغییر رمز عبور",
 
+  // workflow
+
+  "/workflow": "گردش کار",
+
   //newbook
   "/newbook": "ثبت کتاب جدید"
 };
