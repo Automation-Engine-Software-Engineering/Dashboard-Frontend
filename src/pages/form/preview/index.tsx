@@ -3,8 +3,12 @@ import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 import { MoonLoader } from "react-spinners";
 
+import { useForm } from "@/hooks/server-state/use-form";
+
 const FormPreviewPage = () => {
   const { formId } = useParams<{ formId: string }>();
+
+  const { data: form } = useForm(+formId!);
 
   const { data, isLoading } = useQuery({
     queryFn: () => getFormPreview(+formId!),
@@ -19,7 +23,7 @@ const FormPreviewPage = () => {
     <div className="flex justify-center py-10">
       <div>
         <div className="w-full rounded-t-md bg-secondary py-4 text-center text-white">
-          {/* <h2 className="text-xl font-bold">فرم: {data?.name}</h2> */}
+          <h2 className="text-xl font-bold">فرم: {form?.name}</h2>
         </div>
         <div
           className="prose-preview rounded-b-md bg-white px-5"
