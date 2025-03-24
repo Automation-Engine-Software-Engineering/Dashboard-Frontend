@@ -145,7 +145,8 @@ export default {
             borderColor: theme("colors.slate.300"),
             borderRadius: "6px",
             overflow: "hidden",
-            zIndex: 2
+            zIndex: 2,
+            resize: "none"
           },
 
           ".wrapper::before": {
