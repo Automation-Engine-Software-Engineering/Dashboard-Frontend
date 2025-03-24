@@ -55,7 +55,10 @@ const Editor = React.forwardRef<
     };
 
     return (
-      <div className={cn("relative bg-white", className)} {...props}>
+      <div
+        className={cn("relative bg-white [&_div]:align-middle", className)}
+        {...props}
+      >
         <ContextMenu>
           <ContextMenuTrigger>
             <div
