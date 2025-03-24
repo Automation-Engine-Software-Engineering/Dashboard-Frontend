@@ -22,7 +22,7 @@ const FormPreviewPage = () => {
           {/* <h2 className="text-xl font-bold">فرم: {data?.name}</h2> */}
         </div>
         <div
-          className="prose-preview rounded-b-md px-5"
+          className="prose-preview rounded-b-md bg-white px-5"
           dangerouslySetInnerHTML={{
             __html: data?.data ?? ""
           }}
