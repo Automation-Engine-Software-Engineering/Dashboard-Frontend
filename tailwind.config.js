@@ -146,7 +146,7 @@ export default {
             borderRadius: "6px",
             overflow: "hidden",
             zIndex: 2,
-            resize: "none"
+            resize: "none !important"
           },
 
           ".wrapper::before": {
