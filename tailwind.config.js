@@ -99,6 +99,10 @@ export default {
               "&:nth-child(odd)": {
                 backgroundColor: theme("colors.slate.200")
               }
+            },
+
+            div: {
+              verticalAlign: "middle"
             }
           },
 
@@ -168,6 +172,9 @@ export default {
                 backgroundColor: theme("colors.slate.200")
               }
             }
+          },
+          div: {
+            verticalAlign: "middle"
           }
         }
       }
