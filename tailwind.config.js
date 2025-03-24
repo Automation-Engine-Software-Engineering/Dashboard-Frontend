@@ -106,6 +106,70 @@ export default {
             border: "1px solid #d1d1d1"
           }
         }
+      },
+      preview: {
+        css: {
+          a: {
+            color: "#0099A5",
+            textDecoration: "underline"
+          },
+
+          "ol, ul": {
+            listStylePosition: "inside"
+          },
+
+          ol: {
+            listStyleType: "decimal"
+          },
+
+          ul: {
+            listStyleType: "disc"
+          },
+
+          "ul li::marker": {
+            margin: 0
+          },
+
+          hr: {
+            margin: "12px 0",
+            borderColor: theme("colors.slate.300")
+          },
+
+          ".wrapper": {
+            position: "relative",
+            border: "2px solid",
+            borderColor: theme("colors.slate.300"),
+            borderRadius: "6px",
+            overflow: "hidden",
+            zIndex: 2
+          },
+
+          ".wrapper::before": {
+            content: `attr(data-type)`,
+            position: "absolute",
+            top: 0,
+            left: 0,
+            zIndex: 100,
+            fontSize: 10,
+            padding: "0 2px",
+            color: "white",
+            backgroundColor: "#0099A5"
+          },
+
+          table: {
+            border: "1px solid",
+            borderColor: theme("colors.slate.500"),
+            td: {
+              border: "1px solid",
+              borderColor: theme("colors.slate.300")
+            },
+            tr: {
+              "&:nth-child(odd)": {
+                backgroundColor: theme("colors.slate.200")
+              }
+            }
+          }
+        }
       }
     })
   },
