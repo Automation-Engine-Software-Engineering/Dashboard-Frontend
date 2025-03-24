@@ -1,20 +1,20 @@
+import { Node } from "@xyflow/react";
 import { Check } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
-import { getAllEntities } from "@/api/entity";
 import { getAllForms } from "@/api/form";
+import { useQuery } from "@tanstack/react-query";
 import { nanoid } from "nanoid";
 import toast from "react-hot-toast";
+import { useInView } from "react-intersection-observer";
 import { HashLoader } from "react-spinners";
 
 import { cn } from "@/lib/utils";
 
-import { EntityType } from "@/types/form/entity";
-import { FormType } from "@/types/form/form";
-
 import { useFlowStore } from "@/hooks/store/use-workflow-store";
 
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import Modal from "@/components/ui/modal";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import {
@@ -25,86 +25,72 @@ import {
   SelectValue
 } from "@/components/ui/select";
 
-interface Props {
+interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
-const AddNodeModal: React.FC<Props> = ({ isOpen, onClose }) => {
-  const [nodeType, setNodeType] = useState<string | null>(null);
-  const [listItems, setListItems] = useState<
-    FormType[] | EntityType[] | null | undefined
-  >(null);
+interface ContentProps {
+  setData: React.Dispatch<React.SetStateAction<Record<string, any> | null>>;
+}
 
-  const [selectedItem, setSelectedItem] = useState<number | null>(null);
+enum Type {
+  form = 1,
+  dynamic = 2
+}
 
-  const [isLoadingData, setIsLoadingData] = useState(false);
+enum TypeIcons {
+  form = "file-text",
+  dynamic = "code-xml"
+}
 
+const AddNodeModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
   const { setNodes } = useFlowStore();
+  const [newNodeData, setNewNodeData] = useState<Record<string, any> | null>(
+    null
+  );
+  const [nodeType, setNodeType] = useState<keyof typeof Type | null>(null);
 
-  const handleTypeChange = async (val: string) => {
-    setIsLoadingData(true);
-    setNodeType(val);
-    setListItems([]);
-    setSelectedItem(null);
+  const content = useMemo(() => {
+    switch (nodeType) {
+      case "form":
+        return <FormContent setData={setNewNodeData} />;
 
-    try {
-      switch (val) {
-        case "form": {
-          const response = await getAllForms({ page: 1, size: 100 });
-          setListItems(response?.data);
-          break;
-        }
-        case "table": {
-          const response = await getAllEntities({ page: 1, size: 100 });
-          setListItems(response?.data);
-          break;
-        }
-        default:
-          break;
-      }
-    } catch {
-      toast.error("خطایی رخ داده است");
-    } finally {
-      setIsLoadingData(false);
+      case "dynamic":
+        return <DynamicContent setData={setNewNodeData} />;
+      default:
+        return <></>;
     }
-  };
+  }, [nodeType]);
 
   const handleCreateNode = () => {
     if (nodeType) {
-      if (selectedItem) {
-        const itemName = listItems?.find((item) => item.id === selectedItem);
-
-        const newNode = {
+      if (newNodeData) {
+        const newNode: Node = {
           id: nanoid(),
           type: "custom",
-          data: {
-            name:
-              nodeType === "form"
-                ? (itemName as FormType).name
-                : (itemName as EntityType).previewName,
-
-            icon: nodeType === "form" ? "file-text" : "table"
-          },
+          data: newNodeData ?? {},
           position: { x: Math.random() * 500, y: Math.random() * 200 }
         };
 
         setNodes((prev) => [...prev, newNode]);
-
         onClose();
       } else {
-        toast.error("لطفا یک ایتم را انتخاب کنید");
+        toast.error("یک نوع را انتخاب کنید");
       }
     } else {
-      toast.error("لطفا نوع رشته را انتخاب کنید");
+      toast.error("اطلاعات را تکمیل کنید");
     }
   };
 
   useEffect(() => {
     setNodeType(null);
-    setListItems(null);
-    setSelectedItem(null);
+    setNewNodeData(null);
   }, [isOpen]);
+
+  useEffect(() => {
+    setNewNodeData(null);
+  }, [nodeType]);
 
   return (
     <Modal
@@ -114,59 +100,134 @@ const AddNodeModal: React.FC<Props> = ({ isOpen, onClose }) => {
       description=""
     >
       <div className="space-y-1">
-        <label className="text-sm">نوع رشته</label>
-        <Select onValueChange={handleTypeChange} dir="rtl">
+        <label className="text-sm">نوع گره</label>
+        <Select
+          onValueChange={(val) => {
+            setNodeType(val as any);
+          }}
+          dir="rtl"
+        >
           <SelectTrigger>
             <SelectValue placeholder="انتخاب کنید" />
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="form">فرم</SelectItem>
-            <SelectItem value="table">جدول</SelectItem>
+            <SelectItem value="dynamic">داینامیک</SelectItem>
           </SelectContent>
         </Select>
       </div>
 
-      <ScrollArea
-        className="mt-5 h-64 w-full rounded-md border border-slate-300"
-        dir="rtl"
-      >
-        {nodeType ? (
-          isLoadingData ? (
-            <div className="mt-10 flex w-full justify-center">
-              <HashLoader color="#0099A5" size={40} />
-            </div>
-          ) : (
-            !!listItems?.length &&
-            listItems.map((item) => (
-              <div
-                key={item.id}
-                onClick={() => setSelectedItem(item.id)}
-                className={cn(
-                  "items-center` flex cursor-pointer border-b border-b-slate-300 px-5 py-3 text-sm transition-colors hover:bg-primary/20",
-                  selectedItem === item.id &&
-                    "pointer-events-none bg-primary/20"
-                )}
-              >
-                {nodeType === "form"
-                  ? (item as FormType).name
-                  : (item as EntityType).previewName}
+      <div className="mt-5">{content}</div>
 
-                {selectedItem === item.id && (
-                  <Check className="ms-auto" size={20} color="#0099A5" />
-                )}
-              </div>
-            ))
-          )
-        ) : (
-          <div className="mt-5 text-center text-sm font-bold text-slate-400">
-            لطفا نوع رشته را انتخاب کنید
-          </div>
-        )}
-      </ScrollArea>
       <Button className="mt-5 w-full" onClick={handleCreateNode}>
         اضافه کردن
       </Button>
     </Modal>
+  );
+};
+
+const FormContent = ({ setData }: ContentProps) => {
+  const [size, setSize] = useState(10);
+
+  const [selected, setSelected] = useState<number | null>(null);
+
+  const { ref, inView } = useInView({
+    threshold: 0.5
+  });
+
+  const {
+    data: forms,
+    isLoading,
+    isPending
+  } = useQuery({
+    queryFn: () => getAllForms({ page: 1, size }),
+    queryKey: ["forms"]
+  });
+
+  useEffect(() => {
+    if (forms) {
+      if (forms?.totalCount < size || inView) {
+        setSize(size + 10);
+      }
+    }
+  }, [inView]);
+
+  if (isLoading)
+    return (
+      <div className="flex h-32 w-full items-center justify-center">
+        <HashLoader color="#0099A5" size={40} />
+      </div>
+    );
+
+  return (
+    <ScrollArea
+      className="h-64 w-full rounded-md border border-slate-300"
+      dir="rtl"
+    >
+      {forms?.data.map((form) => (
+        <div
+          key={form.id}
+          className={cn(
+            "items-center` flex cursor-pointer border-b border-b-slate-300 px-5 py-3 text-sm transition-colors hover:bg-primary/20",
+            selected === form.id && "pointer-events-none bg-primary/20"
+          )}
+          onClick={() => {
+            setData({
+              name: form.name,
+              formId: form.id,
+              type: Type.form,
+              icon: TypeIcons.form
+            });
+
+            setSelected(form.id);
+          }}
+        >
+          {form.name}
+          {selected === form.id && (
+            <Check className="ms-auto" size={20} color="#0099A5" />
+          )}
+        </div>
+      ))}
+
+      {isPending && (
+        <div className="flex w-full justify-center">
+          <HashLoader size={30} color="#0099A5" />
+        </div>
+      )}
+
+      <div ref={ref} className="h-5 w-full" />
+    </ScrollArea>
+  );
+};
+
+const DynamicContent = ({ setData }: ContentProps) => {
+  useEffect(() => {
+    setData((prev) => ({ ...prev, icon: TypeIcons.dynamic }));
+  }, []);
+
+  return (
+    <div className="space-y-5">
+      <div className="space-y-1">
+        <label>نام فایل</label>
+        <Input
+          placeholder="نام فایل"
+          onChange={(e) => {
+            setData((prev) => ({ ...prev, name: e.target.value }));
+          }}
+        />
+      </div>
+      <div className="space-y-1">
+        <label>فایل dll</label>
+        <Input
+          type="file"
+          accept=".dll"
+          onChange={() => {
+            // TODO: handle upload file
+            // setData((prev) => ({ ...prev, name: e.target.value }));
+          }}
+        />
+      </div>
+    </div>
   );
 };
 export default AddNodeModal;
