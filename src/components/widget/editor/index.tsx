@@ -51,7 +51,12 @@ const Editor = React.forwardRef<
     }, [value]);
 
     const handleContextMenu = (e: React.MouseEvent<HTMLDivElement>) => {
-      setRightClickedElement(e.target as HTMLElement);
+      const targetElement = e.target as HTMLElement;
+
+      const svgElement = targetElement.closest("svg");
+
+      // @ts-expect-error for ignore svgElement type
+      setRightClickedElement(svgElement || targetElement);
     };
 
     return (
@@ -59,7 +64,7 @@ const Editor = React.forwardRef<
         className={cn("relative bg-white [&_div]:align-middle", className)}
         {...props}
       >
-        <ContextMenu>
+        <ContextMenu dir="rtl">
           <ContextMenuTrigger>
             <div
               ref={innerRef}

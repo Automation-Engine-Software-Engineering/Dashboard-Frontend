@@ -8,6 +8,7 @@ import Italic from "../toolbar-buttons/italic";
 import Strikethrough from "../toolbar-buttons/strikethrough";
 import Underline from "../toolbar-buttons/underline";
 import InputContextMenuActions from "./input-actions";
+import SvgContextActions from "./svg-actions";
 
 const ToolbarContextMenu: React.FC<
   React.ComponentProps<"div"> & {
@@ -18,12 +19,17 @@ const ToolbarContextMenu: React.FC<
   return (
     <ContextMenuContent>
       {(() => {
-        switch (rightClickedElement?.tagName) {
+        switch (rightClickedElement?.tagName.toUpperCase()) {
           case "INPUT":
             return (
               <InputContextMenuActions
                 rightClickedElement={rightClickedElement}
               />
+            );
+
+          case "SVG":
+            return (
+              <SvgContextActions rightClickedElement={rightClickedElement} />
             );
 
           default:
