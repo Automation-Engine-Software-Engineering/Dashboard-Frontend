@@ -1,51 +1,114 @@
-import { getToken } from "@/auth";
-import { AxiosError } from "axios";
+import { Edge, Node } from "@xyflow/react";
 
-import { axiosInstance } from "./axios-instance";
+import { apiResponseMiddleware } from "@/middleware/api-response";
+import axios from "axios";
+import toast from "react-hot-toast";
 
-export const getWorkflowsByRole = async (): Promise<any | AxiosError<any>> => {
-  const API_ENDPOINT = "/api/Role/GetWorkFlowsByRole";
+import { WorkflowType } from "@/types/workflow/workflow";
 
-  const token = getToken();
+const API_URL = import.meta.env.VITE_FORM_API_URL as string;
+const API_ENDPOINT = "api/WorkFlow";
 
-  const response = await axiosInstance(`${API_ENDPOINT}/${token}`);
+export const getAllWorkflows = async ({
+  page,
+  size
+}: {
+  page: number;
+  size: number;
+}) =>
+  await apiResponseMiddleware<WorkflowType[]>(
+    axios.get(`${API_URL}/${API_ENDPOINT}/all`, {
+      params: {
+        pageSize: size,
+        pageNumber: page
+      }
+    }),
+    () => {},
+    {
+      showToast: false
+    }
+  );
 
-  if (response.data.status) {
-    return response.data.data;
-  }
-  return null;
+export const getWorkflow = async (workflowId: number) => {
+  return await apiResponseMiddleware<WorkflowType>(
+    axios.get(`${API_URL}/${API_ENDPOINT}/${workflowId}`),
+    () => {},
+    {
+      showToast: true
+    }
+  );
 };
 
-export const getWorkflowValue = async (
-  userId: string,
-  workFlowId: number
-): Promise<any | AxiosError<any>> => {
-  try {
-    const response = await axiosInstance.get(
-      `api/WorkFlow/${workFlowId}/value?userId=${userId}`
-    );
-
-    if (!response.data.status) throw new Error(response.data.message);
-
-    return response.data.data;
-  } catch (err) {
-    throw new Error(`create workflow user error: ${err}`);
-  }
+export const createWorkflow = async (workflow: Partial<WorkflowType>) => {
+  return await apiResponseMiddleware<WorkflowType>(
+    axios.post(`${API_URL}/${API_ENDPOINT}/create`, workflow),
+    () => {
+      toast.success("گردش کار با موفقیت ساخته شد", {
+        id: "api-middleware"
+      });
+    },
+    {
+      showToast: true
+    }
+  );
 };
 
-export const getNextWorkflowValue = async (
-  userId: string,
-  workFlowId: number
-): Promise<any | AxiosError<any>> => {
-  try {
-    const response = await axiosInstance.get(
-      `api/WorkFlow/${workFlowId}/next/value?userId=${userId}`
-    );
+export const editWorkflow = async (
+  workflowId: number,
+  workflow: WorkflowType
+) => {
+  return await apiResponseMiddleware<WorkflowType>(
+    axios.post(`${API_URL}/${API_ENDPOINT}/update`, {
+      ...workflow,
+      id: workflowId
+    }),
+    () => {
+      toast.success("گردش کار با موفقیت ویرایش شد", {
+        id: "api-middleware"
+      });
+    },
+    {
+      showToast: true
+    }
+  );
+};
 
-    if (!response.data.status) throw new Error(response.data.message);
+export const deleteWorkflow = async (workflowId: number) => {
+  return await apiResponseMiddleware<WorkflowType>(
+    axios.post(
+      `${API_URL}/${API_ENDPOINT}/remove`,
+      JSON.stringify(workflowId),
+      {
+        headers: {
+          "Content-Type": "application/json"
+        }
+      }
+    ),
+    () => {
+      toast.success("گردش کار با موفقیت حذف شد", {
+        id: "api-middleware"
+      });
+    },
+    {
+      showToast: true
+    }
+  );
+};
 
-    return response.data.data;
-  } catch (err) {
-    throw new Error(`create workflow user error: ${err}`);
-  }
+export const saveWorkflowNodes = async (
+  workflowId: number,
+  data: { nodes: Node[]; edges: Edge[] }
+) => {
+  return await apiResponseMiddleware<null>(
+    axios.post(`${API_URL}/${API_ENDPOINT}/setNodes`, {
+      ...data,
+      id: workflowId
+    }),
+    () => {
+      toast.success("گردش کار با موفقیت ذخیره شد");
+    },
+    {
+      showToast: true
+    }
+  );
 };

@@ -11,8 +11,6 @@ import { HashLoader } from "react-spinners";
 
 import { cn } from "@/lib/utils";
 
-import { useFlowStore } from "@/hooks/store/use-workflow-store";
-
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Modal from "@/components/ui/modal";
@@ -28,6 +26,7 @@ import {
 interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
+  setNodes: React.Dispatch<React.SetStateAction<Node[]>>;
 }
 
 interface ContentProps {
@@ -44,8 +43,7 @@ enum TypeIcons {
   dynamic = "code-xml"
 }
 
-const AddNodeModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
-  const { setNodes } = useFlowStore();
+const AddNodeModal: React.FC<ModalProps> = ({ isOpen, onClose, setNodes }) => {
   const [newNodeData, setNewNodeData] = useState<Record<string, any> | null>(
     null
   );
@@ -103,7 +101,7 @@ const AddNodeModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
         <label className="text-sm">نوع گره</label>
         <Select
           onValueChange={(val) => {
-            setNodeType(val as any);
+            setNodeType(val as keyof typeof Type);
           }}
           dir="rtl"
         >
@@ -126,19 +124,15 @@ const AddNodeModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
   );
 };
 
-const FormContent = ({ setData }: ContentProps) => {
+const FormContent: React.FC<ContentProps> = ({ setData }) => {
   const [size, setSize] = useState(10);
-
   const [selected, setSelected] = useState<number | null>(null);
-
-  const { ref, inView } = useInView({
-    threshold: 0.5
-  });
+  const { ref, inView } = useInView({ threshold: 0.5 });
 
   const {
     data: forms,
     isLoading,
-    isPending
+    isFetching
   } = useQuery({
     queryFn: () => getAllForms({ page: 1, size }),
     queryKey: ["forms"]
@@ -146,11 +140,11 @@ const FormContent = ({ setData }: ContentProps) => {
 
   useEffect(() => {
     if (forms) {
-      if (forms?.totalCount < size || inView) {
+      if (forms.totalCount < size || inView) {
         setSize(size + 10);
       }
     }
-  }, [inView]);
+  }, [inView, forms, size]);
 
   if (isLoading)
     return (
@@ -168,7 +162,7 @@ const FormContent = ({ setData }: ContentProps) => {
         <div
           key={form.id}
           className={cn(
-            "items-center` flex cursor-pointer border-b border-b-slate-300 px-5 py-3 text-sm transition-colors hover:bg-primary/20",
+            "flex cursor-pointer items-center border-b border-b-slate-300 px-5 py-3 text-sm transition-colors hover:bg-primary/20",
             selected === form.id && "pointer-events-none bg-primary/20"
           )}
           onClick={() => {
@@ -178,18 +172,17 @@ const FormContent = ({ setData }: ContentProps) => {
               type: Type.form,
               icon: TypeIcons.form
             });
-
             setSelected(form.id);
           }}
         >
           {form.name}
           {selected === form.id && (
-            <Check className="ms-auto" size={20} color="#0099A5" />
+            <Check className="ml-auto" size={20} color="#0099A5" />
           )}
         </div>
       ))}
 
-      {isPending && (
+      {isFetching && (
         <div className="flex w-full justify-center">
           <HashLoader size={30} color="#0099A5" />
         </div>
@@ -200,10 +193,14 @@ const FormContent = ({ setData }: ContentProps) => {
   );
 };
 
-const DynamicContent = ({ setData }: ContentProps) => {
+const DynamicContent: React.FC<ContentProps> = ({ setData }) => {
   useEffect(() => {
-    setData((prev) => ({ ...prev, icon: TypeIcons.dynamic }));
-  }, []);
+    setData((prev) => ({
+      ...prev,
+      icon: TypeIcons.dynamic,
+      type: Type.dynamic
+    }));
+  }, [setData]);
 
   return (
     <div className="space-y-5">
@@ -230,4 +227,5 @@ const DynamicContent = ({ setData }: ContentProps) => {
     </div>
   );
 };
+
 export default AddNodeModal;

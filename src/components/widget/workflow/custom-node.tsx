@@ -1,4 +1,4 @@
-import { Handle, Position } from "@xyflow/react";
+import { Handle, Position, useHandleConnections } from "@xyflow/react";
 import dynamicIconImports from "lucide-react/dynamicIconImports";
 import React, { memo } from "react";
 
@@ -14,6 +14,15 @@ interface CustomNodeProps {
 const CustomNode: React.FC<CustomNodeProps> = ({ data }) => {
   const { name, icon } = data;
 
+  const targetConnections = useHandleConnections({
+    id: "a",
+    type: "target"
+  });
+  const sourceConnections = useHandleConnections({
+    id: "b",
+    type: "source"
+  });
+
   return (
     <div className="group rounded-md border-2 border-primary bg-white px-4 py-2 shadow-md">
       <div className="flex items-center space-x-3">
@@ -24,16 +33,18 @@ const CustomNode: React.FC<CustomNodeProps> = ({ data }) => {
       </div>
 
       <Handle
-        id="b"
+        id="a"
         type="target"
         position={Position.Left}
+        isConnectable={targetConnections.length < 1}
         className="h-3 w-3 rounded-full !bg-slate-500 opacity-0 transition-opacity group-hover:opacity-100"
       />
 
       <Handle
-        id="d"
+        id="b"
         type="source"
         position={Position.Right}
+        isConnectable={sourceConnections.length < 1}
         className="h-3 w-3 rounded-full !bg-slate-500 opacity-0 transition-opacity group-hover:opacity-100"
       />
     </div>

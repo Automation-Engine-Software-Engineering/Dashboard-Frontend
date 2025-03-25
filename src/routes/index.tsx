@@ -20,7 +20,8 @@ import EditProfileAboutMe from "@/pages/profile/edit-profile/about-me";
 import EditProfileEducation from "@/pages/profile/edit-profile/education";
 import EditProfileResearch from "@/pages/profile/edit-profile/research";
 import EditProfileSocialLinks from "@/pages/profile/edit-profile/social-links";
-import WorkflowPage from "@/pages/workflow";
+import WorkflowsPage from "@/pages/workflow";
+import WorkflowPage from "@/pages/workflow/flow";
 
 // import TablePage from "@/pages/table";
 import Layout from "@/components/layout/layout";
@@ -67,7 +68,8 @@ const Router = () => {
           {/* Workflow */}
 
           <Route path="/workflow">
-            <Route index element={<WorkflowPage />} />
+            <Route index element={<WorkflowsPage />} />
+            <Route path=":workflowId" element={<WorkflowPage />} />
           </Route>
 
           {/* Book  */}

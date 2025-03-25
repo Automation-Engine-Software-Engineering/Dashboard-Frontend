@@ -1,16 +1,14 @@
 import {
   ReactFlow,
   Background,
-  applyNodeChanges,
-  applyEdgeChanges,
-  NodeChange,
-  EdgeChange,
   Connection,
   addEdge,
   MiniMap,
   Edge,
   Node,
-  MarkerType
+  MarkerType,
+  applyEdgeChanges,
+  applyNodeChanges
 } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
 import { useCallback } from "react";
@@ -20,25 +18,11 @@ import CustomNode from "./custom-node";
 interface Props {
   nodes: Node[];
   edges: Edge[];
-  setNodes: (update: (nodes: Node[]) => Node[]) => void;
-  setEdges: (update: (edges: Edge[]) => Edge[]) => void;
+  setNodes: React.Dispatch<React.SetStateAction<Node[]>>;
+  setEdges: React.Dispatch<React.SetStateAction<Edge[]>>;
 }
 
 const Workflow: React.FC<Props> = ({ nodes, edges, setNodes, setEdges }) => {
-  const handleNodesChange = useCallback(
-    (changes: NodeChange[]) => {
-      setNodes((nds) => applyNodeChanges(changes, nds));
-    },
-    [setNodes]
-  );
-
-  const handleEdgesChange = useCallback(
-    (changes: EdgeChange[]) => {
-      setEdges((eds) => applyEdgeChanges(changes, eds));
-    },
-    [setEdges]
-  );
-
   const handleConnect = useCallback(
     (params: Connection) => {
       setEdges((eds) =>
@@ -65,6 +49,16 @@ const Workflow: React.FC<Props> = ({ nodes, edges, setNodes, setEdges }) => {
     [setEdges]
   );
 
+  const handleNodesChange = useCallback(
+    (changes: any) => setNodes((nds) => applyNodeChanges(changes, nds)),
+    [setNodes]
+  );
+
+  const handleEdgesChange = useCallback(
+    (changes: any) => setEdges((eds) => applyEdgeChanges(changes, eds)),
+    [setEdges]
+  );
+
   return (
     <ReactFlow
       nodes={nodes}
@@ -77,7 +71,12 @@ const Workflow: React.FC<Props> = ({ nodes, edges, setNodes, setEdges }) => {
       nodeTypes={{ custom: CustomNode }}
     >
       <Background />
-      <MiniMap nodeColor="#0099A5" position="top-right" maskColor="#0099A520" />
+      <MiniMap
+        pannable
+        nodeColor="#0099A5"
+        position="top-right"
+        maskColor="#0099A520"
+      />
     </ReactFlow>
   );
 };
