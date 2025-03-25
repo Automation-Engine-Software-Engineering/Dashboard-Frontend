@@ -55,7 +55,7 @@ export const createForm = async (form: FormData) => {
 
 export const editForm = async (form: FormData) => {
   return await apiResponseMiddleware<FormType>(
-    axios.post(`${API_URL}/${API_ENDPOINT}/update`, form),
+    axios.post(`${API_URL}/${API_ENDPOINT}/${form.get("id")}/update`, form),
     () => {
       toast.success("فرم با موفقیت ویرایش شد", {
         id: "api-middleware"
