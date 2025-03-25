@@ -60,9 +60,6 @@ const InsertChart: React.FC<
         case "pie":
           chartRoot.render(<PieChart />);
           break;
-        case "button":
-          chartRoot.render(<Button>hi</Button>);
-          break;
         default:
           break;
       }
@@ -104,16 +101,6 @@ const InsertChart: React.FC<
           variant="ghost"
           onClick={() => {
             handleInsertChart("pie");
-          }}
-        >
-          <ChartPieIcon size={20} className="text-primary" />
-          <span className="font-semibold">Pie</span>
-        </Button>
-        <Button
-          className="w-full justify-start rounded-none"
-          variant="ghost"
-          onClick={() => {
-            handleInsertChart("button");
           }}
         >
           <ChartPieIcon size={20} className="text-primary" />
