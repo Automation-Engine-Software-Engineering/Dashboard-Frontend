@@ -40,27 +40,85 @@ const InsertTable: React.FC<
     const table = document.createElement("table");
     table.style.borderCollapse = "collapse";
     table.style.width = "100%";
-    table.style.height = "100%";
     table.style.maxWidth = "100%";
-
+    table.style.position = "relative";
     for (let i = 0; i < rows; i++) {
       const row = document.createElement("tr");
 
       for (let j = 0; j < cols; j++) {
         const cell = document.createElement("td");
         cell.style.padding = "8px";
+        cell.style.border = "1px solid #ccc";
+        cell.style.position = "relative";
         cell.contentEditable = "true";
+        cell.style.maxWidth = "100%";
         row.appendChild(cell);
       }
 
       table.appendChild(row);
     }
 
+    makeColumnsResizable(table);
+
     editorRef.current.appendChild(table);
 
     setRows(3);
     setCols(3);
   };
+
+  const makeColumnsResizable = (table: HTMLTableElement) => {
+    const rows = table.rows;
+
+    if (rows.length === 0) return;
+
+    const handleResize = (
+      event: MouseEvent,
+      resizer: HTMLDivElement,
+      cell: HTMLTableCellElement
+    ) => {
+      const startX = event.clientX;
+      const startWidth = cell.offsetWidth;
+
+      const onMouseMove = (moveEvent: MouseEvent) => {
+        const newWidth = Math.max(
+          20,
+          startWidth + (moveEvent.clientX - startX)
+        ); // Minimum width: 20px
+        cell.style.width = `${newWidth}px`;
+      };
+
+      const onMouseUp = () => {
+        document.removeEventListener("mousemove", onMouseMove);
+        document.removeEventListener("mouseup", onMouseUp);
+      };
+
+      document.addEventListener("mousemove", onMouseMove);
+      document.addEventListener("mouseup", onMouseUp);
+    };
+
+    const firstRow = rows[0];
+    Array.from(firstRow.cells).forEach((cell, index) => {
+      if (index === 0) return;
+
+      const resizer = document.createElement("div");
+      resizer.contentEditable = "false";
+      resizer.style.width = "5px";
+      resizer.style.height = "100%";
+      resizer.style.position = "absolute";
+      resizer.style.top = "0";
+      resizer.style.right = "0";
+      resizer.style.cursor = "col-resize";
+      resizer.style.userSelect = "none";
+      resizer.style.backgroundColor = "rgba(0, 0, 0, 0.1)";
+      resizer.style.zIndex = "10";
+
+      resizer.addEventListener("mousedown", (event) =>
+        handleResize(event, resizer, cell)
+      );
+      cell.appendChild(resizer);
+    });
+  };
+
   return (
     <Popover>
       <PopoverTrigger asChild>
