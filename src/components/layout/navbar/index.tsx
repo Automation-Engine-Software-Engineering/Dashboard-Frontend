@@ -19,6 +19,7 @@ import {
 
 const regexAPages = /a[1-3]/;
 const regexPPages = /p[1]/;
+const RESUME_ADDRESS = import.meta.env.VITE_RESUME_ADDRESS;
 
 const Navbar: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
   className,
@@ -87,7 +88,8 @@ const Navbar: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
             </Accordion>
             <div className="mt-auto space-y-1 border-t border-t-slate-300 px-5 py-7 pt-4">
               <Link
-                to="#"
+                to={`${RESUME_ADDRESS}/${session?.userIdentifierEn}`}
+                target="_blank"
                 className="flex items-center gap-x-1 text-xs font-semibold hover:text-primary"
               >
                 <span>
