@@ -32,92 +32,76 @@ const InsertTable: React.FC<
   const [rows, setRows] = useState<number>(3);
   const [cols, setCols] = useState<number>(3);
 
-  const createTable = () => {
+  const createTableWithResizers = () => {
     if (!editorRef.current) return;
-
-    if (rows < 1 || cols < 1) return;
 
     const table = document.createElement("table");
     table.style.borderCollapse = "collapse";
     table.style.width = "100%";
-    table.style.maxWidth = "100%";
-    table.style.position = "relative";
+    table.style.border = "1px solid black";
+    table.contentEditable = "false"
+
+
     for (let i = 0; i < rows; i++) {
       const row = document.createElement("tr");
 
       for (let j = 0; j < cols; j++) {
         const cell = document.createElement("td");
         cell.style.padding = "8px";
-        cell.style.border = "1px solid #ccc";
+        cell.style.minHeight = "20px"
+        cell.style.border = "1px solid black";
         cell.style.position = "relative";
         cell.contentEditable = "true";
-        cell.style.maxWidth = "100%";
+
+
+        if (i === 0 && j > 0) {
+          const resizer = document.createElement("div");
+          resizer.style.width = "4px";
+          resizer.style.height = "100%";
+          resizer.style.position = "absolute";
+          resizer.style.top = "0";
+          resizer.style.right = "0";
+          resizer.style.cursor = "col-resize";
+          resizer.style.backgroundColor = "transparent";
+          resizer.contentEditable = "false"
+
+          resizer.addEventListener("mousedown", (e) => handleResize(e, cell));
+
+          cell.appendChild(resizer);
+        }
+
         row.appendChild(cell);
       }
 
       table.appendChild(row);
     }
 
-    makeColumnsResizable(table);
+    const spacer = document.createElement("br");
 
     editorRef.current.appendChild(table);
-
-    setRows(3);
-    setCols(3);
+    editorRef.current.appendChild(spacer);
   };
 
-  const makeColumnsResizable = (table: HTMLTableElement) => {
-    const rows = table.rows;
+  const handleResize = (event: MouseEvent, cell: HTMLTableCellElement) => {
+    const startX = event.pageX;
+    const startWidth = cell.offsetWidth;
 
-    if (rows.length === 0) return;
-
-    const handleResize = (
-      event: MouseEvent,
-      resizer: HTMLDivElement,
-      cell: HTMLTableCellElement
-    ) => {
-      const startX = event.clientX;
-      const startWidth = cell.offsetWidth;
-
-      const onMouseMove = (moveEvent: MouseEvent) => {
-        const newWidth = Math.max(
-          20,
-          startWidth + (moveEvent.clientX - startX)
-        ); // Minimum width: 20px
+    const onMouseMove = (e: MouseEvent) => {
+      const newWidth = startWidth + (e.pageX - startX);
+      if (newWidth > 20) {
         cell.style.width = `${newWidth}px`;
-      };
-
-      const onMouseUp = () => {
-        document.removeEventListener("mousemove", onMouseMove);
-        document.removeEventListener("mouseup", onMouseUp);
-      };
-
-      document.addEventListener("mousemove", onMouseMove);
-      document.addEventListener("mouseup", onMouseUp);
+      }
     };
 
-    const firstRow = rows[0];
-    Array.from(firstRow.cells).forEach((cell, index) => {
-      if (index === 0) return;
+    const onMouseUp = () => {
+      document.removeEventListener("mousemove", onMouseMove);
+      document.removeEventListener("mouseup", onMouseUp);
+    };
 
-      const resizer = document.createElement("div");
-      resizer.contentEditable = "false";
-      resizer.style.width = "5px";
-      resizer.style.height = "100%";
-      resizer.style.position = "absolute";
-      resizer.style.top = "0";
-      resizer.style.right = "0";
-      resizer.style.cursor = "col-resize";
-      resizer.style.userSelect = "none";
-      resizer.style.backgroundColor = "rgba(0, 0, 0, 0.1)";
-      resizer.style.zIndex = "10";
-
-      resizer.addEventListener("mousedown", (event) =>
-        handleResize(event, resizer, cell)
-      );
-      cell.appendChild(resizer);
-    });
+    document.addEventListener("mousemove", onMouseMove);
+    document.addEventListener("mouseup", onMouseUp);
   };
+
 
   return (
     <Popover>
@@ -147,7 +131,7 @@ const InsertTable: React.FC<
             onChange={(e) => setCols(+e.target.value)}
             required
           />
-          <Button className="col-span-full" onClick={createTable}>
+          <Button className="col-span-full" onClick={createTableWithResizers}>
             Insert
           </Button>
         </div>
