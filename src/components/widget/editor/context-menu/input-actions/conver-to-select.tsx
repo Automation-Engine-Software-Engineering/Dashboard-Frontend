@@ -261,6 +261,7 @@ const ModalDatabaseTab = ({
               onClick={() => {
                 if (highlightInputRef.current) {
                   highlightInputRef.current.innerHTML = `${highlightInputRef.current.innerHTML} {{${property.propertyName}}}`;
+                  highlightInputRef.current.focus();
                 }
               }}
             >
