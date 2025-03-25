@@ -80,7 +80,7 @@ const EntitiesPage = () => {
         </TableHeader>
         <TableBody>
           {!!data?.data?.length &&
-            data?.data?.map((entity) => (
+            data?.data?.map((entity, index) => (
               <TableRow
                 key={entity.id}
                 onClick={() => {
@@ -88,7 +88,7 @@ const EntitiesPage = () => {
                 }}
                 className="cursor-pointer"
               >
-                <TableCell>{entity?.id}</TableCell>
+                <TableCell>{index + 1}</TableCell>
                 <TableCell>{entity?.previewName}</TableCell>
                 <TableCell>{entity?.tableName}</TableCell>
                 <TableCell>{entity?.description}</TableCell>

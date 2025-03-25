@@ -133,7 +133,7 @@ const FormModal = () => {
               type="file"
               accept="image/*"
               name="backgroundImgPath"
-              defaultValue={form?.backgroundImgPath ?? ""}
+              // defaultValue={form?.backgroundImgPath ?? ""}
               placeholder="پس زمینه فرم"
               className="resize-none"
             />

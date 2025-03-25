@@ -87,7 +87,7 @@ const FormsPage = () => {
         </TableHeader>
         <TableBody>
           {!!res?.data?.length &&
-            res?.data?.map((form) => (
+            res?.data?.map((form, index) => (
               <TableRow
                 key={form.id}
                 onClick={(e) => {
@@ -96,7 +96,7 @@ const FormsPage = () => {
                 }}
                 className="cursor-pointer"
               >
-                <TableCell>{form?.id}</TableCell>
+                <TableCell>{index + 1}</TableCell>
                 <TableCell>{form?.name}</TableCell>
                 <TableCell>{form?.description}</TableCell>
                 <TableCell>{form?.sizeWidth}</TableCell>

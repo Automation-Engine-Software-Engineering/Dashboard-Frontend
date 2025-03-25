@@ -86,9 +86,9 @@ const PropertiesPage = () => {
         </TableHeader>
         <TableBody>
           {!!data?.data?.length &&
-            data?.data?.map((property) => (
+            data?.data?.map((property, index) => (
               <TableRow key={property.id}>
-                <TableCell>{property?.id}</TableCell>
+                <TableCell>{index + 1}</TableCell>
                 <TableCell>{property?.previewName}</TableCell>
                 <TableCell>{property?.propertyName}</TableCell>
                 <TableCell>{property?.type}</TableCell>
