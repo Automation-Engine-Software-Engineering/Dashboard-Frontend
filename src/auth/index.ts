@@ -1,20 +1,29 @@
 import cookie from "js-cookie";
 
-const USER_TOKEN_NAME = "user_token";
+const ACCESS_TOKEN = "access_token";
+const REFRESH_TOKEN = "refresh_token";
 
-export const getToken = () => {
-  const token = cookie.get(USER_TOKEN_NAME);
-  return token ? JSON.parse(token) : null;
+export const setToken = ({
+  accessToken,
+  refreshToken
+}: {
+  accessToken: string;
+  refreshToken: string;
+}) => {
+  cookie.set(ACCESS_TOKEN, accessToken);
+  cookie.set(REFRESH_TOKEN, refreshToken);
 };
 
-export const setToken = (token: string) => {
-  cookie.set(USER_TOKEN_NAME, JSON.stringify(token), {
-    // expires: 1 / 24
-  });
+export const getToken = () => {
+  return {
+    accessToken: cookie.get(ACCESS_TOKEN) ?? null,
+    refreshToken: cookie.get(REFRESH_TOKEN) ?? null
+  };
 };
 
 export const logout = () => {
-  cookie.remove(USER_TOKEN_NAME);
+  cookie.remove(ACCESS_TOKEN);
+  cookie.remove(REFRESH_TOKEN);
 
   window.location.replace("/login");
 };

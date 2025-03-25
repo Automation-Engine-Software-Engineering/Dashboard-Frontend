@@ -1,12 +1,10 @@
-import { axiosInstance } from "@/api/axios-instance";
+import { api } from "@/api/axios-instance";
 import { apiResponseMiddleware } from "@/middleware/api-response";
 
 import { ApiResult } from "@/types/api-response";
 import { SessionType } from "@/types/session";
 
-import { getToken } from "./index";
-
-const API_ENDPOINT = "Professor/UpdatePassword";
+const API_ENDPOINT = "/api/Authentication/ChangePassword/";
 
 export const changeSessionPassword = async ({
   newPassword,
@@ -15,12 +13,9 @@ export const changeSessionPassword = async ({
   newPassword: string;
   oldPassword: string;
 }): Promise<ApiResult<SessionType> | null> => {
-  const token = getToken();
-
   return await apiResponseMiddleware<SessionType>(
-    axiosInstance.post(API_ENDPOINT, {
+    api.post(API_ENDPOINT, {
       data: {
-        id: token,
         oldPassword,
         newPassword
       }

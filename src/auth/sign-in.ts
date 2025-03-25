@@ -1,5 +1,5 @@
-import { axiosInstance } from "@/api/axios-instance";
 import { apiResponseMiddleware } from "@/middleware/api-response";
+import axios from "axios";
 import toast from "react-hot-toast";
 
 import { setToken } from ".";
@@ -17,28 +17,30 @@ interface LoginResponse {
   status: boolean;
 }
 
-const API_ENDPOINT = "Professor/Login";
+const API_URL = import.meta.env.VITE_FORM_API_URL as string;
+const API_ENDPOINT = "api/Authentication/Login";
 
 export const signIn = async ({ credentials, redirect = "/" }: SignInProps) => {
   return apiResponseMiddleware<LoginResponse>(
-    axiosInstance.get(API_ENDPOINT, {
-      params: {
-        username: credentials.username,
-        password: credentials.password
+    axios.post(
+      `${API_URL}/${API_ENDPOINT}/${credentials.username}`,
+      JSON.stringify(credentials.password),
+      {
+        headers: {
+          "Content-Type": "application/json"
+        }
       }
-    }),
-    (data: any) => {
-      if (data.data.status) {
-        setToken(data.data.userId.toString());
-        toast.success("خوش آمدید", {
-          id: "api-middleware"
-        });
-        window.location.replace(redirect);
-      } else {
-        toast.error("نام کاربری یا رمز عبور اشتباه است", {
-          id: "api-middleware"
-        });
-      }
+    ),
+    ({ data }: any) => {
+      console.log(data);
+      setToken({
+        accessToken: data.accessToken,
+        refreshToken: data.refreshToken
+      });
+      toast.success("ورود موفقیت آمیز بود", {
+        id: "api-middleware"
+      });
+      window.location.replace(redirect);
     },
     {
       showToast: true,
