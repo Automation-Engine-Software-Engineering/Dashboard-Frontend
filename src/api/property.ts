@@ -1,18 +1,18 @@
 import { apiResponseMiddleware } from "@/middleware/api-response";
-import axios from "axios";
 import toast from "react-hot-toast";
 
 import { PropertyType } from "@/types/form/property";
 
-const API_URL = import.meta.env.VITE_FORM_API_URL as string;
-const API_ENDPOINT = "api/Property";
+import { api } from "./axios-instance";
+
+const API_ENDPOINT = "/api/Property";
 
 export const getEntityProperties = async (
   entityId: string | number,
   { page, size }: { size: number; page: number }
 ) => {
   return await apiResponseMiddleware<PropertyType[]>(
-    axios.get(`${API_URL}/api/Entity/${entityId}/property`, {
+    api.get(`api/Entity/${entityId}/property`, {
       params: {
         pageSize: size,
         pageNumber: page
@@ -27,7 +27,7 @@ export const getEntityProperties = async (
 
 export const createProperty = async (property: Partial<PropertyType>) => {
   return await apiResponseMiddleware<PropertyType>(
-    axios.post(`${API_URL}/${API_ENDPOINT}/add`, property),
+    api.post(`${API_ENDPOINT}/add`, property),
     () => {
       toast.success("عنصر با موفقیت ساخته شد", {
         id: "api-middleware"
@@ -41,7 +41,7 @@ export const createProperty = async (property: Partial<PropertyType>) => {
 
 export const editProperty = async (propertyId: Partial<PropertyType>) => {
   return await apiResponseMiddleware<PropertyType>(
-    axios.post(`${API_URL}/${API_ENDPOINT}/update`, propertyId),
+    api.post(`${API_ENDPOINT}/update`, propertyId),
     () => {
       toast.success("عنصر با موفقیت ویرایش شد", {
         id: "api-middleware"
@@ -55,7 +55,7 @@ export const editProperty = async (propertyId: Partial<PropertyType>) => {
 
 export const deleteProperty = async (propertyId: number) => {
   return await apiResponseMiddleware<PropertyType>(
-    axios.post(`${API_URL}/${API_ENDPOINT}/remove`, null, {
+    api.post(`${API_ENDPOINT}/remove`, null, {
       params: {
         propertyId
       }

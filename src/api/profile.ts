@@ -1,6 +1,10 @@
-import { axiosInstance } from "@/api/axios-instance";
+import { apiProfile } from "@/api/axios-instance";
+import { getToken } from "@/auth";
 import { apiResponseMiddleware } from "@/middleware/api-response";
+import { jwtDecode } from "jwt-decode";
 import toast from "react-hot-toast";
+
+import { ProfileType } from "@/types/profile";
 
 export interface EditAboutMeType {
   id?: number;
@@ -97,9 +101,29 @@ const RESEARCH_API_ENDPOINT = "Professor/UpdateResearchInformationOfProfessor";
 const EDUCATION_API_ENDPOINT = "Professor/UpdateEducationOfProfessor";
 const SOCIAL_LINKS_API_ENDPOINT = "Professor/UpdateSocialNetworksOfProfessor";
 
+export const getProfile = async () => {
+  const { accessToken } = getToken();
+
+  const userId = jwtDecode<{ UserId: string }>(accessToken!).UserId;
+
+  const response = await apiResponseMiddleware<ProfileType>(
+    apiProfile.get("/Professor/GetProfessorInfo", {
+      params: {
+        userId
+      }
+    }),
+    () => {},
+    {
+      showToast: false
+    }
+  );
+
+  return response!.data ?? null;
+};
+
 export const editAboutMeProfile = async (data: EditAboutMeType) => {
   await apiResponseMiddleware<unknown>(
-    axiosInstance.post(ABOUTME_API_ENDPOINT, data),
+    apiProfile.post(ABOUTME_API_ENDPOINT, data),
     () => {
       toast.success("اطلاعات با موفقیت ذخیره شد", {
         id: "api-middleware"
@@ -114,7 +138,7 @@ export const editAboutMeProfile = async (data: EditAboutMeType) => {
 
 export const editResearchProfile = async (data: EditResearchType) => {
   await apiResponseMiddleware<unknown>(
-    axiosInstance.post(RESEARCH_API_ENDPOINT, data),
+    apiProfile.post(RESEARCH_API_ENDPOINT, data),
     () => {
       toast.success("اطلاعات با موفقیت ذخیره شد", {
         id: "api-middleware"
@@ -129,7 +153,7 @@ export const editResearchProfile = async (data: EditResearchType) => {
 
 export const editEducationProfile = async (data: EditEducationType) => {
   await apiResponseMiddleware<unknown>(
-    axiosInstance.post(EDUCATION_API_ENDPOINT, data),
+    apiProfile.post(EDUCATION_API_ENDPOINT, data),
     () => {
       toast.success("اطلاعات با موفقیت ذخیره شد", {
         id: "api-middleware"
@@ -144,7 +168,7 @@ export const editEducationProfile = async (data: EditEducationType) => {
 
 export const editSocialLinksProfile = async (data: EditSocialLinksType) => {
   await apiResponseMiddleware<unknown>(
-    axiosInstance.post(SOCIAL_LINKS_API_ENDPOINT, data),
+    apiProfile.post(SOCIAL_LINKS_API_ENDPOINT, data),
     () => {
       toast.success("اطلاعات با موفقیت ذخیره شد", {
         id: "api-middleware"

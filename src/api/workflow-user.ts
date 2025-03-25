@@ -1,6 +1,6 @@
 import { AxiosError } from "axios";
 
-import { axiosInstance } from "./axios-instance";
+import { api } from "./axios-instance";
 
 const API_ENDPOINT = "/api/WorkFlowUser/create";
 
@@ -9,7 +9,7 @@ export const createWorkflowUser = async (
   workFlowId: number
 ): Promise<any | AxiosError<any>> => {
   try {
-    const response = await axiosInstance.post(API_ENDPOINT, {
+    const response = await api.post(API_ENDPOINT, {
       id: 0,
       userId,
       workFlowId

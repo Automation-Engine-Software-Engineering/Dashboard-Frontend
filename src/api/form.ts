@@ -1,11 +1,11 @@
 import { apiResponseMiddleware } from "@/middleware/api-response";
-import axios from "axios";
 import toast from "react-hot-toast";
 
 import { FormType } from "@/types/form/form";
 
-const API_URL = import.meta.env.VITE_FORM_API_URL as string;
-const API_ENDPOINT = "api/Form";
+import { api } from "./axios-instance";
+
+const API_ENDPOINT = "/api/Form";
 
 export const getAllForms = async ({
   page,
@@ -15,7 +15,7 @@ export const getAllForms = async ({
   size: number;
 }) =>
   await apiResponseMiddleware<FormType[]>(
-    axios.get(`${API_URL}/${API_ENDPOINT}/all`, {
+    api.get(`${API_ENDPOINT}/all`, {
       params: {
         pageSize: size,
         pageNumber: page
@@ -29,7 +29,7 @@ export const getAllForms = async ({
 
 export const getForm = async (id: string | number) => {
   const response = await apiResponseMiddleware<FormType>(
-    axios.get(`${API_URL}/${API_ENDPOINT}/${id}`),
+    api.get(`${API_ENDPOINT}/${id}`),
     () => {},
     {
       showToast: false
@@ -41,7 +41,7 @@ export const getForm = async (id: string | number) => {
 
 export const createForm = async (form: FormData) => {
   return await apiResponseMiddleware<FormType>(
-    axios.post(`${API_URL}/${API_ENDPOINT}/create`, form),
+    api.post(`${API_ENDPOINT}/create`, form),
     () => {
       toast.success("فرم با موفقیت ساخته شد", {
         id: "api-middleware"
@@ -55,7 +55,7 @@ export const createForm = async (form: FormData) => {
 
 export const editForm = async (form: FormData) => {
   return await apiResponseMiddleware<FormType>(
-    axios.post(`${API_URL}/${API_ENDPOINT}/${form.get("id")}/update`, form),
+    api.post(`${API_ENDPOINT}/${form.get("id")}/update`, form),
     () => {
       toast.success("فرم با موفقیت ویرایش شد", {
         id: "api-middleware"
@@ -69,7 +69,7 @@ export const editForm = async (form: FormData) => {
 
 export const deleteForm = async (formId: number) => {
   return await apiResponseMiddleware<FormType>(
-    axios.post(`${API_URL}/${API_ENDPOINT}/remove`, JSON.stringify(formId), {
+    api.post(`${API_ENDPOINT}/remove`, JSON.stringify(formId), {
       headers: {
         "Content-Type": "application/json"
       }
@@ -87,8 +87,8 @@ export const deleteForm = async (formId: number) => {
 
 export const insertHtmlContent = async (formId: number, content: string) => {
   return await apiResponseMiddleware<FormType>(
-    axios.post(
-      `${API_URL}/${API_ENDPOINT}/${formId}/insertHtmlContent`,
+    api.post(
+      `${API_ENDPOINT}/${formId}/insertHtmlContent`,
       JSON.stringify(content),
       {
         headers: {
@@ -112,7 +112,7 @@ export const updateFormEntities = async (
   entities: number[]
 ) => {
   return await apiResponseMiddleware(
-    axios.post(`${API_URL}/${API_ENDPOINT}/entities`, entities, {
+    api.post(`${API_ENDPOINT}/entities`, entities, {
       params: {
         formId
       }
@@ -130,7 +130,7 @@ export const updateFormEntities = async (
 
 export const uploadImage = async (data: FormData) => {
   const response = await apiResponseMiddleware<{ imageUrl: string }>(
-    axios.post(`${API_URL}/${API_ENDPOINT}/uploadImage`, data),
+    api.post(`${API_ENDPOINT}/uploadImage`, data),
     () => {
       toast.success("عکس با موفقیت ارسال شد", {
         id: "api-middleware"
@@ -146,7 +146,7 @@ export const uploadImage = async (data: FormData) => {
 
 export const getFormPreview = async (formId: number) => {
   return await apiResponseMiddleware<string>(
-    axios.get(`${API_URL}/${API_ENDPOINT}/preview`, {
+    api.get(`${API_ENDPOINT}/preview`, {
       params: {
         formId
       }
