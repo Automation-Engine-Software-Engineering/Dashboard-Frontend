@@ -11,10 +11,6 @@ import FormPreviewPage from "@/pages/form/preview";
 import PropertiesPage from "@/pages/form/properties";
 import LoginPage from "@/pages/login";
 import NotFoundPage from "@/pages/not-found";
-import A1 from "@/pages/page/A1";
-import A2 from "@/pages/page/A2";
-import A3 from "@/pages/page/A3";
-import Iframe from "@/pages/page/iframe";
 import EditProfilePage from "@/pages/profile/edit-profile";
 import EditProfileAboutMe from "@/pages/profile/edit-profile/about-me";
 import EditProfileEducation from "@/pages/profile/edit-profile/education";
@@ -23,7 +19,6 @@ import EditProfileSocialLinks from "@/pages/profile/edit-profile/social-links";
 import WorkflowsPage from "@/pages/workflow";
 import WorkflowPage from "@/pages/workflow/flow";
 
-// import TablePage from "@/pages/table";
 import Layout from "@/components/layout/layout";
 
 import NewBook from "../pages/Book";
@@ -40,13 +35,6 @@ const Router = () => {
       <Route element={<AuthMiddleware />}>
         <Route element={<Layout />}>
           <Route path="/" element={<DashboardPage />} />
-          {/* <Route path="/workflow/form/:formId" element={<FormPage />} /> */}
-          {/* <Route path="/workflow/table/:tableId" element={<TablePage />} /> */}
-          {/* <Route path="/table" element={<TablePage />} /> */}
-          <Route path="/page/a1" element={<A1 />} />
-          <Route path="/page/a2" element={<A2 />} />
-          <Route path="/page/a3" element={<A3 />} />
-          <Route path="/page/frame" element={<Iframe />} />
 
           {/* Edit Profile */}
           <Route path="/edit-profile" element={<EditProfilePage />}>
@@ -66,14 +54,13 @@ const Router = () => {
           </Route>
 
           {/* Workflow */}
-
           <Route path="/workflow">
             <Route index element={<WorkflowsPage />} />
             <Route path=":workflowId" element={<WorkflowPage />} />
           </Route>
 
           {/* Book  */}
-          <Route path="/newbook" element={<NewBook />}>
+          <Route path="/new-book" element={<NewBook />}>
             <Route index element={<NewBook />} />
             <Route path="lc" element={<LC />} />
           </Route>
