@@ -13,15 +13,13 @@ const Login = () => {
 
     const formData = new FormData(e.currentTarget);
 
-    const credential: Record<string, any> = {};
+    const credential: Record<string, any> = Object.fromEntries(formData);
 
-    formData.forEach((value, key) => {
-      credential[key] = value;
-    });
-
-    await signIn({ credentials: credential as any });
-
-    setIsSubmitting(false);
+    try {
+      await signIn({ credentials: credential as any });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
