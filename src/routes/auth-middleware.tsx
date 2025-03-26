@@ -1,10 +1,12 @@
 import { Navigate, Outlet } from "react-router-dom";
 import { MoonLoader } from "react-spinners";
 
+import { useProfile } from "@/hooks/server-state/use-profile";
 import { useSession } from "@/hooks/server-state/use-session";
 
 const AuthMiddleware = () => {
   const { data, isLoading } = useSession();
+  useProfile();
 
   if (isLoading) return <Loading />;
 

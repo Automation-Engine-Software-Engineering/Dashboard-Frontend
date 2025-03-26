@@ -6,14 +6,14 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { cn } from "@/lib/utils";
 
-import { useSession } from "@/hooks/server-state/use-session";
+import { useProfile } from "@/hooks/server-state/use-profile";
 
 import AnimatedBackground from "@/components/ui/animated-background";
 
 const API_URL = import.meta.env.VITE_API_URL as string;
 
 const ProfileHeader = () => {
-  const { data: profileData } = useSession();
+  const { data: profileData } = useProfile();
 
   const [editingField, setEditingField] = useState<string | null>(null);
   const [editData, setEditData] = useState<EditAboutMeType>({
@@ -32,7 +32,7 @@ const ProfileHeader = () => {
 
   const mutateData = useMutation({
     mutationFn: (data: EditAboutMeType) => editAboutMeProfile(data),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["session"] })
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["profile"] })
   });
 
   const handleSubmit = async () => {

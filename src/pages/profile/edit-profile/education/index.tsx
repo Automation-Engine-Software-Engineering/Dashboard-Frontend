@@ -3,7 +3,7 @@ import { useState } from "react";
 import { editSocialLinksProfile, EditEducationType } from "@/api/profile";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-import { useSession } from "@/hooks/server-state/use-session";
+import { useProfile } from "@/hooks/server-state/use-profile";
 
 import EducationTextfieldRepeater from "../_components/education-textfield-repeater";
 import SaveButton from "../_components/save-button";
@@ -11,7 +11,7 @@ import TextareaUi from "../_components/textarea";
 import TextfieldRepeater from "../_components/textfieald-reapeter";
 
 const EditProfileEducation = () => {
-  const { data: profileData } = useSession();
+  const { data: profileData } = useProfile();
 
   const [editData, setEditData] = useState<EditEducationType>({
     id: profileData?.id,
@@ -25,7 +25,7 @@ const EditProfileEducation = () => {
 
   const mutateData = useMutation({
     mutationFn: (data: EditEducationType) => editSocialLinksProfile(data),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["session"] })
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["profile"] })
   });
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {

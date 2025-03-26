@@ -4,7 +4,7 @@ import { useState } from "react";
 import { editAboutMeProfile, EditAboutMeType } from "@/api/profile";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-import { useSession } from "@/hooks/server-state/use-session";
+import { useProfile } from "@/hooks/server-state/use-profile";
 
 import { Input } from "@/components/ui/input";
 
@@ -12,7 +12,7 @@ import SaveButton from "../_components/save-button";
 import Textarea from "../_components/textarea";
 
 const EditProfileAboutMe = () => {
-  const { data: profileData } = useSession();
+  const { data: profileData } = useProfile();
 
   const [editingField, setEditingField] = useState<string | null>(null);
   const [editData, setEditData] = useState<EditAboutMeType>({
@@ -36,7 +36,7 @@ const EditProfileAboutMe = () => {
 
   const mutateData = useMutation({
     mutationFn: (data: EditAboutMeType) => editAboutMeProfile(data),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["session"] })
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["profile"] })
   });
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {

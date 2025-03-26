@@ -2,10 +2,10 @@ import { CalendarClock } from "lucide-react";
 
 import convertToJalali from "@/helpers";
 
-import { useSession } from "@/hooks/server-state/use-session";
+import { useProfile } from "@/hooks/server-state/use-profile";
 
 const LastUpdate = () => {
-  const { data } = useSession();
+  const { data } = useProfile();
   return (
     <div className="flex items-center gap-x-1">
       <CalendarClock size={12} className="text-[#30aab5]" />

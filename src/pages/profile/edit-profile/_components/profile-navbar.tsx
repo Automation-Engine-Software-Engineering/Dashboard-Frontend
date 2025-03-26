@@ -5,7 +5,7 @@ import { NavLink } from "react-router-dom";
 
 import { cn } from "@/lib/utils";
 
-import LastUpdate from "./LastUpdate";
+import LastUpdate from "./last-update";
 import { ShareModal } from "./share-modal";
 
 const ProfileNavbar = () => {

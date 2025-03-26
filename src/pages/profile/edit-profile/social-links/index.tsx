@@ -3,14 +3,14 @@ import { useState } from "react";
 import { editSocialLinksProfile, EditSocialLinksType } from "@/api/profile";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-import { useSession } from "@/hooks/server-state/use-session";
+import { useProfile } from "@/hooks/server-state/use-profile";
 
 import SaveButton from "../_components/save-button";
 import Textfield from "../_components/textfield";
 import WebLinkTextfieldRepeater from "../_components/weblink-textfield-repeater";
 
 const EditProfileSocialLinks = () => {
-  const { data: profileData } = useSession();
+  const { data: profileData } = useProfile();
 
   const [editData, setEditData] = useState<EditSocialLinksType>({
     id: profileData?.id,
@@ -37,7 +37,7 @@ const EditProfileSocialLinks = () => {
 
   const mutateData = useMutation({
     mutationFn: (data: EditSocialLinksType) => editSocialLinksProfile(data),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["session"] })
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["profile"] })
   });
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
