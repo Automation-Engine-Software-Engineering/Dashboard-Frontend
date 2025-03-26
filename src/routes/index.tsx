@@ -16,6 +16,7 @@ import EditProfileAboutMe from "@/pages/profile/edit-profile/about-me";
 import EditProfileEducation from "@/pages/profile/edit-profile/education";
 import EditProfileResearch from "@/pages/profile/edit-profile/research";
 import EditProfileSocialLinks from "@/pages/profile/edit-profile/social-links";
+import RolesPage from "@/pages/role";
 import WorkflowsPage from "@/pages/workflow";
 import WorkflowPage from "@/pages/workflow/flow";
 
@@ -34,7 +35,7 @@ const Router = () => {
       {/* Private routes */}
       <Route element={<AuthMiddleware />}>
         <Route element={<Layout />}>
-          <Route path="/" element={<DashboardPage />} />
+          <Route index element={<DashboardPage />} />
 
           {/* Edit Profile */}
           <Route path="/edit-profile" element={<EditProfilePage />}>
@@ -59,6 +60,10 @@ const Router = () => {
             <Route path=":workflowId" element={<WorkflowPage />} />
           </Route>
 
+          {/* Roles */}
+          <Route path="/role">
+            <Route index element={<RolesPage />} />
+          </Route>
           {/* Book  */}
           <Route path="/new-book" element={<NewBook />}>
             <Route index element={<NewBook />} />
