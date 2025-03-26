@@ -1,5 +1,6 @@
 import React from "react";
 
+import InsertButton from "@/components/widget/editor/toolbar-buttons/insert-button";
 import InsertChart from "@/components/widget/editor/toolbar-buttons/insert-chart";
 import InsertIcon from "@/components/widget/editor/toolbar-buttons/insert-icon";
 import InsertImage from "@/components/widget/editor/toolbar-buttons/insert-image";
@@ -18,6 +19,7 @@ const InsertTab: React.FC<Props> = ({ editorRef }) => {
       <InsertIcon editorRef={editorRef} />
       <InsertChart editorRef={editorRef} />
       <InsertLink editorRef={editorRef} />
+      <InsertButton editorRef={editorRef} />
     </div>
   );
 };
