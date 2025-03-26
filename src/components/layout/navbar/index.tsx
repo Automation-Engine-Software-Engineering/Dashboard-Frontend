@@ -1,14 +1,14 @@
 import { ChevronRight, PenBoxIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 
-import { axiosInstance } from "@/api/axios-instance";
+import { apiProfile } from "@/api/axios-instance";
 import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
 import { MoonLoader } from "react-spinners";
 
 import { cn } from "@/lib/utils";
 
-import { useSession } from "@/hooks/server-state/use-session";
+import { useProfile } from "@/hooks/server-state/use-profile";
 
 import {
   Accordion,
@@ -30,13 +30,13 @@ const Navbar: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
 
   const [sidebarIsOpen, setSidebarIsOpen] = useState<boolean>(true);
 
-  const { data: session } = useSession();
+  const { data: profile } = useProfile();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axiosInstance.get(
-          `/Professor/GetRole?Id=${session?.roleId}`
+        const response = await apiProfile.get(
+          `/Professor/GetRole?Id=${profile?.roleId}`
         );
         setItems(response.data.data);
       } catch {
@@ -46,7 +46,7 @@ const Navbar: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
       }
     };
     fetchData();
-  }, [session]);
+  }, [profile]);
 
   return (
     <div
@@ -88,7 +88,7 @@ const Navbar: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
             </Accordion>
             <div className="mt-auto space-y-1 border-t border-t-slate-300 px-5 py-7 pt-4">
               <Link
-                to={`${RESUME_ADDRESS}/${session?.userIdentifierEn}`}
+                to={`${RESUME_ADDRESS}/${profile?.userIdentifierEn}`}
                 target="_blank"
                 className="flex items-center gap-x-1 text-xs font-semibold hover:text-primary"
               >
