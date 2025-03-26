@@ -3,6 +3,7 @@ import { Edge, Node } from "@xyflow/react";
 import { apiResponseMiddleware } from "@/middleware/api-response";
 import toast from "react-hot-toast";
 
+import { WorkFlowNodeType } from "@/types/workflow/node";
 import { WorkflowType } from "@/types/workflow/workflow";
 
 import { api } from "./axios-instance";
@@ -105,6 +106,20 @@ export const saveWorkflowNodes = async (
     },
     {
       showToast: true
+    }
+  );
+};
+
+export const getNodeStates = async (WorkFlowUserId: number) => {
+  return await apiResponseMiddleware<WorkFlowNodeType>(
+    api.get(`${API_ENDPOINT}/nodeState`, {
+      params: {
+        WorkFlowUserId
+      }
+    }),
+    () => {},
+    {
+      showToast: false
     }
   );
 };
