@@ -1,11 +1,11 @@
 import { Route, Routes } from "react-router-dom";
 
 import ChangePasswordPage from "@/pages/change-password";
-// import FormPage from "@/pages/_";
 import DashboardPage from "@/pages/dashboard";
 import FormPage from "@/pages/form";
 import FormEditorPage from "@/pages/form/editor";
 import EntitiesPage from "@/pages/form/entities";
+import FormFinal from "@/pages/form/final";
 import FormsPage from "@/pages/form/forms";
 import FormPreviewPage from "@/pages/form/preview";
 import PropertiesPage from "@/pages/form/properties";
@@ -50,7 +50,8 @@ const Router = () => {
             <Route index element={<FormsPage />} />
             <Route path="entities" element={<EntitiesPage />} />
             <Route path="entities/:entityId" element={<PropertiesPage />} />
-            <Route path=":formId" element={<FormEditorPage />} />
+            <Route path="editor/:formId" element={<FormEditorPage />} />
+            <Route path=":workflowUserId" element={<FormFinal />} />
             <Route path="preview/:formId" element={<FormPreviewPage />} />
           </Route>
 
