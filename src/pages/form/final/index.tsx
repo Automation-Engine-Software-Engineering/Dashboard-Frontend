@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 
-import { getFormPreview } from "@/api/form";
+import { getFormPreview, saveFormData } from "@/api/form";
 import { getNodeStates, nodeStateMove } from "@/api/workflow";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
@@ -37,27 +37,42 @@ const FormFinal = () => {
     }
   });
 
+  const handleButtonClick = async (e: MouseEvent) => {
+    const target = e.target as HTMLButtonElement;
+    const action = target.getAttribute("data-action");
+    const state =
+      action === "next-node" ? 1 : action === "previous-node" ? 2 : 3;
+
+    const formData: { id: number; content: string }[] = [];
+
+    if (formRef.current) {
+      formRef.current.querySelectorAll("input").forEach((item) => {
+        formData.push({ id: +item.id!, content: item.value });
+      });
+    }
+
+    try {
+      await saveFormData(+workflowUserId!, formData);
+      mutate(state);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   useEffect(() => {
-    const formBody = formRef.current;
-
-    const handleButtonClick = async (e: MouseEvent) => {
-      const target = e.target as HTMLButtonElement;
-      const action = target.getAttribute("data-action");
-      const state =
-        action === "next-node" ? 1 : action === "previous-node" ? 2 : 3;
-
-      try {
-        mutate(state);
-      } catch (e) {
-        console.log(e);
-      }
-    };
-
-    if (formBody) {
-      formBody.querySelectorAll("button").forEach((button) => {
+    if (formRef.current) {
+      formRef.current.querySelectorAll("button").forEach((button) => {
         button.addEventListener("click", handleButtonClick);
       });
     }
+
+    return () => {
+      if (formRef.current) {
+        formRef.current.querySelectorAll("button").forEach((button) => {
+          button.removeEventListener("click", handleButtonClick);
+        });
+      }
+    };
   }, [isFetching]);
 
   if (isLoading) return <Loading />;
