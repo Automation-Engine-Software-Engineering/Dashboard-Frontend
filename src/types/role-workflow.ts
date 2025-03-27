@@ -1,14 +1,14 @@
 export type RoleWorkflowType = {
   id: number;
-  workFlowId: number;
+  workflowId: number;
   roleId: number;
-  workFlow: {
+  workflow: {
     id: number;
     name: "string";
     description: "string";
     nodes: unknown;
-    role_WorkFlows: unknown[];
-    workFlowUser: unknown;
+    role_Workflows: unknown[];
+    workflowUser: unknown;
   };
   role: unknown;
 };

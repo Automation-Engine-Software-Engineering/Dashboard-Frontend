@@ -73,7 +73,7 @@ const Navbar: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
           <>
             <Accordion type="single" collapsible>
               {items?.data?.map((item) => (
-                <NavItem key={item.id} item={item.workFlow} />
+                <NavItem key={item.id} item={item.workflow} />
               ))}
             </Accordion>
             <div className="mt-auto space-y-1 border-t border-t-slate-300 px-5 py-7 pt-4">
@@ -138,7 +138,7 @@ const Navbar: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
 
 export default Navbar;
 
-const NavItem: React.FC<{ item: RoleWorkflowType["workFlow"] }> = ({
+const NavItem: React.FC<{ item: RoleWorkflowType["workflow"] }> = ({
   item
 }) => {
   const navigate = useNavigate();
@@ -200,7 +200,7 @@ const NavItem: React.FC<{ item: RoleWorkflowType["workFlow"] }> = ({
           setIsConfirmModalOpen(false);
         }}
         onCancel={handleCancel}
-        title={`آیا قصد ادامه دادن جریان ${item.name} را دارید؟`}
+        title={`آیا قصد ادامه دادن جریان ${item?.name} را دارید؟`}
       />
       {/* { ? ( */}
       {/* <AccordionItem value={`item-${item.id}`}>
@@ -223,7 +223,7 @@ const NavItem: React.FC<{ item: RoleWorkflowType["workFlow"] }> = ({
           className="w-full justify-start text-sm hover:text-primary"
           onClick={handleClick}
         >
-          {item.name}
+          {item?.name}
         </Button>
       </div>
       {/* )} */}
