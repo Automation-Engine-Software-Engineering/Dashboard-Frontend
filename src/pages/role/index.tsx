@@ -1,4 +1,10 @@
-import { PencilIcon, TableIcon, Trash2Icon, XSquareIcon } from "lucide-react";
+import {
+  PencilIcon,
+  Trash2Icon,
+  User2Icon,
+  WorkflowIcon,
+  XSquareIcon
+} from "lucide-react";
 import { useReducer } from "react";
 
 import { deleteRole } from "@/api/role";
@@ -9,6 +15,7 @@ import { useRoles } from "@/hooks/server-state/use-roles";
 
 import AlertModal from "@/components/common/modals/alert-modal";
 import RoleModal from "@/components/common/modals/role-modal";
+import RoleUserListModal from "@/components/common/modals/role-user-list-model";
 import WorkflowListModal from "@/components/common/modals/workflow-list-modal";
 
 import {
@@ -25,7 +32,8 @@ enum ActionTypes {
   SET_ROLE = "SET_ROLE",
   SET_IS_MODAL_OPEN = "SET_IS_MODAL_OPEN",
   SET_IS_DELETE_MODAL_OPEN = "SET_IS_DELETE_MODAL_OPEN",
-  SET_IS_WORKFLOW_LIST_MODAL_OPEN = "SET_IS_WORKFLOW_LIST_MODAL_OPEN"
+  SET_IS_WORKFLOW_LIST_MODAL_OPEN = "SET_IS_WORKFLOW_LIST_MODAL_OPEN",
+  SET_IS_ROLE_USERS_LIST_MODAL_OPEN = "SET_IS_ROLE_USERS_LIST_MODAL_OPEN"
 }
 
 type Actions = {
@@ -37,6 +45,7 @@ const initialState = {
   isDeleteModalOpen: false,
   isModalOpen: false,
   isWorkflowListModalOpen: false,
+  isRoleUsersListModalOpen: false,
   role: null
 };
 
@@ -50,6 +59,8 @@ const roleReducer = (state: typeof initialState, action: Actions) => {
       return { ...state, isDeleteModalOpen: action.payload };
     case ActionTypes.SET_IS_WORKFLOW_LIST_MODAL_OPEN:
       return { ...state, isWorkflowListModalOpen: action.payload };
+    case ActionTypes.SET_IS_ROLE_USERS_LIST_MODAL_OPEN:
+      return { ...state, isRoleUsersListModalOpen: action.payload };
     default:
       return state;
   }
@@ -110,6 +121,16 @@ const RolesPage = () => {
           });
         }}
       />
+      <RoleUserListModal
+        isOpen={role.isRoleUsersListModalOpen}
+        roleId={role?.role?.id}
+        onClose={() => {
+          dispatch({
+            type: ActionTypes.SET_IS_ROLE_USERS_LIST_MODAL_OPEN,
+            payload: false
+          });
+        }}
+      />
 
       <div className="flex items-center px-5 py-2">
         <button
@@ -130,6 +151,7 @@ const RolesPage = () => {
             <TableHead>نام</TableHead>
             <TableHead>توضیحات</TableHead>
             <TableHead>گردش کار ها</TableHead>
+            <TableHead>کاربر ها</TableHead>
             <TableHead>ویرایش</TableHead>
             <TableHead>حذف</TableHead>
           </TableRow>
@@ -154,7 +176,24 @@ const RolesPage = () => {
                     });
                   }}
                 >
-                  <TableIcon className="text-slate-700" />
+                  <WorkflowIcon className="text-slate-700" />
+                </button>
+              </TableCell>
+              <TableCell>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    dispatch({
+                      type: ActionTypes.SET_IS_ROLE_USERS_LIST_MODAL_OPEN,
+                      payload: true
+                    });
+                    dispatch({
+                      type: ActionTypes.SET_ROLE,
+                      payload: { name, description, id }
+                    });
+                  }}
+                >
+                  <User2Icon className="text-slate-700" />
                 </button>
               </TableCell>
               <TableCell>
