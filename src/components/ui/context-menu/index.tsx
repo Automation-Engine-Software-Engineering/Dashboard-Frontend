@@ -1,4 +1,4 @@
-import { Check, ChevronRight, Circle } from "lucide-react";
+import { Check, ChevronLeft, Circle } from "lucide-react";
 import * as React from "react";
 
 import * as ContextMenuPrimitive from "@radix-ui/react-context-menu";
@@ -33,7 +33,7 @@ const ContextMenuSubTrigger = React.forwardRef<
     {...props}
   >
     {children}
-    <ChevronRight className="ml-auto h-4 w-4" />
+    <ChevronLeft className="ms-auto h-4 w-4" />
   </ContextMenuPrimitive.SubTrigger>
 ));
 ContextMenuSubTrigger.displayName = ContextMenuPrimitive.SubTrigger.displayName;
