@@ -9,6 +9,7 @@ import { useRoles } from "@/hooks/server-state/use-roles";
 
 import AlertModal from "@/components/common/modals/alert-modal";
 import RoleModal from "@/components/common/modals/role-modal";
+import WorkflowListModal from "@/components/common/modals/workflow-list-modal";
 
 import {
   Table,
@@ -23,7 +24,8 @@ import {
 enum ActionTypes {
   SET_ROLE = "SET_ROLE",
   SET_IS_MODAL_OPEN = "SET_IS_MODAL_OPEN",
-  SET_IS_DELETE_MODAL_OPEN = "SET_IS_DELETE_MODAL_OPEN"
+  SET_IS_DELETE_MODAL_OPEN = "SET_IS_DELETE_MODAL_OPEN",
+  SET_IS_WORKFLOW_LIST_MODAL_OPEN = "SET_IS_WORKFLOW_LIST_MODAL_OPEN"
 }
 
 type Actions = {
@@ -34,6 +36,7 @@ type Actions = {
 const initialState = {
   isDeleteModalOpen: false,
   isModalOpen: false,
+  isWorkflowListModalOpen: false,
   role: null
 };
 
@@ -45,6 +48,8 @@ const roleReducer = (state: typeof initialState, action: Actions) => {
       return { ...state, isModalOpen: action.payload };
     case ActionTypes.SET_IS_DELETE_MODAL_OPEN:
       return { ...state, isDeleteModalOpen: action.payload };
+    case ActionTypes.SET_IS_WORKFLOW_LIST_MODAL_OPEN:
+      return { ...state, isWorkflowListModalOpen: action.payload };
     default:
       return state;
   }
@@ -81,7 +86,7 @@ const RolesPage = () => {
         }
         isLoading={isPending}
         onConfirm={async () => {
-          mutate(+role.role.id);
+          mutate(role?.role?.id);
         }}
         title="آیا از حذف نقش اطمینان دارید؟"
         description="این عملیات قابل برگشت نخواهد بود و نقش بصورت دائمی حذف خواهد شد"
@@ -93,6 +98,17 @@ const RolesPage = () => {
           dispatch({ type: ActionTypes.SET_IS_MODAL_OPEN, payload: false })
         }
         role={role.role}
+      />
+
+      <WorkflowListModal
+        isOpen={role.isWorkflowListModalOpen}
+        roleId={role?.role?.id}
+        onClose={() => {
+          dispatch({
+            type: ActionTypes.SET_IS_WORKFLOW_LIST_MODAL_OPEN,
+            payload: false
+          });
+        }}
       />
 
       <div className="flex items-center px-5 py-2">
@@ -125,7 +141,21 @@ const RolesPage = () => {
               <TableCell>{name}</TableCell>
               <TableCell>{description}</TableCell>
               <TableCell>
-                <TableIcon />
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    dispatch({
+                      type: ActionTypes.SET_IS_WORKFLOW_LIST_MODAL_OPEN,
+                      payload: true
+                    });
+                    dispatch({
+                      type: ActionTypes.SET_ROLE,
+                      payload: { name, description, id }
+                    });
+                  }}
+                >
+                  <TableIcon className="text-slate-700" />
+                </button>
               </TableCell>
               <TableCell>
                 <button

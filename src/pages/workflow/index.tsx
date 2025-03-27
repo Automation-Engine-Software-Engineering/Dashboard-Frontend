@@ -1,4 +1,4 @@
-import { PencilIcon, Trash2Icon, XSquareIcon } from "lucide-react";
+import { PencilIcon, Trash2Icon, UserIcon, XSquareIcon } from "lucide-react";
 import { useState } from "react";
 
 import { deleteWorkflow } from "@/api/workflow";
@@ -10,6 +10,7 @@ import { useWorkflows } from "@/hooks/server-state/use-workflows";
 import { useWorkflowModalStore } from "@/hooks/store/use-workflow-modal-store";
 
 import AlertModal from "@/components/common/modals/alert-modal";
+import RoleListModal from "@/components/common/modals/role-list-modal";
 
 import {
   Table,
@@ -37,6 +38,9 @@ const WorkflowsPage = () => {
     null
   );
 
+  const [isRoleListModalOpen, setIsRoleListModalOpen] = useState(false);
+  const [selectedRole, setSelectedRole] = useState<number | null>(null);
+
   if (isLoading) return <Loading />;
 
   return (
@@ -51,6 +55,12 @@ const WorkflowsPage = () => {
         }}
         title="آیا از حذف گردش کار اطمینان دارید؟"
         description="این عملیات قابل برگشت نخواهد بود و گردش کار بصورت دائمی حذف خواهد شد"
+      />
+
+      <RoleListModal
+        isOpen={isRoleListModalOpen}
+        onClose={() => setIsRoleListModalOpen(false)}
+        workflowId={selectedRole!}
       />
       <div className="flex items-center px-5 py-2">
         <button
@@ -70,6 +80,7 @@ const WorkflowsPage = () => {
             <TableHead>ردیف</TableHead>
             <TableHead>نام</TableHead>
             <TableHead>توضیحات</TableHead>
+            <TableHead>نقش ها</TableHead>
             <TableHead>ویرایش</TableHead>
             <TableHead>حذف</TableHead>
           </TableRow>
@@ -89,7 +100,18 @@ const WorkflowsPage = () => {
                 <TableCell>{workflow?.name}</TableCell>
                 <TableCell>{workflow?.description}</TableCell>
 
-                <TableCell className="text-center">
+                <TableCell>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setIsRoleListModalOpen(true);
+                      setSelectedRole(workflow.id);
+                    }}
+                  >
+                    <UserIcon className="text-slate-700" />
+                  </button>
+                </TableCell>
+                <TableCell>
                   <button
                     onClick={(e) => {
                       e.stopPropagation();
@@ -100,7 +122,7 @@ const WorkflowsPage = () => {
                     <PencilIcon className="text-slate-700" />
                   </button>
                 </TableCell>
-                <TableCell className="text-center">
+                <TableCell>
                   <button
                     onClick={(e) => {
                       e.stopPropagation();
