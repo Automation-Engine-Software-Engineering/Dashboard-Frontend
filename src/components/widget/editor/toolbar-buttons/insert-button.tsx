@@ -22,8 +22,14 @@ const InsertButton: React.FC<
 > = ({ editorRef, ...props }) => {
   const [isOpen, setIsOpen] = useState(false);
 
+  const onChange = (open: boolean) => {
+    if (!open) {
+      setIsOpen(false);
+    }
+  };
+
   return (
-    <Dialog open={isOpen}>
+    <Dialog open={isOpen} onOpenChange={onChange}>
       <DialogTrigger asChild>
         <ToolbarButton
           className="flex w-fit items-center gap-x-2"
