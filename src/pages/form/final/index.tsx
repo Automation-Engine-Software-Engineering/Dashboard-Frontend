@@ -1,14 +1,24 @@
+import { useEffect, useRef } from "react";
+
 import { getFormPreview } from "@/api/form";
-import { getNodeStates } from "@/api/workflow";
-import { useQuery } from "@tanstack/react-query";
+import { getNodeStates, nodeStateMove } from "@/api/workflow";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 import { MoonLoader } from "react-spinners";
 
 const FormFinal = () => {
+  const queryClient = useQueryClient();
+
   const { workflowUserId } = useParams<{ workflowUserId: string }>();
 
-  const { data: form, isLoading } = useQuery({
-    queryKey: ["formPreview", workflowUserId],
+  const formRef = useRef<HTMLDivElement | null>(null);
+
+  const {
+    data: form,
+    isLoading,
+    isFetching
+  } = useQuery({
+    queryKey: ["form-preview", workflowUserId],
     queryFn: async () => {
       const nodeState = await getNodeStates(+workflowUserId!);
 
@@ -19,6 +29,36 @@ const FormFinal = () => {
       return null;
     }
   });
+
+  const { mutate } = useMutation({
+    mutationFn: (state: number) => nodeStateMove(+workflowUserId!, state),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["form-preview"] });
+    }
+  });
+
+  useEffect(() => {
+    const formBody = formRef.current;
+
+    const handleButtonClick = async (e: MouseEvent) => {
+      const target = e.target as HTMLButtonElement;
+      const action = target.getAttribute("data-action");
+      const state =
+        action === "next-node" ? 1 : action === "previous-node" ? 2 : 3;
+
+      try {
+        mutate(state);
+      } catch (e) {
+        console.log(e);
+      }
+    };
+
+    if (formBody) {
+      formBody.querySelectorAll("button").forEach((button) => {
+        button.addEventListener("click", handleButtonClick);
+      });
+    }
+  }, [isFetching]);
 
   if (isLoading) return <Loading />;
 
@@ -31,6 +71,7 @@ const FormFinal = () => {
           <h2 className="text-xl font-bold">فرم: test</h2>
         </div>
         <div
+          ref={formRef}
           className="prose-preview rounded-b-md bg-white px-5"
           dangerouslySetInnerHTML={{
             __html: form?.data ?? ""
