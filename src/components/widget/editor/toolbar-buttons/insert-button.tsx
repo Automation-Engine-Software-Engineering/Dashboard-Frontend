@@ -152,6 +152,8 @@ const DefaultTab = ({
 }) => {
   const [type, setType] = useState("");
 
+  // const handleClickOnButton = () => {};
+
   const insertButtonIntoEditor = () => {
     if (editorRef.current) {
       const selection = window.getSelection();
@@ -160,19 +162,23 @@ const DefaultTab = ({
         const range = selection.getRangeAt(0);
 
         const wrapper = document.createElement("div");
-        wrapper.contentEditable = "false";
+        wrapper.contentEditable = "true";
         wrapper.style.display = "inline-block";
         wrapper.style.maxWidth = "100%";
         wrapper.style.resize = "both";
         wrapper.style.overflow = "hidden";
 
         const button = document.createElement("button");
+
+        button.setAttribute("data-action", type);
         button.textContent =
           type === "next-node"
             ? "گره بعدی"
             : type === "previous-node"
               ? "گره قبلی"
               : "انصراف";
+
+        button.contentEditable = "false";
         button.style.width = "100%";
         button.style.height = "100%";
         button.style.padding = "0.5rem 1rem";
