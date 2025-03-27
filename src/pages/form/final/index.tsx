@@ -43,11 +43,20 @@ const FormFinal = () => {
     const state =
       action === "next-node" ? 1 : action === "previous-node" ? 2 : 3;
 
-    const formData: { id: number; content: string }[] = [];
+    const formData: { id: number; content: string; group?: string }[] = [];
 
     if (formRef.current) {
       formRef.current.querySelectorAll("input").forEach((item) => {
-        formData.push({ id: +item.id!, content: item.value });
+        const newItem: { id: number; content: string; group?: string } = {
+          id: +item.id!,
+          content: item.value
+        };
+
+        const inputGroup = item.getAttribute("data-group");
+
+        if (inputGroup) newItem.group = inputGroup;
+
+        formData.push(newItem);
       });
     }
 
