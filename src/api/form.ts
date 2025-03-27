@@ -155,3 +155,27 @@ export const getFormPreview = async (formId: number) => {
     { showToast: false }
   );
 };
+
+export const saveFormData = async (
+  workflowUserId: number,
+  data: { id: number; content: string }[]
+) => {
+  return await apiResponseMiddleware(
+    api.post(`${API_ENDPOINT}/saveFormData`, data, {
+      params: {
+        workflowUserId
+      },
+      headers: {
+        "Content-Type": "application/json"
+      }
+    }),
+    () => {
+      toast.success("فرم با موفقیت ذخیره شد", {
+        id: "api-middleware"
+      });
+    },
+    {
+      showToast: true
+    }
+  );
+};
