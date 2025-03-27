@@ -17,14 +17,11 @@ const FormEditorPage = () => {
   const editorRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    editorRef.current?.focus();
     if (data?.htmlFormBody) {
       const formParent = document.createElement("div");
       formParent.innerHTML = data.htmlFormBody;
 
       const firstElementChild = formParent.firstElementChild as HTMLElement;
-
-      console.log(firstElementChild);
 
       if (firstElementChild && editorRef.current) {
         editorRef.current.style.cssText = firstElementChild.style.cssText;
