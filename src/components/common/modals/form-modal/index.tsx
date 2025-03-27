@@ -1,4 +1,4 @@
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent } from "react";
 
 import { createForm, editForm } from "@/api/form";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -8,7 +8,6 @@ import { useFormModalStore } from "@/hooks/store/use-form-modal-store";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Modal from "@/components/ui/modal";
-import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
 
 const FormModal = () => {
@@ -24,33 +23,17 @@ const FormModal = () => {
     }
   });
 
-  const [isAutoHeight, setIsAutoHeight] = useState<boolean>(
-    form?.isAutoHeight ?? false
-  );
-
-  const [isRepeatedImage, setIsRepeatedImage] = useState<boolean>(
-    form?.isRepeatedImage ?? false
-  );
-
   const titleText = form ? `ویرایش فرم ${form.name}` : "ساخت فرم جدید";
   const submitBtnText = form ? "ویرایش فرم" : "ساخت فرم جدید";
-
-  useEffect(() => {
-    setIsAutoHeight(form?.isAutoHeight ?? false);
-    setIsRepeatedImage(form?.isRepeatedImage ?? false);
-  }, [isOpen]);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
 
-    formData.append("isAutoHeight", String(isAutoHeight));
-    formData.append("isRepeatedImage", String(isRepeatedImage));
-
     if (!form) {
       formData.append(
         "HtmlFormBody",
-        "<p>ساخته شده توسط تیم پارسه آذین مبین</p>"
+        `<div style="width:1000px; min-height:500px; background-color:#FFFFFF">ساخته شده توسط تیم پارسه آذین مبین</div>`
       );
     } else {
       formData.append("id", String(form.id));
@@ -86,71 +69,6 @@ const FormModal = () => {
             className="resize-none"
           />
         </div>
-        <div className="grid grid-cols-2 gap-x-10">
-          <div className="flex flex-col gap-y-1">
-            <label htmlFor="" className="text-sm">
-              عرض
-            </label>
-            <Input
-              type="number"
-              name="sizeWidth"
-              defaultValue={form?.sizeWidth ?? 0}
-              placeholder="عرض فرم"
-              className="resize-none"
-            />
-          </div>
-          <div className="flex flex-col gap-y-1">
-            <label htmlFor="" className="text-sm">
-              ارتفاع
-            </label>
-            <Input
-              type="number"
-              name="sizeHeight"
-              defaultValue={form?.sizeHeight ?? 0}
-              placeholder="ارتفاع فرم"
-              className="resize-none"
-            />
-          </div>
-        </div>
-        <div className="grid grid-cols-2 gap-x-10">
-          <div className="flex flex-col gap-y-1">
-            <label htmlFor="" className="text-sm">
-              رنگ پس زمینه
-            </label>
-            <Input
-              type="color"
-              name="backgroundColor"
-              defaultValue={form?.backgroundColor ?? "#ffffff"}
-              placeholder="رنگ فرم"
-              className="resize-none"
-            />
-          </div>
-          <div className="flex flex-col gap-y-1">
-            <label htmlFor="" className="text-sm">
-              عکس پس زمینه
-            </label>
-            <Input
-              type="file"
-              accept="image/*"
-              name="backgroundImgPath"
-              // defaultValue={form?.backgroundImgPath ?? ""}
-              placeholder="پس زمینه فرم"
-              className="resize-none"
-            />
-          </div>
-        </div>
-        <div className="mt-5 flex items-center gap-x-2">
-          <p className="text-sm text-slate-600">تکرار پس زمینه</p>{" "}
-          <Switch
-            checked={isRepeatedImage}
-            onCheckedChange={setIsRepeatedImage}
-          />
-        </div>
-        <div className="mt-5 flex items-center gap-x-2">
-          <p className="text-sm text-slate-600">ارتفاع خودکار</p>{" "}
-          <Switch checked={isAutoHeight} onCheckedChange={setIsAutoHeight} />
-        </div>
-
         <Button type="submit" className="w-full" disabled={isPending}>
           {submitBtnText}
         </Button>

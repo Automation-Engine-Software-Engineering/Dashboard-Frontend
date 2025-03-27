@@ -76,10 +76,6 @@ const FormsPage = () => {
             <TableHead>ردیف</TableHead>
             <TableHead>نام</TableHead>
             <TableHead>توضیحات</TableHead>
-            <TableHead>طول</TableHead>
-            <TableHead>عرض</TableHead>
-            <TableHead>رنگ پس زمینه</TableHead>
-            <TableHead>عکس پس زمینه</TableHead>
             <TableHead>جداول</TableHead>
             <TableHead>ویرایش</TableHead>
             <TableHead>حذف</TableHead>
@@ -99,10 +95,6 @@ const FormsPage = () => {
                 <TableCell>{index + 1}</TableCell>
                 <TableCell>{form?.name}</TableCell>
                 <TableCell>{form?.description}</TableCell>
-                <TableCell>{form?.sizeWidth}</TableCell>
-                <TableCell>{form?.sizeHeight}</TableCell>
-                <TableCell>{form?.backgroundColor}</TableCell>
-                <TableCell>{form?.backgroundImgPath}</TableCell>
                 <TableCell className="text-center">
                   <button
                     onClick={(e) => {
