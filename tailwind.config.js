@@ -173,6 +173,9 @@ export default {
                 backgroundColor: theme("colors.slate.50")
               }
             },
+            th: {
+              backgroundColor: "#E4EBF3"
+            },
 
             div: {
               verticalAlign: "middle"
