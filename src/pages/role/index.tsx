@@ -1,7 +1,11 @@
-import { PencilIcon, Trash2Icon, XSquareIcon } from "lucide-react";
+import { PencilIcon, TableIcon, Trash2Icon, XSquareIcon } from "lucide-react";
 import { useReducer } from "react";
 
-import toast from "react-hot-toast";
+import { deleteRole } from "@/api/role";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { MoonLoader } from "react-spinners";
+
+import { useRoles } from "@/hooks/server-state/use-roles";
 
 import AlertModal from "@/components/common/modals/alert-modal";
 import RoleModal from "@/components/common/modals/role-modal";
@@ -12,6 +16,7 @@ import {
   TableCell,
   TableHead,
   TableHeader,
+  TablePagination,
   TableRow
 } from "@/components/ui/table";
 
@@ -46,17 +51,23 @@ const roleReducer = (state: typeof initialState, action: Actions) => {
 };
 
 const RolesPage = () => {
-  // const queryClient = useQueryClient();
-  // const { data: res, isLoading } = useRoles();
+  const queryClient = useQueryClient();
+  const { data: roles, isLoading } = useRoles();
 
-  // const { mutate, isPending } = useMutation({
-  //   mutationFn: (formId: number) => deleteRole(formId),
-  //   onSuccess: () => queryClient.invalidateQueries({ queryKey: ["roles"] })
-  // });
+  const { mutate, isPending } = useMutation({
+    mutationFn: (roleId: number) => deleteRole(roleId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["roles"] });
+      dispatch({
+        type: ActionTypes.SET_IS_DELETE_MODAL_OPEN,
+        payload: false
+      });
+    }
+  });
 
   const [role, dispatch] = useReducer(roleReducer, initialState);
 
-  // if (isLoading) return <Loading />;
+  if (isLoading) return <Loading />;
 
   return (
     <>
@@ -68,16 +79,9 @@ const RolesPage = () => {
             payload: false
           })
         }
-        isLoading={false}
+        isLoading={isPending}
         onConfirm={async () => {
-          // mutate(selectedForDelete!);
-          toast("بزودی وصل میشه", {
-            icon: "🚧"
-          });
-          dispatch({
-            type: ActionTypes.SET_IS_DELETE_MODAL_OPEN,
-            payload: false
-          });
+          mutate(+role.role.id);
         }}
         title="آیا از حذف نقش اطمینان دارید؟"
         description="این عملیات قابل برگشت نخواهد بود و نقش بصورت دائمی حذف خواهد شد"
@@ -109,69 +113,74 @@ const RolesPage = () => {
             <TableHead>ردیف</TableHead>
             <TableHead>نام</TableHead>
             <TableHead>توضیحات</TableHead>
+            <TableHead>گردش کار ها</TableHead>
             <TableHead>ویرایش</TableHead>
             <TableHead>حذف</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
-          <TableRow
-            onClick={(e) => {
-              e.stopPropagation();
-            }}
-            className="cursor-pointer"
-          >
-            <TableCell>1</TableCell>
-            <TableCell>کارشناس</TableCell>
-            <TableCell>متن تستی</TableCell>
-            <TableCell className="text-center">
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  dispatch({
-                    type: ActionTypes.SET_ROLE,
-                    payload: { name: "کارشناس", description: "متن تستی" }
-                  });
-                  dispatch({
-                    type: ActionTypes.SET_IS_MODAL_OPEN,
-                    payload: true
-                  });
-                }}
-              >
-                <PencilIcon className="text-slate-700" />
-              </button>
-            </TableCell>
-            <TableCell className="text-center">
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  dispatch({
-                    type: ActionTypes.SET_IS_DELETE_MODAL_OPEN,
-                    payload: true
-                  });
-                }}
-              >
-                <Trash2Icon className="text-red-500" />
-              </button>
-            </TableCell>
-          </TableRow>
+          {roles?.data.map(({ description, name, id }, index) => (
+            <TableRow key={index}>
+              <TableCell>{index + 1}</TableCell>
+              <TableCell>{name}</TableCell>
+              <TableCell>{description}</TableCell>
+              <TableCell>
+                <TableIcon />
+              </TableCell>
+              <TableCell>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    dispatch({
+                      type: ActionTypes.SET_ROLE,
+                      payload: { name, description, id }
+                    });
+                    dispatch({
+                      type: ActionTypes.SET_IS_MODAL_OPEN,
+                      payload: true
+                    });
+                  }}
+                >
+                  <PencilIcon className="text-slate-700" />
+                </button>
+              </TableCell>
+              <TableCell>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    dispatch({
+                      type: ActionTypes.SET_IS_DELETE_MODAL_OPEN,
+                      payload: true
+                    });
+                    dispatch({
+                      type: ActionTypes.SET_ROLE,
+                      payload: { name, description, id }
+                    });
+                  }}
+                >
+                  <Trash2Icon className="text-red-500" />
+                </button>
+              </TableCell>
+            </TableRow>
+          ))}
         </TableBody>
       </Table>
-      {/* {!res?.data?.length && <EmptyState />} */}
-      {/* <TablePagination totalItems={res?.totalCount ?? 0} /> */}
+      {!roles?.data?.length && <EmptyState />}
+      <TablePagination totalItems={roles?.totalCount ?? 0} />
     </>
   );
 };
 
-// const Loading = () => (
-//   <div className="flex h-[calc(100vh/2)] w-full items-center justify-center">
-//     <MoonLoader color="#0099A5" size={50} />
-//   </div>
-// );
+const Loading = () => (
+  <div className="flex h-[calc(100vh/2)] w-full items-center justify-center">
+    <MoonLoader color="#0099A5" size={50} />
+  </div>
+);
 
-// const EmptyState = () => (
-//   <div className="flex h-32 w-full items-center justify-center bg-white shadow-md">
-//     <p className="text-slate-500">نقشی پیدا نشد</p>
-//   </div>
-// );
+const EmptyState = () => (
+  <div className="flex h-32 w-full items-center justify-center bg-white shadow-md">
+    <p className="text-slate-500">نقشی پیدا نشد</p>
+  </div>
+);
 
 export default RolesPage;
