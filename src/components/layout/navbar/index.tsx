@@ -1,52 +1,45 @@
 import { ChevronRight, PenBoxIcon } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
-import { apiProfile } from "@/api/axios-instance";
-import toast from "react-hot-toast";
-import { Link } from "react-router-dom";
+import { getRoleWorkflow } from "@/api/workflow-role";
+import {
+  createWorkFlowUser,
+  getWorkFlowUserWorkflow,
+  removeWorkFlowUser
+} from "@/api/workflow-user";
+import { useQuery } from "@tanstack/react-query";
+import { Link, useNavigate } from "react-router-dom";
 import { MoonLoader } from "react-spinners";
 
 import { cn } from "@/lib/utils";
 
+import { RoleWorkflowType } from "@/types/role-workflow";
+
 import { useProfile } from "@/hooks/server-state/use-profile";
 
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger
-} from "@/components/ui/accordion";
+import ConfirmModal from "@/components/common/modals/confirm-modal";
 
-const regexAPages = /a[1-3]/;
-const regexPPages = /p[1]/;
+import {
+  Accordion // AccordionContent,
+  // AccordionItem,
+  // AccordionTrigger
+} from "@/components/ui/accordion";
+import { Button } from "@/components/ui/button";
+
 const RESUME_ADDRESS = import.meta.env.VITE_RESUME_ADDRESS;
 
 const Navbar: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
   className,
   ...props
 }) => {
-  const [isLoading, setIsLoading] = useState(true);
-  const [items, setItems] = useState<any[]>([]);
-
   const [sidebarIsOpen, setSidebarIsOpen] = useState<boolean>(true);
 
   const { data: profile } = useProfile();
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await apiProfile.get(
-          `/Professor/GetRole?Id=${profile?.roleId}`
-        );
-        setItems(response.data.data);
-      } catch {
-        toast.error("Failed to fetch data");
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    fetchData();
-  }, [profile]);
+  const { data: items, isLoading } = useQuery({
+    queryKey: ["workflowRoles"],
+    queryFn: getRoleWorkflow
+  });
 
   return (
     <div
@@ -79,12 +72,9 @@ const Navbar: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
         ) : (
           <>
             <Accordion type="single" collapsible>
-              {items?.map(
-                (item) =>
-                  !regexPPages.test(item.url) && (
-                    <NavItem key={item.id} item={item} />
-                  )
-              )}
+              {items?.data?.map((item) => (
+                <NavItem key={item.id} item={item.workFlow} />
+              ))}
             </Accordion>
             <div className="mt-auto space-y-1 border-t border-t-slate-300 px-5 py-7 pt-4">
               <Link
@@ -148,12 +138,72 @@ const Navbar: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
 
 export default Navbar;
 
-const NavItem: React.FC<{ item: any }> = ({ item }) => {
-  const hasChildren = item.children.length;
+const NavItem: React.FC<{ item: RoleWorkflowType["workFlow"] }> = ({
+  item
+}) => {
+  const navigate = useNavigate();
+
+  // const hasChildren = item?.children?.length;
+  const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
+
+  const handleClick = async () => {
+    try {
+      const response = await getWorkFlowUserWorkflow(+item?.id);
+
+      if (response?.data) {
+        setIsConfirmModalOpen(true);
+      } else {
+        try {
+          const createdWorkFlowUser = await createWorkFlowUser({
+            workFlowId: item.id
+          });
+
+          navigate(`/form/${createdWorkFlowUser?.data.id}`);
+        } finally {
+          // null
+        }
+
+        //TODO create workflowUser
+      }
+    } catch {
+      throw new Error("خطا در دریافت اطلاعات");
+    }
+  };
+
+  const handleCancel = async () => {
+    try {
+      const response = await getWorkFlowUserWorkflow(+item?.id);
+      if (response?.data) {
+        await removeWorkFlowUser(+response?.data.id);
+        const createdWorkFlowUser = await createWorkFlowUser({
+          workFlowId: item.id
+        });
+        navigate(`/form/${createdWorkFlowUser?.data.id}`);
+      }
+    } catch {
+      throw new Error("خطا در حذف اطلاعات");
+    } finally {
+      setIsConfirmModalOpen(false);
+    }
+  };
+
   return (
     <>
-      {hasChildren ? (
-        <AccordionItem value={`item-${item.id}`}>
+      <ConfirmModal
+        isOpen={isConfirmModalOpen}
+        onClose={() => {
+          setIsConfirmModalOpen(false);
+        }}
+        onConfirm={async () => {
+          const response = await getWorkFlowUserWorkflow(+item?.id);
+          if (response?.data) navigate(`/form/${response?.data.id}`);
+          setIsConfirmModalOpen(false);
+        }}
+        onCancel={handleCancel}
+        title={`آیا قصد ادامه دادن جریان ${item.name} را دارید؟`}
+      />
+      {/* { ? ( */}
+      {/* <AccordionItem value={`item-${item.id}`}>
           <AccordionTrigger className="px-[20px] py-2 text-sm">
             {item.name}
           </AccordionTrigger>
@@ -166,23 +216,17 @@ const NavItem: React.FC<{ item: any }> = ({ item }) => {
             </Accordion>
           </AccordionContent>
         </AccordionItem>
-      ) : (
-        <div className="pr-4">
-          <Link
-            to={
-              !item.isTargetBlank
-                ? regexAPages.test(item.url)
-                  ? "/page/" + item.url
-                  : "/page/frame?url=" + item.url
-                : item.url
-            }
-            target={item.isTargetBlank ? "_blank" : "_parent"}
-            className="block py-1 text-sm hover:text-primary"
-          >
-            {item.name}
-          </Link>
-        </div>
-      )}
+      ) : ( */}
+      <div className="px-4">
+        <Button
+          variant="ghost"
+          className="w-full justify-start text-sm hover:text-primary"
+          onClick={handleClick}
+        >
+          {item.name}
+        </Button>
+      </div>
+      {/* )} */}
     </>
   );
 };
