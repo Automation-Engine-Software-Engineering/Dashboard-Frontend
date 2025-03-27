@@ -32,11 +32,12 @@ export const signIn = async ({ credentials, redirect = "/" }: SignInProps) => {
       }
     ),
     ({ data }: any) => {
-      console.log(data);
-      setToken({
-        accessToken: data.accessToken,
-        refreshToken: data.refreshToken
-      });
+      if (import.meta.env.MODE === "development") {
+        setToken({
+          accessToken: data.accessToken,
+          refreshToken: data.refreshToken
+        });
+      }
       toast.success("ورود موفقیت آمیز بود", {
         id: "api-middleware"
       });

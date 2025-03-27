@@ -7,7 +7,7 @@ const API_ENDPOINT = "/api/Authentication/User";
 
 export const getSession = async (): Promise<SessionType | null> => {
   const response = await apiResponseMiddleware<SessionType>(
-    api.post(API_ENDPOINT),
+    api.get(API_ENDPOINT),
     () => {},
     {
       showToast: false
