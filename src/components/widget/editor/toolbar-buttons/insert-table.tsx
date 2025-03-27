@@ -38,9 +38,7 @@ const InsertTable: React.FC<
     const table = document.createElement("table");
     table.style.borderCollapse = "collapse";
     table.style.width = "100%";
-    table.style.border = "1px solid black";
-    table.contentEditable = "false"
-
+    table.contentEditable = "false";
 
     for (let i = 0; i < rows; i++) {
       const row = document.createElement("tr");
@@ -48,11 +46,9 @@ const InsertTable: React.FC<
       for (let j = 0; j < cols; j++) {
         const cell = document.createElement("td");
         cell.style.padding = "8px";
-        cell.style.minHeight = "20px"
-        cell.style.border = "1px solid black";
+        cell.style.minHeight = "20px";
         cell.style.position = "relative";
         cell.contentEditable = "true";
-
 
         if (i === 0 && j > 0) {
           const resizer = document.createElement("div");
@@ -63,7 +59,7 @@ const InsertTable: React.FC<
           resizer.style.right = "0";
           resizer.style.cursor = "col-resize";
           resizer.style.backgroundColor = "transparent";
-          resizer.contentEditable = "false"
+          resizer.contentEditable = "false";
 
           resizer.addEventListener("mousedown", (e) => handleResize(e, cell));
 
@@ -101,7 +97,6 @@ const InsertTable: React.FC<
     document.addEventListener("mousemove", onMouseMove);
     document.addEventListener("mouseup", onMouseUp);
   };
-
 
   return (
     <Popover>

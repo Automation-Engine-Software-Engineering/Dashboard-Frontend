@@ -93,11 +93,11 @@ export default {
             borderColor: theme("colors.slate.500"),
             td: {
               border: "1px solid",
-              borderColor: theme("colors.slate.300")
+              borderColor: theme("colors.slate.200")
             },
             tr: {
-              "&:nth-child(odd)": {
-                backgroundColor: theme("colors.slate.200")
+              "&:nth-child(even)": {
+                backgroundColor: theme("colors.slate.50")
               }
             },
 
@@ -166,14 +166,19 @@ export default {
             borderColor: theme("colors.slate.500"),
             td: {
               border: "1px solid",
-              borderColor: theme("colors.slate.300")
+              borderColor: theme("colors.slate.200")
             },
             tr: {
-              "&:nth-child(odd)": {
-                backgroundColor: theme("colors.slate.200")
+              "&:nth-child(even)": {
+                backgroundColor: theme("colors.slate.50")
               }
+            },
+
+            div: {
+              verticalAlign: "middle"
             }
           },
+
           div: {
             verticalAlign: "middle"
           }
