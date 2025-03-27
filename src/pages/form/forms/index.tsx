@@ -92,7 +92,7 @@ const FormsPage = () => {
                 key={form.id}
                 onClick={(e) => {
                   e.stopPropagation();
-                  navigate(form.id.toString());
+                  navigate("editor/" + form.id.toString());
                 }}
                 className="cursor-pointer"
               >

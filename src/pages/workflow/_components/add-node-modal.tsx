@@ -209,7 +209,7 @@ const DynamicContent: React.FC<ContentProps> = ({ setData }) => {
         <Input
           placeholder="نام فایل"
           onChange={(e) => {
-            setData((prev) => ({ ...prev, name: e.target.value }));
+            setData((prev) => ({ ...prev, DllName: e.target.value }));
           }}
         />
       </div>
