@@ -17,12 +17,15 @@ const SaveForm: React.FC<
 
   const queryClient = useQueryClient();
   const { mutate } = useMutation({
-    mutationFn: () =>
-      insertHtmlContent(+formId!, editorRef.current?.innerHTML ?? ""),
+    mutationFn: () => {
+      const outerHtml = editorRef.current?.outerHTML;
+      return insertHtmlContent(+formId!, outerHtml!);
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["forms", formId] });
     }
   });
+
   return (
     <ToolbarButton
       className={cn(className)}
@@ -33,4 +36,5 @@ const SaveForm: React.FC<
     </ToolbarButton>
   );
 };
+
 export default SaveForm;

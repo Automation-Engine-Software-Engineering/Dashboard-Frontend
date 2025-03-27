@@ -26,9 +26,9 @@ const FormPreviewPage = () => {
           <h2 className="text-xl font-bold">فرم: {form?.name}</h2>
         </div>
         <div
-          className="prose-preview rounded-b-md bg-white px-5"
+          className="prose-preview rounded-b-md"
           dangerouslySetInnerHTML={{
-            __html: data?.data ?? ""
+            __html: data?.data.replace(/contenteditable="true"/g, "") ?? ""
           }}
         />
       </div>

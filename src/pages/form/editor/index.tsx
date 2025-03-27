@@ -19,7 +19,17 @@ const FormEditorPage = () => {
   useEffect(() => {
     editorRef.current?.focus();
     if (data?.htmlFormBody) {
-      setEditorData(data.htmlFormBody);
+      const formParent = document.createElement("div");
+      formParent.innerHTML = data.htmlFormBody;
+
+      const firstElementChild = formParent.firstElementChild as HTMLElement;
+
+      console.log(firstElementChild);
+
+      if (firstElementChild && editorRef.current) {
+        editorRef.current.style.cssText = firstElementChild.style.cssText;
+        setEditorData(firstElementChild.innerHTML);
+      }
     }
   }, [data]);
 
@@ -35,9 +45,6 @@ const FormEditorPage = () => {
             ref={editorRef}
             value={editorData}
             onEditorChange={setEditorData}
-            width={data.sizeWidth}
-            height={data.sizeHeight}
-            backgroundColor={data.backgroundColor}
             className="prose-editor h-fit shrink-0 shadow-[20px_10px_15px_0px_rgba(0,0,0,0.1)]"
           />
         </div>
