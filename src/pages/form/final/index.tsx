@@ -96,7 +96,7 @@ const FormFinal = () => {
         </div>
         <div
           ref={formRef}
-          className="prose-preview rounded-b-md bg-white px-5"
+          className="prose-preview rounded-b-md"
           dangerouslySetInnerHTML={{
             __html: form?.data ?? ""
           }}
