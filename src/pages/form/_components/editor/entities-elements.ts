@@ -32,9 +32,11 @@ export const createInput = ({
     style="${commonStyles}" 
   />`;
 
+  const label = `<label for="${inputId}" style="position: absolute;top:0;left:0;display: block;height: 15px;z-index:100;display:none;color: red;font-size: 18px;font-weight: 900;background: #eee;padding: 0 2px;border-radius: 0px 0px 5px 0px;">*</label>`;
+
   if (type === "file" || type === "checkbox" || type === "radio") {
     return `<input id="${inputId}" type="${type}" disabled />`;
   }
 
-  return wrapper + input + "</div>";
+  return wrapper + input + label + "</div>";
 };

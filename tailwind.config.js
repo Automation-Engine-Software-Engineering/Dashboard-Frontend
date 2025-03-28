@@ -149,16 +149,8 @@ export default {
             resize: "none !important"
           },
 
-          ".wrapper::before": {
-            content: `attr(data-type)`,
-            position: "absolute",
-            top: 0,
-            left: 0,
-            zIndex: 100,
-            fontSize: 10,
-            padding: "0 2px",
-            color: "white",
-            backgroundColor: "#0099A5"
+          ".wrapper input[required] + label": {
+            display: "block !important"
           },
 
           table: {
