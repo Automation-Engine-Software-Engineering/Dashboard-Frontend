@@ -15,6 +15,9 @@ import {
 const ChangePassword = () => {
   const [error, setError] = useState<string | null>(null);
 
+  const passwordRegex =
+    /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError(null);
@@ -27,10 +30,9 @@ const ChangePassword = () => {
 
     const newPassword = data.newPassword;
 
-    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/;
     if (!passwordRegex.test(newPassword)) {
       setError(
-        "رمز عبور باید حداقل ۶ کاراکتر باشد و شامل حروف انگلیسی و عدد باشد."
+        "خطا: رمز عبور شما باید حداقل ۸ کاراکتر باشد، حداقل شامل یک حرف بزرگ، یک عدد و یک کاراکتر خاص (@$!%*?&) باشد. لطفاً دوباره تلاش کنید."
       );
       return;
     }
@@ -53,16 +55,13 @@ const ChangePassword = () => {
                   <TooltipTrigger asChild>
                     <InfoIcon size={16} className="text-slate-600" />
                   </TooltipTrigger>
-                  <TooltipContent>
-                    <p className="text-sm">
-                      اگر برای اولین بار پسورد خود را تغییر می دهید این قسمت را
-                      خالی بگذارید
-                    </p>
+                  <TooltipContent className="text-xs">
+                    اگر برای اولین بار پسورد خود را تغییر می دهید این قسمت را
+                    خالی بگذارید
                   </TooltipContent>
                 </Tooltip>
               </TooltipProvider>
             </label>
-
             <Input type="password" name="oldPassword" />
           </div>
           <div className="space-y-2">
@@ -70,7 +69,7 @@ const ChangePassword = () => {
               رمز عبور جدید
             </label>
             <Input type="password" name="newPassword" required />
-            {error && <p className="text-sm text-red-500">{error}</p>}
+            {error && <p className="text-xs text-red-500">{error}</p>}
           </div>
           <Button className="!mt-10 w-full">تغییر رمز عبور</Button>
         </div>
