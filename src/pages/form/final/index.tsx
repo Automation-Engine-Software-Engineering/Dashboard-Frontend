@@ -1,8 +1,9 @@
 import { useEffect, useRef } from "react";
 
-import { getFormPreview, saveFormData } from "@/api/form";
-import { getNodeStates, nodeStateMove } from "@/api/workflow";
+import { getFormPreviewByWorkflowUser, saveFormData } from "@/api/form";
+import { nodeStateMove } from "@/api/workflow";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import toast from "react-hot-toast";
 import { useParams } from "react-router-dom";
 import { MoonLoader } from "react-spinners";
 
@@ -19,15 +20,7 @@ const FormFinal = () => {
     isFetching
   } = useQuery({
     queryKey: ["form-preview", workflowUserId],
-    queryFn: async () => {
-      const nodeState = await getNodeStates(+workflowUserId!);
-
-      if (nodeState?.data.form) {
-        return getFormPreview(nodeState?.data.form.id);
-      }
-
-      return null;
-    }
+    queryFn: () => getFormPreviewByWorkflowUser(+workflowUserId!)
   });
 
   const { mutate } = useMutation({
@@ -44,31 +37,50 @@ const FormFinal = () => {
       action === "next-node" ? 1 : action === "previous-node" ? 2 : 3;
 
     const formData: { id: number; content: string; group?: string }[] = [];
+    let allFieldsFilled = true;
 
     if (formRef.current) {
       formRef.current.querySelectorAll("input").forEach((item) => {
-        const newItem: { id: number; content: string; group?: string } = {
-          id: +item.id!,
-          content: item.value
-        };
+        if (item.hasAttribute("required") && !item.value.trim()) {
+          item.parentElement!.style.borderColor = "red";
+          allFieldsFilled = false;
+        } else {
+          item.parentElement!.style.borderColor = "#cbd5e1";
+          const newItem: { id: number; content: string; group?: string } = {
+            id: +item.id!,
+            content: item.value
+          };
 
-        const inputGroup = item.getAttribute("data-group");
-        if (inputGroup) newItem.group = inputGroup;
+          const inputGroup = item.getAttribute("data-group");
+          if (inputGroup) newItem.group = inputGroup;
 
-        formData.push(newItem);
+          formData.push(newItem);
+        }
       });
 
       formRef.current.querySelectorAll("select").forEach((item) => {
-        const newItem: { id: number; content: string; group?: string } = {
-          id: +item.id!,
-          content: item.value
-        };
+        if (item.hasAttribute("required") && !item.value.trim()) {
+          item.parentElement!.style.borderColor = "red";
+          allFieldsFilled = false;
+        } else {
+          item.parentElement!.style.borderColor = "#cbd5e1";
+          const newItem: { id: number; content: string; group?: string } = {
+            id: +item.id!,
+            content: item.value
+          };
 
-        const selectGroup = item.getAttribute("data-group");
-        if (selectGroup) newItem.group = selectGroup;
+          const selectGroup = item.getAttribute("data-group");
+          if (selectGroup) newItem.group = selectGroup;
 
-        formData.push(newItem);
+          formData.push(newItem);
+        }
       });
+    }
+
+    if (!allFieldsFilled) {
+      toast.error("مقادیر اجباری رو پر کنید");
+
+      return;
     }
 
     try {
