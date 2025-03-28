@@ -11,6 +11,7 @@ export const routeLabels: Record<string, string> = {
   "/form": "فرم ها",
   "/form/entities": "جداول",
   "/form/preview": "پیش نمایش فرم",
+  "/form/editor": "ویرایش فرم",
 
   // role
   "/role": "نقش ها",
