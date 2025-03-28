@@ -128,7 +128,7 @@ const AddNodeModal: React.FC<ModalProps> = ({ isOpen, onClose, setNodes }) => {
 const FormContent: React.FC<ContentProps> = ({ setData }) => {
   const [size, setSize] = useState(10);
   const [selected, setSelected] = useState<number | null>(null);
-  const { ref, inView } = useInView({ threshold: 0.5 });
+  const { ref, inView } = useInView();
 
   const navigate = useNavigate();
 
@@ -138,16 +138,19 @@ const FormContent: React.FC<ContentProps> = ({ setData }) => {
     isFetching
   } = useQuery({
     queryFn: () => getAllForms({ page: 1, size }),
-    queryKey: ["forms"]
+    queryKey: ["forms", { size }]
   });
 
   useEffect(() => {
     if (forms) {
-      if (forms.totalCount < size || inView) {
+      console.log(forms.totalCount);
+      if (forms.totalCount > size && inView) {
+        console.log("hi");
         setSize(size + 10);
       }
+      console.log(inView);
     }
-  }, [inView, forms, size]);
+  }, [inView]);
 
   if (isLoading)
     return (
