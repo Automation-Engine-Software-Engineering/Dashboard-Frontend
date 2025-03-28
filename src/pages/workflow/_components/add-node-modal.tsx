@@ -7,6 +7,7 @@ import { useQuery } from "@tanstack/react-query";
 import { nanoid } from "nanoid";
 import toast from "react-hot-toast";
 import { useInView } from "react-intersection-observer";
+import { useNavigate } from "react-router-dom";
 import { HashLoader } from "react-spinners";
 
 import { cn } from "@/lib/utils";
@@ -129,6 +130,8 @@ const FormContent: React.FC<ContentProps> = ({ setData }) => {
   const [selected, setSelected] = useState<number | null>(null);
   const { ref, inView } = useInView({ threshold: 0.5 });
 
+  const navigate = useNavigate();
+
   const {
     data: forms,
     isLoading,
@@ -154,42 +157,51 @@ const FormContent: React.FC<ContentProps> = ({ setData }) => {
     );
 
   return (
-    <ScrollArea
-      className="h-64 w-full rounded-md border border-slate-300"
-      dir="rtl"
-    >
-      {forms?.data.map((form) => (
-        <div
-          key={form.id}
-          className={cn(
-            "flex cursor-pointer items-center border-b border-b-slate-300 px-5 py-3 text-sm transition-colors hover:bg-primary/20",
-            selected === form.id && "pointer-events-none bg-primary/20"
-          )}
-          onClick={() => {
-            setData({
-              name: form.name,
-              formId: form.id,
-              type: Type.form,
-              icon: TypeIcons.form
-            });
-            setSelected(form.id);
-          }}
-        >
-          {form.name}
-          {selected === form.id && (
-            <Check className="ml-auto" size={20} color="#0099A5" />
-          )}
-        </div>
-      ))}
+    <>
+      <ScrollArea
+        className="h-64 w-full rounded-md border border-slate-300"
+        dir="rtl"
+      >
+        {forms?.data.map((form) => (
+          <div
+            key={form.id}
+            className={cn(
+              "flex cursor-pointer items-center border-b border-b-slate-300 px-5 py-3 text-sm transition-colors hover:bg-primary/20",
+              selected === form.id && "pointer-events-none bg-primary/20"
+            )}
+            onClick={() => {
+              setData({
+                name: form.name,
+                formId: form.id,
+                type: Type.form,
+                icon: TypeIcons.form
+              });
+              setSelected(form.id);
+            }}
+          >
+            {form.name}
+            {selected === form.id && (
+              <Check className="ml-auto" size={20} color="#0099A5" />
+            )}
+          </div>
+        ))}
 
-      {isFetching && (
-        <div className="flex w-full justify-center">
-          <HashLoader size={30} color="#0099A5" />
-        </div>
-      )}
+        {isFetching && (
+          <div className="flex w-full justify-center">
+            <HashLoader size={30} color="#0099A5" />
+          </div>
+        )}
 
-      <div ref={ref} className="h-5 w-full" />
-    </ScrollArea>
+        <div ref={ref} className="h-5 w-full" />
+      </ScrollArea>
+      <Button
+        variant="outline"
+        className="mt-5 w-full"
+        onClick={() => navigate("/form")}
+      >
+        افزودن فرم جدید
+      </Button>
+    </>
   );
 };
 
