@@ -91,9 +91,6 @@ const FormFinal = () => {
   return (
     <div className="flex justify-center py-10">
       <div>
-        <div className="w-full rounded-t-md bg-secondary py-4 text-center text-white">
-          <h2 className="text-xl font-bold">فرم: test</h2>
-        </div>
         <div
           ref={formRef}
           className="prose-preview rounded-b-md"
