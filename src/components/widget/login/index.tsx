@@ -1,11 +1,15 @@
-import { useState } from "react";
+import { lazy, Suspense, useState } from "react";
 
 import { signIn } from "@/auth/sign-in";
 
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+
+const ReCaptcha = lazy(() => import("react-google-recaptcha"));
 
 const Login = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [captchaVerified, setCaptchaVerified] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -16,7 +20,7 @@ const Login = () => {
     const credential: Record<string, any> = Object.fromEntries(formData);
 
     try {
-      await signIn({ credentials: credential as any });
+      if (captchaVerified) await signIn({ credentials: credential as any });
     } finally {
       setIsSubmitting(false);
     }
@@ -36,14 +40,24 @@ const Login = () => {
         placeholder="رمز عبور"
         className="h-14 shadow-md focus-within:shadow-none"
       />
-      <button
+
+      <Suspense fallback={<></>}>
+        <ReCaptcha
+          sitekey={import.meta.env.VITE_RECAPTCHA_KEY}
+          type="image"
+          onChange={() => setCaptchaVerified(true)}
+        />
+      </Suspense>
+      <Button
         type="submit"
-        className="w-full rounded-xl bg-[#055DC0] py-[10px] text-2xl text-white disabled:cursor-not-allowed disabled:opacity-70"
-        disabled={isSubmitting}
+        variant="secondary"
+        className="h-14 w-full"
+        disabled={isSubmitting || !captchaVerified}
       >
         {isSubmitting ? "درحال ورود" : "ورود به حساب کاربری"}
-      </button>
+      </Button>
     </form>
   );
 };
+
 export default Login;
