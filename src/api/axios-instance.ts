@@ -38,13 +38,13 @@ api.interceptors.response.use(
         `${API_URL}/api/Authentication/GenerateToken`
       );
       if (response.status === 200) {
-        if (import.meta.env.MODE === "development") {
+        // if (import.meta.env.MODE === "development") {
           const { refreshToken } = getToken();
           const newToken = response.data.data;
           setToken({ accessToken: newToken, refreshToken: refreshToken! });
           axios.defaults.headers.common["Authorization"] = `Bearer ${newToken}`;
           originalRequest.headers["Authorization"] = `Bearer ${newToken}`;
-        }
+        // }
         return axios(originalRequest);
       }
     }
