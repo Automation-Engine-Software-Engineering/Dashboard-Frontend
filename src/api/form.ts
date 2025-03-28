@@ -156,6 +156,18 @@ export const getFormPreview = async (formId: number) => {
   );
 };
 
+export const getFormPreviewByWorkflowUser = async (workflowUserId: number) => {
+  return await apiResponseMiddleware<string>(
+    api.get(`${API_ENDPOINT}/previewByWorkflowUserId`, {
+      params: {
+        workflowUserId
+      }
+    }),
+    () => {},
+    { showToast: false }
+  );
+};
+
 export const saveFormData = async (
   workflowUserId: number,
   data: { id: number; content: string }[]
