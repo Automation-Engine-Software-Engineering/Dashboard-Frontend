@@ -53,8 +53,19 @@ const FormFinal = () => {
         };
 
         const inputGroup = item.getAttribute("data-group");
-
         if (inputGroup) newItem.group = inputGroup;
+
+        formData.push(newItem);
+      });
+
+      formRef.current.querySelectorAll("select").forEach((item) => {
+        const newItem: { id: number; content: string; group?: string } = {
+          id: +item.id!,
+          content: item.value
+        };
+
+        const selectGroup = item.getAttribute("data-group");
+        if (selectGroup) newItem.group = selectGroup;
 
         formData.push(newItem);
       });
