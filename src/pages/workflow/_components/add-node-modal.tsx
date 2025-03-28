@@ -144,7 +144,6 @@ const FormContent: React.FC<ContentProps> = ({ setData }) => {
   useEffect(() => {
     if (forms) {
       if (forms.totalCount > size && inView) {
-        console.log("hi");
         setSize(size + 10);
       }
     }
