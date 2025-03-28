@@ -31,7 +31,7 @@ const HighlightInput = forwardRef<HTMLDivElement, HighlightInputProps>(
       }
 
       const highlightedContent = content.replace(
-        /{{\s*[\w\s]+\s*}}/g,
+        /{{\s*([^}]*)\s*}}/g,
         (match) =>
           `<span class="highlight-text" contentEditable="false">${match}</span>`
       );
