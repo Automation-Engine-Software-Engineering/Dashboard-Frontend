@@ -86,7 +86,7 @@ const Content = memo(
           />
         </div>
 
-        <Button className="w-full" disabled={isPending}>
+        <Button type="submit" className="w-full" disabled={isPending}>
           ذخیره
         </Button>
       </form>
