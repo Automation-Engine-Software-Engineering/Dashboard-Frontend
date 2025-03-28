@@ -5,7 +5,7 @@ import toast from "react-hot-toast";
 
 import ToolbarButton from "./toolbar-button";
 
-const IMAGE_ROOT = import.meta.env.VITE_FORM_API_URL;
+const IMAGE_ROOT = import.meta.env.VITE_FORM_IMAGE_ROOT;
 
 const InsertImage: React.FC<
   React.ComponentProps<"button"> & {
