@@ -10,6 +10,7 @@ import FormsPage from "@/pages/form/forms";
 import FormPreviewPage from "@/pages/form/preview";
 import PropertiesPage from "@/pages/form/properties";
 import LoginPage from "@/pages/login";
+import MenuItemsPage from "@/pages/menu/menu-items";
 import NotFoundPage from "@/pages/not-found";
 import EditProfilePage from "@/pages/profile/edit-profile";
 import EditProfileAboutMe from "@/pages/profile/edit-profile/about-me";
@@ -65,6 +66,11 @@ const Router = () => {
           <Route path="/role">
             <Route index element={<RolesPage />} />
           </Route>
+
+          <Route path="/menu">
+            <Route index element={<MenuItemsPage />} />
+          </Route>
+
           {/* Book  */}
           <Route path="/new-book" element={<NewBook />}>
             <Route index element={<NewBook />} />

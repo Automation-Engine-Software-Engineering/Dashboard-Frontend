@@ -16,6 +16,9 @@ export const routeLabels: Record<string, string> = {
   // role
   "/role": "نقش ها",
 
+  // role
+  "/menu": "منو",
+
   // change password
   "/change-password": "تغییر رمز عبور",
 
