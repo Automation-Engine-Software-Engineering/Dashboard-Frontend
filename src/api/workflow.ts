@@ -130,15 +130,40 @@ export const getNodeStates = async (WorkFlowUserId: number) => {
   );
 };
 
-export const nodeStateMove = async (workflowUserId: number, state: number) => {
+export const nodeStateMove = async (
+  workflowUserId: number,
+  state: number,
+  nodeId?: string | null
+) => {
   return await apiResponseMiddleware(
     api.get(`${API_ENDPOINT}/nodeMove`, {
       params: {
         WorkflowUserId: workflowUserId,
-        state
+        state,
+        nodeId
       }
     }),
     () => {},
     { showToast: true }
   );
 };
+
+export const getAllWorkflowNodes = async ({
+  page,
+  size
+}: {
+  page: number;
+  size: number;
+}) =>
+  await apiResponseMiddleware<any[]>(
+    api.get(`${API_ENDPOINT}/nodes/all`, {
+      params: {
+        pageSize: size,
+        pageNumber: page
+      }
+    }),
+    () => {},
+    {
+      showToast: false
+    }
+  );
