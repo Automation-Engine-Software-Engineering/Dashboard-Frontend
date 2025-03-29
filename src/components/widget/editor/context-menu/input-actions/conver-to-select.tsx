@@ -1,5 +1,6 @@
+import HighlightInput from "highlightable-input/react";
 import { PlusCircle } from "lucide-react";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { getEntityProperties } from "@/api/property";
 import toast from "react-hot-toast";
@@ -9,8 +10,6 @@ import { EntityType } from "@/types/form/entity";
 import { PropertyType } from "@/types/form/property";
 
 import { useFormEntities } from "@/hooks/server-state/use-form-entities";
-
-import HighlightInput from "@/components/common/highligh-input";
 
 import { Button } from "@/components/ui/button";
 import { ContextMenuItem } from "@/components/ui/context-menu";
@@ -50,7 +49,7 @@ const ConvertToSelect: React.FC<
             تبدیل به دراپ دان
           </ContextMenuItem>
         </DialogTrigger>
-        <DialogContent>
+        <DialogContent className="max-h-[90vh] overflow-y-auto">
           <Tabs defaultValue="manual" dir="rtl">
             <TabsList className="w-full rounded-md bg-slate-100 p-2">
               <TabsTrigger
@@ -143,14 +142,22 @@ const ModalDatabaseTab = ({
   onClose: () => void;
   rightClickedElement: HTMLElement;
 }) => {
+  const inputElement = rightClickedElement as HTMLInputElement;
+
   const { data: entities, isLoading } = useFormEntities();
-  const [selectedEntityId, setSelectedEntityId] = useState<null | string>(null);
-  const [filter, setFilter] = useState("");
-  const [condition, setCondition] = useState("");
-
+  const [selectedEntityId, setSelectedEntityId] = useState<null | string>(
+    inputElement.getAttribute("tableId") ?? ""
+  );
+  const [filter, setFilter] = useState(
+    inputElement.getAttribute("data-filter") ?? ""
+  );
+  const [condition, setCondition] = useState(
+    inputElement.getAttribute("data-condition") ?? ""
+  );
+  const [relation, setRelation] = useState(
+    inputElement.getAttribute("data-relation") ?? ""
+  );
   const [properties, setProperties] = useState<PropertyType[] | null>(null);
-
-  const highlightInputRef = useRef<HTMLDivElement>(null);
 
   let selectedEntity: EntityType | null = null;
 
@@ -163,7 +170,6 @@ const ModalDatabaseTab = ({
 
   const handleConvertToSelect = () => {
     if (rightClickedElement) {
-      const inputElement = rightClickedElement as HTMLInputElement;
       const selectElement = document.createElement("select");
 
       Array.from(inputElement.attributes).forEach((attr) => {
@@ -173,6 +179,7 @@ const ModalDatabaseTab = ({
       selectElement.setAttribute("data-tableId", selectedEntityId ?? "");
       selectElement.setAttribute("data-filter", filter);
       selectElement.setAttribute("data-condition", condition);
+      selectElement.setAttribute("data-relation", relation);
 
       const option = document.createElement("option");
       option.value = "table";
@@ -237,20 +244,59 @@ const ModalDatabaseTab = ({
         <label htmlFor="" className="block text-sm text-slate-800">
           شرط
         </label>
-        <Input
-          type="text"
-          className="mt-2"
+        <HighlightInput
           dir="ltr"
-          onChange={(e) => {
-            setFilter(e.target.value);
+          value={filter}
+          onChange={setFilter}
+          className="h-12 w-full border border-slate-300 bg-white"
+          style={{
+            display: "block",
+            width: "100%",
+            minHeight: 40,
+            padding: "5px 7px",
+            border: "1px solid rgb(204,204,204)",
+            borderRadius: 6
           }}
+          highlight={[
+            {
+              pattern: /{{\s*([^}]*)\s*}}/g,
+              style: "background-color:#0099A520; color:#0099A5"
+            },
+            {
+              pattern: /\[\[\s*([^\]]+)\s*\]\]/g,
+              style: "background-color:#0099A540; color:#0099A5"
+            }
+          ]}
         />
       </div>
       <div>
-        <label htmlFor="" className="block text-sm text-slate-800">
+        <label htmlFor="" className="mb-1 block text-sm text-slate-800">
           نمایش مقدار
         </label>
-        <HighlightInput onChange={setCondition} ref={highlightInputRef} />
+        <HighlightInput
+          dir="ltr"
+          value={condition}
+          onChange={setCondition}
+          className="h-12 w-full border border-slate-300 bg-white"
+          style={{
+            display: "block",
+            width: "100%",
+            minHeight: 40,
+            padding: "5px 7px",
+            border: "1px solid rgb(204,204,204)",
+            borderRadius: 6
+          }}
+          highlight={[
+            {
+              pattern: /{{\s*([^}]*)\s*}}/g,
+              style: "background-color:#0099A520; color:#0099A5"
+            },
+            {
+              pattern: /\[\[\s*([^\]]+)\s*\]\]/g,
+              style: "background-color:#0099A540; color:#0099A5"
+            }
+          ]}
+        />
         <div className="mt-2 flex flex-wrap items-center gap-2">
           {properties?.map((property) => (
             <Button
@@ -259,13 +305,84 @@ const ModalDatabaseTab = ({
               variant="secondary"
               className="h-fit px-3 py-2 text-xs"
               onClick={() => {
-                if (highlightInputRef.current) {
-                  highlightInputRef.current.innerHTML = `${highlightInputRef.current.innerHTML} {{${property.propertyName}}}`;
-                  highlightInputRef.current.focus();
-                }
+                setCondition((prev) => `${prev} {{${property.propertyName}}}`);
               }}
             >
               {property.previewName}
+            </Button>
+          ))}
+        </div>
+      </div>
+      <div>
+        <label htmlFor="" className="mb-1 block text-sm text-slate-800">
+          نمایش ارتباطات
+        </label>
+        <HighlightInput
+          dir="ltr"
+          value={relation}
+          onChange={setRelation}
+          className="h-12 w-full border border-slate-300 bg-white"
+          style={{
+            display: "block",
+            width: "100%",
+            minHeight: 40,
+            padding: "5px 7px",
+            border: "1px solid rgb(204,204,204)",
+            borderRadius: 6
+          }}
+          highlight={[
+            {
+              pattern: /{{\s*([^}]*)\s*}}/g,
+              style: "background-color:#0099A520; color:#0099A5"
+            },
+            {
+              pattern: /\[\[\s*([^\]]+)\s*\]\]/g,
+              style: "background-color:#0099A540; color:#0099A5"
+            }
+          ]}
+        />
+        <div className="mt-2 flex flex-wrap items-center gap-2">
+          <Button
+            size="sm"
+            variant="secondary"
+            className="h-fit px-3 py-2 text-xs"
+            onClick={() => {
+              setRelation((prev) => `${prev} JOIN`);
+            }}
+          >
+            JOIN
+          </Button>
+          <Button
+            size="sm"
+            variant="secondary"
+            className="h-fit px-3 py-2 text-xs"
+            onClick={() => {
+              setRelation((prev) => `${prev} ON`);
+            }}
+          >
+            ON
+          </Button>
+          <Button
+            size="sm"
+            variant="secondary"
+            className="h-fit px-3 py-2 text-xs"
+            onClick={() => {
+              setRelation((prev) => `${prev} =`);
+            }}
+          >
+            =
+          </Button>
+          {entities?.data?.map((entity) => (
+            <Button
+              key={entity.id}
+              size="sm"
+              variant="secondary"
+              className="h-fit px-3 py-2 text-xs"
+              onClick={() => {
+                setRelation((prev) => `${prev} {{${entity.previewName}}}`);
+              }}
+            >
+              {entity.previewName}
             </Button>
           ))}
         </div>

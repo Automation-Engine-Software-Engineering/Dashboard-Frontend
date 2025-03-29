@@ -8,6 +8,7 @@ import Italic from "../toolbar-buttons/italic";
 import Strikethrough from "../toolbar-buttons/strikethrough";
 import Underline from "../toolbar-buttons/underline";
 import InputContextMenuActions from "./input-actions";
+import SelectContextActions from "./select-actions";
 import SvgContextActions from "./svg-actions";
 
 const ToolbarContextMenu: React.FC<
@@ -25,6 +26,10 @@ const ToolbarContextMenu: React.FC<
               <InputContextMenuActions
                 rightClickedElement={rightClickedElement}
               />
+            );
+          case "SELECT":
+            return (
+              <SelectContextActions rightClickedElement={rightClickedElement} />
             );
 
           case "SVG":
