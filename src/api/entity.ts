@@ -114,7 +114,7 @@ export const updateFormEntities = async (
       }
     }),
     () => {
-      toast.success("نقش با موفقیت حذف شد", {
+      toast.success("جداول با موفقیت ثبت شد", {
         id: "api-middleware"
       });
     },
