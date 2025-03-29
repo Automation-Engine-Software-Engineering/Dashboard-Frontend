@@ -23,7 +23,8 @@ export const formInputType: Record<string, any> = {
   "7": "file",
   "8": "color",
   "9": "email",
-  "10": "password"
+  "10": "password",
+  "11": "select"
 };
 
 const PropertyModal = () => {
@@ -135,6 +136,7 @@ const PropertyModal = () => {
               <option value="7">فایل</option>
               <option value="10">پسوورد</option>
               <option value="2">رنج</option>
+              <option value="11">نوار کشویی</option>
             </select>
           </div>
 
