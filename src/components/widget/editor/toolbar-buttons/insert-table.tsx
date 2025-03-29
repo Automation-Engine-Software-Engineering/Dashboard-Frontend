@@ -162,7 +162,7 @@ const TableModal = ({
           واکشی اطلاعات
         </Button>
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent className="max-h-[90vh] overflow-auto">
         <ModalContent
           editorRef={editorRef}
           onClose={() => setIsModalOpen(false)}
@@ -183,10 +183,12 @@ const ModalContent = ({
   const [selectedEntityId, setSelectedEntityId] = useState<null | string>(null);
   const [filter, setFilter] = useState("");
   const [condition, setCondition] = useState("");
+  const [relation, setRelation] = useState("");
 
   const [properties, setProperties] = useState<PropertyType[] | null>(null);
 
-  const highlightInputRef = useRef<HTMLDivElement>(null);
+  const highlightInputConditionRef = useRef<HTMLDivElement>(null);
+  const highlightInputRelationRef = useRef<HTMLDivElement>(null);
 
   const handleCreateTable = () => {
     if (selectedEntityId) {
@@ -199,6 +201,7 @@ const ModalContent = ({
       table.setAttribute("data-tableId", selectedEntityId ?? "");
       table.setAttribute("data-filter", filter);
       table.setAttribute("data-condition", condition);
+      table.setAttribute("data-relation", relation);
 
       table.innerHTML = `<tr><td>پیش نمایش</td></tr>`;
 
@@ -274,7 +277,10 @@ const ModalContent = ({
         <label htmlFor="" className="block text-sm text-slate-800">
           نمایش مقدار
         </label>
-        <HighlightInput onChange={setCondition} ref={highlightInputRef} />
+        <HighlightInput
+          onChange={setCondition}
+          ref={highlightInputConditionRef}
+        />
         <div className="mt-2 flex flex-wrap items-center gap-2">
           {properties?.map((property) => (
             <Button
@@ -283,12 +289,74 @@ const ModalContent = ({
               variant="secondary"
               className="h-fit px-3 py-2 text-xs"
               onClick={() => {
-                if (highlightInputRef.current) {
-                  highlightInputRef.current.innerHTML = `${highlightInputRef.current.innerHTML} {{${property.propertyName}}}`;
+                if (highlightInputConditionRef.current) {
+                  highlightInputConditionRef.current.innerHTML = `${highlightInputConditionRef.current.innerHTML} {{${property.propertyName}}}`;
                 }
               }}
             >
               {property.previewName}
+            </Button>
+          ))}
+        </div>
+      </div>
+      <div>
+        <label htmlFor="" className="block text-sm text-slate-800">
+          نمایش ارتباطات
+        </label>
+        <HighlightInput
+          onChange={setRelation}
+          ref={highlightInputRelationRef}
+        />
+        <div className="mt-2 flex flex-wrap items-center gap-2">
+          <Button
+            size="sm"
+            variant="secondary"
+            className="h-fit px-3 py-2 text-xs"
+            onClick={() => {
+              if (highlightInputRelationRef.current) {
+                highlightInputRelationRef.current.innerHTML = `${highlightInputRelationRef.current.innerHTML} JOIN`;
+              }
+            }}
+          >
+            JOIN
+          </Button>
+          <Button
+            size="sm"
+            variant="secondary"
+            className="h-fit px-3 py-2 text-xs"
+            onClick={() => {
+              if (highlightInputRelationRef.current) {
+                highlightInputRelationRef.current.innerHTML = `${highlightInputRelationRef.current.innerHTML} ON`;
+              }
+            }}
+          >
+            ON
+          </Button>
+          <Button
+            size="sm"
+            variant="secondary"
+            className="h-fit px-3 py-2 text-xs"
+            onClick={() => {
+              if (highlightInputRelationRef.current) {
+                highlightInputRelationRef.current.innerHTML = `${highlightInputRelationRef.current.innerHTML} =`;
+              }
+            }}
+          >
+            =
+          </Button>
+          {entities?.data?.map((entity) => (
+            <Button
+              key={entity.id}
+              size="sm"
+              variant="secondary"
+              className="h-fit px-3 py-2 text-xs"
+              onClick={() => {
+                if (highlightInputRelationRef.current) {
+                  highlightInputRelationRef.current.innerHTML = `${highlightInputRelationRef.current.innerHTML} {{${entity.previewName}}}`;
+                }
+              }}
+            >
+              {entity.previewName}
             </Button>
           ))}
         </div>
