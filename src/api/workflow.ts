@@ -35,7 +35,7 @@ export const getWorkflow = async (workflowId: number) => {
     api.get(`${API_ENDPOINT}/${workflowId}`),
     () => {},
     {
-      showToast: true
+      showToast: false
     }
   );
 };
@@ -102,7 +102,9 @@ export const saveWorkflowNodes = async (
       id: workflowId
     }),
     () => {
-      toast.success("گردش کار با موفقیت ذخیره شد");
+      toast.success("گردش کار با موفقیت ذخیره شد", {
+        id: "api-middleware"
+      });
     },
     {
       showToast: true
