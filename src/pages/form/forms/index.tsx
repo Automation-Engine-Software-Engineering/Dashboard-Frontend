@@ -4,7 +4,7 @@ import {
   Trash2Icon,
   XSquareIcon
 } from "lucide-react";
-import { useState } from "react";
+import { useReducer } from "react";
 
 import { deleteForm } from "@/api/form";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -12,10 +12,10 @@ import { useNavigate } from "react-router-dom";
 import { MoonLoader } from "react-spinners";
 
 import { useForms } from "@/hooks/server-state/use-forms";
-import { useEntitiesListModalStore } from "@/hooks/store/use-entities-list-modal-store";
 import { useFormModalStore } from "@/hooks/store/use-form-modal-store";
 
 import AlertModal from "@/components/common/modals/alert-modal";
+import EntitiesListModal from "@/components/common/modals/entities-list-modal";
 
 import {
   Table,
@@ -27,6 +27,41 @@ import {
   TableRow
 } from "@/components/ui/table";
 
+enum ActionTypes {
+  SET_FORM = "SET_FORM",
+  SET_IS_MODAL_OPEN = "SET_IS_MODAL_OPEN",
+  SET_IS_DELETE_MODAL_OPEN = "SET_IS_DELETE_MODAL_OPEN",
+  SET_IS_ENTITIES_LIST_MODAL_OPEN = "SET_IS_ENTITIES_LIST_MODAL_OPEN"
+}
+
+type Actions = {
+  type: ActionTypes;
+  payload?: any;
+};
+
+const initialState = {
+  isDeleteModalOpen: false,
+  isModalOpen: false,
+  isEntitiesListModalOpen: false,
+  form: null
+};
+
+const formReducer = (state: typeof initialState, action: Actions) => {
+  switch (action.type) {
+    case ActionTypes.SET_FORM:
+      return { ...state, form: action.payload };
+    case ActionTypes.SET_IS_MODAL_OPEN:
+      return { ...state, isModalOpen: action.payload };
+    case ActionTypes.SET_IS_DELETE_MODAL_OPEN:
+      return { ...state, isDeleteModalOpen: action.payload };
+    case ActionTypes.SET_IS_ENTITIES_LIST_MODAL_OPEN:
+      return { ...state, isEntitiesListModalOpen: action.payload };
+
+    default:
+      return state;
+  }
+};
+
 const FormsPage = () => {
   const queryClient = useQueryClient();
   const { data: res, isLoading } = useForms();
@@ -35,28 +70,39 @@ const FormsPage = () => {
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["forms"] })
   });
   const { onOpen, setForm } = useFormModalStore();
-  const { onOpen: onOpenEntitiesListModal } = useEntitiesListModalStore();
   const navigate = useNavigate();
 
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
-  const [selectedForDelete, setSelectedForDelete] = useState<number | null>(
-    null
-  );
+  const [form, dispatch] = useReducer(formReducer, initialState);
 
   if (isLoading) return <Loading />;
 
   return (
     <>
       <AlertModal
-        isOpen={isDeleteModalOpen}
-        onClose={() => setIsDeleteModalOpen(false)}
+        isOpen={form.isDeleteModalOpen}
+        onClose={() =>
+          dispatch({
+            type: ActionTypes.SET_IS_DELETE_MODAL_OPEN,
+            payload: false
+          })
+        }
         isLoading={isPending}
         onConfirm={async () => {
-          mutate(selectedForDelete!);
-          setIsDeleteModalOpen(false);
+          mutate(form?.form?.id);
         }}
         title="آیا از حذف فرم اطمینان دارید؟"
         description="این عملیات قابل برگشت نخواهد بود و فرم بصورت دائمی حذف خواهد شد"
+      />
+
+      <EntitiesListModal
+        isOpen={form.isEntitiesListModalOpen}
+        formId={form.form?.id}
+        onClose={() => {
+          dispatch({
+            type: ActionTypes.SET_IS_ENTITIES_LIST_MODAL_OPEN,
+            payload: false
+          });
+        }}
       />
       <div className="flex items-center px-5 py-2">
         <button
@@ -99,7 +145,14 @@ const FormsPage = () => {
                   <button
                     onClick={(e) => {
                       e.stopPropagation();
-                      onOpenEntitiesListModal(form);
+                      dispatch({
+                        type: ActionTypes.SET_IS_ENTITIES_LIST_MODAL_OPEN,
+                        payload: true
+                      });
+                      dispatch({
+                        type: ActionTypes.SET_FORM,
+                        payload: form
+                      });
                     }}
                   >
                     <TablePropertiesIcon className="text-slate-700" />
@@ -120,8 +173,14 @@ const FormsPage = () => {
                   <button
                     onClick={(e) => {
                       e.stopPropagation();
-                      setSelectedForDelete(form.id);
-                      setIsDeleteModalOpen(true);
+                      dispatch({
+                        type: ActionTypes.SET_IS_DELETE_MODAL_OPEN,
+                        payload: true
+                      });
+                      dispatch({
+                        type: ActionTypes.SET_FORM,
+                        payload: form
+                      });
                     }}
                   >
                     <Trash2Icon className="text-red-500" />
