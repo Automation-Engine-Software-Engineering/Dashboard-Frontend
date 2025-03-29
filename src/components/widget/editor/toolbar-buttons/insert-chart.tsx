@@ -9,6 +9,8 @@ import React from "react";
 
 import { createRoot } from "react-dom/client";
 
+import { restoreSelection, saveSelection } from "@/utils/selection";
+
 import BarChart from "@/components/common/charts/bar";
 import LineChart from "@/components/common/charts/line";
 import PieChart from "@/components/common/charts/pie";
@@ -45,8 +47,25 @@ const InsertChart: React.FC<
       spacer.contentEditable = "true";
       spacer.innerHTML = "<br>";
 
-      editorRef.current.appendChild(chartContainer);
-      editorRef.current.appendChild(spacer);
+      restoreSelection();
+      const selection = window.getSelection();
+
+      if (selection?.rangeCount) {
+        const range = selection.getRangeAt(0);
+
+        if (editorRef.current?.contains(range.commonAncestorContainer)) {
+          range.deleteContents();
+          range.insertNode(chartContainer);
+          range.setStartAfter(chartContainer);
+          range.setEndAfter(chartContainer);
+        } else {
+          const spacer = document.createElement("br");
+          editorRef.current?.appendChild(chartContainer);
+          editorRef.current?.appendChild(spacer);
+        }
+
+        editorRef.current?.focus();
+      }
 
       const chartRoot = createRoot(chartContainer);
 
@@ -69,7 +88,12 @@ const InsertChart: React.FC<
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <ToolbarButton className="flex size-fit items-center gap-x-1">
+        <ToolbarButton
+          className="flex size-fit items-center gap-x-1"
+          onClick={() => {
+            saveSelection();
+          }}
+        >
           <ChartNoAxesColumn />
           Chart
           <ChevronDown />

@@ -12,6 +12,8 @@ import { PropertyType } from "@/types/form/property";
 
 import { useFormEntities } from "@/hooks/server-state/use-form-entities";
 
+import { restoreSelection, saveSelection } from "@/utils/selection";
+
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
@@ -31,7 +33,7 @@ const InsertTable: React.FC<
   const [rows, setRows] = useState<number>(3);
   const [cols, setCols] = useState<number>(3);
 
-  const createTableWithResizers = () => {
+  const createTableWithResizer = () => {
     if (!editorRef.current) return;
 
     const table = document.createElement("table");
@@ -71,10 +73,25 @@ const InsertTable: React.FC<
       table.appendChild(row);
     }
 
-    const spacer = document.createElement("br");
+    restoreSelection();
+    const selection = window.getSelection();
 
-    editorRef.current.appendChild(table);
-    editorRef.current.appendChild(spacer);
+    if (selection?.rangeCount) {
+      const range = selection.getRangeAt(0);
+
+      if (editorRef.current?.contains(range.commonAncestorContainer)) {
+        range.deleteContents();
+        range.insertNode(table);
+        range.setStartAfter(table);
+        range.setEndAfter(table);
+      } else {
+        const spacer = document.createElement("br");
+        editorRef.current?.appendChild(table);
+        editorRef.current.appendChild(spacer);
+      }
+
+      editorRef.current?.focus();
+    }
   };
 
   const handleResize = (event: MouseEvent, cell: HTMLTableCellElement) => {
@@ -105,6 +122,9 @@ const InsertTable: React.FC<
             "flex size-fit items-center gap-x-2 font-sans",
             className
           )}
+          onClick={() => {
+            saveSelection();
+          }}
         >
           <TableIcon />
           Table
@@ -125,7 +145,7 @@ const InsertTable: React.FC<
             onChange={(e) => setCols(+e.target.value)}
             required
           />
-          <Button className="col-span-full" onClick={createTableWithResizers}>
+          <Button className="col-span-full" onClick={createTableWithResizer}>
             Insert
           </Button>
         </div>
@@ -208,8 +228,25 @@ const ModalContent = ({
 
       toast.success("با موفقیت تبدیل شد");
 
-      editorRef.current?.appendChild(table);
+      restoreSelection();
+      const selection = window.getSelection();
 
+      if (selection?.rangeCount) {
+        const range = selection.getRangeAt(0);
+
+        if (editorRef.current?.contains(range.commonAncestorContainer)) {
+          range.deleteContents();
+          range.insertNode(table);
+          range.setStartAfter(table);
+          range.setEndAfter(table);
+        } else {
+          const spacer = document.createElement("br");
+          editorRef.current?.appendChild(table);
+          editorRef.current?.appendChild(spacer);
+        }
+
+        editorRef.current?.focus();
+      }
       onClose();
     }
   };
@@ -411,31 +448,3 @@ const ModalContent = ({
 };
 
 export default InsertTable;
-
-// const handleCreateTable = () => {
-//   if (selectedEntityId) {
-//     const table = document.createElement("table");
-//     table.style.borderCollapse = "collapse";
-//     table.style.width = "100%";
-//     table.style.height = "100%";
-//     table.style.maxWidth = "100%";
-
-//     table.setAttribute("data-tableId", selectedEntityId ?? "");
-//     table.setAttribute("data-filter", filter);
-//     table.setAttribute("data-condition", condition);
-//     table.setAttribute("data-relation", relation);
-
-//     table.innerHTML = `<tr><td>پیش نمایش</td></tr>`;
-
-//     if (!selectedEntityId) {
-//       toast.error("لطفا یک دیتابیس رو انتخاب کنید");
-//       return;
-//     }
-
-//     toast.success("با موفقیت تبدیل شد");
-
-//     editorRef.current?.appendChild(table);
-
-//     onClose();
-//   }
-// };
