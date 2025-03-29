@@ -1,7 +1,7 @@
 import { ChevronRight, PenBoxIcon } from "lucide-react";
 import { useState } from "react";
 
-import { getRoleWorkflow } from "@/api/workflow-role";
+import { getAllMenuRoleItems } from "@/api/menu";
 import {
   createWorkFlowUser,
   getWorkFlowUserWorkflow,
@@ -13,16 +13,17 @@ import { MoonLoader } from "react-spinners";
 
 import { cn } from "@/lib/utils";
 
-import { RoleWorkflowType } from "@/types/role-workflow";
+import { MenuRoleItemType } from "@/types/menu-item";
 
 import { useProfile } from "@/hooks/server-state/use-profile";
 
 import ConfirmModal from "@/components/common/modals/confirm-modal";
 
 import {
-  Accordion // AccordionContent,
-  // AccordionItem,
-  // AccordionTrigger
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger
 } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
 
@@ -32,13 +33,16 @@ const Navbar: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
   className,
   ...props
 }) => {
+  const [page] = useState(1);
+  const [size] = useState(1);
+
   const [sidebarIsOpen, setSidebarIsOpen] = useState<boolean>(true);
 
   const { data: profile } = useProfile();
 
   const { data: items, isLoading } = useQuery({
     queryKey: ["workflowRoles"],
-    queryFn: getRoleWorkflow
+    queryFn: () => getAllMenuRoleItems({ page, size })
   });
 
   return (
@@ -72,8 +76,8 @@ const Navbar: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
         ) : (
           <>
             <Accordion type="single" collapsible>
-              {items?.data?.map((item) => (
-                <NavItem key={item.id} item={item.workflow} />
+              {items?.data?.map((item, index) => (
+                <NavItem key={index + 1} item={item} />
               ))}
             </Accordion>
             <div className="mt-auto space-y-1 border-t border-t-slate-300 px-5 py-7 pt-4">
@@ -138,24 +142,23 @@ const Navbar: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
 
 export default Navbar;
 
-const NavItem: React.FC<{ item: RoleWorkflowType["workflow"] }> = ({
-  item
-}) => {
+const NavItem: React.FC<{ item: MenuRoleItemType }> = ({ item }) => {
   const navigate = useNavigate();
 
-  // const hasChildren = item?.children?.length;
+  const hasChildren = item?.childs?.length;
+
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
 
   const handleClick = async () => {
     try {
-      const response = await getWorkFlowUserWorkflow(+item?.id);
+      const response = await getWorkFlowUserWorkflow(item.workflow.id);
 
       if (response?.data) {
         setIsConfirmModalOpen(true);
       } else {
         try {
           const createdWorkFlowUser = await createWorkFlowUser({
-            workFlowId: item.id
+            workFlowId: item.workflow.id
           });
 
           navigate(`/form/${createdWorkFlowUser?.data.id}`);
@@ -172,11 +175,11 @@ const NavItem: React.FC<{ item: RoleWorkflowType["workflow"] }> = ({
 
   const handleCancel = async () => {
     try {
-      const response = await getWorkFlowUserWorkflow(+item?.id);
+      const response = await getWorkFlowUserWorkflow(item.workflow.id);
       if (response?.data) {
         await removeWorkFlowUser(+response?.data.id);
         const createdWorkFlowUser = await createWorkFlowUser({
-          workFlowId: item.id
+          workFlowId: item.workflow.id
         });
         navigate(`/form/${createdWorkFlowUser?.data.id}`);
       }
@@ -195,38 +198,38 @@ const NavItem: React.FC<{ item: RoleWorkflowType["workflow"] }> = ({
           setIsConfirmModalOpen(false);
         }}
         onConfirm={async () => {
-          const response = await getWorkFlowUserWorkflow(+item?.id);
+          const response = await getWorkFlowUserWorkflow(item.workflow.id);
           if (response?.data) navigate(`/form/${response?.data.id}`);
           setIsConfirmModalOpen(false);
         }}
         onCancel={handleCancel}
         title={`آیا قصد ادامه دادن جریان ${item?.name} را دارید؟`}
       />
-      {/* { ? ( */}
-      {/* <AccordionItem value={`item-${item.id}`}>
+      {hasChildren ? (
+        <AccordionItem value={`item-${item.name}`}>
           <AccordionTrigger className="px-[20px] py-2 text-sm">
             {item.name}
           </AccordionTrigger>
 
           <AccordionContent>
             <Accordion type="single" collapsible className="pr-4">
-              {item.children.map((child: any) => (
+              {item.childs.map((child: any) => (
                 <NavItem key={child.id} item={child} />
               ))}
             </Accordion>
           </AccordionContent>
         </AccordionItem>
-      ) : ( */}
-      <div className="px-4">
-        <Button
-          variant="ghost"
-          className="w-full justify-start text-sm hover:text-primary"
-          onClick={handleClick}
-        >
-          {item?.name}
-        </Button>
-      </div>
-      {/* )} */}
+      ) : (
+        <div className="px-4">
+          <Button
+            variant="ghost"
+            className="w-full justify-start text-sm hover:text-primary"
+            onClick={handleClick}
+          >
+            {item?.name}
+          </Button>
+        </div>
+      )}
     </>
   );
 };
