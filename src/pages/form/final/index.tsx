@@ -24,7 +24,13 @@ const FormFinal = () => {
   });
 
   const { mutate } = useMutation({
-    mutationFn: (state: number) => nodeStateMove(+workflowUserId!, state),
+    mutationFn: ({
+      state,
+      nodeId
+    }: {
+      state: number;
+      nodeId?: string | null;
+    }) => nodeStateMove(+workflowUserId!, state, nodeId),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["form-preview"] });
     }
@@ -33,8 +39,19 @@ const FormFinal = () => {
   const handleButtonClick = async (e: MouseEvent) => {
     const target = e.target as HTMLButtonElement;
     const action = target.getAttribute("data-action");
+    let nodeId = null;
     const state =
-      action === "next-node" ? 1 : action === "previous-node" ? 2 : 3;
+      action === "next-node"
+        ? 1
+        : action === "previous-node"
+          ? 2
+          : action === "jump-node"
+            ? 4
+            : 3;
+
+    if (state === 4) {
+      nodeId = target.getAttribute("data-node-id");
+    }
 
     const formData: { id: number; content: string; group?: string }[] = [];
     let allFieldsFilled = true;
@@ -85,7 +102,7 @@ const FormFinal = () => {
 
     try {
       await saveFormData(+workflowUserId!, formData);
-      mutate(state);
+      mutate({ state, nodeId });
     } catch (e) {
       console.log(e);
     }
