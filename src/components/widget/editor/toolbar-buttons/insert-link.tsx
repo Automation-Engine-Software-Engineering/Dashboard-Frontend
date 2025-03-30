@@ -177,7 +177,8 @@ const JumpTab = ({
         button.textContent = selectedText;
         button.contentEditable = "false";
         button.setAttribute("data-node-id", selectedNode ?? "");
-        button.setAttribute("data-action", selectedNode ?? "jump-node");
+        button.setAttribute("data-workflow-user", "");
+        button.setAttribute("data-action", "jump-node");
 
         button.style.width = "fit-content";
         button.style.height = "fit-content";

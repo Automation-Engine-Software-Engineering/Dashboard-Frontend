@@ -210,7 +210,9 @@ const JumpTab = ({
 
         const button = document.createElement("button");
 
-        button.setAttribute("data-action", selectedNode);
+        button.setAttribute("data-action", "jump-node");
+        button.setAttribute("data-workflow-user", "");
+        button.setAttribute("data-node-id", selectedNode ?? "");
         button.textContent = selectedNode;
 
         button.contentEditable = "false";
