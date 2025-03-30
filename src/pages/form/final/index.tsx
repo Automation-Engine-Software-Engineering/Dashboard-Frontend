@@ -4,14 +4,14 @@ import { getFormPreviewByWorkflowUser, saveFormData } from "@/api/form";
 import { nodeStateMove } from "@/api/workflow";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { MoonLoader } from "react-spinners";
 
 const FormFinal = () => {
   const queryClient = useQueryClient();
 
   const { workflowUserId } = useParams<{ workflowUserId: string }>();
-
+  const navigate = useNavigate();
   const formRef = useRef<HTMLDivElement | null>(null);
 
   const {
@@ -26,13 +26,19 @@ const FormFinal = () => {
   const { mutate } = useMutation({
     mutationFn: ({
       state,
-      nodeId
+      nodeId,
+      newWorkflowUserId
     }: {
       state: number;
       nodeId?: string | null;
-    }) => nodeStateMove(+workflowUserId!, state, nodeId),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["form-preview"] });
+      newWorkflowUserId?: string | null;
+    }) => nodeStateMove(+workflowUserId!, state, nodeId, newWorkflowUserId),
+    onSuccess: (data) => {
+      if (+workflowUserId! === data?.data) {
+        queryClient.invalidateQueries({ queryKey: ["form-preview"] });
+      } else {
+        navigate(`form/${data?.data}`);
+      }
     }
   });
 
@@ -40,6 +46,7 @@ const FormFinal = () => {
     const target = e.target as HTMLButtonElement;
     const action = target.getAttribute("data-action");
     let nodeId = null;
+    let newWorkflowUserId = null;
     const state =
       action === "next-node"
         ? 1
@@ -51,6 +58,7 @@ const FormFinal = () => {
 
     if (state === 4) {
       nodeId = target.getAttribute("data-node-id");
+      newWorkflowUserId = target.getAttribute("data-workflow-user");
     }
 
     const formData: { id: number; content: string; group?: string }[] = [];
@@ -102,7 +110,7 @@ const FormFinal = () => {
 
     try {
       await saveFormData(+workflowUserId!, formData);
-      mutate({ state, nodeId });
+      mutate({ state, nodeId, newWorkflowUserId });
     } catch (e) {
       console.log(e);
     }

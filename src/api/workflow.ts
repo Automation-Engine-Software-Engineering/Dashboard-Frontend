@@ -133,14 +133,16 @@ export const getNodeStates = async (WorkFlowUserId: number) => {
 export const nodeStateMove = async (
   workflowUserId: number,
   state: number,
-  nodeId?: string | null
+  nodeId?: string | null,
+  newWorkflowUserId?: string | null
 ) => {
   return await apiResponseMiddleware(
     api.get(`${API_ENDPOINT}/nodeMove`, {
       params: {
         WorkflowUserId: workflowUserId,
         state,
-        nodeId
+        nodeId,
+        newWorkflowUserId
       }
     }),
     () => {},
