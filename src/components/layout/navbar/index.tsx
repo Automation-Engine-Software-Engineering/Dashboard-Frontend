@@ -150,26 +150,30 @@ const NavItem: React.FC<{ item: MenuRoleItemType }> = ({ item }) => {
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
 
   const handleClick = async () => {
-    try {
-      const response = await getWorkFlowUserWorkflow(item.workflow.id);
+    if (item.link) {
+      navigate(item.link);
+    } else {
+      try {
+        const response = await getWorkFlowUserWorkflow(item.workflow.id);
 
-      if (response?.data) {
-        setIsConfirmModalOpen(true);
-      } else {
-        try {
-          const createdWorkFlowUser = await createWorkFlowUser({
-            workFlowId: item.workflow.id
-          });
+        if (response?.data) {
+          setIsConfirmModalOpen(true);
+        } else {
+          try {
+            const createdWorkFlowUser = await createWorkFlowUser({
+              workFlowId: item.workflow.id
+            });
 
-          navigate(`/form/${createdWorkFlowUser?.data.id}`);
-        } finally {
-          // null
+            navigate(`/form/${createdWorkFlowUser?.data.id}`);
+          } finally {
+            // null
+          }
+
+          //TODO create workflowUser
         }
-
-        //TODO create workflowUser
+      } catch {
+        throw new Error("خطا در دریافت اطلاعات");
       }
-    } catch {
-      throw new Error("خطا در دریافت اطلاعات");
     }
   };
 

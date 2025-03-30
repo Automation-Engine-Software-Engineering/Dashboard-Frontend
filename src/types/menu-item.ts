@@ -13,5 +13,6 @@ export type MenuRoleItemType = {
   name: string;
   menuType: number;
   workflow: WorkflowType;
+  link: string | null;
   childs: MenuRoleItemType[];
 };
