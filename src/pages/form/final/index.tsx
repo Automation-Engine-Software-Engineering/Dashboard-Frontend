@@ -37,7 +37,7 @@ const FormFinal = () => {
       if (+workflowUserId! === data?.data) {
         queryClient.invalidateQueries({ queryKey: ["form-preview"] });
       } else {
-        navigate(`form/${data?.data}`);
+        navigate(`/form/${data?.data}`);
       }
     }
   });
