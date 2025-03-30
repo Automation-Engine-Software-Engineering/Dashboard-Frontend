@@ -43,7 +43,7 @@ const FormFinal = () => {
   });
 
   const handleButtonClick = async (e: MouseEvent) => {
-    const target = e.target as HTMLButtonElement;
+    const target = e.currentTarget as HTMLButtonElement;
     const action = target.getAttribute("data-action");
     let nodeId = null;
     let newWorkflowUserId = null;
