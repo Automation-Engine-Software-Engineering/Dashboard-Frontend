@@ -36,6 +36,10 @@ const InsertTable: React.FC<
   const createTableWithResizer = () => {
     if (!editorRef.current) return;
 
+    const wrapper = document.createElement("div");
+    wrapper.contentEditable = "false";
+    wrapper.id = "table-container";
+
     const table = document.createElement("table");
     table.style.borderCollapse = "collapse";
     table.style.width = "100%";
@@ -73,6 +77,8 @@ const InsertTable: React.FC<
       table.appendChild(row);
     }
 
+    wrapper.appendChild(table);
+
     restoreSelection();
     const selection = window.getSelection();
 
@@ -81,13 +87,20 @@ const InsertTable: React.FC<
 
       if (editorRef.current?.contains(range.commonAncestorContainer)) {
         range.deleteContents();
-        range.insertNode(table);
-        range.setStartAfter(table);
-        range.setEndAfter(table);
+        range.insertNode(wrapper);
+
+        const spacer = document.createElement("br");
+
+        range.setStartAfter(wrapper);
+        range.setEndAfter(wrapper);
+        range.insertNode(spacer);
+
+        range.setStartAfter(spacer);
+        range.setEndAfter(spacer);
       } else {
         const spacer = document.createElement("br");
-        editorRef.current?.appendChild(table);
-        editorRef.current.appendChild(spacer);
+        editorRef.current?.appendChild(wrapper);
+        editorRef.current?.appendChild(spacer);
       }
 
       editorRef.current?.focus();
@@ -208,6 +221,10 @@ const ModalContent = ({
 
   const handleCreateTable = () => {
     if (selectedEntityId) {
+      const wrapper = document.createElement("div");
+      wrapper.contentEditable = "false";
+      wrapper.id = "table-container";
+
       const table = document.createElement("table");
       table.style.borderCollapse = "collapse";
       table.style.width = "100%";
@@ -218,8 +235,15 @@ const ModalContent = ({
       table.setAttribute("data-filter", filter);
       table.setAttribute("data-condition", condition);
       table.setAttribute("data-relation", relation);
+      table.innerHTML = `
+        <tr>
+         <td>
+          پیش نمایش جدول
+         </td>
+        </tr>
+      `;
 
-      table.innerHTML = `<tr><td>پیش نمایش</td></tr>`;
+      wrapper.appendChild(table);
 
       if (!selectedEntityId) {
         toast.error("لطفا یک دیتابیس رو انتخاب کنید");
@@ -236,12 +260,19 @@ const ModalContent = ({
 
         if (editorRef.current?.contains(range.commonAncestorContainer)) {
           range.deleteContents();
-          range.insertNode(table);
-          range.setStartAfter(table);
-          range.setEndAfter(table);
+          range.insertNode(wrapper);
+
+          const spacer = document.createElement("br");
+
+          range.setStartAfter(wrapper);
+          range.setEndAfter(wrapper);
+          range.insertNode(spacer);
+
+          range.setStartAfter(spacer);
+          range.setEndAfter(spacer);
         } else {
           const spacer = document.createElement("br");
-          editorRef.current?.appendChild(table);
+          editorRef.current?.appendChild(wrapper);
           editorRef.current?.appendChild(spacer);
         }
 
