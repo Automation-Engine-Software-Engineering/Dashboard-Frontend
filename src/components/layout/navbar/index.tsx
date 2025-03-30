@@ -1,4 +1,4 @@
-import { ChevronRight, PenBoxIcon } from "lucide-react";
+import { ChevronRight, Icon, PenBoxIcon } from "lucide-react";
 import { useState } from "react";
 
 import { getAllMenuRoleItems } from "@/api/menu";
@@ -44,7 +44,7 @@ const Navbar: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
     queryKey: ["workflowRoles"],
     queryFn: () => getAllMenuRoleItems({ page, size })
   });
-
+  
   return (
     <div
       className={cn(
@@ -58,7 +58,7 @@ const Navbar: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
           className={cn(
             "flex items-center justify-center rounded-full border-2 border-gray-700 transition-all",
             sidebarIsOpen &&
-              "border-transparent bg-primary [&_svg]:-rotate-180 [&_svg]:text-white"
+            "border-transparent bg-primary [&_svg]:-rotate-180 [&_svg]:text-white"
           )}
           onClick={() => setSidebarIsOpen((prevState) => !prevState)}
         >
@@ -211,10 +211,16 @@ const NavItem: React.FC<{ item: MenuRoleItemType }> = ({ item }) => {
       />
       {hasChildren ? (
         <AccordionItem value={`item-${item.name}`}>
-          <AccordionTrigger className="px-[20px] py-2 text-sm">
-            {item.name}
-          </AccordionTrigger>
 
+          <AccordionTrigger className="px-[20px] py-2 text-sm">
+            <div className="flex">
+              <span
+                className="ml-2 text-cyan-600"
+                dangerouslySetInnerHTML={{ __html: item.icon }}
+              ></span>
+              {item.name}
+            </div>
+          </AccordionTrigger>
           <AccordionContent>
             <Accordion type="single" collapsible className="pr-4">
               {item.childs.map((child: any) => (
@@ -229,7 +235,10 @@ const NavItem: React.FC<{ item: MenuRoleItemType }> = ({ item }) => {
             variant="ghost"
             className="w-full justify-start text-sm hover:text-primary"
             onClick={handleClick}
-          >
+          ><span
+            className="ml-2 text-cyan-600"
+            dangerouslySetInnerHTML={{ __html: item.icon }}
+          ></span>
             {item?.name}
           </Button>
         </div>

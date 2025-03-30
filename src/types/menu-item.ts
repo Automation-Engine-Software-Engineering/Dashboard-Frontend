@@ -3,6 +3,7 @@ import { WorkflowType } from "./workflow/workflow";
 export type MenuItemType = {
   id: number;
   name: string;
+  icon: string;
   menuType: number;
   parentMenuElemntId: number;
   workflowId: number;
@@ -12,6 +13,7 @@ export type MenuItemType = {
 export type MenuRoleItemType = {
   name: string;
   menuType: number;
+  icon: string;
   workflow: WorkflowType;
   link: string | null;
   childs: MenuRoleItemType[];
