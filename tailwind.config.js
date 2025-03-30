@@ -153,6 +153,10 @@ export default {
             display: "block !important"
           },
 
+          ".wrapper:has(> input[data-readonly])": {
+            border: "none !important"
+          },
+
           table: {
             border: "1px solid",
             borderColor: theme("colors.slate.500"),
