@@ -5,6 +5,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { MenuItemType } from "@/types/menu-item";
 
+import { useMenuItems } from "@/hooks/server-state/use-menu-items";
 import { useRoles } from "@/hooks/server-state/use-roles";
 import { useWorkflows } from "@/hooks/server-state/use-workflows";
 
@@ -66,6 +67,7 @@ const Content = memo(
 
     const { data: workflows } = useWorkflows();
     const { data: roles } = useRoles();
+    const { data: menuItems } = useMenuItems();
 
     const { mutate, isPending } = useMutation({
       mutationFn: (data: any) =>
@@ -136,7 +138,26 @@ const Content = memo(
                 <SelectItem key={role.id} value={String(role.id)}>
                   {role.name}
                 </SelectItem>
-              ))}{" "}
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+        <div className="space-y-1">
+          <label htmlFor="">انتخاب مجموعه</label>
+          <Select
+            dir="rtl"
+            name="parentMenuElemntId"
+            defaultValue={String(menuItem?.roleId ?? "")}
+          >
+            <SelectTrigger>
+              <SelectValue placeholder="انتخاب مجموعه" />
+            </SelectTrigger>
+            <SelectContent>
+              {menuItems?.data.map((item) => (
+                <SelectItem key={item.id} value={String(item.id)}>
+                  {item.name}
+                </SelectItem>
+              ))}
             </SelectContent>
           </Select>
         </div>
