@@ -1,6 +1,12 @@
 import { ChevronDown, SquareMousePointerIcon } from "lucide-react";
 import React, { useState } from "react";
 
+import { getAllWorkflowNodes } from "@/api/workflow";
+import { useQuery } from "@tanstack/react-query";
+import toast from "react-hot-toast";
+
+import { restoreSelection, saveSelection } from "@/utils/selection";
+
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
@@ -33,7 +39,10 @@ const InsertButton: React.FC<
       <DialogTrigger asChild>
         <ToolbarButton
           className="flex w-fit items-center gap-x-2"
-          onClick={() => setIsOpen(true)}
+          onClick={() => {
+            saveSelection();
+            setIsOpen(true);
+          }}
           {...props}
         >
           <SquareMousePointerIcon />
@@ -57,6 +66,12 @@ const InsertButton: React.FC<
             >
               پیش فرض
             </TabsTrigger>
+            <TabsTrigger
+              value="jump"
+              className="flex-1 rounded-md data-[state=active]:bg-primary/30"
+            >
+              دکمه پرشی
+            </TabsTrigger>
           </TabsList>
 
           <TabsContent value="manual">
@@ -67,6 +82,9 @@ const InsertButton: React.FC<
               editorRef={editorRef}
               onClose={() => setIsOpen(false)}
             />
+          </TabsContent>
+          <TabsContent value="jump">
+            <JumpTab editorRef={editorRef} onClose={() => setIsOpen(false)} />
           </TabsContent>
         </Tabs>
       </DialogContent>
@@ -83,46 +101,51 @@ const ManualTab = ({
 }) => {
   const [text, setText] = useState("");
 
-  const insertButtonIntoEditor = () => {
-    if (editorRef.current) {
-      const selection = window.getSelection();
+  const insertLink = () => {
+    restoreSelection();
+    const selection = window.getSelection();
 
-      if (selection?.rangeCount) {
-        const range = selection.getRangeAt(0);
+    const wrapper = document.createElement("div");
+    wrapper.contentEditable = "false";
+    wrapper.style.display = "inline-block";
+    wrapper.style.maxWidth = "100%";
+    wrapper.style.resize = "both";
+    wrapper.style.overflow = "hidden";
 
-        const wrapper = document.createElement("div");
-        wrapper.contentEditable = "false";
-        wrapper.style.display = "inline-block";
-        wrapper.style.maxWidth = "100%";
-        wrapper.style.resize = "both";
-        wrapper.style.overflow = "hidden";
+    const button = document.createElement("button");
 
-        const button = document.createElement("button");
-        button.textContent = text;
-        button.style.width = "100%";
-        button.style.height = "100%";
-        button.style.padding = "0.5rem 1rem";
-        button.style.borderRadius = "0.375rem";
-        button.style.backgroundColor = "#0099A5";
-        button.style.color = "#fff";
-        button.style.cursor = "pointer";
+    button.textContent = text;
 
-        wrapper.appendChild(button);
+    button.contentEditable = "false";
+    button.style.width = "100%";
+    button.style.height = "100%";
+    button.style.padding = "0.5rem 1rem";
+    button.style.borderRadius = "0.375rem";
+    button.style.backgroundColor = "#0099A5";
+    button.style.color = "#fff";
+    button.style.cursor = "pointer";
 
-        if (editorRef.current.contains(range.commonAncestorContainer)) {
+    wrapper.appendChild(button);
+
+    if (selection?.rangeCount) {
+      const range = selection.getRangeAt(0);
+
+      if (editorRef.current?.contains(range.commonAncestorContainer)) {
+        if (text?.trim()) {
           range.deleteContents();
           range.insertNode(wrapper);
           range.setStartAfter(wrapper);
           range.setEndAfter(wrapper);
-        } else {
-          editorRef.current.appendChild(wrapper);
+          onClose();
         }
-        editorRef.current.focus();
+      } else {
+        const spacer = document.createElement("br");
+        editorRef.current?.appendChild(wrapper);
+        editorRef.current?.appendChild(spacer);
+        onClose();
       }
     }
-    onClose();
   };
-
   return (
     <div className="space-y-5 py-5">
       <div className="space-y-2">
@@ -139,9 +162,104 @@ const ManualTab = ({
         <label htmlFor="" className="text-sm">
           عملیات
         </label>
-        <Input type="text" placeholder="عملیات" />
+        <Input
+          type="text"
+          placeholder="action"
+          onChange={(e) => setText(e.target.value)}
+          dir="ltr"
+        />
       </div>
+      <Button className="w-full" onClick={insertLink}>
+        اضافه کردن
+      </Button>
+    </div>
+  );
+};
 
+const JumpTab = ({
+  editorRef,
+  onClose
+}: {
+  editorRef: React.RefObject<HTMLDivElement>;
+  onClose: () => void;
+}) => {
+  const [page] = useState(1);
+  const [size] = useState(100);
+
+  const [selectedNode, setSelectedNode] = useState<string | null>(null);
+
+  const { data: nodes } = useQuery({
+    queryFn: () => getAllWorkflowNodes({ page, size }),
+    queryKey: ["nodes"]
+  });
+
+  const insertButtonIntoEditor = () => {
+    if (selectedNode) {
+      restoreSelection();
+      const selection = window.getSelection();
+
+      if (selection?.rangeCount) {
+        const range = selection.getRangeAt(0);
+
+        const wrapper = document.createElement("div");
+        wrapper.contentEditable = "false";
+        wrapper.style.display = "inline-block";
+        wrapper.style.maxWidth = "100%";
+        wrapper.style.resize = "both";
+        wrapper.style.overflow = "hidden";
+
+        const button = document.createElement("button");
+
+        button.setAttribute("data-action", selectedNode);
+        button.textContent = selectedNode;
+
+        button.contentEditable = "false";
+        button.style.width = "100%";
+        button.style.height = "100%";
+        button.style.padding = "0.5rem 1rem";
+        button.style.borderRadius = "0.375rem";
+        button.style.backgroundColor = "#0099A5";
+        button.style.color = "#fff";
+        button.style.cursor = "pointer";
+
+        wrapper.appendChild(button);
+
+        if (editorRef.current?.contains(range.commonAncestorContainer)) {
+          range.deleteContents();
+          range.insertNode(wrapper);
+          range.setStartAfter(wrapper);
+          range.setEndAfter(wrapper);
+        } else {
+          const spacer = document.createElement("br");
+          editorRef.current?.appendChild(wrapper);
+          editorRef.current?.appendChild(spacer);
+        }
+
+        editorRef.current?.focus();
+      }
+      onClose();
+    } else {
+      toast.error("لطفا یک گره را انتخاب کنید");
+    }
+  };
+
+  return (
+    <div className="space-y-5 py-5">
+      <div className="space-y-2">
+        <label htmlFor="" className="text-sm">
+          لینک
+        </label>
+        <Select onValueChange={setSelectedNode} dir="rtl">
+          <SelectTrigger>
+            <SelectValue placeholder="انتخاب کنید" />
+          </SelectTrigger>
+          <SelectContent>
+            {nodes?.data.map((node) => (
+              <SelectItem value={node.id}>{node.name}</SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
       <Button className="w-full" onClick={insertButtonIntoEditor}>
         اضافه کردن
       </Button>
@@ -158,17 +276,16 @@ const DefaultTab = ({
 }) => {
   const [type, setType] = useState("");
 
-  // const handleClickOnButton = () => {};
-
   const insertButtonIntoEditor = () => {
-    if (editorRef.current) {
+    if (type) {
+      restoreSelection();
       const selection = window.getSelection();
 
       if (selection?.rangeCount) {
         const range = selection.getRangeAt(0);
 
         const wrapper = document.createElement("div");
-        wrapper.contentEditable = "true";
+        wrapper.contentEditable = "false";
         wrapper.style.display = "inline-block";
         wrapper.style.maxWidth = "100%";
         wrapper.style.resize = "both";
@@ -196,18 +313,24 @@ const DefaultTab = ({
 
         wrapper.appendChild(button);
 
-        if (editorRef.current.contains(range.commonAncestorContainer)) {
+        if (editorRef.current?.contains(range.commonAncestorContainer)) {
           range.deleteContents();
           range.insertNode(wrapper);
           range.setStartAfter(wrapper);
           range.setEndAfter(wrapper);
         } else {
-          editorRef.current.appendChild(wrapper);
+          const spacer = document.createElement("br");
+          editorRef.current?.appendChild(wrapper);
+          editorRef.current?.appendChild(spacer);
         }
-        editorRef.current.focus();
+
+        editorRef.current?.focus();
       }
+
+      onClose();
+    } else {
+      toast.error("لطفا نوع دکمه را انتخاب کنید");
     }
-    onClose();
   };
 
   return (
@@ -233,4 +356,5 @@ const DefaultTab = ({
     </div>
   );
 };
+
 export default InsertButton;
