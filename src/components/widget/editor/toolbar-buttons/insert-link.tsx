@@ -202,7 +202,7 @@ const JumpTab = ({
       }
       onClose();
     } else {
-      toast("لطفا یک گره را انتخاب کنید");
+      toast.error("لطفا یک گره را انتخاب کنید");
     }
   };
 
