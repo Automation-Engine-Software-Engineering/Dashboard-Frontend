@@ -38,9 +38,12 @@ const Editor = React.forwardRef<
     const targetElement = e.target as HTMLElement;
 
     const svgElement = targetElement.closest("svg");
+    const tableElement = targetElement.closest("table");
+
+    console.log(svgElement, tableElement);
 
     // @ts-expect-error for ignore svgElement type
-    setRightClickedElement(svgElement || targetElement);
+    setRightClickedElement(svgElement || tableElement || targetElement);
   };
 
   return (

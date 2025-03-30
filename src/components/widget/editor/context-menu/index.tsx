@@ -10,6 +10,7 @@ import Underline from "../toolbar-buttons/underline";
 import InputContextMenuActions from "./input-actions";
 import SelectContextActions from "./select-actions";
 import SvgContextActions from "./svg-actions";
+import TableContextAction from "./table-actions";
 
 const ToolbarContextMenu: React.FC<
   React.ComponentProps<"div"> & {
@@ -35,6 +36,10 @@ const ToolbarContextMenu: React.FC<
           case "SVG":
             return (
               <SvgContextActions rightClickedElement={rightClickedElement} />
+            );
+          case "TABLE":
+            return (
+              <TableContextAction rightClickedElement={rightClickedElement} />
             );
 
           default:
