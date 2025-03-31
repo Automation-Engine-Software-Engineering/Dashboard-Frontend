@@ -4,7 +4,7 @@ import { apiResponseMiddleware } from "@/middleware/api-response";
 import { ApiResult } from "@/types/api-response";
 import { SessionType } from "@/types/session";
 
-const API_ENDPOINT = "/api/Authentication/ChangePassword/";
+const API_ENDPOINT = "/api/Authentication/changePassword";
 
 export const changeSessionPassword = async ({
   newPassword,
