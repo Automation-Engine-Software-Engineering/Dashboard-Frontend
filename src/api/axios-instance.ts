@@ -33,17 +33,27 @@ api.interceptors.response.use(
     const originalRequest = error.config;
     if (error.response.status === 403 && !originalRequest._retry) {
       originalRequest._retry = true;
+      const { refreshToken } = getToken();
 
       const response = await axios.get(
-        `${API_URL}/api/Authentication/GenerateToken`
+        `${API_URL}/api/Authentication/GenerateToken`,
+        {
+          headers: {
+            Authorization: `Bearer ${refreshToken}`
+          }
+        }
       );
       if (response.status === 200) {
         // if (import.meta.env.MODE === "development") {
-        const { refreshToken } = getToken();
         const newToken = response.data.data;
-        setToken({ accessToken: newToken, refreshToken: refreshToken! });
-        axios.defaults.headers.common["Authorization"] = `Bearer ${newToken}`;
-        originalRequest.headers["Authorization"] = `Bearer ${newToken}`;
+        setToken({
+          accessToken: newToken.accessToken,
+          refreshToken: newToken.refreshToken
+        });
+        axios.defaults.headers.common["Authorization"] =
+          `Bearer ${newToken.accessToken}`;
+        originalRequest.headers["Authorization"] =
+          `Bearer ${newToken.accessToken}`;
         // }
         return axios(originalRequest);
       }
