@@ -101,7 +101,7 @@ const Navbar: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
               <Link
                 to={`${RESUME_ADDRESS}/${profile?.userIdentifierEn}`}
                 target="_blank"
-                className="flex items-center gap-x-1 text-xs font-semibold hover:text-primary"
+                className="flex items-center gap-x-1 text-sm font-semibold hover:text-primary"
               >
                 <span>
                   <svg
@@ -121,14 +121,14 @@ const Navbar: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
               </Link>
               <Link
                 to="/edit-profile"
-                className="flex items-center gap-x-1 text-xs font-semibold hover:text-primary"
+                className="flex items-center gap-x-1 text-sm font-semibold hover:text-primary"
               >
                 <PenBoxIcon color="#0099A5" size={12} />
                 ویرایش پروفایل
               </Link>
               <Link
                 to="/change-password"
-                className="flex items-center gap-x-1 text-xs font-semibold hover:text-primary"
+                className="flex items-center gap-x-1 text-sm font-semibold hover:text-primary"
               >
                 <span>
                   <svg
@@ -246,7 +246,7 @@ const NavItem: React.FC<{ item: MenuRoleItemType }> = ({ item }) => {
           </AccordionContent>
         </AccordionItem>
       ) : (
-        <div className="px-4">
+        <div className="pe-4">
           <Button
             variant="ghost"
             className="w-full justify-start text-sm hover:text-primary"
