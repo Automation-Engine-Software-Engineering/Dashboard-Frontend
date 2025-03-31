@@ -15,31 +15,34 @@ export const apiResponseMiddleware = async <Data>(
   }
 ): Promise<ApiResult<Data> | null> => {
   if (options?.showToast) {
-    toast.loading(options?.loadingMessage || "درحال دریافت اطلاعات", {
+    toast.loading(options.loadingMessage || "درحال دریافت اطلاعات", {
       id: "api-middleware"
     });
   }
 
   try {
     const response = await apiCall;
-    const { status, message, data } = response.data;
 
-    if (!status) {
-      toast.error(message || options?.errorMessage || "خطایی رخ داده است", {
-        id: "api-middleware"
-      });
-
-      throw Error(message || options?.errorMessage || "خطایی رخ داده است");
-    }
-    await onSuccess(response.data as any);
-    return data ? response.data : null;
+    await onSuccess(response.data);
+    return response.data;
   } catch (error) {
-    if (error instanceof AxiosError) {
-      toast.error("خطای ناشناخته‌ای رخ داده است", {
+    if ((error as AxiosError).isAxiosError) {
+      const axiosError = error as AxiosError<{ message?: string }>;
+      toast.error(
+        axiosError.response?.data?.message ||
+          options?.errorMessage ||
+          "خطایی رخ داده است",
+        {
+          id: "api-middleware"
+        }
+      );
+    } else {
+      toast.error("خطایی رخ داده است", {
         id: "api-middleware"
       });
     }
+
     console.error("API Error:", error);
-    throw Error("error");
+    throw new Error("API Request Failed");
   }
 };
