@@ -10,7 +10,7 @@ import { useProfile } from "@/hooks/server-state/use-profile";
 
 import AnimatedBackground from "@/components/ui/animated-background";
 
-const API_URL = import.meta.env.VITE_API_URL as string;
+import ProfileImage from "./profile-image";
 
 const ProfileHeader = () => {
   const { data: profileData } = useProfile();
@@ -45,13 +45,7 @@ const ProfileHeader = () => {
       <div className="size-full bg-gradient-to-b from-[#162b41] to-[#033d61]">
         <AnimatedBackground />
         <div className="relative z-10 flex size-full items-center">
-          <div className="-ms-20 size-40 overflow-hidden rounded-full bg-white p-2">
-            <img
-              src={`${API_URL}/${profileData?.imageUrl}`}
-              alt="profile image"
-              className="size-full rounded-full border border-slate-300 object-cover"
-            />
-          </div>
+          <ProfileImage />
           <div className="mx-5 flex flex-1 justify-between text-white">
             <div className="space-y-1">
               <p className="mb-5 font-semibold">{`${profileData?.firstNameFa} ${profileData?.lastNameFa}`}</p>
