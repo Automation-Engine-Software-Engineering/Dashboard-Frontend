@@ -101,7 +101,7 @@ const Navbar: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
               <Link
                 to={`${RESUME_ADDRESS}/${profile?.userIdentifierEn}`}
                 target="_blank"
-                className="flex items-center gap-x-1 text-sm font-semibold hover:text-primary"
+                className="flex items-center gap-x-1 text-sm hover:text-primary"
               >
                 <span>
                   <svg
@@ -121,14 +121,14 @@ const Navbar: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
               </Link>
               <Link
                 to="/edit-profile"
-                className="flex items-center gap-x-1 text-sm font-semibold hover:text-primary"
+                className="flex items-center gap-x-1 text-sm hover:text-primary"
               >
                 <PenBoxIcon color="#0099A5" size={12} />
                 ویرایش پروفایل
               </Link>
               <Link
                 to="/change-password"
-                className="flex items-center gap-x-1 text-sm font-semibold hover:text-primary"
+                className="flex items-center gap-x-1 text-sm hover:text-primary"
               >
                 <span>
                   <svg
