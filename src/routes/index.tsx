@@ -1,5 +1,9 @@
 import { Route, Routes } from "react-router-dom";
 
+import ArticlePage from "@/pages/article";
+import ArticleAutoPage from "@/pages/article/auto";
+import ArticleScholarPage from "@/pages/article/scholar";
+import ArticleUrlPage from "@/pages/article/url";
 import ChangePasswordPage from "@/pages/change-password";
 import DashboardPage from "@/pages/dashboard";
 import FormPage from "@/pages/form";
@@ -23,8 +27,8 @@ import WorkflowPage from "@/pages/workflow/flow";
 
 import Layout from "@/components/layout/layout";
 
-import NewBook from "../pages/Book";
-import LC from "../pages/Book/LC";
+import NewBook from "../pages/book";
+import LC from "../pages/book/LC";
 import AuthMiddleware from "./auth-middleware";
 
 const Router = () => {
@@ -75,6 +79,13 @@ const Router = () => {
           <Route path="/new-book" element={<NewBook />}>
             <Route index element={<NewBook />} />
             <Route path="lc" element={<LC />} />
+          </Route>
+
+          {/* Article  */}
+          <Route path="/new-article" element={<ArticlePage />}>
+            <Route index element={<ArticleAutoPage />} />
+            <Route path="scholar" element={<ArticleScholarPage />} />
+            <Route path="url" element={<ArticleUrlPage />} />
           </Route>
 
           {/* Change password */}

@@ -26,5 +26,10 @@ export const routeLabels: Record<string, string> = {
   "/workflow": "گردش کار",
 
   //newbook
-  "/new-book": "ثبت کتاب جدید"
+  "/new-book": "ثبت کتاب جدید",
+
+  // article
+  "/new-article": "ثبت مقاله جدید",
+  "/new-article/url": "لینک",
+  "/new-article/scholar": "Scholar"
 };
