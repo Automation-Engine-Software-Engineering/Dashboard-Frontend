@@ -180,3 +180,18 @@ export const editSocialLinksProfile = async (data: EditSocialLinksType) => {
     }
   );
 };
+
+export const editProfileImage = async (data: FormData) => {
+  await apiResponseMiddleware<unknown>(
+    apiProfile.post("/Professor/UpdateImageOfProfessor", data),
+    () => {
+      toast.success("عکس با موفقیت ذخیره شد", {
+        id: "api-middleware"
+      });
+    },
+    {
+      showToast: true,
+      loadingMessage: "درحال ارسال عکس"
+    }
+  );
+};
