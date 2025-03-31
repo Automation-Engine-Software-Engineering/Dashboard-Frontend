@@ -225,6 +225,7 @@ const NavItem: React.FC<{ item: MenuRoleItemType }> = ({ item }) => {
         }}
         onCancel={handleCancel}
         title={`آیا قصد ادامه دادن جریان ${item?.name} را دارید؟`}
+        cancelText="خیر"
       />
       {hasChildren ? (
         <AccordionItem value={`item-${item.name}`}>

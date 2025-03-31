@@ -7,6 +7,8 @@ import { Dialog, DialogContent } from "@/components/ui/dialog";
 interface Props {
   title?: string;
   isOpen: boolean;
+  confirmText?: string;
+  cancelText?: string;
   onClose: () => void;
   onConfirm: () => Promise<void>;
   onCancel?: () => Promise<void>;
@@ -14,6 +16,8 @@ interface Props {
 
 const ConfirmModal: React.FC<Props> = ({
   title = "آیا مطمئن به انجام این عملیات هستید؟",
+  cancelText,
+  confirmText = "بله",
   isOpen,
   onClose,
   onConfirm,
@@ -65,11 +69,19 @@ const ConfirmModal: React.FC<Props> = ({
             }}
             disabled={isPending}
           >
-            بله
+            {confirmText}
           </Button>
-          <Button variant="outline" className="flex-1" onClick={handleOnCancel}>
-            خیر
-          </Button>
+          {cancelText?.trim() ? (
+            <Button
+              variant="outline"
+              className="flex-1"
+              onClick={handleOnCancel}
+            >
+              {cancelText}
+            </Button>
+          ) : (
+            <></>
+          )}
         </div>
       </DialogContent>
     </Dialog>
