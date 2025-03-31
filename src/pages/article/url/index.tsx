@@ -1,9 +1,8 @@
 import { FormEvent, useState } from "react";
 
-import {
-  updateArticleWithScholarUrl,
-  updateArticleWithUrl
-} from "@/api/article";
+import { updateArticleWithUrl } from "@/api/article";
+
+import { useSession } from "@/hooks/server-state/use-session";
 
 import ConfirmModal from "@/components/common/modals/confirm-modal";
 
@@ -11,16 +10,18 @@ import { Button } from "@/components/ui/button/index.tsx";
 import { Input } from "@/components/ui/input";
 
 const ArticleUrlPage = () => {
+  const { data: session } = useSession();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
 
-    const data = Object.fromEntries(formData);
+    const data: Record<any, any> = Object.fromEntries(formData);
+    data.userId = session!.id;
 
     try {
-      await updateArticleWithUrl(data.input as any);
+      await updateArticleWithUrl(data as { input: string; userId: number });
       setIsModalOpen(true);
     } catch {
       // none

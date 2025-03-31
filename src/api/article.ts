@@ -4,11 +4,14 @@ import { apiProfile } from "./axios-instance";
 
 const API_ENDPOINT = "/Professor";
 
-export const updateArticleWithUrl = async (url: string) => {
+export const updateArticleWithUrl = async (data: {
+  input: string;
+  userId: number;
+}) => {
   return await apiResponseMiddleware<unknown>(
     apiProfile.post(`${API_ENDPOINT}/UpdateArticlesWithScholarUrl`, null, {
       params: {
-        input: url
+        ...data
       }
     }),
     () => {},
@@ -18,14 +21,17 @@ export const updateArticleWithUrl = async (url: string) => {
   );
 };
 
-export const updateArticleWithScholarUrl = async (url: string) => {
+export const updateArticleWithScholarUrl = async (data: {
+  input: string;
+  userId: number;
+}) => {
   return await apiResponseMiddleware<unknown>(
     apiProfile.post(
       `${API_ENDPOINT}/UpdateArticlesWithArticleScholarUrl`,
       null,
       {
         params: {
-          input: url
+          ...data
         }
       }
     ),
