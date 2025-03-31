@@ -1,5 +1,5 @@
-import { ChevronRight, Icon, PenBoxIcon } from "lucide-react";
-import { useState } from "react";
+import { ChevronRight, PenBoxIcon } from "lucide-react";
+import { useEffect, useState } from "react";
 
 import { getAllMenuRoleItems } from "@/api/menu";
 import {
@@ -35,6 +35,7 @@ const Navbar: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
 }) => {
   const [page] = useState(1);
   const [size] = useState(1);
+  const [child, setChild] = useState<MenuRoleItemType[]>([]);
 
   const [sidebarIsOpen, setSidebarIsOpen] = useState<boolean>(true);
 
@@ -44,7 +45,11 @@ const Navbar: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
     queryKey: ["workflowRoles"],
     queryFn: () => getAllMenuRoleItems({ page, size })
   });
-  
+
+  useEffect(() => {
+    setChild(items?.data[0].childs ?? []);
+  }, [items]);
+
   return (
     <div
       className={cn(
@@ -53,17 +58,29 @@ const Navbar: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
       )}
       {...props}
     >
-      <div className="bg-[#D8E7F4] px-4 pt-9">
+      <div className="flex flex-col items-center gap-y-8 bg-[#D8E7F4] px-4 pt-9">
         <button
           className={cn(
             "flex items-center justify-center rounded-full border-2 border-gray-700 transition-all",
             sidebarIsOpen &&
-            "border-transparent bg-primary [&_svg]:-rotate-180 [&_svg]:text-white"
+              "border-transparent bg-primary [&_svg]:-rotate-180 [&_svg]:text-white"
           )}
           onClick={() => setSidebarIsOpen((prevState) => !prevState)}
         >
           <ChevronRight size={16} className="transition-all" />
         </button>
+
+        {items?.data.map((item) => (
+          <button
+            className={cn("flex items-center justify-center transition-all")}
+            onClick={() => setChild(item.childs)}
+          >
+            <i
+              className={`${item.icon} fa-solid`}
+              style={{ color: "#0099A5" }}
+            />
+          </button>
+        ))}
       </div>
       <div
         className={cn(
@@ -76,7 +93,7 @@ const Navbar: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
         ) : (
           <>
             <Accordion type="single" collapsible>
-              {items?.data?.map((item, index) => (
+              {child?.map((item, index) => (
                 <NavItem key={index + 1} item={item} />
               ))}
             </Accordion>
@@ -211,13 +228,12 @@ const NavItem: React.FC<{ item: MenuRoleItemType }> = ({ item }) => {
       />
       {hasChildren ? (
         <AccordionItem value={`item-${item.name}`}>
-
           <AccordionTrigger className="px-[20px] py-2 text-sm">
-            <div className="flex">
-              <span
-                className="ml-2 text-cyan-600"
-                dangerouslySetInnerHTML={{ __html: item.icon }}
-              ></span>
+            <div className="flex items-center gap-x-2">
+              <i
+                className={`${item.icon} fa-solid`}
+                style={{ color: "#0099A5" }}
+              />
               {item.name}
             </div>
           </AccordionTrigger>
@@ -235,10 +251,11 @@ const NavItem: React.FC<{ item: MenuRoleItemType }> = ({ item }) => {
             variant="ghost"
             className="w-full justify-start text-sm hover:text-primary"
             onClick={handleClick}
-          ><span
-            className="ml-2 text-cyan-600"
-            dangerouslySetInnerHTML={{ __html: item.icon }}
-          ></span>
+          >
+            <i
+              className={`${item.icon} fa-solid`}
+              style={{ color: "#0099A5" }}
+            />
             {item?.name}
           </Button>
         </div>
@@ -247,7 +264,6 @@ const NavItem: React.FC<{ item: MenuRoleItemType }> = ({ item }) => {
   );
 };
 
-// Loading Component
 const Loading = () => {
   return (
     <div className="flex size-full items-center justify-center">
