@@ -37,6 +37,9 @@ const Router = () => {
       {/* Public routes */}
       <Route path="/login" element={<LoginPage />} />
 
+      {/* Change password */}
+      <Route path="/change-password" element={<ChangePasswordPage />} />
+
       {/* Private routes */}
       <Route element={<AuthMiddleware />}>
         <Route element={<Layout />}>
@@ -87,9 +90,6 @@ const Router = () => {
             <Route path="scholar" element={<ArticleScholarPage />} />
             <Route path="url" element={<ArticleUrlPage />} />
           </Route>
-
-          {/* Change password */}
-          <Route path="/change-password" element={<ChangePasswordPage />} />
 
           {/* Not Found Page */}
           <Route path="*" element={<NotFoundPage />} />

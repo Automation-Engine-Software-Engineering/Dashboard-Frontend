@@ -10,6 +10,8 @@ const AuthMiddleware = () => {
 
   if (isLoading) return <Loading />;
 
+  if (data?.needNewPassword) return <Navigate to="/change-password" />;
+
   return data ? <Outlet /> : <Navigate to="/login" />;
 };
 
