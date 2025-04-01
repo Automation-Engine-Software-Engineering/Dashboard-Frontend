@@ -28,6 +28,11 @@ export const apiResponseMiddleware = async <Data>(
   } catch (error) {
     if ((error as AxiosError).isAxiosError) {
       const axiosError = error as AxiosError<{ message?: string }>;
+
+      if (axiosError.status === 403) {
+        throw new Error("API Request Failed");
+      }
+
       toast.error(
         axiosError.response?.data?.message ||
           options?.errorMessage ||
