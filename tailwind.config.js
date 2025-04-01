@@ -89,20 +89,209 @@ export default {
           },
 
           table: {
-            border: "1px solid",
+            border: "2px solid",
             borderColor: theme("colors.slate.500"),
             td: {
-              border: "1px solid",
+              border: "2px solid",
               borderColor: theme("colors.slate.200")
             },
-            tr: {
-              "&:nth-child(even)": {
-                backgroundColor: theme("colors.slate.50")
+
+            thead: {
+              tr: {
+                backgroundColor: theme("colors.slate.400")
+              },
+              td: {
+                color: "white"
+              }
+            },
+
+            tbody: {
+              tr: {
+                "&:nth-child(even)": {
+                  backgroundColor: theme("colors.slate.100")
+                },
+                "&:nth-child(odd)": {
+                  backgroundColor: "white"
+                }
               }
             },
 
             div: {
               verticalAlign: "middle"
+            }
+          },
+
+          "table.table-black": {
+            border: "2px solid",
+            borderColor: theme("colors.black.500"),
+            td: {
+              border: "2px solid",
+              borderColor: theme("colors.black.200")
+            },
+
+            thead: {
+              tr: {
+                backgroundColor: theme("colors.black")
+              },
+              td: {
+                color: "white"
+              }
+            },
+
+            tbody: {
+              tr: {
+                "&:nth-child(even)": {
+                  backgroundColor: theme("colors.slate.200")
+                },
+                "&:nth-child(odd)": {
+                  backgroundColor: "white"
+                }
+              }
+            }
+          },
+
+          "table.table-blue": {
+            border: "2px solid",
+            borderColor: theme("colors.blue.500"),
+            td: {
+              border: "2px solid",
+              borderColor: theme("colors.blue.200")
+            },
+
+            thead: {
+              tr: {
+                backgroundColor: theme("colors.blue.400")
+              },
+              td: {
+                color: "white"
+              }
+            },
+
+            tbody: {
+              tr: {
+                "&:nth-child(even)": {
+                  backgroundColor: theme("colors.blue.100")
+                },
+                "&:nth-child(odd)": {
+                  backgroundColor: "white"
+                }
+              }
+            }
+          },
+
+          "table.table-red": {
+            border: "2px solid",
+            borderColor: theme("colors.red.500"),
+            td: {
+              border: "2px solid",
+              borderColor: theme("colors.red.200")
+            },
+
+            thead: {
+              tr: {
+                backgroundColor: theme("colors.red.400")
+              },
+              td: {
+                color: "white"
+              }
+            },
+
+            tbody: {
+              tr: {
+                "&:nth-child(even)": {
+                  backgroundColor: theme("colors.red.100")
+                },
+                "&:nth-child(odd)": {
+                  backgroundColor: "white"
+                }
+              }
+            }
+          },
+
+          "table.table-green": {
+            border: "2px solid",
+            borderColor: theme("colors.green.500"),
+            td: {
+              border: "2px solid",
+              borderColor: theme("colors.green.200")
+            },
+
+            thead: {
+              tr: {
+                backgroundColor: theme("colors.green.400")
+              },
+              td: {
+                color: "white"
+              }
+            },
+
+            tbody: {
+              tr: {
+                "&:nth-child(even)": {
+                  backgroundColor: theme("colors.green.100")
+                },
+                "&:nth-child(odd)": {
+                  backgroundColor: "white"
+                }
+              }
+            }
+          },
+
+          "table.table-purple": {
+            border: "2px solid",
+            borderColor: theme("colors.purple.500"),
+            td: {
+              border: "2px solid",
+              borderColor: theme("colors.purple.200")
+            },
+
+            thead: {
+              tr: {
+                backgroundColor: theme("colors.purple.400")
+              },
+              td: {
+                color: "white"
+              }
+            },
+
+            tbody: {
+              tr: {
+                "&:nth-child(even)": {
+                  backgroundColor: theme("colors.purple.100")
+                },
+                "&:nth-child(odd)": {
+                  backgroundColor: "white"
+                }
+              }
+            }
+          },
+
+          "table.table-orange": {
+            border: "2px solid",
+            borderColor: theme("colors.orange.500"),
+            td: {
+              border: "2px solid",
+              borderColor: theme("colors.orange.200")
+            },
+
+            thead: {
+              tr: {
+                backgroundColor: theme("colors.orange.400")
+              },
+              td: {
+                color: "white"
+              }
+            },
+
+            tbody: {
+              tr: {
+                "&:nth-child(even)": {
+                  backgroundColor: theme("colors.orange.100")
+                },
+                "&:nth-child(odd)": {
+                  backgroundColor: "white"
+                }
+              }
             }
           },
 
@@ -157,20 +346,36 @@ export default {
             border: "none !important"
           },
 
+          div: {
+            verticalAlign: "middle"
+          },
+
           table: {
-            border: "1px solid",
+            border: "2px solid",
             borderColor: theme("colors.slate.500"),
             td: {
-              border: "1px solid",
+              border: "2px solid",
               borderColor: theme("colors.slate.200")
             },
-            tr: {
-              "&:nth-child(even)": {
-                backgroundColor: theme("colors.slate.50")
+
+            thead: {
+              tr: {
+                backgroundColor: theme("colors.slate.400")
+              },
+              td: {
+                color: "white"
               }
             },
-            th: {
-              backgroundColor: "#E4EBF3"
+
+            tbody: {
+              tr: {
+                "&:nth-child(even)": {
+                  backgroundColor: theme("colors.slate.100")
+                },
+                "&:nth-child(odd)": {
+                  backgroundColor: "white"
+                }
+              }
             },
 
             div: {
@@ -178,8 +383,178 @@ export default {
             }
           },
 
-          div: {
-            verticalAlign: "middle"
+          "table.table-black": {
+            border: "2px solid",
+            borderColor: theme("colors.black.500"),
+            td: {
+              border: "2px solid",
+              borderColor: theme("colors.black.200")
+            },
+
+            thead: {
+              tr: {
+                backgroundColor: theme("colors.black")
+              },
+              td: {
+                color: "white"
+              }
+            },
+
+            tbody: {
+              tr: {
+                "&:nth-child(even)": {
+                  backgroundColor: theme("colors.slate.200")
+                },
+                "&:nth-child(odd)": {
+                  backgroundColor: "white"
+                }
+              }
+            }
+          },
+
+          "table.table-blue": {
+            border: "2px solid",
+            borderColor: theme("colors.blue.500"),
+            td: {
+              border: "2px solid",
+              borderColor: theme("colors.blue.200")
+            },
+
+            thead: {
+              tr: {
+                backgroundColor: theme("colors.blue.400")
+              },
+              td: {
+                color: "white"
+              }
+            },
+
+            tbody: {
+              tr: {
+                "&:nth-child(even)": {
+                  backgroundColor: theme("colors.blue.100")
+                },
+                "&:nth-child(odd)": {
+                  backgroundColor: "white"
+                }
+              }
+            }
+          },
+
+          "table.table-red": {
+            border: "2px solid",
+            borderColor: theme("colors.red.500"),
+            td: {
+              border: "2px solid",
+              borderColor: theme("colors.red.200")
+            },
+
+            thead: {
+              tr: {
+                backgroundColor: theme("colors.red.400")
+              },
+              td: {
+                color: "white"
+              }
+            },
+
+            tbody: {
+              tr: {
+                "&:nth-child(even)": {
+                  backgroundColor: theme("colors.red.100")
+                },
+                "&:nth-child(odd)": {
+                  backgroundColor: "white"
+                }
+              }
+            }
+          },
+
+          "table.table-green": {
+            border: "2px solid",
+            borderColor: theme("colors.green.500"),
+            td: {
+              border: "2px solid",
+              borderColor: theme("colors.green.200")
+            },
+
+            thead: {
+              tr: {
+                backgroundColor: theme("colors.green.400")
+              },
+              td: {
+                color: "white"
+              }
+            },
+
+            tbody: {
+              tr: {
+                "&:nth-child(even)": {
+                  backgroundColor: theme("colors.green.100")
+                },
+                "&:nth-child(odd)": {
+                  backgroundColor: "white"
+                }
+              }
+            }
+          },
+
+          "table.table-purple": {
+            border: "2px solid",
+            borderColor: theme("colors.purple.500"),
+            td: {
+              border: "2px solid",
+              borderColor: theme("colors.purple.200")
+            },
+
+            thead: {
+              tr: {
+                backgroundColor: theme("colors.purple.400")
+              },
+              td: {
+                color: "white"
+              }
+            },
+
+            tbody: {
+              tr: {
+                "&:nth-child(even)": {
+                  backgroundColor: theme("colors.purple.100")
+                },
+                "&:nth-child(odd)": {
+                  backgroundColor: "white"
+                }
+              }
+            }
+          },
+
+          "table.table-orange": {
+            border: "2px solid",
+            borderColor: theme("colors.orange.500"),
+            td: {
+              border: "2px solid",
+              borderColor: theme("colors.orange.200")
+            },
+
+            thead: {
+              tr: {
+                backgroundColor: theme("colors.orange.400")
+              },
+              td: {
+                color: "white"
+              }
+            },
+
+            tbody: {
+              tr: {
+                "&:nth-child(even)": {
+                  backgroundColor: theme("colors.orange.100")
+                },
+                "&:nth-child(odd)": {
+                  backgroundColor: "white"
+                }
+              }
+            }
           }
         }
       }
