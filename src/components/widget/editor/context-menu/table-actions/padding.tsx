@@ -1,3 +1,8 @@
+import {
+  ContextMenuSub,
+  ContextMenuSubContent,
+  ContextMenuSubTrigger
+} from "@/components/ui/context-menu";
 import { Input } from "@/components/ui/input";
 
 const TablePadding: React.FC<
@@ -14,58 +19,55 @@ const TablePadding: React.FC<
   const paddingRight = parseInt(computedStyle.paddingRight, 10) || 0;
 
   return (
-    <>
-      <label
-        className="block w-full px-2 py-1.5"
-        onClick={(e) => e.stopPropagation()}
-      >
-        سایز
-      </label>
-      <Input
-        type="range"
-        className="h-5 border-none p-0"
-        min={1}
-        max={500}
-        step={1}
-        defaultValue={paddingTop}
-        onChange={(e) => {
-          container.style.paddingTop = `${e.target.value}px`;
-        }}
-      />
-      <Input
-        type="range"
-        className="h-5 border-none p-0"
-        min={1}
-        max={500}
-        step={1}
-        defaultValue={paddingBottom}
-        onChange={(e) => {
-          container.style.paddingBottom = `${e.target.value}px`;
-        }}
-      />
-      <Input
-        type="range"
-        className="h-5 border-none p-0"
-        min={1}
-        max={500}
-        step={1}
-        defaultValue={paddingLeft}
-        onChange={(e) => {
-          container.style.paddingLeft = `${e.target.value}px`;
-        }}
-      />
-      <Input
-        type="range"
-        className="h-5 border-none p-0"
-        min={1}
-        max={500}
-        step={1}
-        defaultValue={paddingRight}
-        onChange={(e) => {
-          container.style.paddingRight = `${e.target.value}px`;
-        }}
-      />
-    </>
+    <ContextMenuSub>
+      <ContextMenuSubTrigger>سایز</ContextMenuSubTrigger>
+      <ContextMenuSubContent>
+        <Input
+          type="range"
+          className="h-5 border-none p-0"
+          min={1}
+          max={500}
+          step={1}
+          defaultValue={paddingTop}
+          onChange={(e) => {
+            container.style.paddingTop = `${e.target.value}px`;
+          }}
+        />
+        <Input
+          type="range"
+          className="h-5 border-none p-0"
+          min={1}
+          max={500}
+          step={1}
+          defaultValue={paddingBottom}
+          onChange={(e) => {
+            container.style.paddingBottom = `${e.target.value}px`;
+          }}
+        />
+        <Input
+          type="range"
+          className="h-5 border-none p-0"
+          min={1}
+          max={500}
+          step={1}
+          defaultValue={paddingLeft}
+          onChange={(e) => {
+            container.style.paddingLeft = `${e.target.value}px`;
+          }}
+        />
+        <Input
+          type="range"
+          className="h-5 border-none p-0"
+          min={1}
+          max={500}
+          step={1}
+          defaultValue={paddingRight}
+          onChange={(e) => {
+            container.style.paddingRight = `${e.target.value}px`;
+          }}
+        />
+      </ContextMenuSubContent>
+    </ContextMenuSub>
   );
 };
 
