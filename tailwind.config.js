@@ -88,6 +88,22 @@ export default {
             backgroundColor: "#0099A5"
           },
 
+          "#table-container": {
+            button: {
+              padding: "6px 15px",
+              backgroundColor: theme("colors.primary"),
+              color: "white",
+              borderRadius: 8,
+              fontSize: 14
+            },
+
+            "input, select": {
+              padding: "6px",
+              border: "1px solid #ddd",
+              borderRadius: "8px"
+            }
+          },
+
           table: {
             border: "2px solid",
             borderColor: theme("colors.slate.500"),
@@ -348,6 +364,22 @@ export default {
 
           div: {
             verticalAlign: "middle"
+          },
+
+          "#table-container": {
+            button: {
+              padding: "6px 15px",
+              backgroundColor: theme("colors.primary"),
+              color: "white",
+              borderRadius: 8,
+              fontSize: 14
+            },
+
+            "input, select": {
+              padding: "6px",
+              border: "1px solid #ddd",
+              borderRadius: "8px"
+            }
           },
 
           table: {

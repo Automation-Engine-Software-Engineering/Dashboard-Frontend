@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { getEntityProperties } from "@/api/property";
 import toast from "react-hot-toast";
 import { HashLoader } from "react-spinners";
+import { v4 as uuidv4 } from "uuid";
 
 import { cn } from "@/lib/utils";
 
@@ -240,15 +241,51 @@ const ModalContent = ({
 
   const handleCreateTable = () => {
     if (selectedEntityId) {
+      const tableId = uuidv4();
+
       const wrapper = document.createElement("div");
       wrapper.contentEditable = "false";
       wrapper.id = "table-container";
+
+      const searchItems = `<div
+        id="table-search-wrapper"
+        style="
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          margin-bottom: 10px;
+        "
+      >
+        <input id="table-search-input" type="text" placeholder="جستجو..." />
+        <select id="table-filter" data-search-id="${tableId}">
+          <option value="test">تست</option>
+        </select>
+        <button id="table-search-button">جستجو</button>
+      </div>`;
+
+      const paginationItems = ` <div
+        id="table-pagination-wrapper"
+        style="
+          width:100%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 10px;
+          margin-top: 10px;
+        "
+      >
+        <button id="table-next">بعدی</button>
+        <button id="table-previous">قبلی</button>
+      </div>`;
+
+      wrapper.insertAdjacentHTML("afterbegin", searchItems);
 
       const table = document.createElement("table");
       table.style.borderCollapse = "collapse";
       table.style.width = "100%";
       table.style.height = "100%";
       table.style.maxWidth = "100%";
+      table.id = tableId;
 
       table.setAttribute("data-tableId", selectedEntityId ?? "");
       table.setAttribute("data-filter", filter);
@@ -274,7 +311,7 @@ const ModalContent = ({
       `;
 
       wrapper.appendChild(table);
-
+      wrapper.insertAdjacentHTML("beforeend", paginationItems);
       if (!selectedEntityId) {
         toast.error("لطفا یک دیتابیس رو انتخاب کنید");
         return;
