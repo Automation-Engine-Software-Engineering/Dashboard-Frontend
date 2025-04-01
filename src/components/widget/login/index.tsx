@@ -1,4 +1,4 @@
-import { lazy, Suspense, useState } from "react";
+import { lazy, Suspense, useEffect, useState } from "react";
 
 import { signIn } from "@/auth/sign-in";
 
@@ -6,6 +6,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
 const ReCaptcha = lazy(() => import("react-google-recaptcha"));
+
+const recaptcha_key = import.meta.env.VITE_RECAPTCHA_KEY;
 
 const Login = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -26,6 +28,10 @@ const Login = () => {
     }
   };
 
+  useEffect(() => {
+    if (!recaptcha_key) setCaptchaVerified(true);
+  }, [recaptcha_key]);
+
   return (
     <form onSubmit={(e) => handleSubmit(e)} className="w-full space-y-8">
       <Input
@@ -42,11 +48,13 @@ const Login = () => {
       />
 
       <Suspense fallback={<></>}>
-        <ReCaptcha
-          sitekey={import.meta.env.VITE_RECAPTCHA_KEY}
-          type="image"
-          onChange={() => setCaptchaVerified(true)}
-        />
+        {!!recaptcha_key && (
+          <ReCaptcha
+            sitekey={import.meta.env.VITE_RECAPTCHA_KEY}
+            type="image"
+            onChange={() => setCaptchaVerified(true)}
+          />
+        )}
       </Suspense>
       <Button
         type="submit"
