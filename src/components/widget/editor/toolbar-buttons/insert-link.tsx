@@ -1,9 +1,14 @@
 import { ChevronDown, LinkIcon } from "lucide-react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
+import { getEntityProperties } from "@/api/property";
 import { getAllWorkflowNodes } from "@/api/workflow";
 import { useQuery } from "@tanstack/react-query";
 import toast from "react-hot-toast";
+
+import { PropertyType } from "@/types/form/property";
+
+import { useFormEntities } from "@/hooks/server-state/use-form-entities";
 
 import { restoreSelection, saveSelection } from "@/utils/selection";
 
@@ -73,6 +78,12 @@ const InsertLink: React.FC<
             >
               لینک پرشی
             </TabsTrigger>
+            <TabsTrigger
+              value="database"
+              className="flex-1 rounded-md data-[state=active]:bg-primary/30"
+            >
+              واکشی از دیتابیس
+            </TabsTrigger>
           </TabsList>
 
           <TabsContent value="manual">
@@ -86,6 +97,12 @@ const InsertLink: React.FC<
           </TabsContent>
           <TabsContent value="jump">
             <JumpTab editorRef={editorRef} onClose={() => setIsOpen(false)} />
+          </TabsContent>
+          <TabsContent value="database">
+            <DatabaseTab
+              editorRef={editorRef}
+              onClose={() => setIsOpen(false)}
+            />
           </TabsContent>
         </Tabs>
       </DialogContent>
@@ -297,6 +314,117 @@ const DefaultTab = ({
             <SelectItem value="next-node">گره بعدی</SelectItem>
             <SelectItem value="previous-node">گره قبلی</SelectItem>
             <SelectItem value="cancel">انصراف</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
+      <Button className="w-full" onClick={insertButtonIntoEditor}>
+        اضافه کردن
+      </Button>
+    </div>
+  );
+};
+
+const DatabaseTab = ({
+  editorRef,
+  onClose
+}: {
+  editorRef: React.RefObject<HTMLDivElement>;
+  onClose: () => void;
+}) => {
+  const [selectedEntityId, setSelectedEntityId] = useState<null | string>(null);
+  const [properties, setProperties] = useState<PropertyType[] | null>(null);
+  const [selectedProperty, setSelectedProperty] = useState<null | string>(null);
+
+  const { data: entities } = useFormEntities();
+
+  useEffect(() => {
+    (async () => {
+      if (selectedEntityId) {
+        const response = await getEntityProperties(selectedEntityId, {
+          page: 1,
+          size: 100
+        });
+
+        setProperties(response?.data ?? null);
+      }
+    })();
+  }, [selectedEntityId]);
+
+  const insertButtonIntoEditor = () => {
+    if (selectedEntityId && selectedProperty) {
+      restoreSelection();
+      const selection = window.getSelection();
+
+      if (selection?.rangeCount) {
+        const range = selection.getRangeAt(0);
+        const selectedText = range.toString();
+
+        const link = document.createElement("a");
+
+        link.setAttribute("data-entity", selectedEntityId);
+        link.setAttribute("data-property", selectedProperty);
+        link.textContent = selectedText;
+
+        if (editorRef.current?.contains(range.commonAncestorContainer)) {
+          range.deleteContents();
+          range.insertNode(link);
+          range.setStartAfter(link);
+          range.setEndAfter(link);
+        } else {
+          const spacer = document.createElement("br");
+          editorRef.current?.appendChild(link);
+          editorRef.current?.appendChild(spacer);
+        }
+
+        editorRef.current?.focus();
+      }
+
+      onClose();
+    } else {
+      toast.error("لطفا تمام مقادیر رو پر کنید");
+    }
+  };
+
+  return (
+    <div className="space-y-5 py-5">
+      <div className="space-y-2">
+        <label htmlFor="" className="text-sm">
+          جدول
+        </label>
+        <Select
+          onValueChange={setSelectedEntityId}
+          defaultValue="get"
+          dir="rtl"
+        >
+          <SelectTrigger>
+            <SelectValue placeholder="انتخاب کنید" />
+          </SelectTrigger>
+          <SelectContent>
+            {entities?.data.map((entity) => (
+              <SelectItem key={entity.id} value={entity.id.toString()}>
+                {entity.previewName}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
+      <div className="space-y-2">
+        <label htmlFor="" className="text-sm">
+          ستون
+        </label>
+        <Select onValueChange={setSelectedProperty} dir="rtl">
+          <SelectTrigger>
+            <SelectValue placeholder="انتخاب کنید" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="none" disabled>
+              انتخاب کنید
+            </SelectItem>
+            {properties?.map((property) => (
+              <SelectItem key={property.id} value={property.id.toString()}>
+                {property.previewName}
+              </SelectItem>
+            ))}
           </SelectContent>
         </Select>
       </div>
