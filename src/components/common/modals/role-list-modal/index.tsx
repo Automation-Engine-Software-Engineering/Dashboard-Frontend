@@ -50,7 +50,7 @@ const Content = memo(
 
     const queryClient = useQueryClient();
 
-    const { data, isFetching: isLoading } = useQuery({
+    const { data, isLoading } = useQuery({
       queryFn: () => getAllRoleWorkflows(workflowId, { size, page, search }),
       queryKey: ["workflow-roles", { page, size, search }]
     });

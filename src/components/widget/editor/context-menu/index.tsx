@@ -7,6 +7,7 @@ import Bold from "../toolbar-buttons/bold";
 import Italic from "../toolbar-buttons/italic";
 import Strikethrough from "../toolbar-buttons/strikethrough";
 import Underline from "../toolbar-buttons/underline";
+import ButtonContextActions from "./button-actions";
 import InputContextMenuActions from "./input-actions";
 import SelectContextActions from "./select-actions";
 import SvgContextActions from "./svg-actions";
@@ -40,6 +41,10 @@ const ToolbarContextMenu: React.FC<
           case "TABLE":
             return (
               <TableContextAction rightClickedElement={rightClickedElement} />
+            );
+          case "BUTTON":
+            return (
+              <ButtonContextActions rightClickedElement={rightClickedElement} />
             );
 
           default:
