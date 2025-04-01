@@ -37,13 +37,10 @@ const Editor = React.forwardRef<
   const handleContextMenu = (e: React.MouseEvent<HTMLDivElement>) => {
     const targetElement = e.target as HTMLElement;
 
-    const svgElement = targetElement.closest("svg");
+    const iconElement = targetElement.closest("i");
     const tableElement = targetElement.closest("table");
 
-    console.log(svgElement, tableElement);
-
-    // @ts-expect-error for ignore svgElement type
-    setRightClickedElement(svgElement || tableElement || targetElement);
+    setRightClickedElement(iconElement || tableElement || targetElement);
   };
 
   return (

@@ -8,7 +8,7 @@ interface Props extends React.ComponentProps<"div"> {
   rightClickedElement: HTMLElement;
 }
 
-const SvgContextActions: React.FC<Props> = ({ rightClickedElement }) => {
+const IconContextActions: React.FC<Props> = ({ rightClickedElement }) => {
   return (
     <>
       <ColorPicker rightClickedElement={rightClickedElement} />
@@ -18,4 +18,4 @@ const SvgContextActions: React.FC<Props> = ({ rightClickedElement }) => {
     </>
   );
 };
-export default SvgContextActions;
+export default IconContextActions;

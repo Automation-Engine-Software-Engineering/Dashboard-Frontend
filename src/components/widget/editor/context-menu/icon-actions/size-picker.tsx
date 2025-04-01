@@ -5,7 +5,7 @@ const SizePicker: React.FC<
     rightClickedElement: HTMLElement;
   }
 > = ({ rightClickedElement }) => {
-  const size = rightClickedElement.style.width.replace(/px/, "");
+  const size = rightClickedElement.style.fontSize.replace(/px/, "");
   return (
     <>
       <label
@@ -22,8 +22,7 @@ const SizePicker: React.FC<
         step={1}
         defaultValue={size}
         onChange={(e) => {
-          rightClickedElement.style.width = e.target.value;
-          rightClickedElement.style.height = e.target.value;
+          rightClickedElement.style.fontSize = `${e.target.value}px`;
         }}
       />
     </>

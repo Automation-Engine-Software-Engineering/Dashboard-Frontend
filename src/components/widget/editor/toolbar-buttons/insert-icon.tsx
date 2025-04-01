@@ -6,6 +6,7 @@ import { icons } from "@/constants/editor/icons";
 import { restoreSelection, saveSelection } from "@/utils/selection";
 
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import {
   Popover,
   PopoverContent,
@@ -21,6 +22,7 @@ const InsertIcon: React.FC<
   }
 > = ({ editorRef }) => {
   const [count, setCount] = useState(20);
+  const [search, setSearch] = useState("");
 
   const insertIconIntoEditor = (icon: string) => {
     if (editorRef.current) {
@@ -29,7 +31,7 @@ const InsertIcon: React.FC<
       wrapper.style.display = "inline-block";
       wrapper.style.maxWidth = "100%";
 
-      wrapper.innerHTML = icon;
+      wrapper.innerHTML = `<i class="${icon}"></i>`;
 
       restoreSelection();
       const selection = window.getSelection();
@@ -94,17 +96,33 @@ const InsertIcon: React.FC<
         </ToolbarButton>
       </PopoverTrigger>
       <PopoverContent className="w-fit">
+        <Input
+          type="text"
+          placeholder="جستوجو"
+          className="mb-2"
+          onChange={(e) => setSearch(e.target.value)}
+        />
         <ScrollArea className="h-72 w-64">
           <div className="grid grid-cols-5 justify-items-center gap-1 p-1">
-            {icons.slice(0, count).map(({ icon, id }) => (
-              <Button
-                key={id}
-                variant="ghost"
-                className="size-full px-0 py-2 [&_svg]:size-7"
-                onClick={() => insertIconIntoEditor(icon)}
-                dangerouslySetInnerHTML={{ __html: icon }}
-              ></Button>
-            ))}
+            {icons
+              .filter((icon) =>
+                icon
+                  .toLocaleLowerCase()
+                  .split("-")
+                  .join(" ")
+                  .includes(search.toLocaleLowerCase())
+              )
+              .slice(0, count)
+              .map((icon) => (
+                <Button
+                  key={icon}
+                  variant="ghost"
+                  className="size-full px-0 py-2 [&_svg]:size-7"
+                  onClick={() => insertIconIntoEditor(icon)}
+                >
+                  <i className={icon}></i>
+                </Button>
+              ))}
           </div>
         </ScrollArea>
         <Button
@@ -114,7 +132,7 @@ const InsertIcon: React.FC<
             setCount((prev) => prev + 20);
           }}
         >
-          More Icon ...
+          بیشتر ...
         </Button>
       </PopoverContent>
     </Popover>

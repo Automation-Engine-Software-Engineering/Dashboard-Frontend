@@ -1,7 +1,10 @@
-import { memo } from "react";
+import { memo, useState } from "react";
 
 import { createMenuItem, editMenuItem } from "@/api/menu";
+import { icons } from "@/constants/editor/icons";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+
+import { cn } from "@/lib/utils";
 
 import { MenuItemType } from "@/types/menu-item";
 
@@ -18,6 +21,7 @@ import {
   DialogTitle
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import {
   Select,
   SelectContent,
@@ -78,6 +82,12 @@ const Content = memo(
       }
     });
 
+    const [iconSearch, setIconSearch] = useState("");
+    const [iconCount, setIconCount] = useState(20);
+    const [selectedIcon, setSelectedIcon] = useState<string>(
+      () => menuItem?.icon ?? ""
+    );
+
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
       const formData = new FormData(e.currentTarget);
@@ -89,6 +99,9 @@ const Content = memo(
         data.menuType = 2;
       }
       data.id = menuItem?.id;
+      data.icon = selectedIcon;
+      data.parentMenuElemntId =
+        data.parentMenuElemntId === "none" ? null : data.parentMenuElemntId;
       mutate(data);
     };
 
@@ -147,12 +160,13 @@ const Content = memo(
           <Select
             dir="rtl"
             name="parentMenuElemntId"
-            defaultValue={String(menuItem?.roleId ?? "")}
+            defaultValue={String(menuItem?.parentMenuElemntId ?? "")}
           >
             <SelectTrigger>
               <SelectValue placeholder="انتخاب مجموعه" />
             </SelectTrigger>
             <SelectContent>
+              <SelectItem value="none">بدون مجموعه</SelectItem>
               {menuItems?.data.map((item) => (
                 <SelectItem key={item.id} value={String(item.id)}>
                   {item.name}
@@ -160,6 +174,51 @@ const Content = memo(
               ))}
             </SelectContent>
           </Select>
+        </div>
+        <div className="">
+          <Input
+            type="text"
+            placeholder="جستوجو"
+            className="mb-2"
+            onChange={(e) => setIconSearch(e.target.value)}
+          />
+          <ScrollArea className="mb-2 h-20 w-full rounded-lg bg-slate-100">
+            <div className="grid grid-cols-12 justify-items-center gap-1 p-1">
+              {icons
+                .filter((icon) =>
+                  icon
+                    .toLocaleLowerCase()
+                    .split("-")
+                    .join(" ")
+                    .includes(iconSearch.toLocaleLowerCase())
+                )
+                .slice(0, iconCount)
+                .map((icon) => (
+                  <Button
+                    key={icon}
+                    type="button"
+                    variant="ghost"
+                    className={cn(
+                      "size-full px-0 py-2 [&_svg]:size-7",
+                      selectedIcon === icon && "bg-primary/20"
+                    )}
+                    onClick={() => setSelectedIcon(icon)}
+                  >
+                    <i className={icon}></i>
+                  </Button>
+                ))}
+            </div>
+          </ScrollArea>
+          <Button
+            type="button"
+            className="w-full"
+            variant="outline"
+            onClick={() => {
+              setIconCount((prev) => prev + 20);
+            }}
+          >
+            بیشتر ...
+          </Button>
         </div>
         <Button type="submit" className="w-full" disabled={isPending}>
           ذخیره
