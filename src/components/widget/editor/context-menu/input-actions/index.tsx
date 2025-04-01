@@ -3,6 +3,7 @@ import CurrentDate from "./current-date";
 import DisableInput from "./disable";
 import GroupByInput from "./group-by";
 import ReadOnlyInput from "./read-only";
+import Relation from "./relations";
 import RequiredInput from "./required";
 
 interface Props extends React.ComponentProps<"div"> {
@@ -19,6 +20,7 @@ const InputContextActions: React.FC<Props> = ({ rightClickedElement }) => {
       <GroupByInput rightClickedElement={rightClickedElement} />
       <DisableInput rightClickedElement={rightClickedElement} />
       <ReadOnlyInput rightClickedElement={rightClickedElement} />
+      <Relation rightClickedElement={rightClickedElement} />
       {inputType === "date" && (
         <CurrentDate rightClickedElement={rightClickedElement} />
       )}
