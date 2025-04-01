@@ -44,6 +44,7 @@ const InsertTable: React.FC<
     table.style.borderCollapse = "collapse";
     table.style.width = "100%";
     table.contentEditable = "false";
+    table.setAttribute("data-size", "10");
 
     for (let i = 0; i < rows; i++) {
       const row = document.createElement("tr");
@@ -235,6 +236,8 @@ const ModalContent = ({
       table.setAttribute("data-filter", filter);
       table.setAttribute("data-condition", condition);
       table.setAttribute("data-relation", relation);
+      table.setAttribute("data-size", "10");
+
       table.innerHTML = `
         <tr>
          <td>
