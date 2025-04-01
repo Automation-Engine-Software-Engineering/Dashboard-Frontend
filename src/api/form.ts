@@ -146,7 +146,7 @@ export const uploadImage = async (data: FormData) => {
 
 export const getFormPreview = async (formId: number) => {
   return await apiResponseMiddleware<string>(
-    api.get(`${API_ENDPOINT}/preview`, {
+    api.post(`${API_ENDPOINT}/preview`, null, {
       params: {
         formId
       }
@@ -156,13 +156,30 @@ export const getFormPreview = async (formId: number) => {
   );
 };
 
-export const getFormPreviewByWorkflowUser = async (workflowUserId: number) => {
+export const getFormPreviewByWorkflowUser = async (
+  workflowUserId: number,
+  tableSearch:
+    | {
+        id: string;
+        searchElement: string;
+        searchValue: string;
+      }[]
+    | null = null,
+  tablePagination: { id: string; pageNumber: string }[] | null = null
+) => {
   return await apiResponseMiddleware<string>(
-    api.get(`${API_ENDPOINT}/previewByWorkflowUserId`, {
-      params: {
-        workflowUserId
+    api.post(
+      `${API_ENDPOINT}/previewByWorkflowUserId`,
+      {
+        tableSearches: tableSearch,
+        tablePagination
+      },
+      {
+        params: {
+          workflowUserId
+        }
       }
-    }),
+    ),
     () => {},
     { showToast: false }
   );
