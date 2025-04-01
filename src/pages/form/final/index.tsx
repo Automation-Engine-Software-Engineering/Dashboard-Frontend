@@ -1,5 +1,5 @@
 import { BoldIcon, ItalicIcon, UnderlineIcon } from "lucide-react";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { getFormPreviewByWorkflowUser, saveFormData } from "@/api/form";
 import { nodeStateMove } from "@/api/workflow";
@@ -47,14 +47,26 @@ const FormFinal = () => {
   const { workflowUserId } = useParams<{ workflowUserId: string }>();
   const navigate = useNavigate();
   const formRef = useRef<HTMLDivElement | null>(null);
+  const [tablePagination, setTablePagination] = useState<
+    { id: string; pageNumber: string }[] | []
+  >([]);
+
+  const [tableSearch, setTableSearch] = useState<
+    { id: string; searchElement: string; searchValue: string }[] | []
+  >([]);
 
   const {
     data: form,
     isLoading,
     isFetching
   } = useQuery({
-    queryKey: ["form-preview", workflowUserId],
-    queryFn: () => getFormPreviewByWorkflowUser(+workflowUserId!)
+    queryKey: ["form-preview", workflowUserId, tablePagination, tableSearch],
+    queryFn: () =>
+      getFormPreviewByWorkflowUser(
+        +workflowUserId!,
+        tableSearch,
+        tablePagination
+      )
   });
 
   const { mutate } = useMutation({
@@ -76,11 +88,10 @@ const FormFinal = () => {
     }
   });
 
-  const handleButtonClick = async (e: MouseEvent) => {
+  const handleButtonClickWithAction = async (e: MouseEvent) => {
     const target = e.currentTarget as HTMLButtonElement;
     const action = target.getAttribute("data-action");
     const apiUrl = target.getAttribute("data-api")?.trim() ?? null;
-    console.log(apiUrl);
     const apiMethod =
       (target.getAttribute("data-method") as "get" | "post") ?? null;
 
@@ -177,17 +188,97 @@ const FormFinal = () => {
     }
   };
 
+  const handleButtonClickTable = (e: MouseEvent) => {
+    const target = e.target as HTMLButtonElement;
+    const container = target.parentElement?.parentElement;
+
+    if (!container) return;
+
+    const table = container.querySelector("table");
+    const select = container.querySelector("select");
+    const searchInput = container.querySelector(
+      "#table-search-input"
+    ) as HTMLInputElement;
+
+    const tableId = table ? table.id : "";
+    const filter = select ? select.value : "";
+    const searchValue = searchInput ? searchInput.value : "";
+
+    if (target.id === "table-search-button") {
+      setTableSearch((prev) => {
+        const sameItemIndex = prev.findIndex((item) => item.id === tableId);
+        const items = [...prev];
+
+        if (sameItemIndex === -1) {
+          return [
+            ...prev,
+            {
+              searchElement: filter,
+              id: tableId,
+              searchValue: searchValue.trim()
+            }
+          ];
+        } else {
+          items[sameItemIndex] = {
+            searchElement: filter,
+            id: tableId,
+            searchValue: searchValue
+          };
+          return items;
+        }
+      });
+    } else if (target.id === "table-next") {
+      setTablePagination((prev) => {
+        const sameItemIndex = prev.findIndex((item) => item.id === tableId);
+        const items = [...prev];
+
+        if (sameItemIndex === -1) {
+          return [...prev, { id: tableId, pageNumber: (2).toString() }];
+        } else {
+          items[sameItemIndex] = {
+            id: tableId,
+            pageNumber: (+items[sameItemIndex].pageNumber + 1).toString()
+          };
+          return items;
+        }
+      });
+    } else if (target.id === "table-previous") {
+      setTablePagination((prev) => {
+        const sameItemIndex = prev.findIndex((item) => item.id === tableId);
+        const items = [...prev];
+
+        if (sameItemIndex === -1) {
+          return [...prev, { id: tableId, pageNumber: (2).toString() }];
+        } else {
+          items[sameItemIndex] = {
+            id: tableId,
+            pageNumber: (+items[sameItemIndex].pageNumber - 1).toString()
+          };
+          return items;
+        }
+      });
+    }
+  };
+
   useEffect(() => {
     if (formRef.current) {
       formRef.current.querySelectorAll("button").forEach((button) => {
-        button.addEventListener("click", handleButtonClick);
+        if (button.getAttribute("data-action")) {
+          button.addEventListener("click", handleButtonClickWithAction);
+        } else {
+          button.addEventListener("click", handleButtonClickTable);
+        }
       });
     }
 
     return () => {
       if (formRef.current) {
         formRef.current.querySelectorAll("button").forEach((button) => {
-          button.removeEventListener("click", handleButtonClick);
+          if (button.getAttribute("data-action")) {
+            button.removeEventListener("click", handleButtonClickWithAction);
+          } else {
+            button.removeEventListener("click", handleButtonClickTable);
+          }
         });
       }
     };
