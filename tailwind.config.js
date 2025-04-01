@@ -555,6 +555,37 @@ export default {
                 }
               }
             }
+          },
+
+          ".tooltip": {
+            position: "relative",
+            display: "inline-block"
+          },
+
+          ".tooltip .tooltiptext": {
+            visibility: "hidden",
+            maxWidth: "300px",
+            backgroundColor: "white",
+            color: "#000",
+            textAlign: "center",
+            borderRadius: "5px",
+            padding: "5px 10px",
+            position: "absolute",
+            zIndex: 1,
+            bottom: "125%",
+            left: "50%",
+            marginLeft: "-60px",
+            fontSize: "14px",
+            border: "1px solid",
+            borderColor: theme("colors.slate.300"),
+            boxShadow: "0px 5px 12px -8px rgba(0,0,0,0.75)",
+            opacity: 0,
+            transition: "opacity 0.3s"
+          },
+
+          ".tooltip:hover .tooltiptext": {
+            visibility: "visible",
+            opacity: 1
           }
         }
       }
