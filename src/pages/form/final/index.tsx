@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react";
 import { getFormPreviewByWorkflowUser, saveFormData } from "@/api/form";
 import { nodeStateMove } from "@/api/workflow";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import axios from "axios";
 import { createRoot } from "react-dom/client";
 import toast from "react-hot-toast";
 import { useNavigate, useParams } from "react-router-dom";
@@ -78,6 +79,11 @@ const FormFinal = () => {
   const handleButtonClick = async (e: MouseEvent) => {
     const target = e.currentTarget as HTMLButtonElement;
     const action = target.getAttribute("data-action");
+    const apiUrl = target.getAttribute("data-api")?.trim() ?? null;
+    console.log(apiUrl);
+    const apiMethod =
+      (target.getAttribute("data-method") as "get" | "post") ?? null;
+
     let nodeId = null;
     let newWorkflowUserId = null;
     const state =
@@ -160,6 +166,10 @@ const FormFinal = () => {
     }
 
     try {
+      if (apiUrl) {
+        await axios[apiMethod](apiUrl);
+      }
+
       await saveFormData(+workflowUserId!, formData);
       mutate({ state, nodeId, newWorkflowUserId });
     } catch (e) {
