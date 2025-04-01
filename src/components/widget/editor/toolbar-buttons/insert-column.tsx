@@ -1,6 +1,8 @@
 import { ChevronDown, Columns3Icon } from "lucide-react";
 import React, { useState } from "react";
 
+import { restoreSelection } from "@/utils/selection";
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -51,8 +53,32 @@ const InsertColumns: React.FC<InsertColumnsProps> = ({ editorRef }) => {
     spacer.contentEditable = "true";
     spacer.innerHTML = "<br>";
 
-    editorRef.current.appendChild(container);
-    editorRef.current.appendChild(spacer);
+    restoreSelection();
+    const selection = window.getSelection();
+
+    if (selection?.rangeCount) {
+      const range = selection.getRangeAt(0);
+
+      if (editorRef.current?.contains(range.commonAncestorContainer)) {
+        range.deleteContents();
+        range.insertNode(container);
+
+        const spacer = document.createElement("br");
+
+        range.setStartAfter(container);
+        range.setEndAfter(container);
+        range.insertNode(spacer);
+
+        range.setStartAfter(spacer);
+        range.setEndAfter(spacer);
+      } else {
+        const spacer = document.createElement("br");
+        editorRef.current?.appendChild(container);
+        editorRef.current?.appendChild(spacer);
+      }
+
+      editorRef.current?.focus();
+    }
 
     setColumns(2);
   };
