@@ -46,6 +46,23 @@ const InsertTable: React.FC<
     table.contentEditable = "false";
     table.setAttribute("data-size", "10");
 
+    const tbody = document.createElement("tbody");
+    const thead = document.createElement("thead");
+    const headRow = document.createElement("tr");
+
+    for (let i = 0; i < cols; i++) {
+      const cell = document.createElement("td");
+      cell.style.padding = "8px";
+      cell.style.minHeight = "40px";
+      cell.style.position = "relative";
+      cell.style.fontWeight = "bold";
+      cell.contentEditable = "true";
+
+      headRow.appendChild(cell);
+    }
+
+    thead.appendChild(headRow);
+
     for (let i = 0; i < rows; i++) {
       const row = document.createElement("tr");
 
@@ -75,9 +92,10 @@ const InsertTable: React.FC<
         row.appendChild(cell);
       }
 
-      table.appendChild(row);
+      tbody.appendChild(row);
     }
-
+    table.appendChild(thead);
+    table.appendChild(tbody);
     wrapper.appendChild(table);
 
     restoreSelection();
@@ -239,11 +257,20 @@ const ModalContent = ({
       table.setAttribute("data-size", "10");
 
       table.innerHTML = `
+        <thead>
+          <tr>
+            <td>
+              عنوان جدول
+            </td>
+          </tr>
+        </thead>
+        <tbody>
         <tr>
-         <td>
-          پیش نمایش جدول
-         </td>
-        </tr>
+            <td>
+              متن نمایشی
+            </td>
+          </tr>
+        </tbody>
       `;
 
       wrapper.appendChild(table);
