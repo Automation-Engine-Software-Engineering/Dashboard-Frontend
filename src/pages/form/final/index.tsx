@@ -1,15 +1,48 @@
+import { BoldIcon, ItalicIcon, UnderlineIcon } from "lucide-react";
 import { useEffect, useRef } from "react";
 
 import { getFormPreviewByWorkflowUser, saveFormData } from "@/api/form";
 import { nodeStateMove } from "@/api/workflow";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { createRoot } from "react-dom/client";
 import toast from "react-hot-toast";
 import { useNavigate, useParams } from "react-router-dom";
 import { MoonLoader } from "react-spinners";
 
+const EditorComponent = () => {
+  const handleAction = (action: string) => {
+    document.execCommand(action);
+  };
+
+  return (
+    <div className="flex h-full flex-col border p-2">
+      <div className="mb-2 flex items-center justify-end gap-x-2 border-b pb-2">
+        <button
+          onClick={() => handleAction("underline")}
+          className="rounded border px-2 py-1 hover:bg-gray-200"
+        >
+          <UnderlineIcon />
+        </button>
+        <button
+          onClick={() => handleAction("italic")}
+          className="rounded border px-2 py-1 hover:bg-gray-200"
+        >
+          <ItalicIcon />
+        </button>
+        <button
+          onClick={() => handleAction("bold")}
+          className="rounded border px-2 py-1 hover:bg-gray-200"
+        >
+          <BoldIcon />
+        </button>
+      </div>
+      <div contentEditable className="flex-1 outline-none"></div>
+    </div>
+  );
+};
+
 const FormFinal = () => {
   const queryClient = useQueryClient();
-
   const { workflowUserId } = useParams<{ workflowUserId: string }>();
   const navigate = useNavigate();
   const formRef = useRef<HTMLDivElement | null>(null);
@@ -100,6 +133,24 @@ const FormFinal = () => {
           formData.push(newItem);
         }
       });
+
+      formRef.current.querySelectorAll("textarea").forEach((item) => {
+        if (item.hasAttribute("required") && !item.value.trim()) {
+          item.parentElement!.style.borderColor = "red";
+          allFieldsFilled = false;
+        } else {
+          item.parentElement!.style.borderColor = "#cbd5e1";
+          const newItem: { id: number; content: string; group?: string } = {
+            id: +item.id!,
+            content: item.value
+          };
+
+          const selectGroup = item.getAttribute("data-group");
+          if (selectGroup) newItem.group = selectGroup;
+
+          formData.push(newItem);
+        }
+      });
     }
 
     if (!allFieldsFilled) {
@@ -132,9 +183,26 @@ const FormFinal = () => {
     };
   }, [isFetching]);
 
+  useEffect(() => {
+    if (formRef.current) {
+      const editorElements = formRef.current.querySelectorAll(
+        "div[data-editor='true']"
+      );
+
+      editorElements.forEach((el) => {
+        const wrapper = document.createElement("div");
+        wrapper.className = "editor-wrapper";
+        wrapper.style.height = "100%";
+        el.replaceWith(wrapper);
+
+        createRoot(wrapper).render(<EditorComponent />);
+      });
+    }
+  }, [form]);
+
   if (isLoading) return <Loading />;
 
-  if (!form) <EmptyState />;
+  if (!form) return <EmptyState />;
 
   return (
     <div className="flex justify-center py-10">
@@ -162,4 +230,5 @@ const EmptyState = () => (
     <p className="text-slate-500">فرمی پیدا نشد</p>
   </div>
 );
+
 export default FormFinal;

@@ -68,6 +68,7 @@ const FormEditorSidebar: React.FC<Props> = ({ editorRef }) => {
               </AccordionTrigger>
               <AccordionContent>
                 {entity?.properties.map((property) => {
+                  console.log(property);
                   const mappedType = formInputType[property.type] || "text";
                   return (
                     <Button

@@ -8,7 +8,9 @@ type InputType =
   | "password"
   | "radio"
   | "range"
-  | "select";
+  | "select"
+  | "textArea"
+  | "editor";
 
 interface InputProps {
   inputId: number;
@@ -22,28 +24,75 @@ export const createInput = ({
   defaultValue = ""
 }: InputProps): string => {
   const commonStyles = "width: 100%; height: 100%; box-sizing: border-box;";
+  const wrapperStyles =
+    "display: inline-block; max-width:100%; resize: both; height:50px; width:50px;";
+  const labelStyles = `
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: none;
+    height: 15px;
+    z-index: 100;
+    color: red;
+    font-size: 18px;
+    font-weight: 900;
+    background: #eee;
+    padding: 0 2px;
+    border-radius: 0 0 5px 0;
+  `;
 
-  const wrapper = `<div id="input-wrapper" class="wrapper" data-type="${type}" contenteditable="false" style="display: inline-block; max-width:100%;resize: both; height:50px; width:50px" oninput="event.preventDefault();">`;
+  const wrapper = `<div 
+    id="input-wrapper" 
+    class="wrapper" 
+    data-type="${type}" 
+    contenteditable="false" 
+    style="${wrapperStyles}" 
+    oninput="event.preventDefault();"
+  >`;
 
-  let element;
+  const label = `<label for="${inputId}" style="${labelStyles}">*</label>`;
 
-  if (type === "select") {
-    element = `<select 
-  id="${inputId}"
-  value="${defaultValue}"
-  disabled
-  style="${commonStyles}" 
-><option value="${defaultValue}">${defaultValue}</option></select>`;
-  } else {
-    element = `<input 
-  id="${inputId}"
-  type="${type}"
-  value="${defaultValue}"
-  disabled
-  style="${commonStyles}" 
-/>`;
-  }
-  const label = `<label for="${inputId}" style="position: absolute;top:0;left:0;display: block;height: 15px;z-index:100;display:none;color: red;font-size: 18px;font-weight: 900;background: #eee;padding: 0 2px;border-radius: 0px 0px 5px 0px;">*</label>`;
+  const getInputElement = (): string => {
+    switch (type) {
+      case "editor":
+        return `<div 
+          id="${inputId}"
+          data-editor="true"
+          style="
+            border: 1px solid #ccc;
+            ${commonStyles}
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          "
+        >
+          editor
+        </div>`;
+      case "textArea":
+        return `<textarea 
+          id="${inputId}"
+          disabled
+          style="${commonStyles} resize: none;"
+        >${defaultValue}</textarea>`;
+      case "select":
+        return `<select 
+          id="${inputId}"
+          value="${defaultValue}"
+          disabled
+          style="${commonStyles}"
+        >
+          <option value="${defaultValue}">${defaultValue}</option>
+        </select>`;
+      default:
+        return `<input 
+          id="${inputId}"
+          type="${type}"
+          value="${defaultValue}"
+          disabled
+          style="${commonStyles}" 
+        />`;
+    }
+  };
 
-  return wrapper + element + label + "</div>";
+  return wrapper + getInputElement() + label + "</div>";
 };
