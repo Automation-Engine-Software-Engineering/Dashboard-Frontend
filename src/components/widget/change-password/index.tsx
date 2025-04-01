@@ -2,6 +2,9 @@ import { InfoIcon } from "lucide-react";
 import { useState } from "react";
 
 import { changeSessionPassword } from "@/auth/change-password";
+import { useNavigate } from "react-router-dom";
+
+import { useSession } from "@/hooks/server-state/use-session";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -13,6 +16,9 @@ import {
 } from "@/components/ui/tooltip";
 
 const ChangePassword = () => {
+  const { data: session } = useSession();
+  const navigate = useNavigate();
+
   const [error, setError] = useState<string | null>(null);
 
   const passwordRegex =
@@ -72,6 +78,15 @@ const ChangePassword = () => {
             {error && <p className="text-xs text-red-500">{error}</p>}
           </div>
           <Button className="!mt-10 w-full">تغییر رمز عبور</Button>
+          {!session?.needNewPassword && (
+            <Button
+              variant="outline"
+              className="!mt-3 w-full"
+              onClick={() => [navigate(-1)]}
+            >
+              بازگشت
+            </Button>
+          )}
         </div>
       </form>
     </div>
