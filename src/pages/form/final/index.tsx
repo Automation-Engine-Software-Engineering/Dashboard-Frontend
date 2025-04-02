@@ -248,11 +248,14 @@ const FormFinal = () => {
         const items = [...prev];
 
         if (sameItemIndex === -1) {
-          return [...prev, { id: tableId, pageNumber: (2).toString() }];
+          return [...prev, { id: tableId, pageNumber: "1" }];
         } else {
           items[sameItemIndex] = {
             id: tableId,
-            pageNumber: (+items[sameItemIndex].pageNumber - 1).toString()
+            pageNumber:
+              +items[sameItemIndex].pageNumber >= 1
+                ? "1"
+                : (+items[sameItemIndex].pageNumber - 1).toString()
           };
           return items;
         }
