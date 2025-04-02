@@ -128,7 +128,11 @@ const FormFinal = () => {
 
           const inputGroup = item.getAttribute("data-group");
           if (inputGroup) newItem.group = inputGroup;
-
+          if (
+            item.hasAttribute("data-readonly") ||
+            item.id === "table-search-input"
+          )
+            return;
           formData.push(newItem);
         }
       });
@@ -146,6 +150,9 @@ const FormFinal = () => {
 
           const selectGroup = item.getAttribute("data-group");
           if (selectGroup) newItem.group = selectGroup;
+
+          if (item.hasAttribute("data-readonly") || item.id === "table-filter")
+            return;
 
           formData.push(newItem);
         }
