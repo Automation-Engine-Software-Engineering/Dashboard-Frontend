@@ -1,4 +1,4 @@
-import ConvertToSelect from "./conver-to-select";
+import ConvertToSelect from "./convert-to-select";
 import CurrentDate from "./current-date";
 import DisableInput from "./disable";
 import GroupByInput from "./group-by";
