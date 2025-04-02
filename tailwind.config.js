@@ -362,6 +362,10 @@ export default {
             border: "none !important"
           },
 
+          ".wrapper:has(> input[data-hidden])": {
+            border: "none !important"
+          },
+
           div: {
             verticalAlign: "middle"
           },
