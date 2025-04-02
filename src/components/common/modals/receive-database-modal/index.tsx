@@ -12,12 +12,16 @@ import { useFormEntities } from "@/hooks/server-state/use-form-entities";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
-const ReceiveDatabaseModal = ({
-  rightClickedElement,
-  onClose
-}: {
+interface Props extends React.ComponentProps<"div"> {
   onClose: () => void;
+  onConfirm?: () => void;
   rightClickedElement: HTMLElement;
+}
+
+const ReceiveDatabaseModal: React.FC<Props> = ({
+  rightClickedElement,
+  onClose,
+  onConfirm
 }) => {
   const inputElement = rightClickedElement as HTMLInputElement;
 
@@ -39,7 +43,7 @@ const ReceiveDatabaseModal = ({
   );
   const [properties, setProperties] = useState<PropertyType[] | null>(null);
 
-  const handleConvertToSelect = () => {
+  const handleAttachAttributes = () => {
     if (rightClickedElement) {
       rightClickedElement.setAttribute("data-tableId", selectedEntityId ?? "");
       rightClickedElement.setAttribute("data-filter", filter);
@@ -53,6 +57,7 @@ const ReceiveDatabaseModal = ({
       }
 
       toast.success("با موفقیت تبدیل شد");
+      if (onConfirm) onConfirm();
       onClose();
     }
   };
@@ -257,7 +262,7 @@ const ReceiveDatabaseModal = ({
           ))}
         </div>
       </div>
-      <Button className="w-full" onClick={handleConvertToSelect}>
+      <Button className="w-full" onClick={handleAttachAttributes}>
         تبدیل
       </Button>
     </div>
