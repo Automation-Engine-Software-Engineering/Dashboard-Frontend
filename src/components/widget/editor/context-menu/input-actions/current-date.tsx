@@ -1,3 +1,5 @@
+import { CheckIcon } from "lucide-react";
+
 import { ContextMenuItem } from "@/components/ui/context-menu";
 
 const CurrentDate: React.FC<
@@ -18,7 +20,8 @@ const CurrentDate: React.FC<
           }
         }}
       >
-        {hasCurrentDate ? "تاریخ دستی" : "تاریخ فعلی"}
+        تاریخ فعلی
+        {hasCurrentDate && <CheckIcon size={16} className="text-primary" />}
       </ContextMenuItem>
     </>
   );

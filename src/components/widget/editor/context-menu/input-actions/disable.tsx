@@ -1,3 +1,5 @@
+import { CheckIcon } from "lucide-react";
+
 import { ContextMenuItem } from "@/components/ui/context-menu";
 
 const DisableInput: React.FC<
@@ -18,7 +20,8 @@ const DisableInput: React.FC<
           }
         }}
       >
-        {isDisable ? "فعال" : "غیرفعال"}
+        غیرفعال
+        {isDisable && <CheckIcon size={16} className="text-primary" />}
       </ContextMenuItem>
     </>
   );

@@ -1,3 +1,5 @@
+import { CheckIcon } from "lucide-react";
+
 import { ContextMenuItem } from "@/components/ui/context-menu";
 
 const RequiredInput: React.FC<
@@ -18,7 +20,8 @@ const RequiredInput: React.FC<
           }
         }}
       >
-        {isRequired ? "غیر اجباری" : "اجباری"}
+        اجباری
+        {isRequired && <CheckIcon size={16} className="text-primary" />}
       </ContextMenuItem>
     </>
   );

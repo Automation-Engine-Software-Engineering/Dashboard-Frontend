@@ -1,3 +1,5 @@
+import { CheckIcon } from "lucide-react";
+
 import { ContextMenuItem } from "@/components/ui/context-menu";
 
 const ReadOnlyInput: React.FC<
@@ -18,7 +20,8 @@ const ReadOnlyInput: React.FC<
           }
         }}
       >
-        {isReadOnly ? "غیر نمایشی" : "نمایشی"}
+        نمایشی
+        {isReadOnly && <CheckIcon size={16} className="text-primary" />}
       </ContextMenuItem>
     </>
   );
