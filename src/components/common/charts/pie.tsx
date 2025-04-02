@@ -1,26 +1,15 @@
 import { ResponsiveContainer, PieChart as PieRechart, Pie } from "recharts";
 
-const PieChart = () => {
-  const chartData = [
-    {
-      name: "Label 1",
-      value: 200
-    },
-    {
-      name: "Label 2",
-      value: 300
-    },
-    {
-      name: "Label 3",
-      value: 200
-    }
-  ];
-
+const PieChart = ({
+  values
+}: {
+  values: { value: number; label: string }[];
+}) => {
   return (
-    <ResponsiveContainer height={250}>
-      <PieRechart margin={{ left: -30 }}>
+    <ResponsiveContainer width="100%">
+      <PieRechart margin={{ left: 0 }}>
         <Pie
-          data={chartData}
+          data={values}
           cx="50%"
           cy="50%"
           innerRadius={50}

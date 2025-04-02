@@ -7,37 +7,18 @@ import {
   YAxis
 } from "recharts";
 
-const LineChart = () => {
-  const chartData = [
-    {
-      name: "label 1",
-      uv: 20
-    },
-    {
-      name: "label 2",
-      uv: 30
-    },
-    {
-      name: "label 3",
-      uv: 50
-    },
-    {
-      name: "label 4",
-      uv: 40
-    },
-    {
-      name: "label 5",
-      uv: 10
-    }
-  ];
-
+const LineChart = ({
+  values
+}: {
+  values: { value: number; label: string }[];
+}) => {
   return (
-    <ResponsiveContainer width="100%" height={300}>
-      <LineRechart data={chartData} margin={{ left: -30 }}>
+    <ResponsiveContainer width="100%" style={{ direction: "ltr" }}>
+      <LineRechart data={values} margin={{ left: -10 }}>
         <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="name" />
+        <XAxis dataKey="label" />
         <YAxis />
-        <Line dataKey="uv" stroke="#0099A5" />
+        <Line dataKey="value" stroke="#0099A5" />
       </LineRechart>
     </ResponsiveContainer>
   );
