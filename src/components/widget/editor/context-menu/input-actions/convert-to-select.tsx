@@ -23,6 +23,19 @@ const ConvertToSelect: React.FC<
 > = ({ rightClickedElement }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  const handleConvertToSelect = () => {
+    if (rightClickedElement) {
+      const inputElement = rightClickedElement as HTMLInputElement;
+      const selectElement = document.createElement("select");
+
+      Array.from(inputElement.attributes).forEach((attr) => {
+        selectElement.setAttribute(attr.name, attr.value);
+      });
+
+      inputElement.replaceWith(selectElement);
+    }
+  };
+
   return (
     <>
       <Dialog
@@ -73,6 +86,7 @@ const ConvertToSelect: React.FC<
                 onClose={() => {
                   setIsModalOpen(false);
                 }}
+                onConfirm={handleConvertToSelect}
                 rightClickedElement={rightClickedElement}
               />
             </TabsContent>
