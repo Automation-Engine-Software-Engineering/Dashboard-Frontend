@@ -1,8 +1,10 @@
 import { SaveIcon } from "lucide-react";
+import { useEffect } from "react";
 
 import { insertHtmlContent } from "@/api/form";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
+import { useDebouncedCallback } from "use-debounce";
 
 import { cn } from "@/lib/utils";
 
@@ -25,6 +27,22 @@ const SaveForm: React.FC<
       queryClient.invalidateQueries({ queryKey: ["forms", formId] });
     }
   });
+
+  const autoSave = useDebouncedCallback(() => {
+    mutate();
+  }, 3000);
+
+  useEffect(() => {
+    if (editorRef) {
+      editorRef.current?.addEventListener("input", autoSave);
+    }
+
+    return () => {
+      if (editorRef) {
+        editorRef.current?.removeEventListener("input", autoSave);
+      }
+    };
+  }, [editorRef]);
 
   return (
     <ToolbarButton
