@@ -260,7 +260,7 @@ const FormFinal = () => {
           items[sameItemIndex] = {
             id: tableId,
             pageNumber:
-              +items[sameItemIndex].pageNumber >= 1
+              +items[sameItemIndex].pageNumber <= 1
                 ? "1"
                 : (+items[sameItemIndex].pageNumber - 1).toString()
           };
