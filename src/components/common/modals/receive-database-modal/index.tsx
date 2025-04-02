@@ -27,7 +27,7 @@ const ReceiveDatabaseModal: React.FC<Props> = ({
 
   const { data: entities, isLoading } = useFormEntities();
   const [selectedEntityId, setSelectedEntityId] = useState<null | string>(
-    inputElement.getAttribute("tableId") ?? ""
+    inputElement.getAttribute("data-tableId") ?? ""
   );
   const [filter, setFilter] = useState(
     inputElement.getAttribute("data-filter") ?? ""
@@ -92,6 +92,7 @@ const ReceiveDatabaseModal: React.FC<Props> = ({
           onChange={(e) => {
             setSelectedEntityId(e.target.value);
           }}
+          defaultValue={selectedEntityId ?? ""}
           className="mt-2 w-full rounded-md border border-slate-300 p-2 text-slate-800"
         >
           <option selected disabled>
