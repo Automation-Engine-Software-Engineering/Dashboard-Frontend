@@ -1,9 +1,9 @@
 import { Node } from "@xyflow/react";
 import { Check } from "lucide-react";
-import { useEffect, useMemo, useState } from "react";
+import { Fragment, useEffect, useMemo, useState } from "react";
 
 import { getAllForms } from "@/api/form";
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import { nanoid } from "nanoid";
 import toast from "react-hot-toast";
 import { useInView } from "react-intersection-observer";
@@ -126,28 +126,31 @@ const AddNodeModal: React.FC<ModalProps> = ({ isOpen, onClose, setNodes }) => {
 };
 
 const FormContent: React.FC<ContentProps> = ({ setData }) => {
-  const [size, setSize] = useState(10);
   const [selected, setSelected] = useState<number | null>(null);
   const { ref, inView } = useInView();
 
   const navigate = useNavigate();
 
-  const {
-    data: forms,
-    isLoading,
-    isFetching
-  } = useQuery({
-    queryFn: () => getAllForms({ page: 1, size }),
-    queryKey: ["forms", { size }]
-  });
+  const { isFetchingNextPage, hasNextPage, isLoading, data, fetchNextPage } =
+    useInfiniteQuery({
+      queryKey: ["forms"],
+      queryFn: async ({ pageParam }) => {
+        return await getAllForms({ page: pageParam, size: 10 });
+      },
+      initialPageParam: 1,
+      getNextPageParam: (lastPage, allPages, lastPageParam) => {
+        if (lastPage?.data.length === 0) {
+          return undefined;
+        }
+        return lastPageParam + 1;
+      }
+    });
 
   useEffect(() => {
-    if (forms) {
-      if (forms.totalCount > size && inView) {
-        setSize(size + 10);
-      }
+    if (inView) {
+      fetchNextPage();
     }
-  }, [inView]);
+  }, [fetchNextPage, inView]);
 
   if (isLoading)
     return (
@@ -162,37 +165,46 @@ const FormContent: React.FC<ContentProps> = ({ setData }) => {
         className="h-64 w-full rounded-md border border-slate-300"
         dir="rtl"
       >
-        {forms?.data.map((form) => (
-          <div
-            key={form.id}
-            className={cn(
-              "flex cursor-pointer items-center border-b border-b-slate-300 px-5 py-3 text-sm transition-colors hover:bg-primary/20",
-              selected === form.id && "pointer-events-none bg-primary/20"
-            )}
-            onClick={() => {
-              setData({
-                name: form.name,
-                formId: form.id,
-                type: Type.form,
-                icon: TypeIcons.form
-              });
-              setSelected(form.id);
-            }}
-          >
-            {form.name}
-            {selected === form.id && (
-              <Check className="ml-auto" size={20} color="#0099A5" />
-            )}
-          </div>
+        {data?.pages.map((page, index) => (
+          <Fragment key={index + 1}>
+            {page?.data.map((form) => (
+              <div
+                key={form.id}
+                className={cn(
+                  "flex cursor-pointer items-center border-b border-b-slate-300 px-5 py-3 text-sm transition-colors hover:bg-primary/20",
+                  selected === form.id && "pointer-events-none bg-primary/20"
+                )}
+                onClick={() => {
+                  setData({
+                    name: form.name,
+                    formId: form.id,
+                    type: Type.form,
+                    icon: TypeIcons.form
+                  });
+                  setSelected(form.id);
+                }}
+              >
+                {form.name}
+                {selected === form.id && (
+                  <Check className="ml-auto" size={20} color="#0099A5" />
+                )}
+              </div>
+            ))}
+          </Fragment>
         ))}
 
-        {isFetching && (
-          <div className="flex w-full justify-center">
-            <HashLoader size={30} color="#0099A5" />
+        {hasNextPage && (
+          <div
+            ref={ref}
+            className="flex w-full justify-center py-1 text-center"
+          >
+            {isFetchingNextPage ? (
+              <HashLoader size={30} color="#0099A5" />
+            ) : (
+              "بیشتر"
+            )}
           </div>
         )}
-
-        <div ref={ref} className="h-5 w-full" />
       </ScrollArea>
       <Button
         variant="outline"

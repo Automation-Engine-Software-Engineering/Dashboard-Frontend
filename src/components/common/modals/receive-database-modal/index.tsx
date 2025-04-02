@@ -1,16 +1,24 @@
 import HighlightInput from "highlightable-input/react";
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 
+import { getAllEntities } from "@/api/entity";
 import { getEntityProperties } from "@/api/property";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import toast from "react-hot-toast";
+import { useInView } from "react-intersection-observer";
 import { HashLoader } from "react-spinners";
 
 import { PropertyType } from "@/types/form/property";
 
-import { useFormEntities } from "@/hooks/server-state/use-form-entities";
-
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectTrigger,
+  SelectValue,
+  SelectItem
+} from "@/components/ui/select";
 
 interface Props extends React.ComponentProps<"div"> {
   onClose: () => void;
@@ -24,8 +32,23 @@ const ReceiveDatabaseModal: React.FC<Props> = ({
   onConfirm
 }) => {
   const inputElement = element as HTMLInputElement;
+  const { ref, inView } = useInView();
 
-  const { data: entities, isLoading } = useFormEntities();
+  const { isFetchingNextPage, hasNextPage, isLoading, data, fetchNextPage } =
+    useInfiniteQuery({
+      queryKey: ["forms"],
+      queryFn: async ({ pageParam }) => {
+        return await getAllEntities({ page: pageParam, size: 10 });
+      },
+      initialPageParam: 1,
+      getNextPageParam: (lastPage, allPages, lastPageParam) => {
+        if (lastPage?.data?.length === 0) {
+          return undefined;
+        }
+        return lastPageParam + 1;
+      }
+    });
+
   const [selectedEntityId, setSelectedEntityId] = useState<null | string>(
     inputElement.getAttribute("data-tableId") ?? ""
   );
@@ -63,6 +86,12 @@ const ReceiveDatabaseModal: React.FC<Props> = ({
   };
 
   useEffect(() => {
+    if (inView) {
+      fetchNextPage();
+    }
+  }, [fetchNextPage, inView]);
+
+  useEffect(() => {
     (async () => {
       if (selectedEntityId) {
         const response = await getEntityProperties(selectedEntityId, {
@@ -88,22 +117,38 @@ const ReceiveDatabaseModal: React.FC<Props> = ({
         <label htmlFor="" className="block text-sm text-slate-800">
           جدول
         </label>
-        <select
-          onChange={(e) => {
-            setSelectedEntityId(e.target.value);
-          }}
+        <Select
+          dir="rtl"
+          onValueChange={setSelectedEntityId}
           defaultValue={selectedEntityId ?? ""}
-          className="mt-2 w-full rounded-md border border-slate-300 p-2 text-slate-800"
         >
-          <option selected disabled>
-            انتخاب جدول
-          </option>
-          {entities?.data.map((entity) => (
-            <option key={entity.id} value={entity.id}>
-              {entity.previewName}
-            </option>
-          ))}
-        </select>
+          <SelectTrigger>
+            <SelectValue placeholder="جدول" />
+          </SelectTrigger>
+          <SelectContent>
+            {data?.pages.map((entities, index) => (
+              <Fragment key={index + 1}>
+                {entities?.data.map((entity) => (
+                  <SelectItem value={entity.id.toString()}>
+                    {entity.previewName}
+                  </SelectItem>
+                ))}
+              </Fragment>
+            ))}
+            {hasNextPage && (
+              <div
+                ref={ref}
+                className="flex w-full justify-center py-1 text-center"
+              >
+                {isFetchingNextPage ? (
+                  <HashLoader size={30} color="#0099A5" />
+                ) : (
+                  "بیشتر"
+                )}
+              </div>
+            )}
+          </SelectContent>
+        </Select>
       </div>
       <div>
         <label htmlFor="" className="block text-sm text-slate-800">
@@ -248,19 +293,6 @@ const ReceiveDatabaseModal: React.FC<Props> = ({
           >
             =
           </Button>
-          {entities?.data?.map((entity) => (
-            <Button
-              key={entity.id}
-              size="sm"
-              variant="secondary"
-              className="h-fit px-3 py-2 text-xs"
-              onClick={() => {
-                setRelation((prev) => `${prev} {{${entity.previewName}}}`);
-              }}
-            >
-              {entity.previewName}
-            </Button>
-          ))}
         </div>
       </div>
       <Button className="w-full" onClick={handleAttachAttributes}>
