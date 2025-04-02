@@ -1,4 +1,4 @@
-import { SaveIcon } from "lucide-react";
+import { LucideLoader2, SaveIcon } from "lucide-react";
 import { useEffect } from "react";
 
 import { insertHtmlContent } from "@/api/form";
@@ -18,7 +18,7 @@ const SaveForm: React.FC<
   const { formId } = useParams();
 
   const queryClient = useQueryClient();
-  const { mutate } = useMutation({
+  const { mutate, isPending } = useMutation({
     mutationFn: () => {
       const outerHtml = editorRef.current?.outerHTML;
       return insertHtmlContent(+formId!, outerHtml!);
@@ -48,9 +48,14 @@ const SaveForm: React.FC<
     <ToolbarButton
       className={cn(className)}
       onClick={() => mutate()}
+      disabled={isPending}
       {...props}
     >
-      <SaveIcon />
+      {isPending ? (
+        <LucideLoader2 className="animate-spin text-primary" />
+      ) : (
+        <SaveIcon />
+      )}
     </ToolbarButton>
   );
 };
