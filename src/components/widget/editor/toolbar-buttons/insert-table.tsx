@@ -1,19 +1,14 @@
-import HighlightInput from "highlightable-input/react";
 import { ChevronDownIcon, TableIcon } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
-import { getEntityProperties } from "@/api/property";
 import toast from "react-hot-toast";
-import { HashLoader } from "react-spinners";
 import { v4 as uuidv4 } from "uuid";
 
 import { cn } from "@/lib/utils";
 
-import { PropertyType } from "@/types/form/property";
-
-import { useFormEntities } from "@/hooks/server-state/use-form-entities";
-
 import { restoreSelection, saveSelection } from "@/utils/selection";
+
+import ReceiveDatabaseModal from "@/components/common/modals/receive-database-modal";
 
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
@@ -196,6 +191,106 @@ const TableModal = ({
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  const table = document.createElement("table");
+
+  const handleCreateTable = () => {
+    const tableId = uuidv4();
+
+    const wrapper = document.createElement("div");
+    wrapper.contentEditable = "false";
+    wrapper.id = "table-container";
+
+    const searchItems = `<div
+        id="table-search-wrapper"
+        style="
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          margin-bottom: 10px;
+        "
+      >
+        <input id="table-search-input" type="text" placeholder="جستجو..." />
+        <select id="table-filter" data-search-id="${tableId}">
+          <option value="test">تست</option>
+        </select>
+        <button id="table-search-button">جستجو</button>
+      </div>`;
+
+    const paginationItems = ` <div
+        id="table-pagination-wrapper"
+        style="
+          width:100%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 10px;
+          margin-top: 10px;
+        "
+      >
+        <button id="table-next">بعدی</button>
+        <button id="table-previous">قبلی</button>
+      </div>`;
+
+    wrapper.insertAdjacentHTML("afterbegin", searchItems);
+
+    table.style.borderCollapse = "collapse";
+    table.style.width = "100%";
+    table.style.height = "100%";
+    table.style.maxWidth = "100%";
+    table.id = tableId;
+
+    table.setAttribute("data-size", "10");
+
+    table.innerHTML = `
+        <thead>
+          <tr>
+            <td>
+              عنوان جدول
+            </td>
+          </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>
+              متن نمایشی
+            </td>
+          </tr>
+        </tbody>
+      `;
+
+    wrapper.appendChild(table);
+    wrapper.insertAdjacentHTML("beforeend", paginationItems);
+
+    toast.success("با موفقیت تبدیل شد");
+
+    restoreSelection();
+    const selection = window.getSelection();
+
+    if (selection?.rangeCount) {
+      const range = selection.getRangeAt(0);
+
+      if (editorRef.current?.contains(range.commonAncestorContainer)) {
+        range.deleteContents();
+        range.insertNode(wrapper);
+
+        const spacer = document.createElement("br");
+
+        range.setStartAfter(wrapper);
+        range.setEndAfter(wrapper);
+        range.insertNode(spacer);
+
+        range.setStartAfter(spacer);
+        range.setEndAfter(spacer);
+      } else {
+        const spacer = document.createElement("br");
+        editorRef.current?.appendChild(wrapper);
+        editorRef.current?.appendChild(spacer);
+      }
+
+      editorRef.current?.focus();
+    }
+  };
+
   return (
     <Dialog
       open={isModalOpen}
@@ -215,333 +310,13 @@ const TableModal = ({
         </Button>
       </DialogTrigger>
       <DialogContent className="max-h-[90vh] overflow-auto">
-        <ModalContent
-          editorRef={editorRef}
+        <ReceiveDatabaseModal
+          element={table}
+          onConfirm={handleCreateTable}
           onClose={() => setIsModalOpen(false)}
         />
       </DialogContent>
     </Dialog>
-  );
-};
-
-const ModalContent = ({
-  editorRef,
-  onClose
-}: {
-  editorRef: React.RefObject<HTMLDivElement>;
-  onClose: () => void;
-}) => {
-  const { data: entities, isLoading } = useFormEntities();
-  const [selectedEntityId, setSelectedEntityId] = useState<null | string>(null);
-  const [filter, setFilter] = useState("");
-  const [condition, setCondition] = useState("");
-  const [relation, setRelation] = useState("");
-
-  const [properties, setProperties] = useState<PropertyType[] | null>(null);
-
-  const handleCreateTable = () => {
-    if (selectedEntityId) {
-      const tableId = uuidv4();
-
-      const wrapper = document.createElement("div");
-      wrapper.contentEditable = "false";
-      wrapper.id = "table-container";
-
-      const searchItems = `<div
-        id="table-search-wrapper"
-        style="
-          display: flex;
-          align-items: center;
-          gap: 10px;
-          margin-bottom: 10px;
-        "
-      >
-        <input id="table-search-input" type="text" placeholder="جستجو..." />
-        <select id="table-filter" data-search-id="${tableId}">
-          <option value="test">تست</option>
-        </select>
-        <button id="table-search-button">جستجو</button>
-      </div>`;
-
-      const paginationItems = ` <div
-        id="table-pagination-wrapper"
-        style="
-          width:100%;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          gap: 10px;
-          margin-top: 10px;
-        "
-      >
-        <button id="table-next">بعدی</button>
-        <button id="table-previous">قبلی</button>
-      </div>`;
-
-      wrapper.insertAdjacentHTML("afterbegin", searchItems);
-
-      const table = document.createElement("table");
-      table.style.borderCollapse = "collapse";
-      table.style.width = "100%";
-      table.style.height = "100%";
-      table.style.maxWidth = "100%";
-      table.id = tableId;
-
-      table.setAttribute("data-tableId", selectedEntityId ?? "");
-      table.setAttribute("data-filter", filter);
-      table.setAttribute("data-condition", condition);
-      table.setAttribute("data-relation", relation);
-      table.setAttribute("data-size", "10");
-
-      table.innerHTML = `
-        <thead>
-          <tr>
-            <td>
-              عنوان جدول
-            </td>
-          </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <td>
-              متن نمایشی
-            </td>
-          </tr>
-        </tbody>
-      `;
-
-      wrapper.appendChild(table);
-      wrapper.insertAdjacentHTML("beforeend", paginationItems);
-      if (!selectedEntityId) {
-        toast.error("لطفا یک دیتابیس رو انتخاب کنید");
-        return;
-      }
-
-      toast.success("با موفقیت تبدیل شد");
-
-      restoreSelection();
-      const selection = window.getSelection();
-
-      if (selection?.rangeCount) {
-        const range = selection.getRangeAt(0);
-
-        if (editorRef.current?.contains(range.commonAncestorContainer)) {
-          range.deleteContents();
-          range.insertNode(wrapper);
-
-          const spacer = document.createElement("br");
-
-          range.setStartAfter(wrapper);
-          range.setEndAfter(wrapper);
-          range.insertNode(spacer);
-
-          range.setStartAfter(spacer);
-          range.setEndAfter(spacer);
-        } else {
-          const spacer = document.createElement("br");
-          editorRef.current?.appendChild(wrapper);
-          editorRef.current?.appendChild(spacer);
-        }
-
-        editorRef.current?.focus();
-      }
-      onClose();
-    }
-  };
-
-  useEffect(() => {
-    (async () => {
-      if (selectedEntityId) {
-        const response = await getEntityProperties(selectedEntityId, {
-          page: 1,
-          size: 100
-        });
-
-        setProperties(response?.data ?? null);
-      }
-    })();
-  }, [selectedEntityId]);
-
-  if (isLoading)
-    return (
-      <div className="flex justify-center py-10">
-        <HashLoader color="#0099A5" />
-      </div>
-    );
-
-  return (
-    <div className="space-y-5">
-      <div>
-        <label htmlFor="" className="block text-sm text-slate-800">
-          جدول
-        </label>
-        <select
-          onChange={(e) => {
-            setSelectedEntityId(e.target.value);
-          }}
-          className="mt-2 w-full rounded-md border border-slate-300 p-2 text-slate-800"
-        >
-          <option selected disabled>
-            انتخاب جدول
-          </option>
-          {entities?.data.map((entity) => (
-            <option key={entity.id} value={entity.id}>
-              {entity.previewName}
-            </option>
-          ))}
-        </select>
-      </div>
-      <div>
-        <label htmlFor="" className="block text-sm text-slate-800">
-          شرط
-        </label>
-        <HighlightInput
-          dir="ltr"
-          value={filter}
-          onChange={setFilter}
-          className="h-12 w-full border border-slate-300 bg-white"
-          style={{
-            display: "block",
-            width: "100%",
-            minHeight: 40,
-            padding: "5px 7px",
-            border: "1px solid rgb(204,204,204)",
-            borderRadius: 6
-          }}
-          highlight={[
-            {
-              pattern: /{{\s*([^}]*)\s*}}/g,
-              style: "background-color:#0099A520; color:#0099A5"
-            },
-            {
-              pattern: /\[\[\s*([^\]]+)\s*\]\]/g,
-              style: "background-color:#0099A540; color:#0099A5"
-            }
-          ]}
-        />
-      </div>
-      <div>
-        <label htmlFor="" className="mb-1 block text-sm text-slate-800">
-          نمایش مقدار
-        </label>
-        <HighlightInput
-          dir="ltr"
-          value={condition}
-          onChange={setCondition}
-          className="h-12 w-full border border-slate-300 bg-white"
-          style={{
-            display: "block",
-            width: "100%",
-            minHeight: 40,
-            padding: "5px 7px",
-            border: "1px solid rgb(204,204,204)",
-            borderRadius: 6
-          }}
-          highlight={[
-            {
-              pattern: /{{\s*([^}]*)\s*}}/g,
-              style: "background-color:#0099A520; color:#0099A5"
-            },
-            {
-              pattern: /\[\[\s*([^\]]+)\s*\]\]/g,
-              style: "background-color:#0099A540; color:#0099A5"
-            }
-          ]}
-        />
-        <div className="mt-2 flex flex-wrap items-center gap-2">
-          {properties?.map((property) => (
-            <Button
-              key={property.id}
-              size="sm"
-              variant="secondary"
-              className="h-fit px-3 py-2 text-xs"
-              onClick={() => {
-                setCondition((prev) => `${prev} {{${property.propertyName}}}`);
-              }}
-            >
-              {property.previewName}
-            </Button>
-          ))}
-        </div>
-      </div>
-      <div>
-        <label htmlFor="" className="mb-1 block text-sm text-slate-800">
-          نمایش ارتباطات
-        </label>
-        <HighlightInput
-          dir="ltr"
-          value={relation}
-          onChange={setRelation}
-          className="h-12 w-full border border-slate-300 bg-white"
-          style={{
-            display: "block",
-            width: "100%",
-            minHeight: 40,
-            padding: "5px 7px",
-            border: "1px solid rgb(204,204,204)",
-            borderRadius: 6
-          }}
-          highlight={[
-            {
-              pattern: /{{\s*([^}]*)\s*}}/g,
-              style: "background-color:#0099A520; color:#0099A5"
-            },
-            {
-              pattern: /\[\[\s*([^\]]+)\s*\]\]/g,
-              style: "background-color:#0099A540; color:#0099A5"
-            }
-          ]}
-        />
-        <div className="mt-2 flex flex-wrap items-center gap-2">
-          <Button
-            size="sm"
-            variant="secondary"
-            className="h-fit px-3 py-2 text-xs"
-            onClick={() => {
-              setRelation((prev) => `${prev} JOIN`);
-            }}
-          >
-            JOIN
-          </Button>
-          <Button
-            size="sm"
-            variant="secondary"
-            className="h-fit px-3 py-2 text-xs"
-            onClick={() => {
-              setRelation((prev) => `${prev} ON`);
-            }}
-          >
-            ON
-          </Button>
-          <Button
-            size="sm"
-            variant="secondary"
-            className="h-fit px-3 py-2 text-xs"
-            onClick={() => {
-              setRelation((prev) => `${prev} =`);
-            }}
-          >
-            =
-          </Button>
-          {entities?.data?.map((entity) => (
-            <Button
-              key={entity.id}
-              size="sm"
-              variant="secondary"
-              className="h-fit px-3 py-2 text-xs"
-              onClick={() => {
-                setRelation((prev) => `${prev} {{${entity.previewName}}}`);
-              }}
-            >
-              {entity.previewName}
-            </Button>
-          ))}
-        </div>
-      </div>
-      <Button className="w-full" onClick={handleCreateTable}>
-        تبدیل
-      </Button>
-    </div>
   );
 };
 
