@@ -12,6 +12,7 @@ import { useFormEntities } from "@/hooks/server-state/use-form-entities";
 import { Button } from "@/components/ui/button";
 import { ContextMenuItem } from "@/components/ui/context-menu";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
 
 const Relation: React.FC<
   React.ComponentProps<"div"> & {
@@ -76,6 +77,9 @@ const Content = ({
   const [relation, setRelation] = useState(
     inputElement.getAttribute("data-relation") ?? ""
   );
+  const [query, setQuery] = useState(
+    inputElement.getAttribute("data-query") ?? ""
+  );
   const [properties, setProperties] = useState<PropertyType[] | null>(null);
 
   const handleConvertToSelect = () => {
@@ -84,9 +88,10 @@ const Content = ({
       rightClickedElement.setAttribute("data-filter", filter);
       rightClickedElement.setAttribute("data-condition", condition);
       rightClickedElement.setAttribute("data-relation", relation);
+      rightClickedElement.setAttribute("data-query", query);
 
       if (!selectedEntityId) {
-        toast.error("لطفا یک دیتابیس رو انتخاب کنید");
+        toast.error("لطفا یک جدول رو انتخاب کنید");
         return;
       }
 
@@ -209,6 +214,17 @@ const Content = ({
             </Button>
           ))}
         </div>
+      </div>
+      <div>
+        <label htmlFor="" className="mb-1 block text-sm text-slate-800">
+          کوئری دیتابیس
+        </label>
+        <Input
+          dir="ltr"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          className="h-12 w-full border border-slate-300 bg-white"
+        />
       </div>
       <div>
         <label htmlFor="" className="mb-1 block text-sm text-slate-800">
