@@ -1,5 +1,5 @@
-import Relations from "./relations";
-import RequiredInput from "./required";
+import Relations from "../shared/relations";
+import RequiredInput from "../shared/required";
 
 interface Props extends React.ComponentProps<"div"> {
   rightClickedElement: HTMLElement;

@@ -12,6 +12,7 @@ const DisableInput: React.FC<
   return (
     <>
       <ContextMenuItem
+        className="flex items-center justify-between"
         onClick={() => {
           if (isDisable) {
             rightClickedElement.removeAttribute("data-disabled");

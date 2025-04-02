@@ -12,6 +12,7 @@ const ReadOnlyInput: React.FC<
   return (
     <>
       <ContextMenuItem
+        className="flex items-center justify-between"
         onClick={() => {
           if (isReadOnly) {
             rightClickedElement.removeAttribute("data-readonly");

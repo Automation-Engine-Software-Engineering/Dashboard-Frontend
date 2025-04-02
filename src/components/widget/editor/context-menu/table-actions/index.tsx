@@ -1,5 +1,6 @@
 import { ContextMenuSeparator } from "@/components/ui/context-menu";
 
+import Relation from "../shared/relations";
 import AddColumn from "./add-column";
 import ChangeSize from "./change-size";
 import TablePadding from "./padding";
@@ -19,6 +20,7 @@ const TableContextAction: React.FC<Props> = ({ rightClickedElement }) => {
       <TablePadding rightClickedElement={rightClickedElement} />
       <TableTheme rightClickedElement={rightClickedElement} />
       <TableToolbar rightClickedElement={rightClickedElement} />
+      <Relation rightClickedElement={rightClickedElement} />
       <ContextMenuSeparator />
       <RemoveTable rightClickedElement={rightClickedElement} />
     </>

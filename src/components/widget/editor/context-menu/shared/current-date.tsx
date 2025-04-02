@@ -12,6 +12,7 @@ const CurrentDate: React.FC<
   return (
     <>
       <ContextMenuItem
+        className="flex items-center justify-between"
         onClick={() => {
           if (hasCurrentDate) {
             rightClickedElement.removeAttribute("data-current-date");

@@ -1,11 +1,11 @@
+import CurrentDate from "../shared/current-date";
+import DisableInput from "../shared/disable";
+import GroupByInput from "../shared/group-by";
+import HiddenInput from "../shared/hidden";
+import ReadOnlyInput from "../shared/read-only";
+import Relation from "../shared/relations";
+import RequiredInput from "../shared/required";
 import ConvertToSelect from "./convert-to-select";
-import CurrentDate from "./current-date";
-import DisableInput from "./disable";
-import GroupByInput from "./group-by";
-import HiddenInput from "./hidden";
-import ReadOnlyInput from "./read-only";
-import Relation from "./relations";
-import RequiredInput from "./required";
 
 interface Props extends React.ComponentProps<"div"> {
   rightClickedElement: HTMLElement;
