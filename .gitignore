@@ -26,6 +26,7 @@ dist-ssr
 # Ignore lock files
 package-lock.json
 yarn.lock
+bun.lock
 pnpm-lock.yaml
 tsconfig.app.tsbuildinfo
 tsconfig.node.tsbuildinfo
