@@ -87,7 +87,7 @@ const ConvertToSelect: React.FC<
                   setIsModalOpen(false);
                 }}
                 onConfirm={handleConvertToSelect}
-                rightClickedElement={rightClickedElement}
+                element={rightClickedElement}
               />
             </TabsContent>
           </Tabs>

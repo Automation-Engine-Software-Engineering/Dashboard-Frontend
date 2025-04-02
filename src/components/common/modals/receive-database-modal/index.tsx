@@ -15,15 +15,15 @@ import { Input } from "@/components/ui/input";
 interface Props extends React.ComponentProps<"div"> {
   onClose: () => void;
   onConfirm?: () => void;
-  rightClickedElement: HTMLElement;
+  element: HTMLElement;
 }
 
 const ReceiveDatabaseModal: React.FC<Props> = ({
-  rightClickedElement,
+  element,
   onClose,
   onConfirm
 }) => {
-  const inputElement = rightClickedElement as HTMLInputElement;
+  const inputElement = element as HTMLInputElement;
 
   const { data: entities, isLoading } = useFormEntities();
   const [selectedEntityId, setSelectedEntityId] = useState<null | string>(
@@ -44,12 +44,12 @@ const ReceiveDatabaseModal: React.FC<Props> = ({
   const [properties, setProperties] = useState<PropertyType[] | null>(null);
 
   const handleAttachAttributes = () => {
-    if (rightClickedElement) {
-      rightClickedElement.setAttribute("data-tableId", selectedEntityId ?? "");
-      rightClickedElement.setAttribute("data-filter", filter);
-      rightClickedElement.setAttribute("data-condition", condition);
-      rightClickedElement.setAttribute("data-relation", relation);
-      rightClickedElement.setAttribute("data-query", query);
+    if (element) {
+      element.setAttribute("data-tableId", selectedEntityId ?? "");
+      element.setAttribute("data-filter", filter);
+      element.setAttribute("data-condition", condition);
+      element.setAttribute("data-relation", relation);
+      element.setAttribute("data-query", query);
 
       if (!selectedEntityId) {
         toast.error("لطفا یک جدول رو انتخاب کنید");

@@ -37,7 +37,7 @@ const Relation: React.FC<
             onClose={() => {
               setIsModalOpen(false);
             }}
-            rightClickedElement={rightClickedElement}
+            element={rightClickedElement}
           />
         </DialogContent>
       </Dialog>
