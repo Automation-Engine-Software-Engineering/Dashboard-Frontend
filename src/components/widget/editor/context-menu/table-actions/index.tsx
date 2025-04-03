@@ -5,6 +5,7 @@ import AddColumn from "./add-column";
 import ChangeSize from "./change-size";
 import TablePadding from "./padding";
 import RemoveTable from "./remove-table";
+import TableRepeater from "./repeater";
 import TableToolbar from "./table-toolbar";
 import TableTheme from "./theme";
 
@@ -20,6 +21,7 @@ const TableContextAction: React.FC<Props> = ({ rightClickedElement }) => {
       <TablePadding rightClickedElement={rightClickedElement} />
       <TableTheme rightClickedElement={rightClickedElement} />
       <TableToolbar rightClickedElement={rightClickedElement} />
+      <TableRepeater rightClickedElement={rightClickedElement} />
       <Relation rightClickedElement={rightClickedElement} />
       <ContextMenuSeparator />
       <RemoveTable rightClickedElement={rightClickedElement} />

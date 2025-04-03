@@ -42,6 +42,21 @@ const InsertTable: React.FC<
     table.contentEditable = "false";
     table.setAttribute("data-size", "10");
 
+    const tableRepeater = `
+    <div
+        id="table-repeater-wrapper"
+        style="
+          width:100%;
+          display: flex;
+          align-items: center;
+          justify-content: end;
+          margin-top: 10px;
+        "
+      >
+        <button id="table-repeater-button">+</button>
+      </div>
+    `;
+
     const tbody = document.createElement("tbody");
     const thead = document.createElement("thead");
     const headRow = document.createElement("tr");
@@ -93,6 +108,8 @@ const InsertTable: React.FC<
     table.appendChild(thead);
     table.appendChild(tbody);
     wrapper.appendChild(table);
+
+    wrapper.insertAdjacentHTML("beforeend", tableRepeater);
 
     restoreSelection();
     const selection = window.getSelection();
@@ -231,6 +248,21 @@ const TableModal = ({
         <button id="table-previous">قبلی</button>
       </div>`;
 
+    const tableRepeater = `
+    <div
+        id="table-repeater-wrapper"
+        style="
+          width:100%;
+          display: flex;
+          align-items: center;
+          justify-content: end;
+          margin-top: 10px;
+        "
+      >
+        <button id="table-repeater-button">+</button>
+      </div>
+    `;
+
     wrapper.insertAdjacentHTML("afterbegin", searchItems);
 
     table.style.borderCollapse = "collapse";
@@ -259,6 +291,7 @@ const TableModal = ({
       `;
 
     wrapper.appendChild(table);
+    wrapper.insertAdjacentHTML("beforeend", tableRepeater);
     wrapper.insertAdjacentHTML("beforeend", paginationItems);
 
     toast.success("با موفقیت تبدیل شد");
