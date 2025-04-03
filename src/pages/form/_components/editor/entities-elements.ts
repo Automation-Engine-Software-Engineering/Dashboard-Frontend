@@ -1,27 +1,12 @@
-type InputType =
-  | "text"
-  | "number"
-  | "checkbox"
-  | "date"
-  | "email"
-  | "file"
-  | "password"
-  | "radio"
-  | "range"
-  | "select"
-  | "textArea"
-  | "editor"
-  | "price";
-
 interface InputProps {
   inputId: number;
-  type: InputType;
+  input: { input: string; type: string };
   defaultValue?: string;
 }
 
 export const createInput = ({
   inputId,
-  type,
+  input,
   defaultValue = ""
 }: InputProps): string => {
   const commonStyles = "width: 100%; height: 100%; box-sizing: border-box;";
@@ -45,7 +30,7 @@ export const createInput = ({
   const wrapper = `<div 
     id="input-wrapper" 
     class="wrapper" 
-    data-type="${type}" 
+    data-type="${input.type}" 
     contenteditable="false" 
     style="${wrapperStyles}" 
     oninput="event.preventDefault();"
@@ -54,7 +39,7 @@ export const createInput = ({
   const label = `<label for="${inputId}" style="${labelStyles}">*</label>`;
 
   const getInputElement = (): string => {
-    switch (type) {
+    switch (input.type) {
       case "editor":
         return `<div 
           id="${inputId}"
@@ -69,7 +54,7 @@ export const createInput = ({
         >
           editor
         </div>`;
-      case "textArea":
+      case "long-text":
         return `<textarea 
           id="${inputId}"
           disabled
@@ -106,10 +91,20 @@ export const createInput = ({
             style="${commonStyles}" 
           /> <span id="price-text" style="font-size:12px;">0 تومان</span>`;
 
+      case "image-preview":
+        return `<input 
+            id="${inputId}"
+            type="file"
+            value="${defaultValue}"
+            data-input-type="image-preview"
+            disabled
+            style="${commonStyles}" 
+          /><img id="image-preview" alt="Image Preview" />`;
+
       default:
         return `<input 
           id="${inputId}"
-          type="${type}"
+          type="${input.input}"
           value="${defaultValue}"
           disabled
           style="${commonStyles}" 

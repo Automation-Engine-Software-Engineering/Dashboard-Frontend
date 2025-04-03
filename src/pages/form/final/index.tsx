@@ -335,6 +335,29 @@ const FormFinal = () => {
     priceElement.innerText = priceInWord;
   };
 
+  const handleImagePreviewInput = (e: ChangeEvent<HTMLInputElement>) => {
+    const input = e.target!;
+    let file;
+
+    if (input.files) {
+      file = input.files[0];
+    }
+    const container = e.target.parentElement as HTMLDivElement;
+    const imageElement = container.querySelector(
+      "#image-preview"
+    ) as HTMLImageElement;
+
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        imageElement.src = e.target!.result as string;
+      };
+      reader.readAsDataURL(file);
+    } else {
+      imageElement.src = "";
+    }
+  };
+
   useEffect(() => {
     if (formRef.current) {
       formRef.current.querySelectorAll("button").forEach((button) => {
@@ -348,9 +371,16 @@ const FormFinal = () => {
       formRef.current
         .querySelectorAll("input[data-input-type='price']")
         .forEach((priceInput) => {
-          console.log(priceInput);
           (priceInput as HTMLInputElement).addEventListener("input", (e) =>
             handlePriceInput(e as any)
+          );
+        });
+
+      formRef.current
+        .querySelectorAll("input[data-input-type='image-preview']")
+        .forEach((priceInput) => {
+          (priceInput as HTMLInputElement).addEventListener("change", (e) =>
+            handleImagePreviewInput(e as any)
           );
         });
     }
@@ -370,6 +400,15 @@ const FormFinal = () => {
           .forEach((priceInput) => {
             (priceInput as HTMLInputElement).removeEventListener("input", (e) =>
               handlePriceInput(e as any)
+            );
+          });
+
+        formRef.current
+          .querySelectorAll("input[data-input-type='image-preview']")
+          .forEach((priceInput) => {
+            (priceInput as HTMLInputElement).removeEventListener(
+              "change",
+              (e) => handleImagePreviewInput(e as any)
             );
           });
       }

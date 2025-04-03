@@ -13,21 +13,63 @@ import Modal from "@/components/ui/modal";
 import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
 
-export const formInputType: Record<string, any> = {
-  "1": "number",
-  "2": "range",
-  "3": "text",
-  "4": "text",
-  "5": "checkbox",
-  "6": "date",
-  "7": "file",
-  "8": "color",
-  "9": "email",
-  "10": "password",
-  "11": "select",
-  "12": "editor",
-  "13": "textArea",
-  "14": "price"
+export const formInputType = {
+  "1": {
+    input: "number",
+    type: "number"
+  },
+  "2": {
+    input: "range",
+    type: "range"
+  },
+  "3": {
+    input: "text",
+    type: "short-text"
+  },
+  "4": {
+    input: "text",
+    type: "long-text"
+  },
+  "5": {
+    input: "checkbox",
+    type: "checkbox"
+  },
+  "6": {
+    input: "text",
+    type: "date"
+  },
+  "7": {
+    input: "file",
+    type: "file"
+  },
+  "8": {
+    input: "color",
+    type: "color"
+  },
+  "9": {
+    input: "email",
+    type: "email"
+  },
+  "10": {
+    input: "password",
+    type: "password"
+  },
+  "11": {
+    input: "text",
+    type: "select"
+  },
+  "12": {
+    input: "text",
+    type: "editor"
+  },
+  "14": {
+    input: "text",
+    type: "price"
+  },
+  "15": {
+    input: "file",
+    type: "image-preview"
+  }
 };
 
 const PropertyModal = () => {
@@ -141,18 +183,18 @@ const PropertyModal = () => {
               <option value="2">رنج</option>
               <option value="11">نوار کشویی</option>
               <option value="12">ادیتور</option>
-              <option value="13">تکست اریا</option>
               <option value="14">مبلغ</option>
+              <option value="15">عکس همراه با پیش نمایش</option>
             </select>
           </div>
 
-          {selectedType !== "7" && (
+          {selectedType !== "7" && selectedType !== "15" && (
             <div className="flex flex-col gap-y-1">
               <label htmlFor="" className="text-sm">
                 مقدار پیش فرض
               </label>
               <Input
-                type={formInputType[selectedType]}
+                type={formInputType[selectedType].input}
                 name="defaultValue"
                 defaultValue={property?.defaultValue ?? ""}
                 placeholder="مقدار پیش فرض"

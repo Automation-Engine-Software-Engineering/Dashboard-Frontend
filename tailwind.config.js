@@ -363,6 +363,10 @@ export default {
             }
           },
 
+          ".wrapper[data-type='image-preview']": {
+            height: "fit-content !important"
+          },
+
           ".wrapper input[required] + label": {
             display: "block !important"
           },

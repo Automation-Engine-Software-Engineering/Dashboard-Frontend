@@ -69,7 +69,8 @@ const FormEditorSidebar: React.FC<Props> = ({ editorRef }) => {
               <AccordionContent>
                 {entity?.properties.map((property) => {
                   console.log(property);
-                  const mappedType = formInputType[property.type] || "text";
+                  const mappedType =
+                    formInputType[property.type as keyof typeof formInputType];
                   return (
                     <Button
                       variant="ghost"
@@ -78,7 +79,7 @@ const FormEditorSidebar: React.FC<Props> = ({ editorRef }) => {
                         insertFormElement(
                           createInput({
                             inputId: property.id,
-                            type: mappedType,
+                            input: mappedType,
                             defaultValue: property.defaultValue ?? ""
                           })
                         );
