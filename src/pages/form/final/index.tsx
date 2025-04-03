@@ -151,6 +151,25 @@ const FormFinal = () => {
             content: item.value
           };
 
+          if (item.type === "file") {
+            if (item.files) {
+              const file = item.files[0];
+              const reader = new FileReader();
+
+              reader.onload = function (event) {
+                if (event.target && event.target.result) {
+                  const fileContent = event.target.result.toString();
+                  newItem.content = fileContent ?? "";
+                } else {
+                  console.error("Error reading the file");
+                  newItem.content = "";
+                }
+              };
+
+              reader.readAsDataURL(file);
+            }
+          }
+
           const inputGroup = item.getAttribute("data-group");
           if (inputGroup) newItem.group = inputGroup;
           if (
