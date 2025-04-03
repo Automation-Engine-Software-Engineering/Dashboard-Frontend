@@ -1,16 +1,20 @@
-import { memo, useState } from "react";
+import { Fragment, memo, useEffect, useState } from "react";
 
-import { createMenuItem, editMenuItem } from "@/api/menu";
+import { createMenuItem, editMenuItem, getAllMenuItems } from "@/api/menu";
+import { getAllRole } from "@/api/role";
+import { getAllWorkflows } from "@/api/workflow";
 import { icons } from "@/constants/editor/icons";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import {
+  useInfiniteQuery,
+  useMutation,
+  useQueryClient
+} from "@tanstack/react-query";
+import { useInView } from "react-intersection-observer";
+import { HashLoader } from "react-spinners";
 
 import { cn } from "@/lib/utils";
 
 import { MenuItemType } from "@/types/menu-item";
-
-import { useMenuItems } from "@/hooks/server-state/use-menu-items";
-import { useRoles } from "@/hooks/server-state/use-roles";
-import { useWorkflows } from "@/hooks/server-state/use-workflows";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -67,11 +71,70 @@ const Content = memo(
     menuItem: MenuItemType | null;
     onClose: () => void;
   }) => {
+    const [iconSearch, setIconSearch] = useState("");
+    const [iconCount, setIconCount] = useState(20);
+    const [selectedIcon, setSelectedIcon] = useState<string>(
+      () => menuItem?.icon ?? ""
+    );
+
     const queryClient = useQueryClient();
 
-    const { data: workflows } = useWorkflows();
-    const { data: roles } = useRoles();
-    const { data: menuItems } = useMenuItems();
+    const {
+      isFetchingNextPage: isFetchingNextPageWorkflows,
+      hasNextPage: hasNextPageWorkflows,
+      data: workflows,
+      fetchNextPage: fetchNextPageWorkflows
+    } = useInfiniteQuery({
+      queryKey: ["workflows"],
+      queryFn: async ({ pageParam }) => {
+        return await getAllWorkflows({ page: pageParam, size: 10 });
+      },
+      initialPageParam: 1,
+      getNextPageParam: (lastPage, allPages, lastPageParam) => {
+        if (lastPage?.data?.length === 0) {
+          return undefined;
+        }
+        return lastPageParam + 1;
+      }
+    });
+
+    const {
+      isFetchingNextPage: isFetchingNextPageRoles,
+      hasNextPage: hasNextPageRoles,
+      data: roles,
+      fetchNextPage: fetchNextPageRoles
+    } = useInfiniteQuery({
+      queryKey: ["roles"],
+      queryFn: async ({ pageParam }) => {
+        return await getAllRole({ page: pageParam, size: 10 });
+      },
+      initialPageParam: 1,
+      getNextPageParam: (lastPage, allPages, lastPageParam) => {
+        if (lastPage?.data?.length === 0) {
+          return undefined;
+        }
+        return lastPageParam + 1;
+      }
+    });
+
+    const {
+      isFetchingNextPage: isFetchingNextPageMenus,
+      hasNextPage: hasNextPageMenus,
+      data: menus,
+      fetchNextPage: fetchNextPageMenus
+    } = useInfiniteQuery({
+      queryKey: ["menu-items"],
+      queryFn: async ({ pageParam }) => {
+        return await getAllMenuItems({ page: pageParam, size: 10 });
+      },
+      initialPageParam: 1,
+      getNextPageParam: (lastPage, allPages, lastPageParam) => {
+        if (lastPage?.data?.length === 0) {
+          return undefined;
+        }
+        return lastPageParam + 1;
+      }
+    });
 
     const { mutate, isPending } = useMutation({
       mutationFn: (data: any) =>
@@ -82,11 +145,27 @@ const Content = memo(
       }
     });
 
-    const [iconSearch, setIconSearch] = useState("");
-    const [iconCount, setIconCount] = useState(20);
-    const [selectedIcon, setSelectedIcon] = useState<string>(
-      () => menuItem?.icon ?? ""
-    );
+    const { ref: workflowRef, inView: workflowInView } = useInView();
+    const { ref: roleRef, inView: roleInView } = useInView();
+    const { ref: menuRef, inView: menuInView } = useInView();
+
+    useEffect(() => {
+      if (workflowInView) {
+        fetchNextPageWorkflows();
+      }
+    }, [fetchNextPageWorkflows, workflowInView]);
+
+    useEffect(() => {
+      if (roleInView) {
+        fetchNextPageRoles();
+      }
+    }, [fetchNextPageRoles, roleInView]);
+
+    useEffect(() => {
+      if (menuInView) {
+        fetchNextPageMenus();
+      }
+    }, [fetchNextPageMenus, menuInView]);
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
@@ -128,11 +207,28 @@ const Content = memo(
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="none">بدون گردش کار</SelectItem>
-              {workflows?.data.map((workflow) => (
-                <SelectItem key={workflow.id} value={String(workflow.id)}>
-                  {workflow.name}
-                </SelectItem>
+              {workflows?.pages.map((workflow, index) => (
+                <Fragment key={index}>
+                  {workflow?.data.map((workflow) => (
+                    <SelectItem key={workflow.id} value={String(workflow.id)}>
+                      {workflow.name}
+                    </SelectItem>
+                  ))}
+                </Fragment>
               ))}
+
+              {hasNextPageWorkflows && (
+                <div
+                  ref={workflowRef}
+                  className="flex w-full justify-center py-1 text-center"
+                >
+                  {isFetchingNextPageWorkflows ? (
+                    <HashLoader size={30} color="#0099A5" />
+                  ) : (
+                    "بیشتر"
+                  )}
+                </div>
+              )}
             </SelectContent>
           </Select>
         </div>
@@ -147,11 +243,27 @@ const Content = memo(
               <SelectValue placeholder="انتخاب نقش" />
             </SelectTrigger>
             <SelectContent>
-              {roles?.data.map((role) => (
-                <SelectItem key={role.id} value={String(role.id)}>
-                  {role.name}
-                </SelectItem>
+              {roles?.pages.map((role, index) => (
+                <Fragment key={index + 1}>
+                  {role?.data.map((role) => (
+                    <SelectItem key={role.id} value={String(role.id)}>
+                      {role.name}
+                    </SelectItem>
+                  ))}
+                </Fragment>
               ))}
+              {hasNextPageRoles && (
+                <div
+                  ref={roleRef}
+                  className="flex w-full justify-center py-1 text-center"
+                >
+                  {isFetchingNextPageRoles ? (
+                    <HashLoader size={30} color="#0099A5" />
+                  ) : (
+                    "بیشتر"
+                  )}
+                </div>
+              )}
             </SelectContent>
           </Select>
         </div>
@@ -167,11 +279,27 @@ const Content = memo(
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="none">بدون مجموعه</SelectItem>
-              {menuItems?.data.map((item) => (
-                <SelectItem key={item.id} value={String(item.id)}>
-                  {item.name}
-                </SelectItem>
+              {menus?.pages.map((menu, index) => (
+                <Fragment key={index + 1}>
+                  {menu?.data.map((item) => (
+                    <SelectItem key={item.id} value={String(item.id)}>
+                      {item.name}
+                    </SelectItem>
+                  ))}
+                </Fragment>
               ))}
+              {hasNextPageMenus && (
+                <div
+                  ref={menuRef}
+                  className="flex w-full justify-center py-1 text-center"
+                >
+                  {isFetchingNextPageMenus ? (
+                    <HashLoader size={30} color="#0099A5" />
+                  ) : (
+                    "بیشتر"
+                  )}
+                </div>
+              )}
             </SelectContent>
           </Select>
         </div>
