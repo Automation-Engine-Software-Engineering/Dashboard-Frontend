@@ -29,6 +29,12 @@ const ToolbarContextMenu: React.FC<
                 rightClickedElement={rightClickedElement}
               />
             );
+          case "TEXTAREA":
+            return (
+              <InputContextMenuActions
+                rightClickedElement={rightClickedElement}
+              />
+            );
           case "SELECT":
             return (
               <SelectContextActions rightClickedElement={rightClickedElement} />
