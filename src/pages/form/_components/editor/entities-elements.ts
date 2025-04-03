@@ -86,8 +86,9 @@ export const createInput = ({
       default:
         return `<input 
           id="${inputId}"
-          type="${type}"
+          type="${type === "date" ? "text" : type}"
           value="${defaultValue}"
+          ${type === "date" && "data-jdp data-jdp-only-date"}
           disabled
           style="${commonStyles}" 
         />`;

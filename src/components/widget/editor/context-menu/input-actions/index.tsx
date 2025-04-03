@@ -13,8 +13,7 @@ interface Props extends React.ComponentProps<"div"> {
 }
 
 const InputContextActions: React.FC<Props> = ({ rightClickedElement }) => {
-  const inputType = rightClickedElement.getAttribute("type");
-
+  const isDate = rightClickedElement.hasAttribute("data-jdp");
   return (
     <>
       <ConvertToSelect rightClickedElement={rightClickedElement} />
@@ -25,9 +24,7 @@ const InputContextActions: React.FC<Props> = ({ rightClickedElement }) => {
       <HiddenInput rightClickedElement={rightClickedElement} />
       <Relation rightClickedElement={rightClickedElement} />
       <InputValidation rightClickedElement={rightClickedElement} />
-      {inputType === "date" && (
-        <CurrentDate rightClickedElement={rightClickedElement} />
-      )}
+      {isDate && <CurrentDate rightClickedElement={rightClickedElement} />}
     </>
   );
 };

@@ -3,12 +3,20 @@ import { useEffect, useRef, useState } from "react";
 
 import { getFormPreviewByWorkflowUser, saveFormData } from "@/api/form";
 import { nodeStateMove } from "@/api/workflow";
+import "@majidh1/jalalidatepicker";
+import "@majidh1/jalalidatepicker/dist/jalalidatepicker.min.css";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { createRoot } from "react-dom/client";
 import toast from "react-hot-toast";
 import { useNavigate, useParams } from "react-router-dom";
 import { MoonLoader } from "react-spinners";
+
+declare global {
+  interface Window {
+    jalaliDatepicker: any;
+  }
+}
 
 const EditorComponent = () => {
   const handleAction = (action: string) => {
@@ -123,6 +131,7 @@ const FormFinal = () => {
           if (item.hasAttribute("data-regex")) {
             const regex = new RegExp(item.getAttribute("data-regex") ?? "");
             if (!regex.test(item.value.trim())) {
+              toast.error(item.getAttribute("data-regex-message"));
               item.parentElement!.style.borderColor = "red";
               allFieldsFilled = false;
               item.parentElement
@@ -283,6 +292,12 @@ const FormFinal = () => {
           return items;
         }
       });
+    } else if (target.id === "table-repeater-button") {
+      if (table) {
+        const lastRow = table.rows[table.rows.length - 1];
+        const newRow = lastRow.cloneNode(true);
+        table.appendChild(newRow);
+      }
     }
   };
 
@@ -327,21 +342,27 @@ const FormFinal = () => {
     }
   }, [form]);
 
+  useEffect(() => {
+    window.jalaliDatepicker.startWatch({
+      minDate: "attr",
+      maxDate: "attr",
+      time: true
+    });
+  }, []);
+
   if (isLoading) return <Loading />;
 
   if (!form) return <EmptyState />;
 
   return (
     <div className="flex justify-center py-10">
-      <div>
-        <div
-          ref={formRef}
-          className="prose-preview rounded-b-md"
-          dangerouslySetInnerHTML={{
-            __html: form?.data ?? ""
-          }}
-        />
-      </div>
+      <div
+        ref={formRef}
+        className="prose-preview -translate-y-[37%] scale-[0.3] rounded-b-md sm:-translate-y-1/4 sm:scale-50 md:-translate-y-[10%] md:scale-75 lg:translate-y-0 lg:scale-100 2xl:translate-y-[15%] 2xl:scale-[1.2]"
+        dangerouslySetInnerHTML={{
+          __html: form?.data ?? ""
+        }}
+      />
     </div>
   );
 };
