@@ -90,7 +90,7 @@ const Content = memo(
         return await getAllWorkflows({ page: pageParam, size: 10 });
       },
       initialPageParam: 1,
-      getNextPageParam: (lastPage, allPages, lastPageParam) => {
+      getNextPageParam: (lastPage, _allPages, lastPageParam) => {
         if (lastPage?.data?.length === 0) {
           return undefined;
         }
@@ -109,7 +109,7 @@ const Content = memo(
         return await getAllRole({ page: pageParam, size: 10 });
       },
       initialPageParam: 1,
-      getNextPageParam: (lastPage, allPages, lastPageParam) => {
+      getNextPageParam: (lastPage, _allPages, lastPageParam) => {
         if (lastPage?.data?.length === 0) {
           return undefined;
         }
@@ -128,7 +128,7 @@ const Content = memo(
         return await getAllMenuItems({ page: pageParam, size: 10 });
       },
       initialPageParam: 1,
-      getNextPageParam: (lastPage, allPages, lastPageParam) => {
+      getNextPageParam: (lastPage, _allPages, lastPageParam) => {
         if (lastPage?.data?.length === 0) {
           return undefined;
         }

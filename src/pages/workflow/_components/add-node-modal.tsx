@@ -138,7 +138,7 @@ const FormContent: React.FC<ContentProps> = ({ setData }) => {
         return await getAllForms({ page: pageParam, size: 10 });
       },
       initialPageParam: 1,
-      getNextPageParam: (lastPage, allPages, lastPageParam) => {
+      getNextPageParam: (lastPage, _allPages, lastPageParam) => {
         if (lastPage?.data.length === 0) {
           return undefined;
         }
