@@ -6,6 +6,7 @@ import ReadOnlyInput from "../shared/read-only";
 import Relation from "../shared/relations";
 import RequiredInput from "../shared/required";
 import ConvertToSelect from "./convert-to-select";
+import InputValidation from "./validation";
 
 interface Props extends React.ComponentProps<"div"> {
   rightClickedElement: HTMLElement;
@@ -23,6 +24,7 @@ const InputContextActions: React.FC<Props> = ({ rightClickedElement }) => {
       <ReadOnlyInput rightClickedElement={rightClickedElement} />
       <HiddenInput rightClickedElement={rightClickedElement} />
       <Relation rightClickedElement={rightClickedElement} />
+      <InputValidation rightClickedElement={rightClickedElement} />
       {inputType === "date" && (
         <CurrentDate rightClickedElement={rightClickedElement} />
       )}
