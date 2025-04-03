@@ -5,6 +5,7 @@ import HiddenInput from "../shared/hidden";
 import ReadOnlyInput from "../shared/read-only";
 import Relation from "../shared/relations";
 import RequiredInput from "../shared/required";
+import AcceptedFiles from "./accepted-file";
 import ConvertToSelect from "./convert-to-select";
 import InputValidation from "./validation";
 
@@ -24,6 +25,7 @@ const InputContextActions: React.FC<Props> = ({ rightClickedElement }) => {
       <HiddenInput rightClickedElement={rightClickedElement} />
       <Relation rightClickedElement={rightClickedElement} />
       <InputValidation rightClickedElement={rightClickedElement} />
+      <AcceptedFiles rightClickedElement={rightClickedElement} />
       {isDate && <CurrentDate rightClickedElement={rightClickedElement} />}
     </>
   );
