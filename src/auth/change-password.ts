@@ -15,10 +15,8 @@ export const changeSessionPassword = async ({
 }): Promise<ApiResult<SessionType> | null> => {
   return await apiResponseMiddleware<SessionType>(
     api.post(API_ENDPOINT, {
-      data: {
-        oldPassword,
-        newPassword
-      }
+      oldPassword,
+      newPassword
     }),
     () => {
       window.location.replace("/");
