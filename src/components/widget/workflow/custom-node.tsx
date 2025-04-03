@@ -2,17 +2,23 @@ import { Handle, Position, useHandleConnections } from "@xyflow/react";
 import dynamicIconImports from "lucide-react/dynamicIconImports";
 import React, { memo } from "react";
 
+import { Link } from "react-router-dom";
+
+import { cn } from "@/lib/utils";
+
 import NodeIcon from "./node-icon";
 
 interface CustomNodeProps {
   data: {
     name: string;
     icon: keyof typeof dynamicIconImports;
+    formId: number;
+    type: number;
   };
 }
 
 const CustomNode: React.FC<CustomNodeProps> = ({ data }) => {
-  const { name, icon } = data;
+  const { name, icon, formId, type } = data;
 
   const targetConnections = useHandleConnections({
     id: "a",
@@ -26,9 +32,16 @@ const CustomNode: React.FC<CustomNodeProps> = ({ data }) => {
   return (
     <div className="group rounded-md border-2 border-primary bg-white px-4 py-2 shadow-md">
       <div className="flex items-center space-x-3">
-        <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-primary/90 [&_svg]:size-8 [&_svg]:text-slate-900">
+        <Link
+          to={`/form/editor/${formId}`}
+          target="_blank"
+          className={cn(
+            "flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-primary/90 [&_svg]:size-8 [&_svg]:text-slate-900",
+            type === 1 ? "pointer-events-auto" : "pointer-events-none"
+          )}
+        >
           <NodeIcon name={icon} color="white" />
-        </div>
+        </Link>
         <p className="text-lg font-bold">{name}</p>
       </div>
 
