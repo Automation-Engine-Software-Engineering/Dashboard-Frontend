@@ -26,7 +26,8 @@ export const formInputType: Record<string, any> = {
   "10": "password",
   "11": "select",
   "12": "editor",
-  "13": "textArea"
+  "13": "textArea",
+  "14": "price"
 };
 
 const PropertyModal = () => {
@@ -141,6 +142,7 @@ const PropertyModal = () => {
               <option value="11">نوار کشویی</option>
               <option value="12">ادیتور</option>
               <option value="13">تکست اریا</option>
+              <option value="14">مبلغ</option>
             </select>
           </div>
 

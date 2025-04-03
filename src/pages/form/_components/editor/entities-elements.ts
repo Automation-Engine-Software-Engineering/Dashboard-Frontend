@@ -10,7 +10,8 @@ type InputType =
   | "range"
   | "select"
   | "textArea"
-  | "editor";
+  | "editor"
+  | "price";
 
 interface InputProps {
   inputId: number;
@@ -57,7 +58,7 @@ export const createInput = ({
       case "editor":
         return `<div 
           id="${inputId}"
-          data-editor="true"
+          data-input-type="editor"
           style="
             border: 1px solid #ccc;
             ${commonStyles}
@@ -83,12 +84,33 @@ export const createInput = ({
         >
           <option value="${defaultValue}">${defaultValue}</option>
         </select>`;
+
+      case "date":
+        return `<input 
+            id="${inputId}"
+            type="text"
+            value="${defaultValue}"
+            data-jdp
+            data-jdp-only-date
+            disabled
+            style="${commonStyles}" 
+          />`;
+
+      case "price":
+        return `<input 
+            id="${inputId}"
+            type="text"
+            value="${defaultValue}"
+            data-input-type="price"
+            disabled
+            style="${commonStyles}" 
+          /> <span id="price-text" style="font-size:12px;">0 تومان</span>`;
+
       default:
         return `<input 
           id="${inputId}"
-          type="${type === "date" ? "text" : type}"
+          type="${type}"
           value="${defaultValue}"
-          ${type === "date" && "data-jdp data-jdp-only-date"}
           disabled
           style="${commonStyles}" 
         />`;

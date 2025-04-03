@@ -1,10 +1,11 @@
 import { BoldIcon, ItalicIcon, UnderlineIcon } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
 
 import { getFormPreviewByWorkflowUser, saveFormData } from "@/api/form";
 import { nodeStateMove } from "@/api/workflow";
 import "@majidh1/jalalidatepicker";
 import "@majidh1/jalalidatepicker/dist/jalalidatepicker.min.css";
+import { digitsFaToEn, numberToWords } from "@persian-tools/persian-tools";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { createRoot } from "react-dom/client";
@@ -63,11 +64,7 @@ const FormFinal = () => {
     { id: string; searchElement: string; searchValue: string }[] | []
   >([]);
 
-  const {
-    data: form,
-    isLoading,
-    isFetching
-  } = useQuery({
+  const { data: form, isLoading } = useQuery({
     queryKey: ["form-preview", workflowUserId, tablePagination, tableSearch],
     queryFn: () =>
       getFormPreviewByWorkflowUser(
@@ -320,6 +317,24 @@ const FormFinal = () => {
     }
   };
 
+  const handlePriceInput = (e: ChangeEvent<HTMLInputElement>) => {
+    const input = e.target;
+    const container = e.target.parentElement as HTMLDivElement;
+    const priceElement = container.querySelector(
+      "#price-text"
+    ) as HTMLSpanElement;
+    const numericValue = digitsFaToEn(input.value).replace(/[^\d.]/g, "");
+    if (+numericValue < 9007199254740991) {
+      input.value = numericValue;
+    } else {
+      input.value = "9007199254740990";
+    }
+
+    const priceInWord = `${numberToWords(+numericValue < 9007199254740991 ? numericValue : 0)} تومان`;
+
+    priceElement.innerText = priceInWord;
+  };
+
   useEffect(() => {
     if (formRef.current) {
       formRef.current.querySelectorAll("button").forEach((button) => {
@@ -329,6 +344,15 @@ const FormFinal = () => {
           button.addEventListener("click", handleButtonClickTable);
         }
       });
+
+      formRef.current
+        .querySelectorAll("input[data-input-type='price']")
+        .forEach((priceInput) => {
+          console.log(priceInput);
+          (priceInput as HTMLInputElement).addEventListener("input", (e) =>
+            handlePriceInput(e as any)
+          );
+        });
     }
 
     return () => {
@@ -340,14 +364,22 @@ const FormFinal = () => {
             button.removeEventListener("click", handleButtonClickTable);
           }
         });
+
+        formRef.current
+          .querySelectorAll("input[data-input-type='price']")
+          .forEach((priceInput) => {
+            (priceInput as HTMLInputElement).removeEventListener("input", (e) =>
+              handlePriceInput(e as any)
+            );
+          });
       }
     };
-  }, [isFetching]);
+  }, [form]);
 
   useEffect(() => {
     if (formRef.current) {
       const editorElements = formRef.current.querySelectorAll(
-        "div[data-editor='true']"
+        "div[data-input-type='editor']"
       );
 
       editorElements.forEach((el) => {
