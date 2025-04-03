@@ -144,17 +144,19 @@ const PropertyModal = () => {
             </select>
           </div>
 
-          <div className="flex flex-col gap-y-1">
-            <label htmlFor="" className="text-sm">
-              مقدار پیش فرض
-            </label>
-            <Input
-              type={formInputType[selectedType]}
-              name="defaultValue"
-              defaultValue={property?.defaultValue ?? ""}
-              placeholder="مقدار پیش فرض"
-            />
-          </div>
+          {selectedType !== "7" && (
+            <div className="flex flex-col gap-y-1">
+              <label htmlFor="" className="text-sm">
+                مقدار پیش فرض
+              </label>
+              <Input
+                type={formInputType[selectedType]}
+                name="defaultValue"
+                defaultValue={property?.defaultValue ?? ""}
+                placeholder="مقدار پیش فرض"
+              />
+            </div>
+          )}
         </div>
         <div className="mt-5 flex items-center gap-x-2">
           <p className="text-sm text-slate-600">بدون مقدار</p>{" "}
