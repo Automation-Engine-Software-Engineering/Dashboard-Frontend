@@ -363,6 +363,10 @@ export default {
             }
           },
 
+          "div[data-type='editor'] .wrapper": {
+            resize: "both !important"
+          },
+
           ".wrapper[data-type='image-preview']": {
             height: "fit-content !important"
           },

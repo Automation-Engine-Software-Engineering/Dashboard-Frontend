@@ -1,4 +1,3 @@
-import { BoldIcon, ItalicIcon, UnderlineIcon } from "lucide-react";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 
 import { getFormPreviewByWorkflowUser, saveFormData } from "@/api/form";
@@ -13,6 +12,19 @@ import toast from "react-hot-toast";
 import { useNavigate, useParams } from "react-router-dom";
 import { MoonLoader } from "react-spinners";
 
+import Align from "@/components/widget/editor/toolbar-buttons/aligns";
+import Bold from "@/components/widget/editor/toolbar-buttons/bold";
+import FontPicker from "@/components/widget/editor/toolbar-buttons/font-picker";
+import FontSizePicker from "@/components/widget/editor/toolbar-buttons/font-size";
+import InsertHorizonLine from "@/components/widget/editor/toolbar-buttons/insert-horizon-line";
+import InsertImage from "@/components/widget/editor/toolbar-buttons/insert-image";
+import Italic from "@/components/widget/editor/toolbar-buttons/italic";
+import ListOrder from "@/components/widget/editor/toolbar-buttons/list-order";
+import Strikethrough from "@/components/widget/editor/toolbar-buttons/strikethrough";
+import TextColorPicker from "@/components/widget/editor/toolbar-buttons/text-color";
+import TextHighlight from "@/components/widget/editor/toolbar-buttons/text-highlight";
+import Underline from "@/components/widget/editor/toolbar-buttons/underline";
+
 declare global {
   interface Window {
     jalaliDatepicker: any;
@@ -20,33 +32,29 @@ declare global {
 }
 
 const EditorComponent = () => {
-  const handleAction = (action: string) => {
-    document.execCommand(action);
-  };
+  const editorRef = useRef(null);
 
   return (
     <div className="flex h-full flex-col border p-2">
       <div className="mb-2 flex items-center justify-end gap-x-2 border-b pb-2">
-        <button
-          onClick={() => handleAction("underline")}
-          className="rounded border px-2 py-1 hover:bg-gray-200"
-        >
-          <UnderlineIcon />
-        </button>
-        <button
-          onClick={() => handleAction("italic")}
-          className="rounded border px-2 py-1 hover:bg-gray-200"
-        >
-          <ItalicIcon />
-        </button>
-        <button
-          onClick={() => handleAction("bold")}
-          className="rounded border px-2 py-1 hover:bg-gray-200"
-        >
-          <BoldIcon />
-        </button>
+        <FontPicker editorRef={editorRef} />
+        <FontSizePicker editorRef={editorRef} />
+        <Bold editorRef={editorRef} />
+        <Italic editorRef={editorRef} />
+        <Underline editorRef={editorRef} />
+        <Strikethrough editorRef={editorRef} />
+        <TextColorPicker editorRef={editorRef} />
+        <TextHighlight editorRef={editorRef} />
+        <Align editorRef={editorRef} />
+        <ListOrder editorRef={editorRef} />
+        <InsertHorizonLine editorRef={editorRef} />
+        <InsertImage editorRef={editorRef} />
       </div>
-      <div contentEditable className="flex-1 outline-none"></div>
+      <div
+        ref={editorRef}
+        contentEditable
+        className="flex-1 overflow-auto outline-none"
+      ></div>
     </div>
   );
 };
