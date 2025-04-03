@@ -59,9 +59,9 @@ const Router = () => {
             <Route path="entities" element={<EntitiesPage />} />
             <Route path="entities/:entityId" element={<PropertiesPage />} />
             <Route path="editor/:formId" element={<FormEditorPage />} />
-            <Route path=":workflowUserId" element={<FormFinal />} />
             <Route path="preview/:formId" element={<FormPreviewPage />} />
           </Route>
+          <Route path="/form/:workflowUserId" element={<FormFinal />} />
 
           {/* Workflow */}
           <Route path="/workflow">
