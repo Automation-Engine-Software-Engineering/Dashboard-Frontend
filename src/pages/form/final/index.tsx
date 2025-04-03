@@ -120,7 +120,23 @@ const FormFinal = () => {
           item.parentElement!.style.borderColor = "red";
           allFieldsFilled = false;
         } else {
+          if (item.hasAttribute("data-regex")) {
+            const regex = new RegExp(item.getAttribute("data-regex") ?? "");
+            if (!regex.test(item.value.trim())) {
+              item.parentElement!.style.borderColor = "red";
+              allFieldsFilled = false;
+              item.parentElement
+                ?.querySelector("#input-error-message")
+                ?.remove();
+              item.parentElement?.insertAdjacentHTML(
+                "beforeend",
+                `<span id="input-error-message">${item.getAttribute("data-regex-message") ?? "خطا در نوشتار"}</span>`
+              );
+              return;
+            }
+          }
           item.parentElement!.style.borderColor = "#cbd5e1";
+          item.parentElement?.querySelector("#input-error-message")?.remove();
           const newItem: { id: number; content: string; group?: string } = {
             id: +item.id!,
             content: item.value

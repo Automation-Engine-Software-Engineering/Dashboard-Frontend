@@ -349,9 +349,18 @@ export default {
             border: "2px solid",
             borderColor: theme("colors.slate.300"),
             borderRadius: "6px",
-            overflow: "hidden",
             zIndex: 2,
-            resize: "none !important"
+            resize: "none !important",
+
+            input: {
+              padding: "5px 10px",
+              borderRadius: "6px"
+            },
+
+            "#input-error-message": {
+              color: theme("colors.red.600"),
+              fontSize: "12px"
+            }
           },
 
           ".wrapper input[required] + label": {
