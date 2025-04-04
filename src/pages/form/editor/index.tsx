@@ -34,24 +34,23 @@ const FormEditorPage = () => {
   if (!data) return <EmptyState />;
 
   return (
-    <div>
+    <>
       <ToolbarTabs editorRef={editorRef} />
       <div className="relative flex">
-        <div className="flex flex-1 justify-center py-10">
+        <div className="flex h-fit w-full justify-center">
           <Editor
             ref={editorRef}
             value={editorData}
             onEditorChange={setEditorData}
-            className="prose-editor h-fit shrink-0 shadow-[20px_10px_15px_0px_rgba(0,0,0,0.1)]"
+            className="prose-editor h-fit shrink-0 -translate-y-[32%] scale-[0.3] shadow-[20px_10px_15px_0px_rgba(0,0,0,0.1)] sm:-translate-y-[20%] sm:scale-50 md:-translate-y-[10%] md:scale-75 lg:translate-y-[5%] lg:scale-100 2xl:translate-y-[15%] 2xl:scale-[1.2]"
           />
         </div>
-
         <FormEditorSidebar
           editorRef={editorRef}
           setEditorData={setEditorData}
         />
       </div>
-    </div>
+    </>
   );
 };
 

@@ -1,7 +1,10 @@
-import { Plus } from "lucide-react";
+import { ChevronLeftIcon, Plus } from "lucide-react";
+import { useState } from "react";
 
 import { useParams } from "react-router-dom";
 import { MoonLoader } from "react-spinners";
+
+import { cn } from "@/lib/utils";
 
 import { useForm } from "@/hooks/server-state/use-form";
 import { usePropertyModalStore } from "@/hooks/store/use-property-modal-store";
@@ -26,6 +29,8 @@ interface Props {
 const FormEditorSidebar: React.FC<Props> = ({ editorRef }) => {
   const { formId } = useParams<{ formId: string }>();
   const { data: form, isLoading } = useForm(+formId!);
+
+  const [isOpen, setIsOpen] = useState(false);
 
   const { onOpen, setEntityId, setProperty } = usePropertyModalStore();
   const insertFormElement = (element: string) => {
@@ -56,58 +61,80 @@ const FormEditorSidebar: React.FC<Props> = ({ editorRef }) => {
   };
 
   return (
-    <div className="sticky left-0 top-0 flex h-screen max-w-[280px] flex-1 shrink-0 flex-col border border-slate-300 bg-white transition-all duration-500">
-      {isLoading ? (
-        <Loading />
-      ) : form?.entities?.length ? (
-        <Accordion type="single" className="px-[20px]" collapsible>
-          {form?.entities?.map((entity) => (
-            <AccordionItem value={`entity-${entity.id}`}>
-              <AccordionTrigger className="py-2 text-sm">
-                {entity.previewName}
-              </AccordionTrigger>
-              <AccordionContent>
-                {entity?.properties.map((property) => {
-                  console.log(property);
-                  const mappedType =
-                    formInputType[property.type as keyof typeof formInputType];
-                  return (
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => {
-                        insertFormElement(
-                          createInput({
-                            inputId: property.id,
-                            input: mappedType,
-                            defaultValue: property.defaultValue ?? ""
-                          })
-                        );
-                      }}
-                      className="w-full justify-start !text-xs"
-                    >
-                      {property.previewName}
-                    </Button>
-                  );
-                })}
-                <Button
-                  variant="ghost"
-                  className="my-2 w-full"
-                  onClick={() => {
-                    setEntityId(entity.id);
-                    setProperty(null);
-                    onOpen();
-                  }}
-                >
-                  <Plus />
-                </Button>
-              </AccordionContent>
-            </AccordionItem>
-          ))}
-        </Accordion>
-      ) : (
-        <EmptyState />
+    <div
+      className={cn(
+        "absolute left-0 top-0 z-40 border border-slate-300 bg-white pb-20 pt-5"
       )}
+    >
+      <Button
+        variant="secondary"
+        className="absolute right-0 top-10 h-20 translate-x-full rounded-e-none p-0 px-1"
+        onClick={() => setIsOpen((prev) => !prev)}
+      >
+        <ChevronLeftIcon
+          className={cn("text-white", isOpen ? "rotate-0" : "rotate-180")}
+        />
+      </Button>
+      <div
+        className={cn(
+          "overflow-hidden whitespace-nowrap transition-all duration-700",
+          isOpen ? "w-[350px]" : "w-0"
+        )}
+      >
+        {isLoading ? (
+          <Loading />
+        ) : form?.entities?.length ? (
+          <Accordion type="single" className="px-[20px]" collapsible>
+            {form?.entities?.map((entity) => (
+              <AccordionItem value={`entity-${entity.id}`}>
+                <AccordionTrigger className="py-2 text-sm">
+                  {entity.previewName}
+                </AccordionTrigger>
+                <AccordionContent>
+                  {entity?.properties.map((property) => {
+                    console.log(property);
+                    const mappedType =
+                      formInputType[
+                        property.type as keyof typeof formInputType
+                      ];
+                    return (
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => {
+                          insertFormElement(
+                            createInput({
+                              inputId: property.id,
+                              input: mappedType,
+                              defaultValue: property.defaultValue ?? ""
+                            })
+                          );
+                        }}
+                        className="w-full justify-start !text-xs"
+                      >
+                        {property.previewName}
+                      </Button>
+                    );
+                  })}
+                  <Button
+                    variant="ghost"
+                    className="my-2 w-full"
+                    onClick={() => {
+                      setEntityId(entity.id);
+                      setProperty(null);
+                      onOpen();
+                    }}
+                  >
+                    <Plus />
+                  </Button>
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
+        ) : (
+          <EmptyState />
+        )}
+      </div>{" "}
     </div>
   );
 };

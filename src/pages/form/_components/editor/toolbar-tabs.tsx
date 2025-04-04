@@ -66,7 +66,7 @@ const ToolbarTabs: React.FC<Props> = ({ editorRef, className }) => {
         </TabsList>
         <h3 className="ms-auto font-semibold">فرم شماره {formId}</h3>
       </div>
-      <div className="flex h-16 items-center border-b border-b-slate-200 bg-white px-8">
+      <div className="flex h-16 w-full items-center overflow-x-auto whitespace-nowrap border-b border-b-slate-200 bg-white px-8">
         <TabsContent value="home">
           <HomeTab editorRef={editorRef} />
         </TabsContent>
