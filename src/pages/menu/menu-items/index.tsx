@@ -98,7 +98,7 @@ const MenuItemsPage = () => {
         menuItem={menu.item}
       />
 
-      <div className="flex items-center px-5 py-2">
+      <div className="flex items-center gap-x-5 px-5 py-2">
         <button
           className="flex items-center gap-x-1 text-sm hover:text-primary"
           onClick={() => {
@@ -120,46 +120,48 @@ const MenuItemsPage = () => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {menuItems?.data.map(({ name, id, workflowId, roleId }, index) => (
-            <TableRow key={index}>
-              <TableCell>{index + 1}</TableCell>
-              <TableCell>{name}</TableCell>
-              <TableCell>
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    dispatch({
-                      type: ActionTypes.SET_MENU,
-                      payload: { name, id, workflowId, roleId }
-                    });
-                    dispatch({
-                      type: ActionTypes.SET_IS_MODAL_OPEN,
-                      payload: true
-                    });
-                  }}
-                >
-                  <PencilIcon className="text-slate-700" />
-                </button>
-              </TableCell>
-              <TableCell>
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    dispatch({
-                      type: ActionTypes.SET_IS_DELETE_MODAL_OPEN,
-                      payload: true
-                    });
-                    dispatch({
-                      type: ActionTypes.SET_MENU,
-                      payload: { name, id }
-                    });
-                  }}
-                >
-                  <Trash2Icon className="text-red-500" />
-                </button>
-              </TableCell>
-            </TableRow>
-          ))}
+          {menuItems?.data.map(
+            ({ name, id, workflowId, roleId, link }, index) => (
+              <TableRow key={index}>
+                <TableCell>{index + 1}</TableCell>
+                <TableCell>{name}</TableCell>
+                <TableCell>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      dispatch({
+                        type: ActionTypes.SET_MENU,
+                        payload: { name, id, workflowId, roleId, link }
+                      });
+                      dispatch({
+                        type: ActionTypes.SET_IS_MODAL_OPEN,
+                        payload: true
+                      });
+                    }}
+                  >
+                    <PencilIcon className="text-slate-700" />
+                  </button>
+                </TableCell>
+                <TableCell>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      dispatch({
+                        type: ActionTypes.SET_IS_DELETE_MODAL_OPEN,
+                        payload: true
+                      });
+                      dispatch({
+                        type: ActionTypes.SET_MENU,
+                        payload: { name, id }
+                      });
+                    }}
+                  >
+                    <Trash2Icon className="text-red-500" />
+                  </button>
+                </TableCell>
+              </TableRow>
+            )
+          )}
         </TableBody>
       </Table>
       {!menuItems?.data?.length && <EmptyState />}

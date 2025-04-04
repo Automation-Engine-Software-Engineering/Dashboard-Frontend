@@ -5,6 +5,7 @@ export type MenuItemType = {
   name: string;
   icon: string;
   menuType: number;
+  link: string;
   parentMenuElemntId: number;
   workflowId: number;
   roleId: number;
