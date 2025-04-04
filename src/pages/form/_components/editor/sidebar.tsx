@@ -77,7 +77,7 @@ const FormEditorSidebar: React.FC<Props> = ({ editorRef }) => {
       </Button>
       <div
         className={cn(
-          "overflow-hidden whitespace-nowrap transition-all duration-700",
+          "overflow-hidden transition-all duration-700",
           isOpen ? "w-[350px]" : "w-0"
         )}
       >
@@ -87,7 +87,7 @@ const FormEditorSidebar: React.FC<Props> = ({ editorRef }) => {
           <Accordion type="single" className="px-[20px]" collapsible>
             {form?.entities?.map((entity) => (
               <AccordionItem value={`entity-${entity.id}`}>
-                <AccordionTrigger className="py-2 text-sm">
+                <AccordionTrigger className="text-nowrap py-2 text-sm">
                   {entity.previewName}
                 </AccordionTrigger>
                 <AccordionContent>
@@ -110,7 +110,7 @@ const FormEditorSidebar: React.FC<Props> = ({ editorRef }) => {
                             })
                           );
                         }}
-                        className="w-full justify-start !text-xs"
+                        className="w-full justify-start text-nowrap !text-xs"
                       >
                         {property.previewName}
                       </Button>
