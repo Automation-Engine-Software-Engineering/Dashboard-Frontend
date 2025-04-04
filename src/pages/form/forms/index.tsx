@@ -24,7 +24,8 @@ import {
   TableHead,
   TableHeader,
   TablePagination,
-  TableRow
+  TableRow,
+  TableSearch
 } from "@/components/ui/table";
 
 enum ActionTypes {
@@ -115,6 +116,8 @@ const FormsPage = () => {
           <XSquareIcon size={14} className="text-primary" />
           ساخت فرم جدید
         </button>
+
+        <TableSearch className="ms-auto h-8" />
       </div>
       <Table>
         <TableHeader>

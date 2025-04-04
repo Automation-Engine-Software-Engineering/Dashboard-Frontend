@@ -12,7 +12,7 @@ import { useWorkflowModalStore } from "@/hooks/store/use-workflow-modal-store";
 import AlertModal from "@/components/common/modals/alert-modal";
 import RoleListModal from "@/components/common/modals/role-list-modal";
 
-import {
+import TableSearch, {
   Table,
   TableBody,
   TableCell,
@@ -73,6 +73,7 @@ const WorkflowsPage = () => {
           <XSquareIcon size={14} className="text-primary" />
           ساخت گردش کار جدید
         </button>
+        <TableSearch className="ms-auto h-8" />
       </div>
       <Table>
         <TableHeader>

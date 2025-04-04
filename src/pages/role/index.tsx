@@ -18,7 +18,7 @@ import RoleModal from "@/components/common/modals/role-modal";
 import RoleUserListModal from "@/components/common/modals/role-user-list-model";
 import WorkflowListModal from "@/components/common/modals/workflow-list-modal";
 
-import {
+import TableSearch, {
   Table,
   TableBody,
   TableCell,
@@ -143,6 +143,8 @@ const RolesPage = () => {
           <XSquareIcon size={14} className="text-primary" />
           ساخت نقش جدید
         </button>
+
+        <TableSearch className="ms-auto h-8" />
       </div>
       <Table>
         <TableHeader>
