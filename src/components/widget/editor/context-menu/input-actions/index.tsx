@@ -7,6 +7,7 @@ import Relation from "../shared/relations";
 import RequiredInput from "../shared/required";
 import AcceptedFiles from "./accepted-file";
 import ConvertToSelect from "./convert-to-select";
+import PlaceholderInput from "./placeholder";
 import InputValidation from "./validation";
 
 interface Props extends React.ComponentProps<"div"> {
@@ -19,6 +20,7 @@ const InputContextActions: React.FC<Props> = ({ rightClickedElement }) => {
     <>
       <ConvertToSelect rightClickedElement={rightClickedElement} />
       <RequiredInput rightClickedElement={rightClickedElement} />
+      <PlaceholderInput rightClickedElement={rightClickedElement} />
       <GroupByInput rightClickedElement={rightClickedElement} />
       <DisableInput rightClickedElement={rightClickedElement} />
       <ReadOnlyInput rightClickedElement={rightClickedElement} />
