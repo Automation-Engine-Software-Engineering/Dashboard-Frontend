@@ -1,9 +1,19 @@
+import { InfoIcon } from "lucide-react";
+
+import { Link } from "react-router-dom";
+
 import {
   ContextMenuContent,
   ContextMenuSub,
   ContextMenuSubTrigger
 } from "@/components/ui/context-menu";
 import { Input } from "@/components/ui/input";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger
+} from "@/components/ui/tooltip";
 
 const InputValidation = ({
   rightClickedElement
@@ -18,9 +28,29 @@ const InputValidation = ({
       <ContextMenuSubTrigger>اعتبار سنجی</ContextMenuSubTrigger>
       <ContextMenuContent className="space-y-2">
         <div dir="ltr">
-          <label className="text-xs text-slate-500" htmlFor="">
-            Regex
-          </label>
+          <div className="flex items-center gap-x-2 pb-2">
+            <label className="text-xs text-slate-500" htmlFor="">
+              Regex
+            </label>
+
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger>
+                  <InfoIcon size={16} className="text-slate-500" />
+                </TooltipTrigger>
+                <TooltipContent>
+                  <Link
+                    to="https://blog.faradars.org/regex-tutorial-with-examples"
+                    target="_blank"
+                    className="text-black underline"
+                  >
+                    راهنمای
+                  </Link>{" "}
+                  نوشتاری الگو
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          </div>
           <Input
             defaultValue={regex}
             placeholder="regex"
