@@ -3,8 +3,6 @@ import { useState } from "react";
 
 import { deleteProperty } from "@/api/property";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-// import { useState } from "react";
-// import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 import { MoonLoader } from "react-spinners";
 
@@ -12,6 +10,7 @@ import { useEntityProperties } from "@/hooks/server-state/use-entity-property";
 import { usePropertyModalStore } from "@/hooks/store/use-property-modal-store";
 
 import AlertModal from "@/components/common/modals/alert-modal";
+import { formInputType } from "@/components/common/modals/property-modal";
 
 import {
   Table,
@@ -28,7 +27,7 @@ const PropertiesPage = () => {
 
   const { entityId } = useParams<{ entityId: string }>();
   const { data, isLoading } = useEntityProperties(entityId ?? "");
-
+  console.log(data?.data);
   const { mutate, isPending } = useMutation({
     mutationFn: (formId: number) => deleteProperty(formId),
     onSuccess: () =>
@@ -75,11 +74,9 @@ const PropertiesPage = () => {
             <TableHead>ردیف</TableHead>
             <TableHead>نام نمایشی</TableHead>
             <TableHead>نام عنصر</TableHead>
+            <TableHead>توضیحات</TableHead>
             <TableHead>نوع</TableHead>
-            <TableHead>انتخاب</TableHead>
             <TableHead>مقدار پیش فرض</TableHead>
-            <TableHead>عرض</TableHead>
-            <TableHead>ارتفاع</TableHead>
             <TableHead>ویرایش</TableHead>
             <TableHead>حذف</TableHead>
           </TableRow>
@@ -91,11 +88,14 @@ const PropertiesPage = () => {
                 <TableCell>{index + 1}</TableCell>
                 <TableCell>{property?.previewName}</TableCell>
                 <TableCell>{property?.propertyName}</TableCell>
-                <TableCell>{property?.type}</TableCell>
-                <TableCell>{property?.allowNull}</TableCell>
+                <TableCell>
+                  <p className="line-clamp-1">{property?.description}</p>
+                </TableCell>
+                <TableCell>
+                  {formInputType[property?.type as keyof typeof formInputType]
+                    ?.type ?? ""}
+                </TableCell>
                 <TableCell>{property?.defaultValue}</TableCell>
-                <TableCell>{property?.sizeWidth}</TableCell>
-                <TableCell>{property?.sizeHeight}</TableCell>
                 <TableCell>
                   <button
                     onClick={(e) => {

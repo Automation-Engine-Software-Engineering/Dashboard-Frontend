@@ -107,7 +107,7 @@ const PropertyModal = () => {
     const formData = new FormData(e.currentTarget);
     const newData: Record<string, any> = {
       allowNull,
-      entityId
+      entityId: entityId ? entityId : property?.entityId
     };
 
     formData.forEach((value, key) => {
