@@ -12,6 +12,8 @@ import toast from "react-hot-toast";
 import { useNavigate, useParams } from "react-router-dom";
 import { MoonLoader } from "react-spinners";
 
+import useBreadcrumbStore from "@/hooks/store/use-breadcrumb";
+
 import Align from "@/components/widget/editor/toolbar-buttons/aligns";
 import Bold from "@/components/widget/editor/toolbar-buttons/bold";
 import FontPicker from "@/components/widget/editor/toolbar-buttons/font-picker";
@@ -60,6 +62,8 @@ const EditorComponent = () => {
 };
 
 const FormFinal = () => {
+  const { updateLastBreadcrumb } = useBreadcrumbStore();
+
   const queryClient = useQueryClient();
   const { workflowUserId } = useParams<{ workflowUserId: string }>();
   const navigate = useNavigate();
@@ -391,7 +395,22 @@ const FormFinal = () => {
             handleImagePreviewInput(e as any)
           );
         });
+
+      const editorElements = formRef.current.querySelectorAll(
+        "div[data-input-type='editor']"
+      );
+
+      editorElements.forEach((el) => {
+        const wrapper = document.createElement("div");
+        wrapper.className = "editor-wrapper";
+        wrapper.style.height = "100%";
+        el.replaceWith(wrapper);
+
+        createRoot(wrapper).render(<EditorComponent />);
+      });
     }
+
+    updateLastBreadcrumb("اسم فرم");
 
     return () => {
       if (formRef.current) {
@@ -421,23 +440,6 @@ const FormFinal = () => {
           });
       }
     };
-  }, [form]);
-
-  useEffect(() => {
-    if (formRef.current) {
-      const editorElements = formRef.current.querySelectorAll(
-        "div[data-input-type='editor']"
-      );
-
-      editorElements.forEach((el) => {
-        const wrapper = document.createElement("div");
-        wrapper.className = "editor-wrapper";
-        wrapper.style.height = "100%";
-        el.replaceWith(wrapper);
-
-        createRoot(wrapper).render(<EditorComponent />);
-      });
-    }
   }, [form]);
 
   useEffect(() => {

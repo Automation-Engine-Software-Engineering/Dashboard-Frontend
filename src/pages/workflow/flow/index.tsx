@@ -7,6 +7,7 @@ import { useParams } from "react-router-dom";
 import { MoonLoader } from "react-spinners";
 
 import { useWorkflow } from "@/hooks/server-state/use-workflow";
+import useBreadcrumbStore from "@/hooks/store/use-breadcrumb";
 
 import Workflow from "@/components/widget/workflow";
 
@@ -16,7 +17,7 @@ import AddNodeModal from "../_components/add-node-modal";
 
 const WorkflowPage: React.FC = () => {
   const { workflowId } = useParams<Record<string, string>>();
-
+  const { updateLastBreadcrumb } = useBreadcrumbStore();
   const { data: workflow, isLoading } = useWorkflow(+workflowId!);
 
   const { mutate, isPending } = useMutation({
@@ -36,7 +37,9 @@ const WorkflowPage: React.FC = () => {
   useEffect(() => {
     setNodes(workflow?.data.nodes ?? []);
     setEdges(workflow?.data.edges ?? []);
-  }, [isLoading]);
+
+    updateLastBreadcrumb(workflow?.data.name ?? "");
+  }, [workflow]);
 
   if (isLoading) return <Loading />;
 

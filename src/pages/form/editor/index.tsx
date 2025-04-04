@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import { MoonLoader } from "react-spinners";
 
 import { useForm } from "@/hooks/server-state/use-form";
+import useBreadcrumbStore from "@/hooks/store/use-breadcrumb";
 
 import Editor from "@/components/widget/editor";
 
@@ -11,6 +12,7 @@ import FormEditorSidebar from "../_components/editor/sidebar";
 import ToolbarTabs from "../_components/editor/toolbar-tabs";
 
 const FormEditorPage = () => {
+  const { updateLastBreadcrumb } = useBreadcrumbStore();
   const { formId } = useParams<{ formId: string }>();
   const { data, isLoading } = useForm(formId ?? "");
   const [editorData, setEditorData] = useState<string>("");
@@ -28,6 +30,8 @@ const FormEditorPage = () => {
         setEditorData(firstElementChild.innerHTML);
       }
     }
+
+    updateLastBreadcrumb(data?.name ?? "");
   }, [data]);
 
   if (isLoading) return <Loading />;
