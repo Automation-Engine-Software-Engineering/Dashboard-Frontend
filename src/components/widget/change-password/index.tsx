@@ -1,4 +1,4 @@
-import { InfoIcon } from "lucide-react";
+import { CheckIcon, InfoIcon, XIcon } from "lucide-react";
 import { useState } from "react";
 
 import { changeSessionPassword } from "@/auth/change-password";
@@ -19,6 +19,8 @@ const ChangePassword = () => {
   const { data: session } = useSession();
   const navigate = useNavigate();
 
+  const [newPassword, setNewPassword] = useState("");
+  const [repeatNewPassword, setRepeatNewPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
 
   const passwordRegex =
@@ -28,13 +30,14 @@ const ChangePassword = () => {
     e.preventDefault();
     setError(null);
 
+    if (repeatNewPassword !== newPassword) {
+      return;
+    }
     const formData = new FormData(e.currentTarget);
     const data: Record<string, any> = {};
     formData.forEach((value, key) => {
       data[key] = value;
     });
-
-    const newPassword = data.newPassword;
 
     if (!passwordRegex.test(newPassword)) {
       setError(
@@ -74,10 +77,41 @@ const ChangePassword = () => {
             <label className="text-sm text-slate-800" htmlFor="">
               رمز عبور جدید
             </label>
-            <Input type="password" name="newPassword" required />
+            <Input
+              type="password"
+              name="newPassword"
+              onChange={(e) => setNewPassword(e.target.value)}
+              value={newPassword}
+              required
+            />
             {error && <p className="text-xs text-red-500">{error}</p>}
           </div>
-          <Button className="!mt-10 w-full">تغییر رمز عبور</Button>
+          <div className="space-y-2">
+            <div className="flex items-center gap-x-2">
+              <label className="text-sm text-slate-800" htmlFor="">
+                تکرار رمز عبور جدید
+              </label>
+              {newPassword === repeatNewPassword ? (
+                <CheckIcon size={20} className="text-green-600" />
+              ) : (
+                <XIcon size={20} className="text-red-600" />
+              )}
+            </div>
+            <Input
+              type="password"
+              name="repeat-new-password"
+              onChange={(e) => setRepeatNewPassword(e.target.value)}
+              value={repeatNewPassword}
+              required
+            />
+            {error && <p className="text-xs text-red-500">{error}</p>}
+          </div>
+          <Button
+            className="!mt-10 w-full"
+            disabled={newPassword !== repeatNewPassword}
+          >
+            تغییر رمز عبور
+          </Button>
           {!session?.needNewPassword && (
             <Button
               variant="outline"
