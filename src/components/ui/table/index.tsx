@@ -5,6 +5,8 @@ import { useSearchParams } from "react-router-dom";
 
 import { cn } from "@/lib/utils";
 
+import { Input } from "../input";
+
 const Table = React.forwardRef<
   HTMLTableElement,
   React.HTMLAttributes<HTMLTableElement>
@@ -217,6 +219,50 @@ const TablePagination = React.forwardRef<
 
 TablePagination.displayName = "TablePagination";
 
+const TableSearch = React.forwardRef<
+  HTMLDivElement,
+  React.ComponentProps<"div">
+>(({ className, ...props }, ref) => {
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const search = searchParams.get("search") ?? "";
+
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
+    searchParams.delete("page");
+    searchParams.delete("size");
+
+    if (value.trim()) {
+      searchParams.set("search", value);
+    } else {
+      searchParams.delete("search");
+    }
+
+    setSearchParams(searchParams);
+  };
+
+  React.useEffect(() => {
+    if (search) {
+      setSearchParams(searchParams);
+    }
+  }, [searchParams, search, setSearchParams]);
+
+  return (
+    <div ref={ref} className={className} {...props}>
+      <Input
+        placeholder="جستجو"
+        defaultValue={search}
+        onChange={handleSearch}
+        className="h-full"
+      />
+    </div>
+  );
+});
+
+export default TableSearch;
+
+TableSearch.displayName = "TableSearch";
+
 export {
   Table,
   TableHeader,
@@ -226,5 +272,6 @@ export {
   TableRow,
   TableCell,
   TableCaption,
-  TablePagination
+  TablePagination,
+  TableSearch
 };
