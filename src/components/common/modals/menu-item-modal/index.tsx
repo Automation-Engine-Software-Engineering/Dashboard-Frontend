@@ -52,7 +52,7 @@ const MenuItemModal: React.FC<Props> = ({ isOpen, onClose, menuItem }) => {
 
   return (
     <Dialog open={isOpen} onOpenChange={onChange}>
-      <DialogContent>
+      <DialogContent className="max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>
           <DialogDescription>{description}</DialogDescription>
@@ -179,8 +179,13 @@ const Content = memo(
       }
       data.id = menuItem?.id;
       data.icon = selectedIcon;
+
       data.parentMenuElemntId =
-        data.parentMenuElemntId === "none" ? null : data.parentMenuElemntId;
+        data.parentMenuElemntId === "none"
+          ? undefined
+          : data.parentMenuElemntId;
+
+      data.link = data.link ? data.link : undefined;
       mutate(data);
     };
 
@@ -231,6 +236,15 @@ const Content = memo(
               )}
             </SelectContent>
           </Select>
+        </div>
+        <div className="space-y-1">
+          <label htmlFor="">لینک</label>
+          <Input
+            dir="ltr"
+            placeholder="لینک"
+            name="link"
+            defaultValue={menuItem?.link}
+          />
         </div>
         <div className="space-y-1">
           <label htmlFor="">نقش</label>
