@@ -33,6 +33,10 @@ export const apiResponseMiddleware = async <Data>(
         throw new Error("API Request Failed");
       }
 
+      if (axiosError.status === 503) {
+        window.location.href = `/error?message=${axiosError.response?.data.message}`;
+      }
+
       toast.error(
         axiosError.response?.data?.message ||
           options?.errorMessage ||

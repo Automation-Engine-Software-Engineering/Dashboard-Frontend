@@ -6,6 +6,7 @@ import ArticleScholarPage from "@/pages/article/scholar";
 import ArticleUrlPage from "@/pages/article/url";
 import ChangePasswordPage from "@/pages/change-password";
 import DashboardPage from "@/pages/dashboard";
+import ErrorPage from "@/pages/error";
 import FormPage from "@/pages/form";
 import FormEditorPage from "@/pages/form/editor";
 import EntitiesPage from "@/pages/form/entities";
@@ -93,6 +94,10 @@ const Router = () => {
 
           {/* Not Found Page */}
           <Route path="*" element={<NotFoundPage />} />
+
+          {/* Error Page */}
+
+          <Route path="/error" element={<ErrorPage />} />
         </Route>
       </Route>
     </Routes>
