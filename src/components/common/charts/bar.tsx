@@ -8,9 +8,11 @@ import {
 } from "recharts";
 
 const BarChart = ({
-  values
+  values,
+  color
 }: {
   values: { value: number; label: string }[];
+  color: string;
 }) => {
   return (
     <ResponsiveContainer width="100%" style={{ direction: "ltr" }}>
@@ -18,7 +20,7 @@ const BarChart = ({
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey="label" />
         <YAxis />
-        <Bar dataKey="value" fill="#0099A5" />
+        <Bar dataKey="value" fill={color} />
       </BarRechart>
     </ResponsiveContainer>
   );

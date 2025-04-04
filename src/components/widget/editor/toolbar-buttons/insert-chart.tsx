@@ -55,7 +55,10 @@ const InsertChart: React.FC<
 
   const chartContainer = document.createElement("div");
 
-  const handleInsertChart = (values: RepeaterInputsProps["defaultValues"]) => {
+  const handleInsertChart = (
+    values: RepeaterInputsProps["defaultValues"],
+    color: string = "#0099A5"
+  ) => {
     if (editorRef.current) {
       chartContainer.contentEditable = "false";
       chartContainer.style.display = "inline-block";
@@ -94,13 +97,13 @@ const InsertChart: React.FC<
 
       switch (selectedChart) {
         case "bar":
-          chartRoot.render(<BarChart values={values!} />);
+          chartRoot.render(<BarChart values={values!} color={color} />);
           break;
         case "line":
-          chartRoot.render(<LineChart values={values!} />);
+          chartRoot.render(<LineChart values={values!} color={color} />);
           break;
         case "pie":
-          chartRoot.render(<PieChart values={values!} />);
+          chartRoot.render(<PieChart values={values!} color={color} />);
           break;
         default:
           break;
@@ -192,25 +195,35 @@ const InsertChart: React.FC<
 const ModalManualTab = ({
   onConfirm
 }: {
-  onConfirm: (data: { value: number; label: string }[]) => void;
+  onConfirm: (data: { value: number; label: string }[], color?: string) => void;
 }) => {
   const [values, setValues] = useState<RepeaterInputsProps["defaultValues"]>(
     []
   );
+  const [color, setColor] = useState("#0099A5");
 
   return (
     <>
-      <div className="max-h-64 overflow-auto p-2">
+      <div className="space-y-2">
+        <label htmlFor="" className="block text-sm text-slate-800">
+          رنگ
+        </label>
+        <Input
+          type="color"
+          value={color}
+          onChange={(e) => setColor(e.target.value)}
+        />
+      </div>
+      <div className="mt-5 max-h-64 overflow-auto p-2">
         <TextfieldRepeater
           defaultValues={[{ label: "", value: 0 }]}
           onValuesChange={setValues}
         />
       </div>
-
       <Button
         className="mt-5 w-full"
         onClick={() => {
-          onConfirm(values!);
+          onConfirm(values!, color);
         }}
       >
         تبدیل

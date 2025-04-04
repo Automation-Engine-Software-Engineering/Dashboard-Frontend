@@ -1,9 +1,11 @@
 import { ResponsiveContainer, PieChart as PieRechart, Pie } from "recharts";
 
 const PieChart = ({
-  values
+  values,
+  color
 }: {
   values: { value: number; label: string }[];
+  color: string;
 }) => {
   return (
     <ResponsiveContainer width="100%">
@@ -16,7 +18,7 @@ const PieChart = ({
           outerRadius={80}
           startAngle={0}
           endAngle={180}
-          fill="#0099A5"
+          fill={color}
           dataKey="value"
           label
         />

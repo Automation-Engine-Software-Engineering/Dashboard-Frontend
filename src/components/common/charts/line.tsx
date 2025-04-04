@@ -8,9 +8,11 @@ import {
 } from "recharts";
 
 const LineChart = ({
-  values
+  values,
+  color
 }: {
   values: { value: number; label: string }[];
+  color: string;
 }) => {
   return (
     <ResponsiveContainer width="100%" style={{ direction: "ltr" }}>
@@ -18,7 +20,7 @@ const LineChart = ({
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey="label" />
         <YAxis />
-        <Line dataKey="value" stroke="#0099A5" />
+        <Line dataKey="value" stroke={color} />
       </LineRechart>
     </ResponsiveContainer>
   );
