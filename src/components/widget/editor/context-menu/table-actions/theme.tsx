@@ -20,6 +20,13 @@ const TableTheme: React.FC<
       <ContextMenuSubContent>
         <ContextMenuItem
           onClick={() => {
+            addClassName("table-transparent");
+          }}
+        >
+          بدون رنگ
+        </ContextMenuItem>
+        <ContextMenuItem
+          onClick={() => {
             addClassName("table-black");
           }}
         >

@@ -310,6 +310,34 @@ export default {
               }
             }
           },
+          "table.table-transparent": {
+            border: "2px solid",
+            borderColor: theme("colors.slate.500"),
+            td: {
+              border: "2px solid",
+              borderColor: theme("colors.slate.400")
+            },
+
+            thead: {
+              tr: {
+                backgroundColor: "transparent"
+              },
+              td: {
+                color: "black"
+              }
+            },
+
+            tbody: {
+              tr: {
+                "&:nth-child(even)": {
+                  backgroundColor: "transparent"
+                },
+                "&:nth-child(odd)": {
+                  backgroundColor: "transparent"
+                }
+              }
+            }
+          },
 
           "div[data-columns='column']": {
             border: "1px solid #d1d1d1"
@@ -605,6 +633,34 @@ export default {
                 },
                 "&:nth-child(odd)": {
                   backgroundColor: "white"
+                }
+              }
+            }
+          },
+          "table.table-transparent": {
+            border: "2px solid",
+            borderColor: theme("colors.slate.500"),
+            td: {
+              border: "2px solid",
+              borderColor: theme("colors.slate.400")
+            },
+
+            thead: {
+              tr: {
+                backgroundColor: "transparent"
+              },
+              td: {
+                color: "black"
+              }
+            },
+
+            tbody: {
+              tr: {
+                "&:nth-child(even)": {
+                  backgroundColor: "transparent"
+                },
+                "&:nth-child(odd)": {
+                  backgroundColor: "transparent"
                 }
               }
             }
