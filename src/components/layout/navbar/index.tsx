@@ -26,6 +26,12 @@ import {
   AccordionTrigger
 } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger
+} from "@/components/ui/tooltip";
 
 const RESUME_ADDRESS = import.meta.env.VITE_RESUME_ADDRESS;
 
@@ -47,7 +53,7 @@ const Navbar: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
   });
 
   useEffect(() => {
-    setChild(items?.data[0].childs ?? []);
+    setChild(items?.data[0]?.childs ?? []);
   }, [items]);
 
   return (
@@ -70,15 +76,27 @@ const Navbar: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
           <ChevronRight size={16} className="transition-all" />
         </button>
 
-        {items?.data.map((item) => (
+        {items?.data?.map((item) => (
           <button
             className={cn("flex items-center justify-center transition-all")}
-            onClick={() => setChild(item.childs)}
+            onClick={() => {
+              setChild(item.childs);
+              setSidebarIsOpen(() => true);
+            }}
           >
-            <i
-              className={`${item.icon} fa-solid`}
-              style={{ color: "#0099A5" }}
-            />
+            <TooltipProvider delayDuration={0}>
+              <Tooltip>
+                <TooltipTrigger>
+                  <i
+                    className={`${item.icon} fa-solid`}
+                    style={{ color: "#0099A5" }}
+                  />
+                </TooltipTrigger>
+                <TooltipContent align="center" side="left">
+                  {item.name}
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
           </button>
         ))}
       </div>
@@ -98,34 +116,38 @@ const Navbar: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
               ))}
             </Accordion>
             <div className="mt-auto space-y-1 border-t border-t-slate-300 px-5 py-7 pt-4">
-              <Link
-                to={`${RESUME_ADDRESS}/${profile?.userIdentifierEn}`}
-                target="_blank"
-                className="flex items-center gap-x-1 text-sm hover:text-primary"
-              >
-                <span>
-                  <svg
-                    width="12"
-                    height="11"
-                    viewBox="0 0 12 11"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
+              {RESUME_ADDRESS && (
+                <>
+                  <Link
+                    to={`${RESUME_ADDRESS}/${profile?.userIdentifierEn}`}
+                    target="_blank"
+                    className="flex items-center gap-x-1 text-sm hover:text-primary"
                   >
-                    <path
-                      d="M2.30934 8.26242C2.76766 7.91034 3.2799 7.63273 3.84607 7.42961C4.41223 7.22648 5.00536 7.12492 5.62544 7.12492C6.24553 7.12492 6.83865 7.22648 7.40482 7.42961C7.97098 7.63273 8.48323 7.91034 8.94155 8.26242C9.25609 7.89228 9.50098 7.47249 9.67622 7.00304C9.85146 6.5336 9.93908 6.03256 9.93908 5.49992C9.93908 4.29922 9.51895 3.27683 8.67869 2.43273C7.83843 1.58863 6.82068 1.16659 5.62544 1.16659C4.43021 1.16659 3.41246 1.58863 2.5722 2.43273C1.73194 3.27683 1.31181 4.29922 1.31181 5.49992C1.31181 6.03256 1.39943 6.5336 1.57467 7.00304C1.74991 7.47249 1.9948 7.89228 2.30934 8.26242ZM5.62544 6.04159C5.09523 6.04159 4.64814 5.85877 4.28417 5.49315C3.92021 5.12752 3.73823 4.67839 3.73823 4.14575C3.73823 3.61311 3.92021 3.16398 4.28417 2.79836C4.64814 2.43273 5.09523 2.24992 5.62544 2.24992C6.15566 2.24992 6.60275 2.43273 6.96671 2.79836C7.33068 3.16398 7.51266 3.61311 7.51266 4.14575C7.51266 4.67839 7.33068 5.12752 6.96671 5.49315C6.60275 5.85877 6.15566 6.04159 5.62544 6.04159ZM5.62544 10.9166C4.87954 10.9166 4.17858 10.7744 3.52255 10.49C2.86651 10.2056 2.29586 9.81971 1.81057 9.33221C1.32529 8.84471 0.941104 8.27145 0.658022 7.61242C0.37494 6.95339 0.233398 6.24922 0.233398 5.49992C0.233398 4.75061 0.37494 4.04645 0.658022 3.38742C0.941104 2.72839 1.32529 2.15513 1.81057 1.66763C2.29586 1.18013 2.86651 0.79419 3.52255 0.509814C4.17858 0.225439 4.87954 0.083252 5.62544 0.083252C6.37134 0.083252 7.07231 0.225439 7.72834 0.509814C8.38437 0.79419 8.95503 1.18013 9.44032 1.66763C9.9256 2.15513 10.3098 2.72839 10.5929 3.38742C10.8759 4.04645 11.0175 4.75061 11.0175 5.49992C11.0175 6.24922 10.8759 6.95339 10.5929 7.61242C10.3098 8.27145 9.9256 8.84471 9.44032 9.33221C8.95503 9.81971 8.38437 10.2056 7.72834 10.49C7.07231 10.7744 6.37134 10.9166 5.62544 10.9166Z"
-                      fill="#0099A5"
-                    />
-                  </svg>
-                </span>
-                مشاهده پروفایل
-              </Link>
-              <Link
-                to="/edit-profile"
-                className="flex items-center gap-x-1 text-sm hover:text-primary"
-              >
-                <PenBoxIcon color="#0099A5" size={12} />
-                ویرایش پروفایل
-              </Link>
+                    <span>
+                      <svg
+                        width="12"
+                        height="11"
+                        viewBox="0 0 12 11"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M2.30934 8.26242C2.76766 7.91034 3.2799 7.63273 3.84607 7.42961C4.41223 7.22648 5.00536 7.12492 5.62544 7.12492C6.24553 7.12492 6.83865 7.22648 7.40482 7.42961C7.97098 7.63273 8.48323 7.91034 8.94155 8.26242C9.25609 7.89228 9.50098 7.47249 9.67622 7.00304C9.85146 6.5336 9.93908 6.03256 9.93908 5.49992C9.93908 4.29922 9.51895 3.27683 8.67869 2.43273C7.83843 1.58863 6.82068 1.16659 5.62544 1.16659C4.43021 1.16659 3.41246 1.58863 2.5722 2.43273C1.73194 3.27683 1.31181 4.29922 1.31181 5.49992C1.31181 6.03256 1.39943 6.5336 1.57467 7.00304C1.74991 7.47249 1.9948 7.89228 2.30934 8.26242ZM5.62544 6.04159C5.09523 6.04159 4.64814 5.85877 4.28417 5.49315C3.92021 5.12752 3.73823 4.67839 3.73823 4.14575C3.73823 3.61311 3.92021 3.16398 4.28417 2.79836C4.64814 2.43273 5.09523 2.24992 5.62544 2.24992C6.15566 2.24992 6.60275 2.43273 6.96671 2.79836C7.33068 3.16398 7.51266 3.61311 7.51266 4.14575C7.51266 4.67839 7.33068 5.12752 6.96671 5.49315C6.60275 5.85877 6.15566 6.04159 5.62544 6.04159ZM5.62544 10.9166C4.87954 10.9166 4.17858 10.7744 3.52255 10.49C2.86651 10.2056 2.29586 9.81971 1.81057 9.33221C1.32529 8.84471 0.941104 8.27145 0.658022 7.61242C0.37494 6.95339 0.233398 6.24922 0.233398 5.49992C0.233398 4.75061 0.37494 4.04645 0.658022 3.38742C0.941104 2.72839 1.32529 2.15513 1.81057 1.66763C2.29586 1.18013 2.86651 0.79419 3.52255 0.509814C4.17858 0.225439 4.87954 0.083252 5.62544 0.083252C6.37134 0.083252 7.07231 0.225439 7.72834 0.509814C8.38437 0.79419 8.95503 1.18013 9.44032 1.66763C9.9256 2.15513 10.3098 2.72839 10.5929 3.38742C10.8759 4.04645 11.0175 4.75061 11.0175 5.49992C11.0175 6.24922 10.8759 6.95339 10.5929 7.61242C10.3098 8.27145 9.9256 8.84471 9.44032 9.33221C8.95503 9.81971 8.38437 10.2056 7.72834 10.49C7.07231 10.7744 6.37134 10.9166 5.62544 10.9166Z"
+                          fill="#0099A5"
+                        />
+                      </svg>
+                    </span>
+                    مشاهده پروفایل
+                  </Link>
+                  <Link
+                    to="/edit-profile"
+                    className="flex items-center gap-x-1 text-sm hover:text-primary"
+                  >
+                    <PenBoxIcon color="#0099A5" size={12} />
+                    ویرایش پروفایل
+                  </Link>
+                </>
+              )}
               <Link
                 to="/change-password"
                 className="flex items-center gap-x-1 text-sm hover:text-primary"
@@ -168,7 +190,7 @@ const NavItem: React.FC<{ item: MenuRoleItemType }> = ({ item }) => {
 
   const handleClick = async () => {
     if (item.link) {
-      navigate(item.link);
+      navigate(item?.link);
     } else {
       try {
         const response = await getWorkFlowUserWorkflow(item.workflow.id);
@@ -229,7 +251,7 @@ const NavItem: React.FC<{ item: MenuRoleItemType }> = ({ item }) => {
       />
       {hasChildren ? (
         <AccordionItem value={`item-${item.name}`}>
-          <AccordionTrigger className="px-[20px] py-2 text-sm">
+          <AccordionTrigger className="px-[16px] py-2 text-sm">
             <div className="flex items-center gap-x-2">
               <i
                 className={`${item.icon} fa-solid`}
