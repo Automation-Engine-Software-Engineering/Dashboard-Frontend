@@ -31,5 +31,8 @@ export const routeLabels: Record<string, string> = {
   // article
   "/new-article": "ثبت مقاله جدید",
   "/new-article/url": "لینک",
-  "/new-article/scholar": "Scholar"
+  "/new-article/scholar": "Scholar",
+
+  //error
+  "/error": "خطای سیستم"
 };
