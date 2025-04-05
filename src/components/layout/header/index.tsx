@@ -1,3 +1,5 @@
+import { config } from "@/config/base";
+
 import AvatarMenu from "@/components/layout/header/avatar";
 
 import Logout from "./logout";
@@ -7,9 +9,9 @@ import Settings from "./settings";
 
 const Header = () => {
   return (
-    <div className="bg-secondary flex h-[70px] w-full items-center px-6">
+    <div className="flex h-[70px] w-full items-center bg-secondary px-6">
       <div className="">
-        <img src="/images/logo.png" alt="" width={165} />
+        <img src={config.logo} alt="" width={165} />
       </div>
       <AvatarMenu className="ms-auto" />
       <div className="ms-5 flex items-center gap-x-5">

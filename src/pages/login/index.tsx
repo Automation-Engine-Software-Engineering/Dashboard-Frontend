@@ -1,3 +1,4 @@
+import { config } from "@/config/base";
 import { useNavigate } from "react-router-dom";
 import { MoonLoader } from "react-spinners";
 
@@ -17,7 +18,7 @@ const LoginPage = () => {
       <div className="flex h-full min-h-screen w-full max-w-[480px] flex-col px-10 py-8">
         <div className="mb-20 flex w-full flex-col items-center">
           <img
-            src="/images/logo-2.png"
+            src={config.login.logo}
             alt="logo"
             width={128}
             className="rounded-full shadow-[0_10px_10px_2px_#00000020]"
@@ -28,7 +29,7 @@ const LoginPage = () => {
         </div>
         <Login />
         <div className="mt-auto flex items-center justify-center gap-x-2">
-          <a href="#">
+          <a href={config.login.social.twitter}>
             <img
               src="/images/twitter.png"
               alt="icon"
@@ -38,7 +39,7 @@ const LoginPage = () => {
             />
           </a>
 
-          <a href="#">
+          <a href={config.login.social.eitta}>
             <img
               src="/images/eitta.png"
               alt="icon"
@@ -47,7 +48,7 @@ const LoginPage = () => {
             />
           </a>
 
-          <a href="#">
+          <a href={config.login.social.linkedin}>
             <img
               src="/images/linkedin.jpg"
               alt="icon"
@@ -57,7 +58,10 @@ const LoginPage = () => {
           </a>
         </div>
       </div>
-      <div className="relative flex-1 bg-[url(/images/background.jpg)] bg-cover bg-no-repeat">
+      <div
+        className="relative flex-1 bg-cover bg-no-repeat"
+        style={{ backgroundImage: `url(${config.login.background})` }}
+      >
         <div className="absolute size-full bg-gradient-to-l from-transparent from-10% to-[#00224890] to-60%" />
       </div>
     </div>
