@@ -31,7 +31,7 @@ const InsertIcon: React.FC<
       wrapper.style.display = "inline-block";
       wrapper.style.maxWidth = "100%";
 
-      wrapper.innerHTML = `<i class="${icon}"></i>`;
+      wrapper.innerHTML = `<div class="tooltip"><div class="tooltiptext"/></div> <i class="${icon}"></i>`;
 
       restoreSelection();
       const selection = window.getSelection();

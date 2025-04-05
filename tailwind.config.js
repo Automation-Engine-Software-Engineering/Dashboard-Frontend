@@ -341,6 +341,20 @@ export default {
 
           "div[data-columns='column']": {
             border: "1px solid #d1d1d1"
+          },
+
+          ".tooltip": {
+            position: "relative",
+            display: "inline-block"
+          },
+
+          ".tooltip .tooltiptext": {
+            display: "none"
+          },
+
+          ".tooltip:hover .tooltiptext": {
+            visibility: "visible",
+            opacity: 1
           }
         }
       },
@@ -677,14 +691,15 @@ export default {
             backgroundColor: "white",
             color: "#000",
             textAlign: "center",
+            whiteSpace: "nowrap",
             borderRadius: "5px",
             padding: "5px 10px",
             position: "absolute",
-            zIndex: 1,
+            zIndex: 10,
             bottom: "125%",
             left: "50%",
             marginLeft: "-60px",
-            fontSize: "14px",
+            fontSize: "10px",
             border: "1px solid",
             borderColor: theme("colors.slate.300"),
             boxShadow: "0px 5px 12px -8px rgba(0,0,0,0.75)",
