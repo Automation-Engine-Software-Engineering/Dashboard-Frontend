@@ -1,9 +1,11 @@
 import { logout } from "@/auth";
 import { Link } from "react-router-dom";
 
-import { cn } from "@/lib/utils";
+import { cn, getInitialName } from "@/lib/utils";
 
-import { Avatar } from "@/components/ui/avatar";
+import { useSession } from "@/hooks/server-state/use-session";
+
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { PopoverContent } from "@/components/ui/popover";
 
@@ -20,10 +22,8 @@ const Contents: React.FC<React.ComponentProps<"div">> = ({
   className,
   ...props
 }) => {
-  // const sessionTitle = session?.department.titleFa;
-  // const sessionFullname = `${session?.firstNameFa} ${session?.lastNameFa}`;
-
-  // const fallbackName = getInitialName(sessionFullname);
+  const { data: session } = useSession();
+  const fallbackName = getInitialName(session!.name);
 
   return (
     <div
@@ -33,12 +33,11 @@ const Contents: React.FC<React.ComponentProps<"div">> = ({
       <div className="flex flex-col">
         <div className="mb-4 flex">
           <Avatar className="ml-2 size-12 border border-[#E4EBF3]">
-            {/* <AvatarFallback className="text-sm">{fallbackName}</AvatarFallback> */}
-            {/* <AvatarImage src={`${API_URL}/${session?.imageUrl}`} /> */}
+            <AvatarFallback className="text-sm">{fallbackName}</AvatarFallback>
           </Avatar>
           <div>
-            <h5 className="mb-2 font-medium">full name</h5>
-            <p className="text-xs">description</p>
+            <h5 className="mb-2 font-medium">{session?.name}</h5>
+            <p className="whitespace-pre text-xs">{session?.description}</p>
           </div>
         </div>
       </div>
