@@ -6,6 +6,7 @@ import ReadOnlyInput from "../shared/read-only";
 import Relation from "../shared/relations";
 import RequiredInput from "../shared/required";
 import AcceptedFiles from "./accepted-file";
+import CalendarType from "./calendar-type";
 import ConvertToSelect from "./convert-to-select";
 import DateInputType from "./date-type";
 import PlaceholderInput from "./placeholder";
@@ -31,6 +32,7 @@ const InputContextActions: React.FC<Props> = ({ rightClickedElement }) => {
       <AcceptedFiles rightClickedElement={rightClickedElement} />
       {isDate && <CurrentDate rightClickedElement={rightClickedElement} />}
       {isDate && <DateInputType rightClickedElement={rightClickedElement} />}
+      {isDate && <CalendarType rightClickedElement={rightClickedElement} />}
     </>
   );
 };
