@@ -7,6 +7,7 @@ import Relation from "../shared/relations";
 import RequiredInput from "../shared/required";
 import AcceptedFiles from "./accepted-file";
 import ConvertToSelect from "./convert-to-select";
+import DateInputType from "./date-type";
 import PlaceholderInput from "./placeholder";
 import InputValidation from "./validation";
 
@@ -15,7 +16,7 @@ interface Props extends React.ComponentProps<"div"> {
 }
 
 const InputContextActions: React.FC<Props> = ({ rightClickedElement }) => {
-  const isDate = rightClickedElement.hasAttribute("data-jdp");
+  const isDate = rightClickedElement.getAttribute("data-input-type") === "date";
   return (
     <>
       <ConvertToSelect rightClickedElement={rightClickedElement} />
@@ -29,6 +30,7 @@ const InputContextActions: React.FC<Props> = ({ rightClickedElement }) => {
       <InputValidation rightClickedElement={rightClickedElement} />
       <AcceptedFiles rightClickedElement={rightClickedElement} />
       {isDate && <CurrentDate rightClickedElement={rightClickedElement} />}
+      {isDate && <DateInputType rightClickedElement={rightClickedElement} />}
     </>
   );
 };
