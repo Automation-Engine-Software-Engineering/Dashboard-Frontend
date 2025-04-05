@@ -43,7 +43,7 @@ export const createInput = ({
       case "editor":
         return `<div 
           id="${inputId}"
-          data-input-type="editor"
+          data-input-type="${input.type}" 
           style="
             border: 1px solid #ccc;
             ${commonStyles}
@@ -57,12 +57,14 @@ export const createInput = ({
       case "long-text":
         return `<textarea 
           id="${inputId}"
+          data-input-type="${input.type}" 
           disabled
           style="${commonStyles} resize: none;"
         >${defaultValue}</textarea>`;
       case "select":
         return `<select 
           id="${inputId}"
+          data-input-type="${input.type}" 
           value="${defaultValue}"
           disabled
           style="${commonStyles}"
@@ -75,6 +77,7 @@ export const createInput = ({
             id="${inputId}"
             type="text"
             value="${defaultValue}"
+            data-input-type="${input.type}" 
             data-jdp
             data-jdp-only-date
             disabled
@@ -86,6 +89,7 @@ export const createInput = ({
             id="${inputId}"
             type="text"
             value="${defaultValue}"
+            data-input-type="${input.type}"
             data-input-type="price"
             disabled
             style="${commonStyles}" 
@@ -96,6 +100,7 @@ export const createInput = ({
             id="${inputId}"
             type="file"
             value="${defaultValue}"
+            data-input-type="${input.type}"
             data-input-type="image-preview"
             disabled
             style="${commonStyles}" 
@@ -106,6 +111,7 @@ export const createInput = ({
           id="${inputId}"
           type="${input.input}"
           value="${defaultValue}"
+          data-input-type="${input.type}"
           disabled
           style="${commonStyles}" 
         />`;
