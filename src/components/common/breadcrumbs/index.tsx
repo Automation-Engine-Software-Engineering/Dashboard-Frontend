@@ -14,7 +14,8 @@ const Breadcrumb: React.FC = () => {
     const pathnames = location.pathname.split("/").filter(Boolean);
 
     const breadcrumbItems = pathnames.map((path, index) => {
-      const fullPath = `/${pathnames.slice(0, index + 1).join("/")}`;
+      const fullPath =
+        `/${pathnames.slice(0, index + 1).join("/")}`.toLowerCase();
       return {
         path: fullPath,
         label:
