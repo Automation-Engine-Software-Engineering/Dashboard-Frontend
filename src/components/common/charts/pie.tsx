@@ -7,6 +7,9 @@ const PieChart = ({
   values: { value: number; label: string }[];
   color: string;
 }) => {
+  const renderLabel = (entry: { value: number; label: string }) =>
+    `${entry.label} (${entry.value})`;
+
   return (
     <ResponsiveContainer width="100%">
       <PieRechart margin={{ left: 0 }}>
@@ -20,10 +23,11 @@ const PieChart = ({
           endAngle={180}
           fill={color}
           dataKey="value"
-          label
-        />
+          label={renderLabel}
+        ></Pie>
       </PieRechart>
     </ResponsiveContainer>
   );
 };
+
 export default PieChart;
