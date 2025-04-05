@@ -1,26 +1,35 @@
+import { useEffect } from "react";
+
 import { Link, useLocation } from "react-router-dom";
+
+import useBreadcrumbStore from "@/hooks/store/use-breadcrumb";
 
 import { routeLabels } from "./breadcrumb-labels";
 
-const Breadcrumb = () => {
+const Breadcrumb: React.FC = () => {
   const location = useLocation();
-  const pathnames = location.pathname.split("/").filter(Boolean);
+  const { breadcrumbs, setBreadcrumbs } = useBreadcrumbStore();
 
-  const breadcrumbItems = pathnames.map((path, index) => {
-    const fullPath = `/${pathnames.slice(0, index + 1).join("/")}`;
-    return {
-      path: fullPath,
-      label:
-        routeLabels[fullPath] || path.charAt(0).toUpperCase() + path.slice(1)
-    };
-  });
+  useEffect(() => {
+    const pathnames = location.pathname.split("/").filter(Boolean);
+
+    const breadcrumbItems = pathnames.map((path, index) => {
+      const fullPath = `/${pathnames.slice(0, index + 1).join("/")}`;
+      return {
+        path: fullPath,
+        label:
+          routeLabels[fullPath] || path.charAt(0).toUpperCase() + path.slice(1)
+      };
+    });
+
+    setBreadcrumbs(breadcrumbItems);
+  }, [location.pathname, setBreadcrumbs]);
 
   return (
     <nav aria-label="breadcrumb" className="h-12 bg-white ps-4">
       <ul className="flex h-full items-center space-x-2">
         <li className="flex items-center justify-center">
           <Link to="/" className="font-medium text-gray-700 hover:text-primary">
-            {/* <Home /> */}
             <img
               src="/images/icons/dashboard.svg"
               alt="dashboard"
@@ -52,7 +61,7 @@ const Breadcrumb = () => {
             </svg>
           </span>
         </li>
-        {breadcrumbItems.map((item, index) => (
+        {breadcrumbs.map((item, index) => (
           <li key={index} className="flex items-center">
             {index !== 0 && (
               <span className="mx-5 text-gray-500">
@@ -80,7 +89,7 @@ const Breadcrumb = () => {
                 </svg>
               </span>
             )}
-            {index === breadcrumbItems.length - 1 ? (
+            {index === breadcrumbs.length - 1 ? (
               <span className="font-medium text-gray-700">{item.label}</span>
             ) : (
               <Link to={item.path} className="text-gray-700 hover:text-primary">
