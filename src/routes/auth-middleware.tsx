@@ -1,10 +1,12 @@
+import { getSession } from "@/auth";
 import { Navigate, Outlet } from "react-router-dom";
 
-import { useAuth } from "@/context/auth";
-
 const AuthMiddleware = () => {
-  const { auth } = useAuth();
+  const session = getSession();
 
-  return !auth?.user ? <Outlet /> : <Navigate to="/login" />;
+  console.log(session);
+
+  return session ? <Outlet /> : <Navigate to="/login" />;
 };
+
 export default AuthMiddleware;

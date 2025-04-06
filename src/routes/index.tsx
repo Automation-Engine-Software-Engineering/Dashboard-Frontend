@@ -6,7 +6,7 @@ import TablePage from "@/pages/table";
 
 import Layout from "@/components/layout/layout";
 
-// import AuthMiddleware from "./auth-middleware";
+import AuthMiddleware from "./auth-middleware";
 
 const Router = () => {
   return (
@@ -18,12 +18,12 @@ const Router = () => {
 
       {/* Private routes */}
 
-      {/* <Route element={<AuthMiddleware />}> */}
-      <Route element={<Layout />}>
-        <Route path="/dashboard" element={<DashboardPage />} />
-        <Route path="/dashboard/table" element={<TablePage />} />
+      <Route element={<AuthMiddleware />}>
+        <Route element={<Layout />}>
+          <Route path="/dashboard" element={<DashboardPage />} />
+          <Route path="/dashboard/table" element={<TablePage />} />
+        </Route>
       </Route>
-      {/* </Route> */}
     </Routes>
   );
 };

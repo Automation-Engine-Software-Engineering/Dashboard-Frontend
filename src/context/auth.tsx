@@ -1,11 +1,11 @@
 import { createContext, useState, ReactNode, useContext } from "react";
 
+import { getSession, getToken } from "@/auth";
+
 interface AuthContextType {
   auth?: {
-    user?: any;
-    password?: string;
-    roles?: number[] | string[];
-    accessToken?: string;
+    user?: any | null;
+    accessToken?: string | null;
   };
   setAuth?: React.Dispatch<React.SetStateAction<AuthContextType["auth"]>>;
 }
@@ -17,7 +17,9 @@ interface AuthProviderProps {
 }
 
 const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
-  const [auth, setAuth] = useState<AuthContextType["auth"]>({});
+  const [auth, setAuth] = useState<AuthContextType["auth"]>(() => {
+    return { user: getSession(), accessToken: getToken() };
+  });
 
   return (
     <AuthContext.Provider value={{ auth, setAuth }}>
