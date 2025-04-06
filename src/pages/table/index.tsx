@@ -5,14 +5,14 @@ import {
   TableCell,
   TableHead,
   TableHeader,
-  TableRow,
+  TableRow
 } from "@/components/ui/table";
 
 const TablePage = () => {
   return (
     <Box>
       <Table>
-        <TableHeader className="bg-[#EFF2F7] rounded-t-md">
+        <TableHeader className="rounded-t-md bg-[#EFF2F7]">
           <TableRow>
             <TableHead>هدر 1</TableHead>
             <TableHead>هدر 2</TableHead>

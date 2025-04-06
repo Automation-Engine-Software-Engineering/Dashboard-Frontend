@@ -1,7 +1,8 @@
 import { useEffect, useMemo } from "react";
-import { useLocation } from "react-router-dom";
+
 import nprogress from "nprogress";
 import "nprogress/nprogress.css";
+import { useLocation } from "react-router-dom";
 
 const Loader: React.FC = () => {
   const location = useLocation();
@@ -10,7 +11,7 @@ const Loader: React.FC = () => {
     () => ({
       showSpinner: false,
       speed: 1000,
-      trickle: false,
+      trickle: false
     }),
     []
   );

@@ -2,7 +2,7 @@ import SearchInput from "./search-input";
 
 const Header = () => {
   return (
-    <div className="h-20 w-full px-10 flex items-center bg-white sticky top-0 shadow-xl shadow-black/5">
+    <div className="sticky top-0 flex h-20 w-full items-center bg-white px-10 shadow-xl shadow-black/5">
       <SearchInput />
     </div>
   );

@@ -1,11 +1,12 @@
-import AnimatedBackground from "@/components/ui/animated-background";
 import Login from "@/components/widget/login";
+
+import AnimatedBackground from "@/components/ui/animated-background";
 
 const LoginPage = () => {
   return (
     <>
       <AnimatedBackground />
-      <div className="flex items-center justify-center min-h-full h-full">
+      <div className="flex h-full min-h-full items-center justify-center">
         <Login />
       </div>
     </>

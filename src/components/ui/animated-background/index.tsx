@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
 import Particles, { initParticlesEngine } from "@tsparticles/react";
+import { useEffect, useState } from "react";
+
 import { loadSlim } from "@tsparticles/slim";
 
 const AnimatedBackground = () => {
@@ -20,69 +21,69 @@ const AnimatedBackground = () => {
         options={{
           background: {
             color: {
-              value: "#2A3042",
-            },
+              value: "#2A3042"
+            }
           },
           fpsLimit: 120,
           interactivity: {
             events: {
               onClick: {
                 enable: true,
-                mode: "push",
+                mode: "push"
               },
               onHover: {
                 enable: false,
-                mode: "repulse",
-              },
+                mode: "repulse"
+              }
             },
             modes: {
               push: {
-                quantity: 4,
+                quantity: 4
               },
               repulse: {
                 distance: 100,
-                duration: 1,
-              },
-            },
+                duration: 1
+              }
+            }
           },
           particles: {
             color: {
-              value: "#ffffff",
+              value: "#ffffff"
             },
             links: {
               color: "#ffffff",
               distance: 150,
               enable: true,
               opacity: 0.5,
-              width: 1,
+              width: 1
             },
             move: {
               direction: "none",
               enable: true,
               outModes: {
-                default: "bounce",
+                default: "bounce"
               },
               random: false,
               speed: 2,
-              straight: false,
+              straight: false
             },
             number: {
               density: {
-                enable: true,
+                enable: true
               },
-              value: 80,
+              value: 80
             },
             opacity: {
-              value: 0.5,
+              value: 0.5
             },
             shape: {
-              type: "circle",
+              type: "circle"
             },
             size: {
-              value: { min: 1, max: 5 },
-            },
+              value: { min: 1, max: 5 }
+            }
           },
-          detectRetina: true,
+          detectRetina: true
         }}
       />
     );

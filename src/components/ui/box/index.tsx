@@ -8,7 +8,7 @@ const Box: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
   return (
     <div
       className={cn(
-        "bg-white rounded-md p-10 shadow-md shadow-black/5",
+        "rounded-md bg-white p-10 shadow-md shadow-black/5",
         className
       )}
       {...props}

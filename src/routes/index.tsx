@@ -1,9 +1,12 @@
 import { Navigate, Route, Routes } from "react-router-dom";
-// import AuthMiddleware from "./auth-middleware";
-import LoginPage from "@/pages/login";
+
 import DashboardPage from "@/pages/dashboard";
-import Layout from "@/components/layout/layout";
+import LoginPage from "@/pages/login";
 import TablePage from "@/pages/table";
+
+import Layout from "@/components/layout/layout";
+
+// import AuthMiddleware from "./auth-middleware";
 
 const Router = () => {
   return (
