@@ -1,9 +1,13 @@
 import { BrowserRouter } from "react-router-dom";
+import Loader from "./components/common/loader";
 
 const Providers = ({ children }: Readonly<{ children: React.ReactNode }>) => {
   return (
     <>
-      <BrowserRouter>{children}</BrowserRouter>
+      <BrowserRouter>
+        {children}
+        <Loader />
+      </BrowserRouter>
     </>
   );
 };

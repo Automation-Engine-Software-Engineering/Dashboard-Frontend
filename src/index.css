@@ -17,3 +17,10 @@
     font-family: "Vazirmatn";
   }
 }
+
+/* nprogress styles */
+
+#nprogress .bar {
+  background: #6366f1; /* Set to any Tailwind color or custom color */
+  height: 4px;
+}
