@@ -9,6 +9,10 @@
     @apply w-full h-full;
   }
 
+  body {
+    @apply bg-[#F8F8FB];
+  }
+
   * {
     font-family: "Vazirmatn";
   }
