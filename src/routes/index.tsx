@@ -1,5 +1,5 @@
 import { Navigate, Route, Routes } from "react-router-dom";
-import AuthMiddleware from "./auth-middleware";
+// import AuthMiddleware from "./auth-middleware";
 import LoginPage from "@/pages/login";
 import DashboardPage from "@/pages/dashboard";
 import Layout from "@/components/layout/layout";
@@ -8,7 +8,7 @@ import TablePage from "@/pages/table";
 const Router = () => {
   return (
     <Routes>
-      <Route path="/" element={<Navigate to="/dashboard" />} />
+      <Route path="/" element={<Navigate to="/login" />} />
 
       {/* Public routes */}
       <Route path="/login" element={<LoginPage />} />
