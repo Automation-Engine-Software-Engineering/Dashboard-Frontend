@@ -20,7 +20,7 @@ const AnimatedBackground = () => {
         options={{
           background: {
             color: {
-              value: "#000",
+              value: "#2A3042",
             },
           },
           fpsLimit: 120,
