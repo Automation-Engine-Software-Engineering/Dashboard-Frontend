@@ -38,12 +38,13 @@ const Login = () => {
   };
 
   return (
-    <div className="w-full max-w-[500px] rounded-lg bg-white/5 p-10 pb-5 text-white backdrop-blur">
-      <div className="w-full max-w-[500px] rounded-lg bg-white/10 p-10 text-white backdrop-blur">
+    <div className="w-full max-w-[500px] rounded-lg bg-white/5 p-10 pb-5 backdrop-blur">
+      <div className="rounded-lg bg-white/10 p-10 text-white backdrop-blur">
         <h2 className="mb-10 text-center text-xl font-bold text-zinc-300">
           ورود به حساب کاربری
-          <span  className="mr-2 text-center text-xl font-bold text-zinc-100">
-            (سامانه هوشمند)</span>
+          <span className="mr-2 text-center text-xl font-bold text-zinc-100">
+            (سامانه هوشمند)
+          </span>
         </h2>
         <form onSubmit={(e) => handleSubmit(e)} className="space-y-10">
           <div className="flex flex-col gap-y-2">
@@ -77,10 +78,10 @@ const Login = () => {
           </button>
         </form>
       </div>
-      <div  className="mt-5 mr-2 text-zinc-300">
+      <div className="mr-2 mt-5 text-zinc-300">
         <label>
-       +   دانشگاه اصفهان - طراحی شده توسط شرکت 
-          <span className="text-zinc-100 mr-2">پارسه آذین مبین</span>
+          + دانشگاه اصفهان - طراحی شده توسط شرکت
+          <span className="mr-2 text-zinc-100">پارسه آذین مبین</span>
         </label>
       </div>
     </div>
