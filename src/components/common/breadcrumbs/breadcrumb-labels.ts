@@ -16,6 +16,9 @@ export const routeLabels: Record<string, string> = {
   // role
   "/role": "نقش ها",
 
+  // notification
+  "/notification": "اعلان های سیستم",
+
   // role
   "/menu": "منو",
 
