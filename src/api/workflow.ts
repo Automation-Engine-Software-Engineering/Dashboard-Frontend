@@ -5,7 +5,7 @@ import { axiosInstance } from "./axios-instance";
 
 const API_ENDPOINT = "/api/Role/GetWorkFlowsByRole";
 
-export const getWorkflowByRole = async (): Promise<any | AxiosError<any>> => {
+export const getWorkflowsByRole = async (): Promise<any | AxiosError<any>> => {
   const token = getToken();
 
   const response = await axiosInstance(`${API_ENDPOINT}/${token}`);

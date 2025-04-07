@@ -1,7 +1,7 @@
 import { Home } from "lucide-react";
 import { useEffect, useState } from "react";
 
-import { getWorkflowByRole } from "@/api/workflow";
+import { getWorkflowsByRole } from "@/api/workflow";
 import { Link } from "react-router-dom";
 import { MoonLoader } from "react-spinners";
 
@@ -24,7 +24,7 @@ const Navbar: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
   useEffect(() => {
     (async () => {
       try {
-        const response = await getWorkflowByRole();
+        const response = await getWorkflowsByRole();
         setItems(response);
       } finally {
         setIsLoading(false);
