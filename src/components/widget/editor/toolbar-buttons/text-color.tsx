@@ -1,12 +1,18 @@
 import React, { useState, useEffect } from "react";
 
+import { cn } from "@/lib/utils";
+
 import ToolbarButton from "./toolbar-button";
 
-interface Props {
+interface Props extends React.ComponentProps<"button"> {
   editorRef: React.RefObject<HTMLDivElement>;
 }
 
-const TextColorPicker: React.FC<Props> = ({ editorRef }) => {
+const TextColorPicker: React.FC<Props> = ({
+  className,
+  editorRef,
+  ...props
+}) => {
   const [selectedColor, setSelectedColor] = useState("#000000");
 
   const getSelectedTextColor = () => {
@@ -57,7 +63,7 @@ const TextColorPicker: React.FC<Props> = ({ editorRef }) => {
   }, [editorRef]);
 
   return (
-    <ToolbarButton>
+    <ToolbarButton className={cn(className)} {...props}>
       <label className="relative flex size-full justify-center">
         <span className="text-lg font-bold">A</span>
         <span

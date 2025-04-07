@@ -1,6 +1,8 @@
 import { Droplet } from "lucide-react";
 import React, { useState, useEffect } from "react";
 
+import { cn } from "@/lib/utils";
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -11,11 +13,11 @@ import {
 
 import ToolbarButton from "./toolbar-button";
 
-interface Props {
+interface Props extends React.ComponentProps<"button"> {
   editorRef: React.RefObject<HTMLDivElement>;
 }
 
-const TextHighlight: React.FC<Props> = ({ editorRef }) => {
+const TextHighlight: React.FC<Props> = ({ className, editorRef, ...props }) => {
   const [selectedColor, setSelectedColor] = useState("#FFFFFF");
 
   const getSelectedTextColor = () => {
@@ -68,7 +70,7 @@ const TextHighlight: React.FC<Props> = ({ editorRef }) => {
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <ToolbarButton>
+        <ToolbarButton className={cn(className)} {...props}>
           <span className="w-full bg-yellow-300 text-lg">ab</span>
         </ToolbarButton>
       </PopoverTrigger>
