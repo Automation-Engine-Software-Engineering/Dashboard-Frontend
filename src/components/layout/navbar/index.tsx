@@ -1,8 +1,11 @@
 import { Home } from "lucide-react";
 import { useEffect, useState } from "react";
 
-import { getWorkflowsByRole } from "@/api/workflow";
-import { Link } from "react-router-dom";
+import { getWorkflowsByRole, getWorkflowValue } from "@/api/workflow";
+import { createWorkflowUser } from "@/api/workflow-user";
+import { getToken } from "@/auth";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 import { MoonLoader } from "react-spinners";
 
 import { cn } from "@/lib/utils";
@@ -21,6 +24,8 @@ const Navbar: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
   const [isLoading, setIsLoading] = useState(true);
   const [items, setItems] = useState<any[]>([]);
 
+  const navigate = useNavigate();
+
   useEffect(() => {
     (async () => {
       try {
@@ -31,6 +36,48 @@ const Navbar: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
       }
     })();
   }, []);
+
+  const handleItemClick = async (workflowId: number) => {
+    const userId = getToken() || "";
+    const loadingToast = toast.loading("درحال ساخت کاربر جدید");
+    try {
+      await createWorkflowUser(userId, workflowId);
+      toast.success("کاربر با موفقیت ساخته شد", {
+        id: loadingToast
+      });
+    } catch (err) {
+      toast.error("خطا در ساخت کاربر جدید", {
+        id: loadingToast
+      });
+      return null;
+    }
+
+    try {
+      toast.loading("درحال دریافت اطلاعات", {
+        id: loadingToast
+      });
+      const workflowValue = await getWorkflowValue(userId, workflowId);
+
+      toast.success("اطلاعات با موفقیت دریافت شد", {
+        id: loadingToast
+      });
+
+      switch (workflowValue.type) {
+        case 2: {
+          navigate(`/dashboard/workflow/form/${workflowValue.dataId}`);
+          break;
+        }
+
+        default: {
+          break;
+        }
+      }
+    } catch {
+      toast.success("خطا در دریافت اطلاعات", {
+        id: loadingToast
+      });
+    }
+  };
 
   return (
     <div
@@ -58,9 +105,12 @@ const Navbar: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
                   key={item.id}
                   className="px-[54px] py-0 text-xs transition-colors hover:text-white"
                 >
-                  <Link to="#" className="block py-3">
+                  <button
+                    onClick={() => handleItemClick(item?.id)}
+                    className="block py-3"
+                  >
                     {item?.name}
-                  </Link>
+                  </button>
                 </AccordionContent>
               ))}
             </AccordionItem>
