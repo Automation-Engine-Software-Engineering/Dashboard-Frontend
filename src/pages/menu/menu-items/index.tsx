@@ -121,7 +121,7 @@ const MenuItemsPage = () => {
         </TableHeader>
         <TableBody>
           {menuItems?.data.map(
-            ({ name, id, workflowId, roleId, link }, index) => (
+            ({ name, id, workflowId, roleId, link, icon }, index) => (
               <TableRow key={index}>
                 <TableCell>{index + 1}</TableCell>
                 <TableCell>{name}</TableCell>
@@ -131,7 +131,7 @@ const MenuItemsPage = () => {
                       e.stopPropagation();
                       dispatch({
                         type: ActionTypes.SET_MENU,
-                        payload: { name, id, workflowId, roleId, link }
+                        payload: { name, id, workflowId, roleId, link, icon }
                       });
                       dispatch({
                         type: ActionTypes.SET_IS_MODAL_OPEN,

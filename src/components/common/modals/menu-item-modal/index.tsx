@@ -326,6 +326,16 @@ const Content = memo(
           />
           <ScrollArea className="mb-2 h-20 w-full rounded-lg bg-slate-100">
             <div className="grid grid-cols-12 justify-items-center gap-1 p-1">
+              <Button
+                type="button"
+                variant="ghost"
+                className={cn(
+                  "size-full px-0 py-2 [&_svg]:size-7",
+                  selectedIcon === menuItem?.icon && "bg-primary/20"
+                )}
+              >
+                <i className={selectedIcon}></i>
+              </Button>
               {icons
                 .filter((icon) =>
                   icon
