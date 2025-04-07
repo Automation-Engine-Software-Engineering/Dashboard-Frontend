@@ -1,7 +1,7 @@
 import { AxiosError } from "axios";
 import toast from "react-hot-toast";
 
-import { axiosInstance } from "../axios-instance";
+import { axiosInstance } from "./axios-instance";
 
 const API_ENDPOINT = "api/Role/login";
 
