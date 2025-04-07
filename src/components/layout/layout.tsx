@@ -5,7 +5,7 @@ import Navbar from "./navbar";
 
 const Layout = () => {
   return (
-    <div className="flex h-full">
+    <div className="relative flex h-full">
       <Navbar className="shrink-0" />
       <div className="flex-1">
         <Header />

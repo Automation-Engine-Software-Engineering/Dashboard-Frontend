@@ -82,7 +82,7 @@ const Navbar: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
   return (
     <div
       className={cn(
-        "flex h-screen w-64 flex-col overflow-auto bg-[#2A3042]",
+        "sticky right-0 top-0 flex h-screen w-64 flex-col overflow-auto bg-[#2A3042]",
         className
       )}
       {...props}
