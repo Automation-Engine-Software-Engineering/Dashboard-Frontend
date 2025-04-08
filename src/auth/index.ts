@@ -24,3 +24,10 @@ export const setToken = (token: string) => {
     expires: 1 / 24
   });
 };
+
+export const logout = () => {
+  cookie.remove(USER_SESSION_NAME);
+  cookie.remove(USER_TOKEN_NAME);
+
+  window.location.replace("/login");
+};
