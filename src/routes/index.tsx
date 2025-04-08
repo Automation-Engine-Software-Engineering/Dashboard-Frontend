@@ -18,13 +18,16 @@ const Router = () => {
       <Route path="/login" element={<LoginPage />} />
 
       {/* Private routes */}
-
       <Route element={<AuthMiddleware />}>
         <Route element={<Layout />}>
           <Route path="/dashboard" element={<DashboardPage />} />
           <Route
             path="/dashboard/workflow/form/:formId"
             element={<FormPage />}
+          />
+          <Route
+            path="/dashboard/workflow/table/:tableId"
+            element={<TablePage />}
           />
           <Route path="/dashboard/table" element={<TablePage />} />
         </Route>

@@ -68,6 +68,11 @@ const Navbar: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
           break;
         }
 
+        case 1: {
+          navigate(`/dashboard/workflow/table/${workflowValue.dataId}`);
+          break;
+        }
+
         default: {
           break;
         }
@@ -87,7 +92,15 @@ const Navbar: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
       )}
       {...props}
     >
-      <h3 className="py-5 text-center text-xl font-bold text-white">لوگو</h3>
+      <div className="mt-4 w-full">
+        <img
+          src="/public/images/logo.png"
+          alt="Logo"
+          width={200}
+          height={200}
+          className="mx-auto"
+        />
+      </div>
       <div className="mt-10 flex-1 text-[#a6b0cf]">
         {isLoading ? (
           <Loading />
