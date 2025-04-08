@@ -24,7 +24,7 @@ export default {
           color: theme("colors.gray.600"),
           input: {
             backgroundColor: "white",
-            border: "1px solid #ccc",
+            border: "1px solid #000",
             borderRadius: 5,
             boxShadow: "0 10px 20px -20px #000"
           }
