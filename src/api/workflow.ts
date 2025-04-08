@@ -32,3 +32,20 @@ export const getWorkflowValue = async (
     throw new Error(`create workflow user error: ${err}`);
   }
 };
+
+export const getNextWorkflowValue = async (
+  userId: string,
+  workFlowId: number
+): Promise<any | AxiosError<any>> => {
+  try {
+    const response = await axiosInstance.get(
+      `api/WorkFlow/${workFlowId}/next/value?userId=${userId}`
+    );
+
+    if (!response.data.status) throw new Error(response.data.message);
+
+    return response.data.data;
+  } catch (err) {
+    throw new Error(`create workflow user error: ${err}`);
+  }
+};
