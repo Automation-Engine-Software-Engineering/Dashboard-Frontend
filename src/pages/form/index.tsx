@@ -29,7 +29,15 @@ const FormPage = () => {
   }, []);
 
   return (
-    <Box>
+    <Box
+      className="mx-auto"
+      style={{
+        width: "210mm",
+        height: "297mm",
+        transform: "scale(calc(min(100vw / 210mm, 100vh / 297mm)))",
+        transformOrigin: "top left"
+      }}
+    >
       {isLoading ? (
         <Loading />
       ) : (
