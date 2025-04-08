@@ -17,6 +17,8 @@ import PropertiesPage from "@/pages/form/properties";
 import LoginPage from "@/pages/login";
 import MenuItemsPage from "@/pages/menu/menu-items";
 import NotFoundPage from "@/pages/not-found";
+import NotificationsPage from "@/pages/notification";
+import NotificationContent from "@/pages/notification/content";
 import EditProfilePage from "@/pages/profile/edit-profile";
 import EditProfileAboutMe from "@/pages/profile/edit-profile/about-me";
 import EditProfileEducation from "@/pages/profile/edit-profile/education";
@@ -73,6 +75,12 @@ const Router = () => {
           {/* Roles */}
           <Route path="/role">
             <Route index element={<RolesPage />} />
+          </Route>
+
+          {/* Notifications */}
+          <Route path="/notification">
+            <Route index element={<NotificationsPage />} />
+            <Route path=":notificationIdz" element={<NotificationContent />} />
           </Route>
 
           <Route path="/menu">
