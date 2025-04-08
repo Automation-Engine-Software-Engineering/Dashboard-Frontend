@@ -29,21 +29,27 @@ const FormPage = () => {
   }, []);
 
   return (
-    <Box
-      className="mx-auto"
-      style={{
-        width: "210mm",
-        height: "297mm",
-        transform: "scale(calc(min(100vw / 210mm, 100vh / 297mm)))",
-        transformOrigin: "top left"
-      }}
-    >
-      {isLoading ? (
-        <Loading />
-      ) : (
-        <div dangerouslySetInnerHTML={{ __html: formHTML }} />
-      )}
-    </Box>
+    <>
+      <Box
+        className="mx-auto shadow-xl"
+        style={{
+          width: "210mm",
+          height: "297mm",
+          transform: "scale(calc(min(100vw / 210mm, 100vh / 297mm)))",
+          transformOrigin: "top left"
+        }}
+      >
+        {isLoading ? (
+          <Loading />
+        ) : (
+          <div
+            className="prose-form"
+            dangerouslySetInnerHTML={{ __html: formHTML }}
+          />
+        )}
+      </Box>
+      <button>ثبت</button>
+    </>
   );
 };
 export default FormPage;
