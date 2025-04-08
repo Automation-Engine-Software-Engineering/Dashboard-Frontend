@@ -64,12 +64,16 @@ const Navbar: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
 
       switch (workflowValue.type) {
         case 2: {
-          navigate(`/dashboard/workflow/form/${workflowValue.dataId}`);
+          navigate(
+            `/dashboard/workflow/form/${workflowValue.dataId}?workflowId=${workflowId}`
+          );
           break;
         }
 
         case 1: {
-          navigate(`/dashboard/workflow/table/${workflowValue.dataId}`);
+          navigate(
+            `/dashboard/workflow/table/${workflowValue.dataId}?workflowId=${workflowId}`
+          );
           break;
         }
 
@@ -78,7 +82,7 @@ const Navbar: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
         }
       }
     } catch {
-      toast.success("خطا در دریافت اطلاعات", {
+      toast.error("خطا در دریافت اطلاعات", {
         id: loadingToast
       });
     }
