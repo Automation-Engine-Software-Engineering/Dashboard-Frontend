@@ -6,7 +6,7 @@ const LoginPage = () => {
   return (
     <>
       <AnimatedBackground />
-      <div className="flex h-full min-h-full items-center justify-center">
+      <div className="flex h-screen min-h-full items-center justify-center">
         <Login />
       </div>
     </>
