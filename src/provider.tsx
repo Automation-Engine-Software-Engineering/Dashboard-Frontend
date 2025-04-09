@@ -8,11 +8,11 @@ const Providers = ({ children }: Readonly<{ children: React.ReactNode }>) => {
   return (
     <>
       <BrowserRouter>
-        <AuthProvider>
-          <Loader />
-          <ToastProvider />
-          {children}
-        </AuthProvider>
+        {/* <AuthProvider> */}
+        <Loader />
+        <ToastProvider />
+        {children}
+        {/* </AuthProvider> */}
       </BrowserRouter>
     </>
   );

@@ -3,7 +3,7 @@ import toast from "react-hot-toast";
 
 import { axiosInstance } from "./axios-instance";
 
-const API_ENDPOINT = "api/Role/login";
+const API_ENDPOINT = "GetUser";
 
 export const signIn = async (credentials: {
   username: string;
@@ -11,18 +11,12 @@ export const signIn = async (credentials: {
 }): Promise<any | AxiosError<any>> => {
   const loadingToast = toast.loading("درحال دریافت اطلاعات");
   try {
-    const response = await axiosInstance.post(
-      `/${API_ENDPOINT}/${credentials.username}`,
-      JSON.stringify(credentials.password),
-      {
-        headers: {
-          "Content-Type": "application/json"
-        }
-      }
+    const response = await axiosInstance.get(
+      `/${API_ENDPOINT}?UserName=${credentials.username}&PassWord=${credentials.password}`
     );
 
-    if (response.data?.status) {
-      toast.success(response.data.message, {
+    if (response.data?.roleId) {
+      toast.success("خوش آمدید", {
         id: loadingToast
       });
       return response.data;
@@ -34,7 +28,7 @@ export const signIn = async (credentials: {
       throw new Error(response.data.message);
     }
   } catch (err) {
-    toast.error("خطایی رخ داده است", {
+    toast.error("نام کاربری و رمز اشتباه است", {
       id: loadingToast
     });
 

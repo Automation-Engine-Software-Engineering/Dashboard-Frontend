@@ -1,3 +1,5 @@
+import { ChevronDown } from "lucide-react";
+
 import { getSession } from "@/auth";
 
 import { cn, getInitialName } from "@/lib/utils";
@@ -11,18 +13,22 @@ const AvatarMenu: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
   className,
   ...props
 }) => {
-  const { name } = getSession();
+  // const { name } = getSession();
 
-  const fallbackName = getInitialName(name);
+  const fallbackName = getInitialName("Admin");
 
   return (
     <div className={cn(className)} {...props}>
       <Popover>
-        <PopoverTrigger>
+        <PopoverTrigger className="group flex items-center gap-x-1">
           <Avatar>
             <AvatarFallback>{fallbackName}</AvatarFallback>
             <AvatarImage />
           </Avatar>
+          <p className="flex items-center gap-x-1 group-hover:underline">
+            ادمین
+            <ChevronDown size={16} />
+          </p>
         </PopoverTrigger>
         <MenuPopover />
       </Popover>

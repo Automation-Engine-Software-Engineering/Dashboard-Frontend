@@ -23,12 +23,12 @@ const Login = () => {
 
     try {
       const response = await signIn(newData as any);
+      console.log(response);
+      setToken(response);
 
-      setToken(response.data);
+      // const user = await getUserData(response.data);
 
-      const user = await getUserData(response.data);
-
-      setSession(user);
+      setSession(response);
 
       navigate("/dashboard");
     } catch {
@@ -38,7 +38,7 @@ const Login = () => {
   };
 
   return (
-    <div className="w-full max-w-[500px] rounded-lg bg-white/5 p-10 pb-5 backdrop-blur">
+    <div className="w-full max-w-[500px] rounded-lg bg-gray-700/30 p-10 pb-5 backdrop-blur">
       <div className="rounded-lg bg-white/10 p-10 text-white backdrop-blur">
         <h2 className="mb-10 text-center text-xl font-bold text-zinc-300">
           ورود به حساب کاربری
