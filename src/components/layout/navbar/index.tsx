@@ -50,7 +50,7 @@ const Navbar: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
     >
       <div className="mt-4 w-full">
         <img
-          src="/public/images/logo.png"
+          src="/images/logo.png"
           alt="Logo"
           width={200}
           height={200}
