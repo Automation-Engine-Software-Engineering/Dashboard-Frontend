@@ -96,37 +96,39 @@ const NavItem: React.FC<{ item: any }> = ({ item }) => {
   const hasChildren = item.children.length;
   console.log(Boolean(hasChildren));
   return (
-    <AccordionItem value={`item-${item.id}`}>
-      <AccordionTrigger className="px-[20px] py-2 text-sm hover:text-white">
-        {item.name}
-      </AccordionTrigger>
+    <>
+      {hasChildren ? (
+        <AccordionItem value={`item-${item.id}`}>
+          <AccordionTrigger className="px-[20px] py-2 text-sm hover:text-white">
+            {item.name}
+          </AccordionTrigger>
 
-      <AccordionContent>
-        {hasChildren ? (
-          <Accordion type="single" collapsible className="pr-4">
-            {item.children.map((child: any) => (
-              <NavItem key={child.id} item={child} />
-            ))}
-          </Accordion>
-        ) : (
-          <div className="pr-4">
-            <Link
-              to={
-                !item.isTargetBlank
-                  ? regexAPages.test(item.url)
-                    ? "/dashboard/page/" + item.url
-                    : "/dashboard/page/frame?url=" + item.url
-                  : item.url
-              }
-              target={item.isTargetBlank ? "_blank" : "_parent"}
-              className="block py-2 text-xs hover:text-white"
-            >
-              {item.name}
-            </Link>
-          </div>
-        )}
-      </AccordionContent>
-    </AccordionItem>
+          <AccordionContent>
+            <Accordion type="single" collapsible className="pr-4">
+              {item.children.map((child: any) => (
+                <NavItem key={child.id} item={child} />
+              ))}
+            </Accordion>
+          </AccordionContent>
+        </AccordionItem>
+      ) : (
+        <div className="pr-4">
+          <Link
+            to={
+              !item.isTargetBlank
+                ? regexAPages.test(item.url)
+                  ? "/dashboard/page/" + item.url
+                  : "/dashboard/page/frame?url=" + item.url
+                : item.url
+            }
+            target={item.isTargetBlank ? "_blank" : "_parent"}
+            className="block py-2 text-sm hover:text-white"
+          >
+            {item.name}
+          </Link>
+        </div>
+      )}
+    </>
   );
 };
 
