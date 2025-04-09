@@ -23,7 +23,7 @@ const AvatarMenu: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
       <Popover>
         <PopoverTrigger className="group flex items-center gap-x-1">
           <Avatar>
-            <AvatarFallback>{fallbackName}</AvatarFallback>
+            <AvatarFallback className="text-sm">{fallbackName}</AvatarFallback>
             <AvatarImage />
           </Avatar>
           <p className="flex items-center gap-x-1 group-hover:underline">
