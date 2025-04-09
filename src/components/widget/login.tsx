@@ -23,7 +23,6 @@ const Login = () => {
 
     try {
       const response = await signIn(newData as any);
-      console.log(response);
       setToken(response);
 
       // const user = await getUserData(response.data);
@@ -32,6 +31,7 @@ const Login = () => {
 
       navigate("/dashboard");
     } catch {
+      return null;
     } finally {
       setIsSubmitting(false);
     }
