@@ -1,25 +1,23 @@
-import { LogOut } from "lucide-react";
+import AvatarMenu from "@/components/layout/header/avatar";
 
-import { logout } from "@/auth";
-
-import AvatarMenu from "@/components/common/avatar-menu";
-
-import { Button } from "@/components/ui/button";
-
-import SearchInput from "./search-input";
+import Logout from "./logout";
+import Messages from "./messages";
+import Notifications from "./notifications";
+import Settings from "./settings";
 
 const Header = () => {
   return (
-    <div className="sticky top-0 flex h-20 w-full items-center bg-white px-10 shadow-xl shadow-black/5">
-      <SearchInput />
+    <div className="flex h-[70px] w-full items-center bg-[#273646] px-6">
+      <div className="">
+        <img src="/images/logo.png" alt="" width={165} />
+      </div>
       <AvatarMenu className="ms-auto" />
-      <Button
-        variant="destructive"
-        onClick={logout}
-        className="ms-5 flex size-8 items-center justify-center rounded-full bg-transparent p-0 text-red-600 hover:text-white"
-      >
-        <LogOut />
-      </Button>
+      <div className="ms-5 flex items-center gap-x-5">
+        <Notifications />
+        <Messages />
+        <Settings />
+        <Logout />
+      </div>
     </div>
   );
 };
