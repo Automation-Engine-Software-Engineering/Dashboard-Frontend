@@ -1,4 +1,4 @@
-import { Navigate, Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 
 import DashboardPage from "@/pages/dashboard";
 import FormPage from "@/pages/form";
@@ -16,28 +16,20 @@ import AuthMiddleware from "./auth-middleware";
 const Router = () => {
   return (
     <Routes>
-      <Route path="/" element={<Navigate to="/login" />} />
-
       {/* Public routes */}
       <Route path="/login" element={<LoginPage />} />
 
       {/* Private routes */}
       <Route element={<AuthMiddleware />}>
         <Route element={<Layout />}>
-          <Route path="/dashboard" element={<DashboardPage />} />
-          <Route
-            path="/dashboard/workflow/form/:formId"
-            element={<FormPage />}
-          />
-          <Route
-            path="/dashboard/workflow/table/:tableId"
-            element={<TablePage />}
-          />
-          <Route path="/dashboard/table" element={<TablePage />} />
-          <Route path="/dashboard/page/a1" element={<A1 />} />
-          <Route path="/dashboard/page/a2" element={<A2 />} />
-          <Route path="/dashboard/page/a3" element={<A3 />} />
-          <Route path="/dashboard/page/frame" element={<Iframe />} />
+          <Route path="/" element={<DashboardPage />} />
+          <Route path="/workflow/form/:formId" element={<FormPage />} />
+          <Route path="/workflow/table/:tableId" element={<TablePage />} />
+          <Route path="/table" element={<TablePage />} />
+          <Route path="/page/a1" element={<A1 />} />
+          <Route path="/page/a2" element={<A2 />} />
+          <Route path="/page/a3" element={<A3 />} />
+          <Route path="/page/frame" element={<Iframe />} />
         </Route>
       </Route>
     </Routes>

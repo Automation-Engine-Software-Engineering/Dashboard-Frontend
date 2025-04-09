@@ -24,12 +24,9 @@ const Login = () => {
     try {
       const response = await signIn(newData as any);
       setToken(response);
-
-      // const user = await getUserData(response.data);
-
       setSession(response);
 
-      navigate("/dashboard");
+      navigate("/");
     } catch {
       return null;
     } finally {
