@@ -11,8 +11,7 @@ const Iframe = () => {
         src={searchParams.get("url") || ""}
         title="Safe Iframe"
         width="100%"
-        height="600px"
-        className="border-0"
+        className="h-[calc(100vh-120px)] border-0"
         sandbox="allow-scripts allow-forms allow-same-origin"
       ></iframe>
     </Box>
