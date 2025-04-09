@@ -15,7 +15,8 @@ import {
   AccordionTrigger
 } from "@/components/ui/accordion";
 
-const regex = /a[1-3]/;
+const regexAPages = /a[1-3]/;
+const regexPPages = /p[1]/;
 
 const Navbar: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
   className,
@@ -57,13 +58,32 @@ const Navbar: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
           className="mx-auto"
         />
       </div>
-      <div className="mt-10 flex-1 text-[#a6b0cf]">
+      <div className="mt-10 flex flex-1 flex-col text-[#a6b0cf]">
         {isLoading ? (
           <Loading />
         ) : (
-          <Accordion type="single" collapsible>
-            {items?.map((item) => <NavItem key={item.id} item={item} />)}
-          </Accordion>
+          <>
+            <Accordion type="single" collapsible>
+              {items?.map(
+                (item) =>
+                  !regexPPages.test(item.url) && (
+                    <NavItem key={item.id} item={item} />
+                  )
+              )}
+            </Accordion>
+            <Accordion
+              className="mt-auto border-t border-t-slate-500 py-7 pt-4"
+              type="single"
+              collapsible
+            >
+              {items?.map(
+                (item) =>
+                  regexPPages.test(item.url) && (
+                    <NavItem key={item.id} item={item} />
+                  )
+              )}
+            </Accordion>
+          </>
         )}
       </div>
     </div>
@@ -72,10 +92,9 @@ const Navbar: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
 
 export default Navbar;
 
-// Recursive NavItem Component
 const NavItem: React.FC<{ item: any }> = ({ item }) => {
-  const hasChildren = item.children && item.children.length > 0;
-
+  const hasChildren = item.children.length;
+  console.log(Boolean(hasChildren));
   return (
     <AccordionItem value={`item-${item.id}`}>
       <AccordionTrigger className="px-[20px] py-2 text-sm hover:text-white">
@@ -94,7 +113,7 @@ const NavItem: React.FC<{ item: any }> = ({ item }) => {
             <Link
               to={
                 !item.isTargetBlank
-                  ? regex.test(item.url)
+                  ? regexAPages.test(item.url)
                     ? "/dashboard/page/" + item.url
                     : "/dashboard/page/frame?url=" + item.url
                   : item.url
