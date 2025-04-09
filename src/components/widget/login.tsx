@@ -38,53 +38,27 @@ const Login = () => {
   };
 
   return (
-    <div className="w-full max-w-[500px] rounded-lg bg-gray-700/30 p-10 pb-5 backdrop-blur">
-      <div className="rounded-lg bg-white/10 p-10 text-white backdrop-blur">
-        <h2 className="mb-10 text-center text-xl font-bold text-zinc-300">
-          ورود به حساب کاربری
-          <span className="mr-2 text-center text-xl font-bold text-zinc-100">
-            (سامانه هوشمند)
-          </span>
-        </h2>
-        <form onSubmit={(e) => handleSubmit(e)} className="space-y-10">
-          <div className="flex flex-col gap-y-2">
-            <label htmlFor="" className="">
-              نام کاربری
-            </label>
-            <input
-              type="text"
-              name="username"
-              placeholder="نام کاربری را وارد کنید"
-              className="h-12 rounded-md bg-black/50 px-5"
-            />
-          </div>
-          <div className="flex flex-col gap-y-2">
-            <label htmlFor="" className="">
-              رمز عبور
-            </label>
-            <input
-              type="password"
-              name="password"
-              placeholder="رمز عبور را وارد کنید"
-              className="h-12 rounded-md bg-black/50 px-5"
-            />
-          </div>
-          <button
-            type="submit"
-            className="w-full rounded-lg bg-white px-5 py-3 font-bold text-black transition-colors hover:bg-white/80 disabled:cursor-not-allowed disabled:opacity-70"
-            disabled={isSubmitting}
-          >
-            {isSubmitting ? "درحال ورود" : "ورود به حساب کاربری"}
-          </button>
-        </form>
-      </div>
-      <div className="mr-2 mt-5 text-zinc-300">
-        <label>
-          + دانشگاه اصفهان - طراحی شده توسط شرکت
-          <span className="mr-2 text-zinc-100">پارسه آذین مبین</span>
-        </label>
-      </div>
-    </div>
+    <form onSubmit={(e) => handleSubmit(e)} className="w-full space-y-8">
+      <input
+        type="text"
+        name="username"
+        placeholder="شناسه کاربری"
+        className="h-14 w-full rounded-xl px-8 text-lg font-bold shadow-[0_0_20px_0_#002248]"
+      />
+      <input
+        type="password"
+        name="password"
+        placeholder="رمز عبور"
+        className="h-14 w-full rounded-xl px-8 text-lg font-bold shadow-[0_0_20px_0_#002248]"
+      />
+      <button
+        type="submit"
+        className="w-full rounded-xl bg-[#055DC0] py-[10px] text-2xl text-white disabled:cursor-not-allowed disabled:opacity-70"
+        disabled={isSubmitting}
+      >
+        {isSubmitting ? "درحال ورود" : "ورود به حساب کاربری"}
+      </button>
+    </form>
   );
 };
 export default Login;
