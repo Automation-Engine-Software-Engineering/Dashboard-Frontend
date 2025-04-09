@@ -3,7 +3,7 @@ import { useSearchParams } from "react-router-dom";
 import Box from "@/components/ui/box";
 
 const Iframe = () => {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
 
   return (
     <Box>

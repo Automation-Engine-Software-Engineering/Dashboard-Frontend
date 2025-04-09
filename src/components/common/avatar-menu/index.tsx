@@ -1,7 +1,5 @@
 import { ChevronDown } from "lucide-react";
 
-import { getSession } from "@/auth";
-
 import { cn, getInitialName } from "@/lib/utils";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";

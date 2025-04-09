@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import { getUserData, signIn } from "@/api/auth";
+import { signIn } from "@/api/auth";
 import { setSession, setToken } from "@/auth";
 import { useNavigate } from "react-router-dom";
 
