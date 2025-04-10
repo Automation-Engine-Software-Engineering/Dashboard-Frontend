@@ -19,6 +19,11 @@ const AnimatedBackground = () => {
       <Particles
         id="tsparticles"
         options={{
+          style: {
+            width: "100%",
+            height: "100%",
+            position: "absolute"
+          },
           background: {
             color: {
               value: "transparent"
@@ -28,7 +33,7 @@ const AnimatedBackground = () => {
           interactivity: {
             events: {
               onClick: {
-                enable: true,
+                enable: false,
                 mode: "push"
               },
               onHover: {
@@ -80,7 +85,7 @@ const AnimatedBackground = () => {
               type: "circle"
             },
             size: {
-              value: { min: 1, max: 5 }
+              value: { min: 3, max: 3 }
             }
           },
           detectRetina: true
