@@ -3,10 +3,12 @@ import { Route, Routes } from "react-router-dom";
 import DashboardPage from "@/pages/dashboard";
 import FormPage from "@/pages/form";
 import LoginPage from "@/pages/login";
+import NotFoundPage from "@/pages/not-found";
 import A1 from "@/pages/page/A1";
 import A2 from "@/pages/page/A2";
 import A3 from "@/pages/page/A3";
 import Iframe from "@/pages/page/iframe";
+import EditProfilePage from "@/pages/profile/edit-profile";
 import TablePage from "@/pages/table";
 
 import Layout from "@/components/layout/layout";
@@ -30,6 +32,12 @@ const Router = () => {
           <Route path="/page/a2" element={<A2 />} />
           <Route path="/page/a3" element={<A3 />} />
           <Route path="/page/frame" element={<Iframe />} />
+
+          {/* Edit Profile */}
+          <Route path="/edit-profile" element={<EditProfilePage />}></Route>
+
+          {/* Not Found Page */}
+          <Route path="*" element={<NotFoundPage />} />
         </Route>
       </Route>
     </Routes>
