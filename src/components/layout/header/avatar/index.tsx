@@ -5,8 +5,6 @@ import { cn, getInitialName } from "@/lib/utils";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Popover, PopoverTrigger } from "@/components/ui/popover";
 
-import AvatarMenuContent from "./avatar-menu-content";
-
 const AvatarMenu: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
   className,
   ...props
@@ -27,7 +25,6 @@ const AvatarMenu: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
             <AvatarImage />
           </Avatar>
         </PopoverTrigger>
-        <AvatarMenuContent />
       </Popover>
     </div>
   );
