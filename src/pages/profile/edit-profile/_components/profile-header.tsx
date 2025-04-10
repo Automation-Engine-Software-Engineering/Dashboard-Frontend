@@ -2,7 +2,7 @@ import AnimatedBackground from "@/components/ui/animated-background";
 
 const ProfileHeader = () => {
   return (
-    <div className="relative h-32 ps-28">
+    <div className="relative mb-3 h-32 ps-28">
       <div className="size-full bg-[#273646]">
         <AnimatedBackground />
         <div className="relative z-10 flex size-full items-center">
