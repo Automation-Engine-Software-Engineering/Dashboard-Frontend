@@ -47,7 +47,7 @@ const Navbar: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
   return (
     <div
       className={cn(
-        "sticky right-0 top-0 flex h-screen overflow-auto border-e border-slate-300 bg-white",
+        "sticky right-0 top-0 flex h-screen overflow-auto whitespace-nowrap border-e border-slate-300 bg-white",
         className
       )}
       {...props}
@@ -62,7 +62,7 @@ const Navbar: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
       </div>
       <div
         className={cn(
-          "mt-10 flex flex-1 flex-col transition-all",
+          "mt-10 flex flex-1 flex-col transition-all duration-1000",
           sidebarIsOpen ? "w-[280px]" : "w-0 overflow-hidden"
         )}
       >
