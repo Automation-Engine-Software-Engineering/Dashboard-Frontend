@@ -47,7 +47,7 @@ const Navbar: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
   return (
     <div
       className={cn(
-        "sticky right-0 top-0 flex h-[calc(100vh-118px)] overflow-auto border-e border-slate-300 bg-white",
+        "sticky right-0 top-0 flex h-screen overflow-auto border-e border-slate-300 bg-white",
         className
       )}
       {...props}
