@@ -9,6 +9,10 @@ import A2 from "@/pages/page/A2";
 import A3 from "@/pages/page/A3";
 import Iframe from "@/pages/page/iframe";
 import EditProfilePage from "@/pages/profile/edit-profile";
+import EditProfileAboutMe from "@/pages/profile/edit-profile/about-me";
+import EditProfileEducation from "@/pages/profile/edit-profile/education";
+import EditProfileResearch from "@/pages/profile/edit-profile/research";
+import EditProfileSocialLinks from "@/pages/profile/edit-profile/social-links";
 import TablePage from "@/pages/table";
 
 import Layout from "@/components/layout/layout";
@@ -34,7 +38,12 @@ const Router = () => {
           <Route path="/page/frame" element={<Iframe />} />
 
           {/* Edit Profile */}
-          <Route path="/edit-profile" element={<EditProfilePage />}></Route>
+          <Route path="/edit-profile" element={<EditProfilePage />}>
+            <Route path="" element={<EditProfileAboutMe />} />
+            <Route path="research" element={<EditProfileResearch />} />
+            <Route path="education" element={<EditProfileEducation />} />
+            <Route path="social-links" element={<EditProfileSocialLinks />} />
+          </Route>
 
           {/* Not Found Page */}
           <Route path="*" element={<NotFoundPage />} />

@@ -1,3 +1,9 @@
 export const routeLabels: Record<string, string> = {
-  "/page": "فرم"
+  "/page": "فرم",
+
+  // edit profile labels
+  "/edit-profile": "ویرایش پروفایل",
+  "/edit-profile/research": "اطلاعات پژوهشی",
+  "/edit-profile/education": "اطلاعات تحصیلی و آموزشی",
+  "/edit-profile/social-links": "وبسایت‌ و شبکه‌های اجتماعی"
 };
