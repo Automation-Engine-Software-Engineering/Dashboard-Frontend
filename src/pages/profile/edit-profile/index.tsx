@@ -8,7 +8,7 @@ const EditProfilePage = () => {
     <section>
       <ProfileNavbar />
       <ProfileHeader />
-      <div className="py-5">
+      <div className="relative py-5">
         <Outlet />
       </div>
     </section>

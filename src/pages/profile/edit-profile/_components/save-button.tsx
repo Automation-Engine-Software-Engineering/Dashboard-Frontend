@@ -1,6 +1,6 @@
 const SaveButton = () => {
   return (
-    <div className="lef-0 fixed bottom-0 flex h-12 w-full items-start bg-white">
+    <div className="absolute bottom-0 left-0 flex h-12 w-full items-start bg-white">
       <div className="flex-1">
         <div className="h-[20px] border-b border-slate-300 bg-[#F8F8FB]"></div>
       </div>
