@@ -1,18 +1,18 @@
 import { BrowserRouter } from "react-router-dom";
 
 import Loader from "./components/common/loader";
-import { AuthProvider } from "./context/auth";
+import ReactQuery from "./providers/react-query";
 import ToastProvider from "./providers/toast-provider";
 
 const Providers = ({ children }: Readonly<{ children: React.ReactNode }>) => {
   return (
     <>
       <BrowserRouter>
-        <AuthProvider>
+        <ReactQuery>
           <Loader />
           <ToastProvider />
           {children}
-        </AuthProvider>
+        </ReactQuery>
       </BrowserRouter>
     </>
   );
