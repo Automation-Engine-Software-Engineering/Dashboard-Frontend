@@ -27,8 +27,8 @@ const ProfileNavbar = () => {
   return (
     <div className="mb-2 flex h-10 w-full items-center bg-[#E4EBF3] pe-4">
       <ul className="flex h-full">
-        {profileEditNavItems.map((item) => (
-          <li>
+        {profileEditNavItems.map((item, index) => (
+          <li key={index}>
             <NavLink
               to={item.href}
               className={({ isActive }) =>
