@@ -1,4 +1,4 @@
-import { ChevronRight } from "lucide-react";
+import { ChevronRight, PenBoxIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 
 import { axiosInstance } from "@/api/axios-instance";
@@ -98,6 +98,13 @@ const Navbar: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
                   </svg>
                 </span>
                 مشاهده پروفایل
+              </Link>
+              <Link
+                to="/edit-profile"
+                className="flex items-center gap-x-1 text-xs font-semibold hover:text-[#0099A5]"
+              >
+                <PenBoxIcon color="#0099A5" size={12} />
+                ویرایش پروفایل
               </Link>
               <Link
                 to="#"
