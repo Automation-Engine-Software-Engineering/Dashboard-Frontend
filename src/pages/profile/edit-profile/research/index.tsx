@@ -248,6 +248,12 @@ const EditProfileResearch = () => {
           <div className="space-y-3" dir="ltr">
             <TextareaUi
               defaultValue={profileData?.membershipEn}
+              onChange={(e) => {
+                setEditData((prev) => ({
+                  ...prev,
+                  membershipEn: e.target.value
+                }));
+              }}
               label={
                 <div className="flex items-center gap-x-1">
                   <Users size={16} />
