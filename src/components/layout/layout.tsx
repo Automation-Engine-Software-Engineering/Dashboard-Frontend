@@ -13,9 +13,9 @@ const Layout = () => {
       </div>
       <div className="relative flex h-full">
         <Navbar className="shrink-0" />
-        <div className="flex-1">
+        <main className="flex-1">
           <Outlet />
-        </div>
+        </main>
       </div>
     </>
   );
