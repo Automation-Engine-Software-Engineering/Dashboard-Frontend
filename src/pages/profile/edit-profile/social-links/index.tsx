@@ -1,4 +1,10 @@
+import SaveButton from "../_components/save-button";
+
 const EditProfileSocialLinks = () => {
-  return <div>EditProfileAboutMe</div>;
+  return (
+    <div>
+      <SaveButton />
+    </div>
+  );
 };
 export default EditProfileSocialLinks;
