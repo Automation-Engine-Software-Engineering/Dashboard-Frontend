@@ -1,10 +1,22 @@
-import { getSession } from "@/auth";
 import { Navigate, Outlet } from "react-router-dom";
+import { MoonLoader } from "react-spinners";
+
+import { useSession } from "@/hooks/useSession";
 
 const AuthMiddleware = () => {
-  const session = getSession();
+  const { data, isLoading } = useSession();
 
-  return session ? <Outlet /> : <Navigate to="/login" />;
+  if (isLoading) return <Loading />;
+
+  return data ? <Outlet /> : <Navigate to="/login" />;
+};
+
+const Loading = () => {
+  return (
+    <div className="flex h-screen w-full items-center justify-center bg-white">
+      <MoonLoader color="#0099A5" size={50} />
+    </div>
+  );
 };
 
 export default AuthMiddleware;

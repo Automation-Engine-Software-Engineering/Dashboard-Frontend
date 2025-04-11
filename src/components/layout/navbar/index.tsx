@@ -2,12 +2,13 @@ import { ChevronRight, PenBoxIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 
 import { axiosInstance } from "@/api/axios-instance";
-import { getSession } from "@/auth";
 import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
 import { MoonLoader } from "react-spinners";
 
 import { cn } from "@/lib/utils";
+
+import { useSession } from "@/hooks/useSession";
 
 import {
   Accordion,
@@ -28,12 +29,14 @@ const Navbar: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
 
   const [sidebarIsOpen, setSidebarIsOpen] = useState<boolean>(true);
 
-  const { roleId } = getSession();
+  const { data: session } = useSession();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axiosInstance.get(`/GetRole?Id=${roleId}`);
+        const response = await axiosInstance.get(
+          `/GetRole?Id=${session?.roleId}`
+        );
         setItems(response.data);
       } catch {
         toast.error("Failed to fetch data");
@@ -42,7 +45,7 @@ const Navbar: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
       }
     };
     fetchData();
-  }, [roleId]);
+  }, [session]);
 
   return (
     <div

@@ -1,13 +1,9 @@
 import { useState } from "react";
 
-import { signIn } from "@/api/auth";
-import { setSession, setToken } from "@/auth";
-import { useNavigate } from "react-router-dom";
+import { signIn } from "@/auth/sign-in";
 
 const Login = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
-
-  const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -15,23 +11,15 @@ const Login = () => {
 
     const formData = new FormData(e.currentTarget);
 
-    const newData: Record<string, any> = {};
+    const credential: Record<string, any> = {};
 
     formData.forEach((value, key) => {
-      newData[key] = value;
+      credential[key] = value;
     });
 
-    try {
-      const response = await signIn(newData as any);
-      setToken(response);
-      setSession(response);
+    await signIn({ credentials: credential as any });
 
-      navigate("/");
-    } catch {
-      return null;
-    } finally {
-      setIsSubmitting(false);
-    }
+    setIsSubmitting(false);
   };
 
   return (
