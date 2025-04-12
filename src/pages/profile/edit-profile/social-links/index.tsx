@@ -1,8 +1,11 @@
+import { useSession } from "@/hooks/useSession";
+
 import SaveButton from "../_components/save-button";
 import Textfield from "../_components/textfield";
 import WebLinkTextfieldRepeater from "../_components/weblink-textfield-repeater";
 
 const EditProfileSocialLinks = () => {
+  const { data: profileData } = useSession();
   return (
     <>
       <div className="px-10 pb-10">
@@ -12,6 +15,7 @@ const EditProfileSocialLinks = () => {
           dir="ltr"
         >
           <Textfield
+            defaultValue={profileData?.socialMedia.linkedIn}
             label={
               <div className="flex items-center gap-x-1 [&_svg]:size-4">
                 <svg viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
@@ -29,6 +33,7 @@ const EditProfileSocialLinks = () => {
             }
           />
           <Textfield
+            defaultValue={profileData?.socialMedia.researchGate}
             label={
               <div className="flex items-center gap-x-1 [&_svg]:size-4">
                 <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
@@ -43,6 +48,7 @@ const EditProfileSocialLinks = () => {
             }
           />
           <Textfield
+            defaultValue={profileData?.socialMedia.mendeley}
             label={
               <div className="flex items-center gap-x-1 [&_svg]:size-4 [&_svg]:rounded-sm [&_svg]:bg-[#A91B27] [&_svg]:fill-white [&_svg]:px-0.5">
                 <svg
@@ -59,6 +65,7 @@ const EditProfileSocialLinks = () => {
             }
           />
           <Textfield
+            defaultValue={profileData?.socialMedia.academia}
             label={
               <div className="flex items-center gap-x-1 [&_svg]:size-3 [&_svg]:rounded-full [&_svg]:bg-black [&_svg]:fill-white [&_svg]:p-0.5">
                 <svg
@@ -83,6 +90,7 @@ const EditProfileSocialLinks = () => {
           dir="ltr"
         >
           <Textfield
+            defaultValue={profileData?.socialMedia.eitaa}
             label={
               <div className="flex items-center gap-x-1 [&_img]:size-4">
                 <img src="/images/eitta.png" alt="" />
@@ -91,6 +99,7 @@ const EditProfileSocialLinks = () => {
             }
           />
           <Textfield
+            defaultValue={profileData?.socialMedia.faceBook}
             label={
               <div className="flex items-center gap-x-1 [&_svg]:size-4">
                 <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
@@ -105,6 +114,7 @@ const EditProfileSocialLinks = () => {
             }
           />
           <Textfield
+            defaultValue={profileData?.socialMedia.instagram}
             label={
               <div className="flex items-center gap-x-1 [&_svg]:size-4">
                 <svg
@@ -123,6 +133,7 @@ const EditProfileSocialLinks = () => {
             }
           />
           <Textfield
+            defaultValue={profileData?.socialMedia.twitter}
             label={
               <div className="flex items-center gap-x-1 [&_svg]:size-4">
                 <svg
@@ -143,7 +154,7 @@ const EditProfileSocialLinks = () => {
         </div>
         <hr className="my-5" />
         <h2 className="mb-6">وبسایت‌ها</h2>
-        <WebLinkTextfieldRepeater />
+        <WebLinkTextfieldRepeater defaultValues={profileData?.webLinks} />
       </div>
       <SaveButton />
     </>

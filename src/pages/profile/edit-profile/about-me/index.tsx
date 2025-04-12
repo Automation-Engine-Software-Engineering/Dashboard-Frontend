@@ -1,12 +1,15 @@
 import { AtSign, Edit, Phone, Smartphone } from "lucide-react";
 import { useState } from "react";
 
+import { useSession } from "@/hooks/useSession";
+
 import SaveButton from "../_components/save-button";
 import Textarea from "../_components/textarea";
 
 const EditProfileAboutMe = () => {
   const [editingField, setEditingField] = useState<string | null>(null);
 
+  const { data: profileData } = useSession();
   return (
     <>
       <div className="w-full bg-[#E4EBF3] px-12 py-5">
@@ -18,7 +21,7 @@ const EditProfileAboutMe = () => {
             </div>
             <div className="flex items-center gap-x-2">
               <input
-                defaultValue="+989100000"
+                defaultValue={profileData?.phone || "+98"}
                 className="w-24 rounded-md border border-slate-300 p-1 text-xs disabled:border-transparent disabled:bg-transparent"
                 dir="ltr"
                 disabled={editingField !== "phone"}
@@ -35,7 +38,7 @@ const EditProfileAboutMe = () => {
             </div>
             <div className="flex items-center gap-x-2">
               <input
-                defaultValue="+989100000"
+                defaultValue={profileData?.mobileNumber || "+98"}
                 className="w-24 rounded-md border border-slate-300 p-1 text-xs disabled:border-transparent disabled:bg-transparent"
                 dir="ltr"
                 disabled={editingField !== "mobileNumber"}
@@ -54,7 +57,7 @@ const EditProfileAboutMe = () => {
             </div>
             <div className="flex items-center gap-x-2">
               <input
-                defaultValue="example@mail.ir"
+                defaultValue={profileData?.universityEmail || "example@mail.ir"}
                 className="w-28 rounded-md border border-slate-300 p-1 text-xs disabled:border-transparent disabled:bg-transparent"
                 dir="ltr"
                 disabled={editingField !== "universityEmail"}
@@ -71,7 +74,7 @@ const EditProfileAboutMe = () => {
             </div>
             <div className="flex items-center gap-x-2">
               <input
-                defaultValue="example@mail.ir"
+                defaultValue={profileData?.personalEmail || "example@mail.ir"}
                 className="w-28 rounded-md border border-slate-300 p-1 text-xs disabled:border-transparent disabled:bg-transparent"
                 dir="ltr"
                 disabled={editingField !== "personalEmail"}
@@ -86,10 +89,18 @@ const EditProfileAboutMe = () => {
       <div className="px-10 py-6">
         <div className="grid grid-cols-1 gap-10 sm:grid-cols-2">
           <div>
-            <Textarea className="h-64 w-full" label={<>درباره من</>} />
+            <Textarea
+              defaultValue={profileData?.biographyFa}
+              className="h-64 w-full"
+              label={<>درباره من</>}
+            />
           </div>
           <div dir="ltr">
-            <Textarea className="h-64 w-full" label={<>About me</>} />
+            <Textarea
+              defaultValue={profileData?.biographyEn}
+              className="h-64 w-full"
+              label={<>About me</>}
+            />
           </div>
         </div>
       </div>
