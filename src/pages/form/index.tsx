@@ -2,10 +2,11 @@ import { useEffect, useState } from "react";
 
 import { getForm } from "@/api/form";
 import { getNextWorkflowValue } from "@/api/workflow";
-import { getSession } from "@/auth";
 import toast from "react-hot-toast";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { MoonLoader } from "react-spinners";
+
+import { useSession } from "@/hooks/useSession";
 
 import Box from "@/components/ui/box";
 import { Button } from "@/components/ui/button";
@@ -14,20 +15,20 @@ const FormPage = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [formHTML, setFormHTML] = useState("");
 
+  const { data: session } = useSession();
+
   const { formId } = useParams();
   const navigate = useNavigate();
-  const [searchParams, _setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
 
   const handleNextFrom = async () => {
-    const session = await getSession();
-
     const workflowId = searchParams.get("workflowId") as string;
 
     const loadingToast = toast.loading("درحال دریافت اطلاعات");
 
     try {
       const workflowValue = await getNextWorkflowValue(
-        session?.id,
+        session!.id.toString(),
         +workflowId
       );
 
@@ -108,7 +109,7 @@ export default FormPage;
 const Loading = () => {
   return (
     <div className="flex size-full items-center justify-center">
-      <MoonLoader color="#2A3042" size={50} />
+      <MoonLoader color="#0099A5" size={50} />
     </div>
   );
 };
