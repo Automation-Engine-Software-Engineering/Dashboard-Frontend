@@ -21,7 +21,7 @@ const Breadcrumb = () => {
     <nav aria-label="breadcrumb" className="h-12 bg-white ps-4">
       <ul className="flex h-full items-center space-x-2">
         <li className="flex items-center justify-center">
-          <Link to="/" className="font-medium text-gray-700">
+          <Link to="/" className="font-medium text-gray-700 hover:text-primary">
             <Home />
           </Link>
           <span className="mx-5 text-gray-500">
@@ -80,7 +80,7 @@ const Breadcrumb = () => {
             {index === breadcrumbItems.length - 1 ? (
               <span className="font-medium text-gray-700">{item.label}</span>
             ) : (
-              <Link to={item.path} className="text-gray-700 hover:underline">
+              <Link to={item.path} className="text-gray-700 hover:text-primary">
                 {item.label}
               </Link>
             )}
