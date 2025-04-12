@@ -1,6 +1,7 @@
 import { Outlet } from "react-router-dom";
 
 import Breadcrumb from "../common/breadcrumbs";
+import { Footer } from "./Footer/index";
 import Header from "./header";
 import Navbar from "./navbar";
 
@@ -17,6 +18,7 @@ const Layout = () => {
           <Outlet />
         </main>
       </div>
+      <Footer />
     </>
   );
 };
