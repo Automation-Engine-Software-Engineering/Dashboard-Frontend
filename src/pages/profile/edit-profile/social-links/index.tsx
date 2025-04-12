@@ -1,3 +1,8 @@
+import { useState } from "react";
+
+import { editSocialLinksProfile, EditSocialLinksType } from "@/api/profile";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+
 import { useSession } from "@/hooks/useSession";
 
 import SaveButton from "../_components/save-button";
@@ -6,8 +11,42 @@ import WebLinkTextfieldRepeater from "../_components/weblink-textfield-repeater"
 
 const EditProfileSocialLinks = () => {
   const { data: profileData } = useSession();
+
+  const [editData, setEditData] = useState<EditSocialLinksType>({
+    id: profileData?.id,
+    webLinks: profileData?.webLinks,
+    academia: profileData?.socialMedia.academia,
+    eitaa: profileData?.socialMedia.eitaa,
+    facebook: profileData?.socialMedia.faceBook,
+    gmail: profileData?.socialMedia.gmail,
+    googleScholar: profileData?.socialMedia.scholar,
+    instagram: profileData?.socialMedia.instagram,
+    isc: profileData?.socialMedia.isc,
+    isi: profileData?.socialMedia.isi,
+    linkedIn: profileData?.socialMedia.linkedIn,
+    mendeley: profileData?.socialMedia.mendeley,
+    orcid: profileData?.socialMedia.orcid,
+    personalWebsite: profileData?.socialMedia.personalWebsite,
+    researchGate: profileData?.socialMedia.researchGate,
+    scopus: profileData?.socialMedia.scopus,
+    twitter: profileData?.socialMedia.twitter,
+    webOfScience: profileData?.socialMedia.webOfScience
+  });
+
+  const queryClient = useQueryClient();
+
+  const mutateData = useMutation({
+    mutationFn: (data: EditSocialLinksType) => editSocialLinksProfile(data),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["session"] })
+  });
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    mutateData.mutate(editData);
+  };
   return (
-    <>
+    <form onSubmit={handleSubmit}>
       <div className="px-10 pb-10">
         <h2 className="mb-6">شبکه‌های اجتماعی پژوهشی</h2>
         <div
@@ -16,6 +55,12 @@ const EditProfileSocialLinks = () => {
         >
           <Textfield
             defaultValue={profileData?.socialMedia.linkedIn}
+            onChange={(e) => {
+              setEditData((prev) => ({
+                ...prev,
+                linkedIn: e.target.value
+              }));
+            }}
             label={
               <div className="flex items-center gap-x-1 [&_svg]:size-4">
                 <svg viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
@@ -34,6 +79,12 @@ const EditProfileSocialLinks = () => {
           />
           <Textfield
             defaultValue={profileData?.socialMedia.researchGate}
+            onChange={(e) => {
+              setEditData((prev) => ({
+                ...prev,
+                researchGate: e.target.value
+              }));
+            }}
             label={
               <div className="flex items-center gap-x-1 [&_svg]:size-4">
                 <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
@@ -49,6 +100,12 @@ const EditProfileSocialLinks = () => {
           />
           <Textfield
             defaultValue={profileData?.socialMedia.mendeley}
+            onChange={(e) => {
+              setEditData((prev) => ({
+                ...prev,
+                mendeley: e.target.value
+              }));
+            }}
             label={
               <div className="flex items-center gap-x-1 [&_svg]:size-4 [&_svg]:rounded-sm [&_svg]:bg-[#A91B27] [&_svg]:fill-white [&_svg]:px-0.5">
                 <svg
@@ -66,6 +123,12 @@ const EditProfileSocialLinks = () => {
           />
           <Textfield
             defaultValue={profileData?.socialMedia.academia}
+            onChange={(e) => {
+              setEditData((prev) => ({
+                ...prev,
+                academia: e.target.value
+              }));
+            }}
             label={
               <div className="flex items-center gap-x-1 [&_svg]:size-3 [&_svg]:rounded-full [&_svg]:bg-black [&_svg]:fill-white [&_svg]:p-0.5">
                 <svg
@@ -91,6 +154,12 @@ const EditProfileSocialLinks = () => {
         >
           <Textfield
             defaultValue={profileData?.socialMedia.eitaa}
+            onChange={(e) => {
+              setEditData((prev) => ({
+                ...prev,
+                eitaa: e.target.value
+              }));
+            }}
             label={
               <div className="flex items-center gap-x-1 [&_img]:size-4">
                 <img src="/images/eitta.png" alt="" />
@@ -100,6 +169,12 @@ const EditProfileSocialLinks = () => {
           />
           <Textfield
             defaultValue={profileData?.socialMedia.faceBook}
+            onChange={(e) => {
+              setEditData((prev) => ({
+                ...prev,
+                facebook: e.target.value
+              }));
+            }}
             label={
               <div className="flex items-center gap-x-1 [&_svg]:size-4">
                 <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
@@ -115,6 +190,12 @@ const EditProfileSocialLinks = () => {
           />
           <Textfield
             defaultValue={profileData?.socialMedia.instagram}
+            onChange={(e) => {
+              setEditData((prev) => ({
+                ...prev,
+                instagram: e.target.value
+              }));
+            }}
             label={
               <div className="flex items-center gap-x-1 [&_svg]:size-4">
                 <svg
@@ -134,6 +215,12 @@ const EditProfileSocialLinks = () => {
           />
           <Textfield
             defaultValue={profileData?.socialMedia.twitter}
+            onChange={(e) => {
+              setEditData((prev) => ({
+                ...prev,
+                twitter: e.target.value
+              }));
+            }}
             label={
               <div className="flex items-center gap-x-1 [&_svg]:size-4">
                 <svg
@@ -154,10 +241,18 @@ const EditProfileSocialLinks = () => {
         </div>
         <hr className="my-5" />
         <h2 className="mb-6">وبسایت‌ها</h2>
-        <WebLinkTextfieldRepeater defaultValues={profileData?.webLinks} />
+        <WebLinkTextfieldRepeater
+          defaultValues={profileData?.webLinks}
+          onValuesChange={(values) => {
+            setEditData((prev) => ({
+              ...prev,
+              webLinks: values
+            }));
+          }}
+        />
       </div>
       <SaveButton />
-    </>
+    </form>
   );
 };
 export default EditProfileSocialLinks;

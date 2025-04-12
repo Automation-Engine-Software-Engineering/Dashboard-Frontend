@@ -1,4 +1,8 @@
 import { Clipboard, Search, Users } from "lucide-react";
+import { useState } from "react";
+
+import { editResearchProfile, EditResearchType } from "@/api/profile";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { useSession } from "@/hooks/useSession";
 
@@ -8,13 +12,48 @@ import TextfieldRepeater from "../_components/textfieald-reapeter";
 
 const EditProfileResearch = () => {
   const { data: profileData } = useSession();
+
+  const [editData, setEditData] = useState<EditResearchType>({
+    id: profileData?.id,
+    research: profileData?.research,
+    researchFA: profileData?.researchFA,
+    researchAreas: profileData?.researchAreas,
+    areaOfStudy: profileData?.areaOfStudy,
+    areaOfStudyFa: profileData?.areaOfStudyFA,
+    membershipEn: profileData?.membershipEn,
+    membershipFa: profileData?.membershipFa,
+    memberships: profileData?.memberships,
+    professionalActivities: profileData?.professionalActivities,
+    professionalActivityEn: profileData?.professionalActivityEn,
+    professionalActivityFa: profileData?.professionalActivityFa
+  });
+
+  const queryClient = useQueryClient();
+
+  const mutateData = useMutation({
+    mutationFn: (data: EditResearchType) => editResearchProfile(data),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["session"] })
+  });
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    mutateData.mutate(editData);
+  };
+
   return (
-    <>
+    <form onSubmit={handleSubmit}>
       <div className="px-10 py-5 pb-10">
         <div className="grid grid-cols-1 gap-x-10 gap-y-20 sm:grid-cols-2">
           <div className="space-y-3">
             <Textarea
               defaultValue={profileData?.researchFA}
+              onChange={(e) => {
+                setEditData((prev) => ({
+                  ...prev,
+                  researchFA: e.target.value
+                }));
+              }}
               label={
                 <div className="flex items-center gap-x-1">
                   <Search size={16} />
@@ -28,13 +67,33 @@ const EditProfileResearch = () => {
                 (research) => research.titleFa
               )}
               onValuesChange={(values) => {
-                console.log(values);
+                setEditData((prev) => ({
+                  ...prev,
+                  researchAreas: (prev.researchAreas || [])
+                    .map((area, index) => ({
+                      ...area,
+                      titleFa: values[index] || ""
+                    }))
+                    .concat(
+                      values
+                        .slice((prev.researchAreas || []).length)
+                        .map((value) => ({
+                          titleFa: value
+                        }))
+                    )
+                }));
               }}
             />
           </div>
           <div className="space-y-3" dir="ltr">
             <Textarea
               defaultValue={profileData?.research}
+              onChange={(e) => {
+                setEditData((prev) => ({
+                  ...prev,
+                  research: e.target.value
+                }));
+              }}
               label={
                 <div className="flex items-center gap-x-1">
                   <Search size={16} />
@@ -48,13 +107,33 @@ const EditProfileResearch = () => {
                 (research) => research.title
               )}
               onValuesChange={(values) => {
-                console.log(values);
+                setEditData((prev) => ({
+                  ...prev,
+                  researchAreas: (prev.researchAreas || [])
+                    .map((area, index) => ({
+                      ...area,
+                      title: values[index] || ""
+                    }))
+                    .concat(
+                      values
+                        .slice((prev.researchAreas || []).length)
+                        .map((value) => ({
+                          title: value
+                        }))
+                    )
+                }));
               }}
             />
           </div>
           <div className="space-y-3">
             <Textarea
               defaultValue={profileData?.professionalActivityFa}
+              onChange={(e) => {
+                setEditData((prev) => ({
+                  ...prev,
+                  professionalActivityFa: e.target.value
+                }));
+              }}
               label={
                 <div className="flex items-center gap-x-1">
                   <Clipboard size={16} />
@@ -68,13 +147,33 @@ const EditProfileResearch = () => {
                 (activity) => activity.titleFa
               )}
               onValuesChange={(values) => {
-                console.log(values);
+                setEditData((prev) => ({
+                  ...prev,
+                  professionalActivities: (prev.professionalActivities || [])
+                    .map((area, index) => ({
+                      ...area,
+                      titleFa: values[index] || ""
+                    }))
+                    .concat(
+                      values
+                        .slice((prev.professionalActivities || []).length)
+                        .map((value) => ({
+                          titleFa: value
+                        }))
+                    )
+                }));
               }}
             />
           </div>
           <div className="space-y-3" dir="ltr">
             <Textarea
               defaultValue={profileData?.professionalActivityEn}
+              onChange={(e) => {
+                setEditData((prev) => ({
+                  ...prev,
+                  professionalActivityEn: e.target.value
+                }));
+              }}
               label={
                 <div className="flex items-center gap-x-1">
                   <Clipboard size={16} />
@@ -88,13 +187,33 @@ const EditProfileResearch = () => {
                 (activity) => activity.title
               )}
               onValuesChange={(values) => {
-                console.log(values);
+                setEditData((prev) => ({
+                  ...prev,
+                  professionalActivities: (prev.professionalActivities || [])
+                    .map((area, index) => ({
+                      ...area,
+                      title: values[index] || ""
+                    }))
+                    .concat(
+                      values
+                        .slice((prev.professionalActivities || []).length)
+                        .map((value) => ({
+                          title: value
+                        }))
+                    )
+                }));
               }}
             />
           </div>
           <div className="space-y-3">
             <Textarea
               defaultValue={profileData?.membershipFa}
+              onChange={(e) => {
+                setEditData((prev) => ({
+                  ...prev,
+                  membershipFa: e.target.value
+                }));
+              }}
               label={
                 <div className="flex items-center gap-x-1">
                   <Users size={16} />
@@ -108,7 +227,21 @@ const EditProfileResearch = () => {
                 (membership) => membership.titleFa
               )}
               onValuesChange={(values) => {
-                console.log(values);
+                setEditData((prev) => ({
+                  ...prev,
+                  memberships: (prev.memberships || [])
+                    .map((area, index) => ({
+                      ...area,
+                      titleFa: values[index] || ""
+                    }))
+                    .concat(
+                      values
+                        .slice((prev.memberships || []).length)
+                        .map((value) => ({
+                          titleFa: value
+                        }))
+                    )
+                }));
               }}
             />
           </div>
@@ -128,14 +261,28 @@ const EditProfileResearch = () => {
                 (membership) => membership.titleFa
               )}
               onValuesChange={(values) => {
-                console.log(values);
+                setEditData((prev) => ({
+                  ...prev,
+                  memberships: (prev.memberships || [])
+                    .map((area, index) => ({
+                      ...area,
+                      titleFa: values[index] || ""
+                    }))
+                    .concat(
+                      values
+                        .slice((prev.memberships || []).length)
+                        .map((value) => ({
+                          titleFa: value
+                        }))
+                    )
+                }));
               }}
             />
           </div>
         </div>
       </div>
       <SaveButton />
-    </>
+    </form>
   );
 };
 export default EditProfileResearch;
