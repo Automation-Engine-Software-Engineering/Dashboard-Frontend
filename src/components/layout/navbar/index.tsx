@@ -57,15 +57,19 @@ const Navbar: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
     >
       <div className="bg-[#D8E7F4] px-4 pt-9">
         <button
-          className="flex items-center justify-center rounded-full border-2 border-gray-700"
+          className={cn(
+            "flex items-center justify-center rounded-full border-2 border-gray-700 transition-all",
+            sidebarIsOpen &&
+              "border-transparent bg-[#0099A5] [&_svg]:-rotate-180 [&_svg]:text-white"
+          )}
           onClick={() => setSidebarIsOpen((prevState) => !prevState)}
         >
-          <ChevronRight size={16} />
+          <ChevronRight size={16} className="transition-all" />
         </button>
       </div>
       <div
         className={cn(
-          "mt-10 flex flex-1 flex-col transition-all duration-1000",
+          "mt-10 flex flex-1 flex-col transition-all duration-500",
           sidebarIsOpen ? "w-[280px]" : "w-0 overflow-hidden"
         )}
       >
