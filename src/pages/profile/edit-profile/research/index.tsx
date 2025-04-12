@@ -258,7 +258,7 @@ const EditProfileResearch = () => {
             />
             <TextfieldRepeater
               defaultValues={profileData?.memberships.map(
-                (membership) => membership.titleFa
+                (membership) => membership.title
               )}
               onValuesChange={(values) => {
                 setEditData((prev) => ({
@@ -266,13 +266,13 @@ const EditProfileResearch = () => {
                   memberships: (prev.memberships || [])
                     .map((area, index) => ({
                       ...area,
-                      titleFa: values[index] || ""
+                      title: values[index] || ""
                     }))
                     .concat(
                       values
                         .slice((prev.memberships || []).length)
                         .map((value) => ({
-                          titleFa: value
+                          title: value
                         }))
                     )
                 }));
