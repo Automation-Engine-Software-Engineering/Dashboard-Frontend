@@ -13,7 +13,7 @@ const AvatarMenu: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
 }) => {
   const { data: session } = useSession();
 
-  const sessionFullname = `${session.firstNameFa} ${session.lastNameFa}`;
+  const sessionFullname = `${session?.firstNameFa} ${session?.lastNameFa}`;
   const fallbackName = getInitialName(sessionFullname);
 
   return (
@@ -25,7 +25,7 @@ const AvatarMenu: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
           </p>
           <Avatar>
             <AvatarFallback className="text-sm">{fallbackName}</AvatarFallback>
-            <AvatarImage src={`${API_URL}/${session.imageUrl}`} />
+            <AvatarImage src={`${API_URL}/${session?.imageUrl}`} />
           </Avatar>
         </PopoverTrigger>
       </Popover>
