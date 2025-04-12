@@ -60,7 +60,7 @@ const Navbar: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
           className={cn(
             "flex items-center justify-center rounded-full border-2 border-gray-700 transition-all",
             sidebarIsOpen &&
-              "border-transparent bg-[#0099A5] [&_svg]:-rotate-180 [&_svg]:text-white"
+              "border-transparent bg-primary [&_svg]:-rotate-180 [&_svg]:text-white"
           )}
           onClick={() => setSidebarIsOpen((prevState) => !prevState)}
         >
@@ -88,7 +88,7 @@ const Navbar: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
             <div className="mt-auto space-y-1 border-t border-t-slate-300 px-5 py-7 pt-4">
               <Link
                 to="#"
-                className="flex items-center gap-x-1 text-xs font-semibold hover:text-[#0099A5]"
+                className="flex items-center gap-x-1 text-xs font-semibold hover:text-primary"
               >
                 <span>
                   <svg
@@ -108,14 +108,14 @@ const Navbar: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
               </Link>
               <Link
                 to="/edit-profile"
-                className="flex items-center gap-x-1 text-xs font-semibold hover:text-[#0099A5]"
+                className="flex items-center gap-x-1 text-xs font-semibold hover:text-primary"
               >
                 <PenBoxIcon color="#0099A5" size={12} />
                 ویرایش پروفایل
               </Link>
               <Link
                 to="#"
-                className="flex items-center gap-x-1 text-xs font-semibold hover:text-[#0099A5]"
+                className="flex items-center gap-x-1 text-xs font-semibold hover:text-primary"
               >
                 <span>
                   <svg
@@ -175,7 +175,7 @@ const NavItem: React.FC<{ item: any }> = ({ item }) => {
                 : item.url
             }
             target={item.isTargetBlank ? "_blank" : "_parent"}
-            className="block py-1 text-sm hover:text-[#0099A5]"
+            className="block py-1 text-sm hover:text-primary"
           >
             {item.name}
           </Link>

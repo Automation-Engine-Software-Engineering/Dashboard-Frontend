@@ -103,7 +103,7 @@ const ProfileHeader = () => {
                 <div
                   className={cn(
                     "flex size-6 items-center justify-center",
-                    editingField === "name" && "rounded bg-[#0099A5] text-white"
+                    editingField === "name" && "rounded bg-primary text-white"
                   )}
                 >
                   {editingField === "name" ? (

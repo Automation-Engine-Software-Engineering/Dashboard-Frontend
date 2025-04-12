@@ -7,7 +7,7 @@ const SaveButton = () => {
       <div className="flex h-[20px] w-64 justify-center overflow-visible rounded-tr-lg border-r border-t border-slate-300">
         <button
           type="submit"
-          className="mt-3 h-8 rounded-md bg-[#0099A5] px-6 text-sm text-white transition-colors hover:bg-[#0099A5]/90"
+          className="mt-3 h-8 rounded-md bg-primary px-6 text-sm text-white transition-colors hover:bg-primary/90"
         >
           دخیره تغییرات
         </button>
