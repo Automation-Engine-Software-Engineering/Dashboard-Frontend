@@ -41,18 +41,16 @@ export type SessionType = {
     id: number;
     name: string;
     description: string;
-    users: [string];
-    role_Actions: [
-      {
-        id: number;
-        name: string;
-        url: string;
-        isTargetBlank: true;
-        roleParentId: number;
-        roleId: number;
-        role: string;
-      }
-    ];
+    users: string[];
+    role_Actions: {
+      id: number;
+      name: string;
+      url: string;
+      isTargetBlank: true;
+      roleParentId: number;
+      roleId: number;
+      role: string;
+    }[];
   };
   departmentId: number;
   department: {
@@ -75,6 +73,7 @@ export type SessionType = {
     scholar: string;
     scopus: string;
     isi: string;
+    isc: string;
     faceBook: string;
     gmail: string;
     instagram: string;
@@ -84,153 +83,135 @@ export type SessionType = {
     academia: string;
     eitaa: string;
   };
-  webLinks: [
-    {
+  webLinks: {
+    id: number;
+    title: string;
+    titleFa: string;
+    link: string;
+  }[];
+
+  articles: {
+    id: number;
+    title: string;
+    titleFa: string;
+    link: string;
+  }[];
+
+  memberships: {
+    id: number;
+    title: string;
+    titleFa: string;
+  }[];
+
+  professionalActivities: {
+    id: number;
+    title: string;
+    titleFa: string;
+  }[];
+
+  teachingInterests: {
+    id: number;
+    title: string;
+    titleFa: string;
+  }[];
+
+  courses: {
+    id: number;
+    title: string;
+    titleFa: string;
+  }[];
+
+  researchAreas: {
+    id: number;
+    title: string;
+    titleFa: string;
+  }[];
+
+  educations: {
+    title: string;
+    titleFa: string;
+    universityFa: string;
+    universityEn: string;
+    degree: number;
+    countryFa: string;
+    countryEn: string;
+    cityFa: string;
+    cityEn: string;
+  }[];
+
+  books: {
+    id: number;
+    professorProfileId: number;
+    professorProfile: string;
+    title: string;
+    listDisplayTitle: string;
+    author: string;
+    imageUrl: string;
+    rate: number;
+    publisher: string;
+    publishYear: number;
+    language: string;
+    overview: string;
+    demoUrl: string;
+    translators: string;
+    contents: {
       id: number;
       title: string;
-      titleFa: string;
-      link: string;
-    }
-  ];
-  articles: [
-    {
+      bookId: number;
+      book: string;
+    }[];
+
+    comments: {
       id: number;
-      title: string;
-      titleFa: string;
-      link: string;
-    }
-  ];
-  memberships: [
-    {
-      id: number;
-      title: string;
-      titleFa: string;
-    }
-  ];
-  professionalActivities: [
-    {
-      id: number;
-      title: string;
-      titleFa: string;
-    }
-  ];
-  teachingInterests: [
-    {
-      id: number;
-      title: string;
-      titleFa: string;
-    }
-  ];
-  courses: [
-    {
-      id: number;
-      title: string;
-      titleFa: string;
-    }
-  ];
-  researchAreas: [
-    {
-      id: number;
-      title: string;
-      titleFa: string;
-    }
-  ];
-  educations: [
-    {
-      id: number;
-      title: string;
-      titleFa: string;
-      universityFa: string;
-      universityEn: string;
-      degree: number;
-      countryFa: string;
-      countryEn: string;
-      cityFa: string;
-      cityEn: string;
-    }
-  ];
-  books: [
-    {
-      id: number;
-      professorProfileId: number;
-      professorProfile: string;
-      title: string;
-      listDisplayTitle: string;
-      author: string;
-      imageUrl: string;
+      name: string;
+      email: string;
       rate: number;
-      publisher: string;
-      publishYear: number;
-      language: string;
-      overview: string;
-      demoUrl: string;
-      translators: string;
-      contents: [
-        {
-          id: number;
-          title: string;
-          bookId: number;
-          book: string;
-        }
-      ];
-      comments: [
-        {
-          id: number;
-          name: string;
-          email: string;
-          rate: number;
-          imageUrl: string;
-          content: string;
-          bookId: number;
-          book: string;
-        }
-      ];
-      otherBooks: [
-        {
-          id: number;
-          title: string;
-          bookId: number;
-          book: string;
-        }
-      ];
-      categories: [
-        {
-          id: number;
-          title: string;
-          bookId: number;
-          book: string;
-        }
-      ];
-      availableStores: [
-        {
-          id: number;
-          title: string;
-          bookId: number;
-          book: string;
-          link: string;
-        }
-      ];
-      relatedBooks: [
-        {
-          id: number;
-          title: string;
-          bookId: number;
-          book: string;
-          imageUrl: string;
-          authorName: string;
-        }
-      ];
-      authorsInfo: [
-        {
-          id: number;
-          fullName: string;
-          imageUrl: string;
-          description: string;
-          bookId: number;
-          book: string;
-        }
-      ];
-      isbn: string;
-    }
-  ];
+      imageUrl: string;
+      content: string;
+      bookId: number;
+      book: string;
+    }[];
+
+    otherBooks: {
+      id: number;
+      title: string;
+      bookId: number;
+      book: string;
+    }[];
+
+    categories: {
+      id: number;
+      title: string;
+      bookId: number;
+      book: string;
+    }[];
+
+    availableStores: {
+      id: number;
+      title: string;
+      bookId: number;
+      book: string;
+      link: string;
+    }[];
+
+    relatedBooks: {
+      id: number;
+      title: string;
+      bookId: number;
+      book: string;
+      imageUrl: string;
+      authorName: string;
+    }[];
+
+    authorsInfo: {
+      id: number;
+      fullName: string;
+      imageUrl: string;
+      description: string;
+      bookId: number;
+      book: string;
+    }[];
+
+    isbn: string;
+  }[];
 };
