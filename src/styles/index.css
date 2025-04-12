@@ -1,20 +1,23 @@
+@import url("./font.css");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
+  :root {
+    --primary: 184 100% 32%;
+  }
+
   html,
   body,
   #root {
     @apply w-full;
+    font-family: "Vazir", sans-serif;
   }
 
   body {
     @apply bg-[#F8F8FB];
-  }
-
-  * {
-    font-family: "Vazirmatn";
   }
 }
 
