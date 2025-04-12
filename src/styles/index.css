@@ -7,6 +7,7 @@
 @layer base {
   :root {
     --primary: 184 100% 32%;
+    --secondary: 211 28% 21%;
   }
 
   html,

@@ -4,7 +4,8 @@ export default {
   theme: {
     extend: {
       colors: {
-        primary: "hsl(var(--primary))"
+        primary: "hsl(var(--primary))",
+        secondary: "hsl(var(--secondary))"
       },
 
       fontFamily: {
