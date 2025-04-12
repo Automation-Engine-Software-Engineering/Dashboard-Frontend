@@ -23,7 +23,9 @@ interface RepeaterProps {
 }
 
 const EducationTextfieldRepeater: React.FC<RepeaterProps> = ({
-  defaultValues = [],
+  defaultValues = [
+    { city: "", country: "", degree: 0, title: "", university: "" }
+  ],
   onValuesChange,
   lang = "fa"
 }) => {
@@ -121,7 +123,7 @@ const EducationTextfieldRepeater: React.FC<RepeaterProps> = ({
 
           <select
             value={row.degree}
-            onChange={(e) => handleInputChange(index, "title", e.target.value)}
+            onChange={(e) => handleInputChange(index, "degree", e.target.value)}
             className="w-full rounded border border-gray-300 p-2"
           >
             <option value="0">{lang === "fa" ? "کارشناسی" : "bachelor"}</option>
