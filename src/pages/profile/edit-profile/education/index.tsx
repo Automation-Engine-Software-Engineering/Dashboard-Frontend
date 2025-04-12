@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import { editSocialLinksProfile, EditEducationType } from "@/api/profile";
+import { editEducationProfile, EditEducationType } from "@/api/profile";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { useProfile } from "@/hooks/server-state/use-profile";
@@ -24,7 +24,7 @@ const EditProfileEducation = () => {
   const queryClient = useQueryClient();
 
   const mutateData = useMutation({
-    mutationFn: (data: EditEducationType) => editSocialLinksProfile(data),
+    mutationFn: (data: EditEducationType) => editEducationProfile(data),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["profile"] })
   });
 
