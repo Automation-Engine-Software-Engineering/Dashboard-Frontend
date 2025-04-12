@@ -16,7 +16,7 @@ const TextfieldRepeater: React.FC<RepeaterInputsProps> = ({
     if (onValuesChange) {
       onValuesChange(inputs);
     }
-  }, [inputs, onValuesChange]);
+  }, [inputs]);
 
   const handleAddInput = () => {
     setInputs((prev) => [...prev, ""]);
