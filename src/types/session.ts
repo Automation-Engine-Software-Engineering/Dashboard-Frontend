@@ -15,6 +15,8 @@ export type SessionType = {
   areaOfStudyFA: string;
   research: string;
   researchFA: string;
+  membershipFa: string;
+  membershipEn: string;
   affiliation: string;
   citedBy: number;
   personnelCode: string;
@@ -78,6 +80,9 @@ export type SessionType = {
     instagram: string;
     twitter: string;
     webOfScience: string;
+    mendeley: string;
+    academia: string;
+    eitaa: string;
   };
   webLinks: [
     {
