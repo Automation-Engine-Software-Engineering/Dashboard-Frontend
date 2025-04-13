@@ -47,15 +47,18 @@ const Login = () => {
         className="h-14 shadow-md focus-within:shadow-none"
       />
 
-      <Suspense fallback={<></>}>
-        {!!recaptcha_key && (
-          <ReCaptcha
-            sitekey={import.meta.env.VITE_RECAPTCHA_KEY}
-            type="image"
-            onChange={() => setCaptchaVerified(true)}
-          />
-        )}
-      </Suspense>
+      <div className="flex w-full justify-center">
+        <Suspense fallback={<></>}>
+          {!!recaptcha_key && (
+            <ReCaptcha
+              sitekey={import.meta.env.VITE_RECAPTCHA_KEY}
+              type="image"
+              onChange={() => setCaptchaVerified(true)}
+            />
+          )}
+        </Suspense>
+      </div>
+      
       <Button
         type="submit"
         variant="secondary"
