@@ -63,7 +63,7 @@ export interface EditEducationType {
     titleFa?: string;
     universityFa?: string;
     universityEn?: string;
-    degree?: number | string;
+    degree?: string;
     countryFa?: string;
     countryEn?: string;
     cityFa?: string;

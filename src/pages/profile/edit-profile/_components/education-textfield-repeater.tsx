@@ -7,7 +7,7 @@ interface RepeaterProps {
     university: string;
     country: string;
     city: string;
-    degree: number | string;
+    degree: string;
   }[];
   onValuesChange?: (
     values: {
@@ -15,7 +15,7 @@ interface RepeaterProps {
       university: string;
       country: string;
       city: string;
-      degree: number | string;
+      degree: string;
     }[]
   ) => void;
 
@@ -24,7 +24,7 @@ interface RepeaterProps {
 
 const EducationTextfieldRepeater: React.FC<RepeaterProps> = ({
   defaultValues = [
-    { city: "", country: "", degree: 0, title: "", university: "" }
+    { city: "", country: "", degree: "0", title: "", university: "" }
   ],
   onValuesChange,
   lang = "fa"
@@ -35,7 +35,7 @@ const EducationTextfieldRepeater: React.FC<RepeaterProps> = ({
       university: string;
       country: string;
       city: string;
-      degree: number | string;
+      degree: string;
     }[]
   >(defaultValues);
 
@@ -46,7 +46,7 @@ const EducationTextfieldRepeater: React.FC<RepeaterProps> = ({
       university: string;
       country: string;
       city: string;
-      degree: number | string;
+      degree: string;
     },
     value: string
   ) => {
@@ -64,7 +64,7 @@ const EducationTextfieldRepeater: React.FC<RepeaterProps> = ({
         university: "",
         country: "",
         city: "",
-        degree: 0
+        degree: "0"
       }
     ]);
   };
@@ -122,7 +122,7 @@ const EducationTextfieldRepeater: React.FC<RepeaterProps> = ({
           />
 
           <select
-            value={row.degree}
+            value={String(row.degree)}
             onChange={(e) => handleInputChange(index, "degree", e.target.value)}
             className="w-full rounded border border-gray-300 p-2"
           >

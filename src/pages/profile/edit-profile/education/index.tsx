@@ -50,7 +50,7 @@ const EditProfileEducation = () => {
                       title: education.titleFa,
                       city: education.cityFa,
                       country: education.countryFa,
-                      degree: education.degree,
+                      degree: String(education.degree),
                       university: education.universityFa
                     }))
                   : undefined
@@ -64,7 +64,7 @@ const EditProfileEducation = () => {
                     universityFa: value.university,
                     countryFa: value.country,
                     cityFa: value.city,
-                    degree: value.degree
+                    degree: String(value.degree)
                   }))
                 }));
               }}
@@ -78,7 +78,7 @@ const EditProfileEducation = () => {
                       title: education.title,
                       city: education.cityEn,
                       country: education.countryEn,
-                      degree: education.degree,
+                      degree: String(education.degree),
                       university: education.universityEn
                     }))
                   : undefined
@@ -93,7 +93,7 @@ const EditProfileEducation = () => {
                     universityEn: value.university,
                     countryEn: value.country,
                     cityEn: value.city,
-                    degree: value.degree
+                    degree: String(value.degree)
                   }))
                 }));
               }}

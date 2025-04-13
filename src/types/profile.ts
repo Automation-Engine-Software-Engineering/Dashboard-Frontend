@@ -3,7 +3,7 @@ export type ProfileType = {
   firstNameEn: string;
   lastNameEn: string;
   userIdentifierEn: string;
-  degree: number;
+  degree: string;
   imageUrl: string;
   position: string;
   positionFA: string;
@@ -133,7 +133,7 @@ export type ProfileType = {
     titleFa: string;
     universityFa: string;
     universityEn: string;
-    degree: number;
+    degree: string;
     countryFa: string;
     countryEn: string;
     cityFa: string;
