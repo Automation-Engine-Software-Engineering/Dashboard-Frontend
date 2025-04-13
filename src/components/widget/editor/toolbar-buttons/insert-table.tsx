@@ -239,13 +239,23 @@ const TableModal = ({
           width:100%;
           display: flex;
           align-items: center;
-          justify-content: center;
+          justify-content: end;
           gap: 10px;
-          margin-top: 10px;
+          margin-top: 0px;
+          background-color: #ffffff;
+          border: 1px solid #e2e8f0;
+          height: 48px;
         "
       >
-        <button id="table-next">بعدی</button>
-        <button id="table-previous">قبلی</button>
+        <button id="table-next" style="background-color: #ffffff; border: 1px solid #b9bfc5;
+                                       border-radius: 1px; color: #000000;
+        "><i class="fa-solid fa-arrow-right"></i></button>
+        <button id="table-previous"  style=" background-color: #ffffff; border: 1px solid #b9bfc5;
+                                             border-radius: 1px; color: #000000; 
+       "><i class="fa-solid fa-arrow-left"></i></button>
+               <button data-search-id="${tableId}"         data-pagination = "true" style="background-color: #ffffff; border: 1px solid #b9bfc5;
+                                       border-radius: 1px; color: #000000;margin-left: 20px;
+        ">نمایش نتیجه</button>
       </div>`;
 
     const tableRepeater = `
@@ -255,11 +265,16 @@ const TableModal = ({
           width:100%;
           display: flex;
           align-items: center;
-          justify-content: end;
-          margin-top: 10px;
+          justify-content: center;
+          gap: 10px;
+          margin-top: 0px;
+          background-color: #ffffff;
+          border: 1px solid #e2e8f0;
+          height: 48px;
         "
       >
-        <button id="table-repeater-button">+</button>
+        <button id="table-repeater-button"  style=" background-color: #ffffff;  border: 1px solid #b9bfc5;
+         border-radius: 1px;  color: #000000;  ">+</button>
       </div>
     `;
 

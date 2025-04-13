@@ -106,7 +106,7 @@ export default {
 
           table: {
             border: "2px solid",
-            borderColor: theme("colors.slate.500"),
+            borderColor: theme("colors.slate.200"),
             td: {
               border: "2px solid",
               borderColor: theme("colors.slate.200")
@@ -139,7 +139,7 @@ export default {
 
           "table.table-black": {
             border: "2px solid",
-            borderColor: theme("colors.black.500"),
+            borderColor: theme("colors.black.200"),
             td: {
               border: "2px solid",
               borderColor: theme("colors.black.200")
@@ -168,7 +168,7 @@ export default {
 
           "table.table-blue": {
             border: "2px solid",
-            borderColor: theme("colors.blue.500"),
+            borderColor: theme("colors.blue.200"),
             td: {
               border: "2px solid",
               borderColor: theme("colors.blue.200")
@@ -447,7 +447,7 @@ export default {
 
           table: {
             border: "2px solid",
-            borderColor: theme("colors.slate.500"),
+            borderColor: theme("colors.slate.200"),
             td: {
               border: "2px solid",
               borderColor: theme("colors.slate.200")
@@ -653,7 +653,7 @@ export default {
           },
           "table.table-transparent": {
             border: "2px solid",
-            borderColor: theme("colors.slate.500"),
+            borderColor: theme("colors.slate.200"),
             td: {
               border: "2px solid",
               borderColor: theme("colors.slate.400")

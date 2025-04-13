@@ -454,11 +454,17 @@ const FormFinal = () => {
 
   if (!form) return <EmptyState />;
 
+  const checkAttribute = (str: string): boolean => {
+    const regex = /data-isfullscreen="false"/i;
+    return regex.test(str);
+  };
+  
+  const result = checkAttribute(form?.data ?? "");
   return (
-    <div className="flex justify-center py-10">
+    <div className="flex justify-center">
       <div
         ref={formRef}
-        className="prose-preview -translate-y-[37%] scale-[0.3] rounded-b-md sm:-translate-y-1/4 sm:scale-50 md:-translate-y-[10%] md:scale-75 lg:translate-y-0 lg:scale-100 2xl:translate-y-[15%] 2xl:scale-[1.2]"
+        className= {result ? "prose-preview -translate-y-[37%] scale-[0.3] rounded-b-md sm:-translate-y-1/4 sm:scale-50 md:-translate-y-[10%] md:scale-75 lg:translate-y-0 lg:scale-100 2xl:translate-y-[15%] 2xl:scale-[1.2]" : "prose-preview w-full"} 
         dangerouslySetInnerHTML={{
           __html: form?.data ?? ""
         }}

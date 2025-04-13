@@ -28,12 +28,25 @@ const PageSize: React.FC<
     };
   });
 
+  let [isFullScreen, setFullScreen] = useState(editorRef.current?.getAttribute("data-isFullScreen") === "true");
+
   useEffect(() => {
-    if (editorRef.current) {
-      editorRef.current.style.width = `${size.width}px`;
-      editorRef.current.style.minHeight = `${size.minHeight}px`;
+    if (!isFullScreen) {
+      if (editorRef.current) {
+        editorRef.current.style.width = `${size.width}px`;
+        editorRef.current.style.minHeight = `${size.minHeight}px`;
+        editorRef.current.removeAttribute("data-isFullScreen");
+        editorRef.current.setAttribute("data-isFullScreen", "false");
+      }
+    } else {
+      if (editorRef.current) {
+        editorRef.current.style.removeProperty("width");
+        editorRef.current.style.removeProperty("min-width");
+        editorRef.current.removeAttribute("data-isFullScreen")
+        editorRef.current.setAttribute("data-isFullScreen", "true");
+      }
     }
-  }, [size]);
+  }, [size, isFullScreen]);
 
   return (
     <Popover>
@@ -75,6 +88,15 @@ const PageSize: React.FC<
             setSize((prev) => ({ ...prev, minHeight: e.target.value }))
           }
         />
+        <div className="flex w-full col-span-2 justify-center">
+          <Input
+            type="checkbox"
+            onChange={(e) => setFullScreen(e.target.checked)}
+            className="h-5 mt-2 w-10"
+            checked={isFullScreen}
+          />
+          <span className="mt-2 ml-2">Full Screen</span>
+        </div>
       </PopoverContent>
     </Popover>
   );
