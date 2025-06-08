@@ -1,8 +1,6 @@
 import { AiOutlineQuestionCircle } from "react-icons/ai";
-
 import { Button } from "@/components/ui/button/index.tsx";
 import { Input } from "@/components/ui/input";
-
 import BookNav from "./book-navbar";
 
 const NewBook = () => {
@@ -24,8 +22,8 @@ const NewBook = () => {
               className="h-[30px] w-[150px] rounded-lg border border-[#E4EBF3] bg-white p-1 text-xs"
             >
               <option value="test1">شماره کتابشناسی</option>
-              <option value="test2">test2</option>
               <option value="test3">test3</option>
+              <option value="test2">test2</option>
             </select>
           </div>
           <Input className="h-10 w-[420px] shadow-md" />
